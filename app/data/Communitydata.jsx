@@ -4,8 +4,7 @@ import Empty from "../assets/image/iconContainer.png";
 import { FaAngleDown } from "react-icons/fa";
 import Postdata from "./Postdata";
 import { formatISOStringToDMY } from "../utils/Useful";
-import Charts from "./Charts";
-
+import Charts from "./Charts"
 
 const Communitydata = ({ state, analyticsdata, setState, open, setOpen }) => {
 
@@ -109,7 +108,6 @@ const Communitydata = ({ state, analyticsdata, setState, open, setOpen }) => {
 
 
           {communityData && communityData?.length > 0 &&
-
             <Charts data={communityData} />
           }
         </div>

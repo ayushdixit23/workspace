@@ -1,8 +1,23 @@
-import { PieChart } from "@mui/x-charts";
+
 import React from "react";
 import { FaAngleDown } from "react-icons/fa";
+import { Pie, PieChart } from "recharts";
 
 const Customer = () => {
+  const data02 = [
+    {
+      "name": "Group A",
+      "value": 2400
+    },
+    {
+      "name": "Group B",
+      "value": 4567
+    },
+    {
+      "name": "Group C",
+      "value": 1398
+    },
+  ];
   return (
     <>
       <div>
@@ -15,23 +30,13 @@ const Customer = () => {
             </div>
           </div>
         </div>
-        <div className="flex justify-center max-h-[150px] w-full items-center">
-          <PieChart
-            colors={["#C4C4C4", "#5A6ACF", "#8593ED"]}
-            series={[
-              {
-                data: [
-                  { id: 0, value: 10, color: "#5A6ACF" },
-                  { id: 1, value: 15, color: "#8593ED" },
-                  { id: 2, value: 20, color: "#C4C4C4" },
-                ],
-              },
-            ]}
-            width={250}
-            height={250}
-          />
+        <div className="flex justify-center p-3 max-h-[150px] w-full items-center">
+
+          <PieChart width={430} height={150}>
+            <Pie data={data02} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={60} outerRadius={80} fill="#5a6acf" label />
+          </PieChart>
         </div>
-      </div>
+      </div >
     </>
   );
 };

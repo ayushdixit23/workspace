@@ -21,7 +21,7 @@ import { useGetFetchOrderQuery } from "@/app/redux/apiroutes/userLoginAndSetting
 import { getData } from "@/app/utils/Useful";
 
 function Dashboard() {
-	const [change, setChange] = useState("community");
+	const [change, setChange] = useState("store");
 	const [open, setOpen] = useState(false);
 	const [comchange, setComchange] = useState("0");
 	const [prochange, setProchange] = useState("1");

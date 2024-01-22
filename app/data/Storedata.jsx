@@ -3,63 +3,17 @@ import React from "react";
 import NoOrder from "../components/NoOrder";
 import Img from "../assets/image/Img.png";
 import { formatISOStringToDMY } from "../utils/Useful";
-import { ChartsXAxis, ChartsYAxis, LineChart, LinePlot, ResponsiveChartContainer } from "@mui/x-charts";
+import ChartsStore from "./ChartsStore";
 
 const Storedata = ({ getorderdata, sales }) => {
 
-  // const salesData = sales && sales.map((d) => {
-  //   console.log(formatISOStringToDMY(d.X))
-  //   return {
-  //     Y: Number(d.Y),
-  //     X: formatISOStringToDMY(d.X)
-  //   }
-  // })
-
-  const salesData = [
-    {
-      X: Date.now(),
-      Y: 10,
-    },
-    {
-      X: Date.now() + 19,
-      Y: 50,
-
-    },
-    {
-      X: Date.now() + 10,
-      Y: 30,
-    },
-    {
-      X: Date.now() + 20,
-      Y: 15,
-
-    },
-    {
-      X: Date.now() + 80,
-      Y: 20,
-    },
-    {
-      X: Date.now() + 40,
-      Y: 79,
-
-    },
-    {
-      X: Date.now() + 40,
-      Y: 79,
-
-    },
-    {
-      X: Date.now() + 40,
-      Y: 79,
-
-    },
-    {
-      X: Date.now() + 40,
-      Y: 79,
-    },
-  ]
-
-  console.log(getorderdata?.orders)
+  const salesData = sales && sales.map((d) => {
+    console.log(formatISOStringToDMY(d.X))
+    return {
+      Y: Number(d.Y),
+      X: formatISOStringToDMY(d.X)
+    }
+  })
 
   return (
     <div className={`flex flex-col gap-4`}>
@@ -78,32 +32,7 @@ const Storedata = ({ getorderdata, sales }) => {
           </div>
         </div> */}
         <div className="w-full">
-          <ResponsiveChartContainer
-            dataset={salesData}
-            series={[
-              {
-                type: "line",
-                dataKey: "Y",
-              },
-            ]}
-            xAxis={[
-              {
-                dataKey: "X",
-                scaleType: "band",
-                id: "x-axis-id",
-                categoryGapRatio: 0.4,
-              },
-            ]}
-            height={200}
-            className="z-10 w-full"
-          >
-            <LinePlot />
-            <ChartsXAxis
-              label="X axis"
-              position="bottom"
-              axisId="x-axis-id"
-            />
-          </ResponsiveChartContainer>
+          <ChartsStore data={salesData} />
         </div>
       </div>
 
