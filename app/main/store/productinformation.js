@@ -1,0 +1,165 @@
+import React, { useState } from "react";
+import { MdEdit } from "react-icons/md";
+import Link from "next/link";
+import { RiDeleteBin6Line } from "react-icons/ri";
+// import p1 from "../../assets/image/emptyCommunity.png"
+// import Image from "next/image";
+import { formatISOStringToDMY } from "../../utils/Useful"
+import { encryptaes } from "@/app/utils/security";
+import Cookies from "js-cookie";
+
+function productinformation({ handleDelete, data, userid, collectionid, index }) {
+  const [open, setOpen] = useState()
+  return (
+    <>
+      <div className={`${open ? "fixed inset-0 w-screen z-50 bg-black/60 h-screen flex justify-center items-center backdrop-blur-md" : "-z-20 hidden"}`}>
+        <div className="flex justify-center items-center w-[90%] pp:w-[65%] sm:max-w-[500px] lg:w-[30%] p-3 rounded-xl h-[250px] bg-white">
+          <div className="flex flex-col flex-grow gap-3 justify-center items-center w-full">
+            <div className="text-2xl font-semibold">Are You Sure?</div>
+            <div className="text-center text-[#667085]">
+              Do you really want to Delete this Product? This process cannot
+              be undone.
+            </div>
+            <div className="flex justify-center w-full gap-3 items-center">
+              <button onClick={() => setOpen(false)} className="w-full border-2 p-2 px-5 rounded-xl">
+                Cancel
+              </button>
+              <button onClick={() => { handleDelete(userid, data?._id, collectionid, index); setOpen(false) }} className="w-full bg-[#f44336] text-white p-2 px-5 rounded-xl">
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      </div >
+
+      <div className="w-full">
+        <div className=" flex items-center vs:max-sm:px-[2.6%]  sm:mx-2 sm:px-[1%] sm:rounded-[20px] py-3 justify-between">
+          {/** */}
+          <div className="flex gap-3 w-64 sm:max-md:w-52 items-center">
+            <img
+
+              src={data?.dp}
+              alt="url"
+              height={140}
+              width={140}
+              className="h-16 w-16 cursor-pointer flex justify-center items-center rounded-[10px] border border-[#f1f1f1]"
+            />
+
+            {/**phone */}
+            <div className="">
+              <div className="font-medium text-[#1d1f2c]">
+                {data?.name}
+              </div>
+              <div className="text-[12px] font-medium vs:max-sm:hidden">
+                Sold by {data?.brandname}
+              </div>
+              {/* <div className="sm:hidden flex">
+                <strike className="text-gray-500 text-[13px] flex items-center">
+                  {data?.price}
+                </strike>
+                <div className="font-semibold text-[18px]">
+                  {data?.discountedprice}
+                </div>
+              </div> */}
+              <div className="font-medium sm:hidden">
+                &#8377; {data?.discountedprice}
+              </div>
+            </div>
+          </div>
+          {/*web */}
+          <>
+            <div className="vs:max-sm:hidden sm:max-md:w-24  sm:max-md:justify-start w-36 flex justify-center ">
+              <div className="space-y-4">
+                <div className="vs:max-sm:hidden">{data?.quantity}</div>
+              </div>
+            </div>
+            {/* <div className="vs:max-sm:hidden w-36  flex justify-center ">
+              <strike className="text-gray-500 text-[13px]">
+                {data?.price}
+              </strike>
+              <div className="font-semibold text-[18px]">
+                {data?.discountedprice}
+              </div>
+            </div> */}
+            <div className="font-semibold vs:max-sm:hidden w-36  flex justify-center  text-[18px]">
+              &#8377; {data?.discountedprice}
+            </div>
+            <div className="vs:max-sm:hidden sm:max-md:w-24  sm:max-md:justify-start w-36 flex justify-center ">
+              <div className="space-y-4">
+                <div className="vs:max-sm:hidden">{data?.quantity <= 0 ? "Out Of Stock" : "In Stock"}</div>
+              </div>
+            </div>
+
+          </>
+
+          {/* <div className=" justify-center items-center    sm:max-md:pr-10 space-x-1 w-36 mt-2 flex-col flex vs:max-sm:hidden">
+          <div
+            onClick={() => {
+              setChange(!change);
+            }}
+          >
+            <Togglebutton />
+          </div>
+          <div
+            className={`${change === true
+              ? "text-green-500 vs:max-sm:text-[12px] pt-1"
+              : "hidden"
+              }`}
+          >
+            In stock
+          </div>
+          <div
+            className={`${change === false
+              ? "text-red-500 vs:max-sm:text-[12px] pt-1"
+              : "hidden"
+              }`}
+          >
+            out of stock
+          </div>
+        </div> */}
+          <div className="vs:max-sm:hidden sm:max-md:w-24  sm:max-md:justify-start w-36 flex justify-center ">
+            <div className="space-y-4">
+              <div className="vs:max-sm:hidden">{formatISOStringToDMY(data?.createdAt)}</div>
+            </div>
+          </div>
+
+          <div
+
+            className="flex gap-2 items-center justify-end  md:w-36"
+          >
+            <Link href={"/main/store/editproduct"} className="cursor-pointer" onClick={() => {
+
+              Cookies.set("pivc", encryptaes(data?._id));
+              Cookies.set("clvss", encryptaes(collectionid));
+            }} title="Edit">
+              <MdEdit size={20} />
+            </Link>
+            <div title="Delete" onClick={() => setOpen(true)} className="cursor-pointer">
+              <RiDeleteBin6Line size={20} />
+            </div>
+          </div>
+        </div>
+
+        {/* <div className="w-full px-5 flex justify-end">
+        <div
+          className={`${mark
+            ? "hidden"
+            : "flex flex-col items-center justify-center vs:max-sm:bg-[#f9f9f9] bg-white py-4 px-2 rounded-2xl absolute "
+            }`}
+        >
+          <div>
+            <Link href={href} title="Edit" className=" text-blue-600 ">
+              Edit
+            </Link>
+          </div>
+
+        </div>
+      </div> */}
+      </div>
+    </>
+
+  );
+}
+
+const Memorizedproductinformation = React.memo(productinformation)
+export default Memorizedproductinformation;
