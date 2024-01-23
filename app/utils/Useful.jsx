@@ -45,11 +45,10 @@ export const checkToken = async (token) => {
 }
 
 export const getData = () => {
-  const data = useSelector((state) => state.userData.data);
-
+  const data = useSelector((state) => state.userData.data)
   const memoizedData = useMemo(() => {
-    const { id = null, fullname = null, username = null, dp = null } = data || {};
-    return { id, fullname, username, dp };
+    const { id = null, fullname = null, username = null, dp = null, sessionId = null, } = data || {};
+    return { id, fullname, username, dp, sessionId };
   }, [data]);
 
   return memoizedData;
@@ -58,4 +57,9 @@ export const getData = () => {
 export const getLoading = () => {
   const isLoading = useSelector((state) => state.userData.isLoading);
   return isLoading
+}
+
+export const getCookie = (req) => {
+  const getCookies = req.cookies.get("sessionId")
+  return getCookies
 }

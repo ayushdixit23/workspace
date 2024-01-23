@@ -7,7 +7,7 @@ const Postdata = ({ analyticsdata, state }) => {
   return (
     <>
       {/* mobile */}
-      <div className="bg-white my-3 rounded-xl sm:hidden">
+      <div className="bg-white my-3 rounded-xl overflow-hidden  sm:hidden">
         <div className="p-3 px-4 font-bold text-[#030229]">Recent Posts</div>
         {!analyticsdata?.postmerged ||
           analyticsdata?.postmerged.length === 0 ||
@@ -19,10 +19,10 @@ const Postdata = ({ analyticsdata, state }) => {
           <div className="overflow-y-scroll scrollbar-hide max-h-[300px] ">
             {analyticsdata?.postmerged
               ?.filter((w) => w?.community?.title === state.name)
-              ?.map((d, i) => (
+              ?.map((d, i, arr) => (
                 <div
                   key={i}
-                  className=" border-b border-[#eaecf0] px-2 flex flex-col justify-center items-center gap-4 w-full"
+                  className={`${i === arr.length - 1 ? "border-b-0" : null} border-b border-[#eaecf0] px-2 flex flex-col justify-center items-center gap-4 w-full`}
                 >
                   <div className="flex justify-between mt-3 px-3 w-full items-center">
                     <div className="flex justify-center items-center gap-2">
@@ -66,7 +66,7 @@ const Postdata = ({ analyticsdata, state }) => {
               ))}
           </div>
         )}
-      </div>
+      </div >
 
       {/* <NoPost /> */}
       {/* {analyticsdata?.postmerged?.length == 0 ? (
@@ -161,7 +161,7 @@ const Postdata = ({ analyticsdata, state }) => {
           <NoPost />
         ) : (
           <div className="max-h-[300px] overflow-y-scroll no-scrollbar bg-white rounded-xl sm:p-2  w-full">
-            <table className="w-full  sm:max-lg:min-w-[750px] rounded-xl border-collapse">
+            <table className="w-full sm:max-lg:min-w-[750px] rounded-xl border-collapse">
               <thead>
                 <tr className="bg-gray-50">
                   <th
@@ -196,16 +196,16 @@ const Postdata = ({ analyticsdata, state }) => {
                         colSpan="2"
                         className="text-left text-sm py-2 leading-5 font-medium text-gray-900 col-span-3"
                       >
-                        <div className="flex gap-2 items-center">
+                        <div className="flex gap-2 p-1 items-center">
                           <div>
                             <img
                               src={d?.dps}
-                              className="min-w-[30px] min-h-[30px] max-w-[35px] rounded-lg max-h-[35px]"
+                              className="h-12 w-12 cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
                               alt="image"
                             />
                           </div>
                           <div className="flex flex-col text-xs font-medium gap-1">
-                            {d?.title}
+                            {d?.title.length <= 15 ? d?.title : `${d?.title.slice(0, 15)}...`}
                           </div>
                         </div>
                       </td>

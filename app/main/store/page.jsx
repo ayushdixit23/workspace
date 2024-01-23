@@ -27,6 +27,7 @@ function page() {
   const { id } = getData()
   const dispatch = useDispatch();
   const [check, setCheck] = useState(null);
+  const [render, setRender] = useState(false)
   const [col, setCol] = useState({
     d1: "",
     d2: "Retail",
@@ -40,7 +41,7 @@ function page() {
   const { data: checkstore, refetch: refetchStore } = useCheckStoreExistsQuery(
     { id },
     {
-      skip: !id,
+      skip: !id || render
     }
   );
 
@@ -97,6 +98,7 @@ function page() {
   const createCheck = () => {
     dispatch(LoadThis(true))
     if (checkstore?.exist) {
+      setRender(true)
       setCheck(1);
     } else {
       setCheck(2);

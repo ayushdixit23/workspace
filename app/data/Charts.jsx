@@ -3,7 +3,6 @@ import React from 'react';
 import {
 	Bar,
 	BarChart,
-
 	Legend,
 	ResponsiveContainer,
 	Tooltip,
@@ -11,13 +10,15 @@ import {
 	YAxis
 } from 'recharts';
 
+
 const Charts = ({ data }) => {
+
 	return (
 		<div>
 			<ResponsiveContainer width="100%" height={300}>
-				<BarChart width={730} height={250} data={data}>
+				<BarChart className='w-full' width={730} height={250} data={data}>
 					<XAxis dataKey="X" className='text-xs' />
-					<YAxis />
+					<YAxis className='text-xs' />
 					<Tooltip />
 					<Legend />
 					<Bar dataKey="Y1" fill="#5a6acf" />

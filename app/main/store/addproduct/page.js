@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import { decryptaes } from "@/app/utils/security";
 import { useAddProductMutation } from "@/app/redux/apiroutes/product";
 import { getData } from "@/app/utils/Useful";
-import { AiOutlinePlus } from "react-icons/ai";
+import { AiOutlineLoading3Quarters, AiOutlinePlus } from "react-icons/ai";
 import { RxCross2 } from "react-icons/rx";
 import toast, { Toaster } from "react-hot-toast";
 

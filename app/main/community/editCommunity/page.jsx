@@ -49,7 +49,7 @@ function page() {
   const [loading, setLoading] = useState(false);
 
   const {
-    data: fetchtopic,
+    data: fetchtopic, refetch
   } = useFetchTopicQuery({ id, comid }, { skip: !id || !comid });
   const [updatecom] = useUpdateComMutation();
   const [deleteTopics] = useDeleteTopicMutation();
@@ -142,6 +142,7 @@ function page() {
       console.log(res.data);
       if (res.data.success) {
         toast.success("Changes Saved!");
+        await refetch()
         clearCookies();
         router.push("/main/community");
       }

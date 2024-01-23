@@ -16,7 +16,7 @@ const ChartsStore = ({ data }) => {
 			<ResponsiveContainer width="100%" height={300}>
 				<BarChart width={730} height={250} data={data}>
 					<XAxis dataKey="X" className='text-xs' />
-					<YAxis />
+					<YAxis className='text-xs' />
 					<Tooltip />
 					<Legend />
 					<Bar dataKey="Y" fill="#5a6acf" />

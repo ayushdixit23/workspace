@@ -6,15 +6,17 @@ import { useRouter } from "next/navigation";
 import { changelaoding, sendData } from "../redux/slice/userData";
 import { useGetRefreshTokenMutation } from "../redux/apiroutes/userLoginAndSetting";
 import { checkToken } from "./Useful";
+import { getItemSessionStorage } from "./Tokenwrap";
 
 const useTokenAndData = () => {
   const [isValid, setIsValid] = useState(false);
-  const token = Cookies.get("excktn");
+  const sessionId = getItemSessionStorage()
+  const token = Cookies.get(`excktn${sessionId}`);
   const path = useSelector((state) => state.userData.path);
   const router = useRouter();
   const [data, setData] = useState(null);
   const dispatch = useDispatch();
-  const [refreshedtokenAgain] = useGetRefreshTokenMutation();
+  const [refreshedtokenAgain] = useGetRefreshTokenMutation()
 
   const refreshAccessToken = useCallback(async (refreshToken) => {
     try {
@@ -35,7 +37,7 @@ const useTokenAndData = () => {
 
   const checkRefreshTokenValidity = useCallback(() => {
     try {
-      const refreshToken = Cookies.get("frhktn");
+      const refreshToken = Cookies.get(`frhktn${sessionId}`);
       if (!refreshToken) {
         console.error("No refresh token found");
         return false;
@@ -52,7 +54,7 @@ const useTokenAndData = () => {
   }, []);
 
   const refresh = useCallback(async () => {
-    const refreshToken = Cookies.get("frhktn");
+    const refreshToken = Cookies.get(`frhktn${sessionId}`);
     if (!refreshToken) {
       console.error("No refresh token found");
       return Promise.reject("No refresh token found");
@@ -60,7 +62,7 @@ const useTokenAndData = () => {
     try {
       const newToken = await refreshAccessToken(refreshToken);
       if (newToken) {
-        Cookies.set("excktn", newToken.access_token);
+        Cookies.set(`excktn${sessionId}`, newToken.access_token);
       }
     } catch (error) {
       console.error("Error during token refresh:", error);
@@ -85,15 +87,15 @@ const useTokenAndData = () => {
             await refresh()
           } else {
             setIsValid(false);
-            Cookies.remove("work_grip");
-            Cookies.remove("frhktn");
+
+            Cookies.remove(`frhktn${sessionId}`);
           }
         }
       } catch (e) {
         console.error(e);
         setIsValid(false);
-        Cookies.remove("frhktn");
-        Cookies.remove("excktn");
+        Cookies.remove(`frhktn${sessionId}`);
+        Cookies.remove(`excktn${sessionId}`);
       }
     },
     [token]

@@ -12,12 +12,16 @@ import {
   usePostProfileStoreMutation,
 } from "@/app/redux/apiroutes/userLoginAndSetting";
 import { getData } from "@/app/utils/Useful";
+import { getItemSessionStorage, storeInSessionStorage } from "@/app/utils/Tokenwrap";
+
 
 const page = () => {
   const { id } = getData()
   const [edit, setEdit] = useState(false);
   const [loading, setLoading] = useState(true);
   const [edit2, setEdit2] = useState(false);
+  const sessionId = getItemSessionStorage()
+
   const { data, isLoading, refetch } = useGetProfileQuery(
     { id: id },
     { skip: !id }
@@ -84,8 +88,9 @@ const page = () => {
 
   const resetCookies = async (data) => {
     try {
-      Cookies.remove("excktn");
-      Cookies.set("excktn", data?.access_token);
+      Cookies.remove(`excktn${sessionId}`);
+      storeInSessionStorage(data?.sessionId)
+      Cookies.set(`excktn${data?.sessionId}`, data?.access_token);
     } catch (e) {
       console.log(e);
     }

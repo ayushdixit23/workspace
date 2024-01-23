@@ -15,9 +15,9 @@ import { RiLoader4Line } from "react-icons/ri";
 import { database } from "@/firebase.config";
 import { useLoginWithQrMutation } from "@/app/redux/apiroutes/userLoginAndSetting";
 import useTokenAndData from "@/app/utils/tokens";
-import PhoneInput from "react-phone-input-2";
 import 'react-phone-input-2/lib/style.css'
 import toast, { Toaster } from "react-hot-toast";
+import { storeInSessionStorage } from "@/app/utils/Tokenwrap";
 
 function page() {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
@@ -98,8 +98,10 @@ function page() {
 
   const waitkrnevalafunc = async (data) => {
     try {
-      Cookies.set("excktn", data.access_token);
-      Cookies.set("frhktn", data.refresh_token);
+      storeInSessionStorage(data.sessionId)
+
+      Cookies.set(`excktn${data.sessionId}`, data.access_token);
+      Cookies.set(`frhktn${data.sessionId}`, data.refresh_token);
       toast.success("success");
       return true;
     } catch (e) {
@@ -109,7 +111,8 @@ function page() {
 
   const fetchid = async () => {
     try {
-      const en = encryptaes(number);
+      const updatedNumber = "91" + number
+      const en = encryptaes(updatedNumber);
 
       const result = await login({
         phone: en,
@@ -156,7 +159,8 @@ function page() {
     onCaptchaVerify();
     setSeconds(30);
     const appVerifier = window.recaptchaVerifier;
-    signInWithPhoneNumber(auth, "+" + number, appVerifier)
+    const updatedNumber = "91" + number
+    signInWithPhoneNumber(auth, "+" + updatedNumber, appVerifier)
       .then((confirmationResult) => {
         window.confirmationResult = confirmationResult;
         setLoading(false);
@@ -499,13 +503,14 @@ function page() {
           {/* phone */}
           <div
             className={`${change === 1
-              ? "flex justify-start flex-col  items-start  py-4"
+              ? "flex justify-start flex-col items-start  py-4"
               : "hidden"
               } `}
           >
-            <div className="bg-[#f7f7f7] flex items-center justify-center rounded-2xl">
+            <div className="text-sm pb-3 px-1 font-semibold text-[#424856]">Enter Your Phone Number</div>
+            <div className="bg-[#f7f7f7] flex items-center border w-[300px] justify-center rounded-2xl">
 
-              <PhoneInput
+              {/* <PhoneInput
                 onKeyPress={(e) => {
                   if (e.key === "Enter") {
                     onSignup();
@@ -517,7 +522,10 @@ function page() {
                 placeholder="Phone no."
 
                 inputProps={{ required: true }}
-              />
+              /> */}
+              <div className="border-r-2 sm:-ml-3 p-1 sm:pr-2 "> +91</div>
+              <input value={number} onChange={(e) => setNumber(e.target.value)} type="tel"
+                className=" p-2 outline-none rounded-xl bg-[#f7f7f7]" />
 
             </div>
           </div>
