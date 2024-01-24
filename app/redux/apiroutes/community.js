@@ -55,6 +55,16 @@ export const communityApi = Api.injectEndpoints({
         method: "POST",
       }),
     }),
+    createPost: builder.mutation({
+      query: ({ id, comid, data }) => ({
+        url: `/postanything/${id}/${comid}`,
+        method: "POST",
+        body: data
+      })
+    }),
+    fetchPosts: builder.query({
+      query: ({ id, comid }) => `/getallposts/${comid}/${id}`
+    })
   }),
 });
 
@@ -68,5 +78,7 @@ export const {
   useFetchTopicQuery,
   useCreateComMutation,
   useUpdateComMutation,
+  useCreatePostMutation,
   useDeleteCommunityMutation,
+  useFetchPostsQuery
 } = communityApi;

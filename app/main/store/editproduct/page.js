@@ -79,9 +79,9 @@ function page() {
       formDataToSend.append("desc", product.desc)
       formDataToSend.append("discountedprice", product.discountedprice)
       formDataToSend.append("quantity", product.quantity)
-      // selectedImage.forEach((image) => {
-      //   formDataToSend.append("image", image)
-      // })
+      selectedImage.forEach((image) => {
+        formDataToSend.append("image", image)
+      })
       const result = await updation({
         userid: id,
         collectionid: cid,

@@ -1,6 +1,7 @@
 import React from "react";
+import MemorizedDontHave from "./DontHave";
 
-const Demographics = ({ demo }) => {
+const Demographics = ({ demo, data }) => {
   const calculation = (a, b) => {
     const sum = a + b;
     const per = ((sum / demo?.total) * 100).toFixed();
@@ -10,7 +11,7 @@ const Demographics = ({ demo }) => {
 
   return (
     <>
-      <div className="p-3 border rounded-xl">
+      {data > 0 ? < div className="p-3 border rounded-xl">
         <div className="flex justify-between items-center text-sm">
           <div>Statistics</div>
           <div>Total:</div>
@@ -18,7 +19,7 @@ const Demographics = ({ demo }) => {
 
         <div className="flex border-b pb-3 justify-between items-center">
           <div className="font-bold">Age and gender</div>
-          <div className="flex justify-center items-center gap-3">
+          <div className="flex justify-center pn:max-sm:text-sm items-center gap-3">
             <div className="flex justify-center items-center gap-1">
               <div
                 className="w-4 h-4 rounded-full bg-[#4A3AFF]
@@ -139,7 +140,7 @@ const Demographics = ({ demo }) => {
             </div>
           </div>
         </div>
-      </div>
+      </div > : <MemorizedDontHave />}
     </>
   );
 };

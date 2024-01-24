@@ -16,7 +16,7 @@ const Charts = ({ data }) => {
 	return (
 		<div>
 			<ResponsiveContainer width="100%" height={300}>
-				<BarChart className='w-full' width={730} height={250} data={data}>
+				<BarChart className='w-full relative -left-5 top-3' width={730} height={250} data={data}>
 					<XAxis dataKey="X" className='text-xs' />
 					<YAxis className='text-xs' />
 					<Tooltip />

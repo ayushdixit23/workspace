@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { MdEdit } from "react-icons/md";
 import Link from "next/link";
 import { RiDeleteBin6Line } from "react-icons/ri";
-// import p1 from "../../assets/image/emptyCommunity.png"
-// import Image from "next/image";
 import { formatISOStringToDMY } from "../../utils/Useful"
 import { encryptaes } from "@/app/utils/security";
 import Cookies from "js-cookie";

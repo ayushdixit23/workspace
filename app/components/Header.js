@@ -27,7 +27,11 @@ function Header() {
       <div className="text-[22px] font-semibold vs:max-sm:hidden">
         {pathname == "/main/settings" ? "Settings" : null}
         {pathname == "/main/earnings" ? "Earnings" : null}
-        {(pathname.startsWith("/main/dashboard") || pathname.startsWith("/main/community") || pathname.startsWith("/main/store")) && <div className="font-bold">Hey, {name}</div>}
+        {/* {(pathname.startsWith("/main/dashboard") || pathname.startsWith("/main/community") || pathname.startsWith("/main/store")) && <div className="font-bold">Hey, {name}</div>} */}
+
+        {/* {(pathname.startsWith("/main/dashboard") || pathname.startsWith("/main/community") || pathname.startsWith("/main/store")) && <div className="font-bold">Hey, {name}</div>} */}
+        {!(pathname == "/main/settings" || pathname == "/main/earnings") && <div className="font-bold">Hey, {name}</div>}
+
 
       </div>
       <div className="flex justify-center items-center gap-3">

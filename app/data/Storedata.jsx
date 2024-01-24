@@ -4,6 +4,7 @@ import NoOrder from "../components/NoOrder";
 import Img from "../assets/image/Img.png";
 import { formatISOStringToDMY } from "../utils/Useful";
 import ChartsStore from "./ChartsStore";
+import Link from "next/link";
 
 const Storedata = ({ getorderdata, sales }) => {
 
@@ -16,7 +17,7 @@ const Storedata = ({ getorderdata, sales }) => {
   })
 
   return (
-    <div className={`flex flex-col gap-4`}>
+    <Link href={"/main/order"} className={`flex flex-col gap-4`}>
       <div className="bg-white rounded-xl p-2 px-3">
         <div className="text-[#030229] font-semibold pt-3 px-2">
           Store Analytics
@@ -145,7 +146,7 @@ const Storedata = ({ getorderdata, sales }) => {
           </div>
         </div>
       )}
-    </div>
+    </Link>
   );
 };
 

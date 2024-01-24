@@ -23,7 +23,7 @@ import { getData } from "@/app/utils/Useful";
 function Dashboard() {
 	const [change, setChange] = useState("community");
 	const [open, setOpen] = useState(false);
-	const [comchange, setComchange] = useState("0");
+	const [comchange, setComchange] = useState(1);
 	const [prochange, setProchange] = useState("1");
 	const [loading, setLoading] = useState(true);
 	const { id } = getData()
@@ -43,7 +43,10 @@ function Dashboard() {
 		totalmembers: "",
 		visitors: "",
 		paidmember: "",
+		id: ""
 	});
+
+	console.log(analyticsdata)
 
 	useEffect(() => {
 		if (
@@ -61,6 +64,7 @@ function Dashboard() {
 				totalmembers: analyticsdata?.commerged[0].totalmembers,
 				visitors: analyticsdata?.commerged[0].visitors,
 				paidmember: analyticsdata?.commerged[0].paidmember,
+				id: analyticsdata?.commerged[0].id
 			});
 			setLoading(false);
 		}
@@ -157,20 +161,20 @@ function Dashboard() {
 									Location
 								</div>
 							</div>
-							<div className="max-h-[250px] pn:max-sm:mt-4 rounded-xl bg-white overflow-y-scroll z-20 scrollbar-hide">
+							<div className="sm:max-h-[250px] pn:max-sm:mt-4 rounded-xl bg-white sm:overflow-y-scroll z-20 sm:scrollbar-hide">
 								<div className="rounded-xl w-full bg-white">
-									<div className={`${comchange == 0 ? null : "hidden"}`}>
+									{/* <div className={`${comchange == 0 ? null : "hidden"}`}>
 										<DontHave />
-									</div>
+									</div> */}
 									<div className={`${comchange == 1 ? null : "hidden"}`}>
-										<Member state={state} />
+										<Member state={state} data={analyticsdata?.commerged?.length} />
 									</div>
 								</div>
 								<div className={`${comchange == 2 ? null : "hidden"}`}>
-									<Demographics demo={analyticsdata?.demo} />
+									<Demographics demo={analyticsdata?.demo} data={analyticsdata?.commerged?.length} />
 								</div>
 								<div className={`${comchange == 3 ? null : "hidden"}`}>
-									<LocationCom />
+									<LocationCom data={analyticsdata?.commerged?.length} />
 								</div>
 
 							</div>

@@ -1,13 +1,15 @@
 import NoPost from "@/app/components/NoPost";
 import { formatISOStringToDMY } from "@/app/utils/Useful";
+import Link from "next/link";
 import React from "react";
 import { BiUpArrowAlt } from "react-icons/bi"
+import { encryptaes } from "../utils/security";
 
 const Postdata = ({ analyticsdata, state }) => {
   return (
     <>
       {/* mobile */}
-      <div className="bg-white my-3 rounded-xl overflow-hidden  sm:hidden">
+      <Link href={`/main/post/${encryptaes(state.id)}`} className="bg-white my-3 rounded-xl overflow-hidden  sm:hidden">
         <div className="p-3 px-4 font-bold text-[#030229]">Recent Posts</div>
         {!analyticsdata?.postmerged ||
           analyticsdata?.postmerged.length === 0 ||
@@ -66,7 +68,7 @@ const Postdata = ({ analyticsdata, state }) => {
               ))}
           </div>
         )}
-      </div >
+      </Link>
 
       {/* <NoPost /> */}
       {/* {analyticsdata?.postmerged?.length == 0 ? (
@@ -152,7 +154,7 @@ const Postdata = ({ analyticsdata, state }) => {
       )} */}
 
       {/* web */}
-      <div className="pn:max-sm:hidden">
+      <Link href={`/main/post/${encryptaes(state.id)}`} className="pn:max-sm:hidden">
         {!analyticsdata?.postmerged ||
           analyticsdata?.postmerged.length === 0 ||
           analyticsdata?.postmerged.filter(
@@ -231,7 +233,7 @@ const Postdata = ({ analyticsdata, state }) => {
             </table>
           </div>
         )}
-      </div>
+      </Link>
     </>
   );
 };

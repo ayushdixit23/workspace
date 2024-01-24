@@ -10,6 +10,7 @@ import { getData } from "@/app/utils/Useful";
 import { GoPlus } from "react-icons/go";
 import toast, { Toaster } from "react-hot-toast";
 import NoCommunity from "@/app/data/NoCommunity";
+import Post from "./CreatePost";
 
 function page() {
   const { id } = getData()
@@ -23,7 +24,7 @@ function page() {
   const [deletecom] = useDeleteCommunityMutation();
   const handleDelete = async ({ dat, id, index }) => {
     try {
-     
+
       await deletecom({
         comid: id
       })
@@ -68,6 +69,7 @@ function page() {
   return (
     <>
 
+      {/* <Post /> */}
       <div>
         <Toaster />
         <div className="">
@@ -88,8 +90,7 @@ function page() {
               <div className="w-64 sm:max-md:w-52 font-semibold flex pl-10">
                 Communities
               </div>
-              {/* <div className="w-36 sm:max-md:w-24 flex font-semibold justify-center">
-            </div> */}
+
               <div className="w-40 sm:max-md:w-24 flex font-semibold justify-center">
                 Topics
               </div>
@@ -121,13 +122,6 @@ function page() {
               ))}
             </div>
           </div> : <NoCommunity />}
-
-          {/* <Link
-            href="/main/community/createCommunity"
-            className="animate-bounce sm:hidden h-12 w-12  bg-blue-700 rounded-full flex justify-center items-center fixed right-5 sm:right-10 bottom-20 cursor-pointer"
-          >
-            <div className="text-white text-[30px] font-semibold">+</div>
-          </Link> */}
         </div>
       </div >
     </>

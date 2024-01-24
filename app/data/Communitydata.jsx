@@ -61,6 +61,7 @@ const Communitydata = ({ state, analyticsdata, setState, open, setOpen }) => {
                         totalmembers: d?.totalmembers,
                         visitors: d?.visitors,
                         paidmember: d?.paidmember,
+                        id: d?.id
                       });
                       setOpen(false);
                     }}

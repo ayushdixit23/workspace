@@ -11,7 +11,7 @@ const Fetch = ({ data }) => {
         <NoOrder />
       ) : (
         <div className="w-full p-3">
-          <table className="w-full border-collapse pn:max-sm:hidden border border-gray-300">
+          <table className="w-full border-collapse bg-white pn:max-sm:hidden border border-gray-300">
             <thead className="bg-gray-200">
               <tr>
                 <th className="py-2 px-4 text-left">Order ID</th>

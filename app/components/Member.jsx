@@ -1,10 +1,11 @@
 import React from "react";
+import MemorizedDontHave from "./DontHave";
 
-const Member = ({ state }) => {
+const Member = ({ state, data }) => {
   const { totalmembers, visitors, paidmember } = state
   return (
     <>
-      <div className="p-2 text-[#323743] flex flex-col gap-6 font-medium">
+      {data > 0 ? <div className="p-2 text-[#323743] flex flex-col gap-6 font-medium">
         <div className="flex justify-between items-center p-1 w-full">
           <div>Total Members</div>
           <div>{totalmembers}</div>
@@ -25,7 +26,9 @@ const Member = ({ state }) => {
           <div>Visitors</div>
           <div>{paidmember}</div>
         </div>
-      </div>
+      </div> :
+        <MemorizedDontHave />
+      }
     </>
   );
 };

@@ -1,0 +1,167 @@
+"use client"
+import React, { useState } from 'react'
+import { FaToggleOn } from 'react-icons/fa'
+import { MdAdd, MdArrowBack } from 'react-icons/md'
+import { RxCross2 } from 'react-icons/rx'
+import { SlArrowRight } from "react-icons/sl"
+import { GrUploadOption } from "react-icons/gr";
+import Image from 'next/image'
+import { useCreatePostMutation } from '@/app/redux/apiroutes/community'
+
+const CreatePost = ({ id, comid, open, setOpen, refetch }) => {
+	const [post, setPost] = useState({
+		title: "",
+		desc: "",
+		tags: [],
+		image: [],
+		sampletags: ""
+	})
+	const [postAnything] = useCreatePostMutation()
+	const savePost = async () => {
+		try {
+			const data = new FormData()
+			data.append("title", post.title)
+			data.append("desc", post.desc)
+			data.append("tags", post.tags)
+			post.image.forEach((d) => {
+				data.append("image", d)
+			})
+			const res = await postAnything({
+				id,
+				comid,
+				data
+			})
+			await refetch()
+			setOpen(false)
+			console.log(res.data)
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
+
+	const handleImage = (e) => {
+		const files = e.target.files;
+		const newImages = Array.from(files);
+		const combinedImages = [...post.image, ...newImages];
+		const limitedImages = combinedImages.slice(0, 4);
+		setPost({ ...post, image: limitedImages })
+	}
+
+	const handleTagsRemove = (indexToRemove) => {
+		setPost({ ...post, tags: [...post.tags.filter((_, i) => i !== indexToRemove)] })
+	};
+
+	const handleImageRemove = (indexToRemove) => {
+		setPost({ ...post, image: [...post.image.filter((_, i) => i !== indexToRemove)] })
+	};
+
+	return (
+		<>    <div className={`${open ? "sm:fixed sm:inset-0 w-screen sm:p-2 z-50 bg-[#cccccc33] sm:h-screen flex justify-center items-center" : "hidden -z-50"}`}>
+			<div className="flex flex-col justify-center shadow-md items-center p-3 sm:rounded-xl w-full sm:max-w-[90%] md:max-w-[80%] bg-white">
+				<div className='flex justify-between w-full items-center p-2'>
+					<div className='flex justify-center items-center gap-4'>
+						<div onClick={() => setOpen(false)} className='cursor-pointer'>
+							<div><MdArrowBack className='text-2xl text-[#A5BEFE]' /></div>
+						</div>
+						<div className='flex flex-col'>
+							<div className='pp:text-xl font-semibold'>Post On Grovyo</div>
+							<div className='pn:max-pp:hidden'>You can add up to 4 images or videos.</div>
+						</div>
+					</div>
+					<div className='flex justify-center items-center gap-4'>
+						<div className='font-medium p-2 pn:max-pp:hidden px-7 rounded-lg'>Preview</div>
+						<div onClick={savePost} className='bg-[#4880FF] cursor-pointer text-white font-medium textt-white p-2 px-4 pp:px-7 rounded-lg'>Publish</div>
+					</div>
+				</div>
+				<div className='grid sm:grid-cols-2 w-full gap-5 p-3'>
+					<div className='w-full flex flex-col gap-2'>
+						<div className='w-full'>
+							<label htmlFor='postUpload' className='w-full h-[220px] cursor-pointer shadow-md rounded-lg'>
+								<div className='h-[220px] w-full border p-2 rounded-lg flex flex-col justify-center items-center'>
+									<div className='p-5 bg-[#F0F4FF] rounded-full'>
+										<GrUploadOption className='text-4xl text-[#379AE6] font-thin' />
+									</div>
+									<div className='text-center mt-2 flex justify-center items-center flex-col'>
+										<div className='font-medium'><span className='text-[#379AE6]'>Click to choose file</span> or drag and drop.</div>
+										<div className='text-sm text-[#6F7787]'>Your ideas will be private until you publish them.</div>
+									</div>
+								</div>
+							</label>
+							<input accept="image/*" name='image' onChange={handleImage} type="file" id='postUpload' className='hidden w-full' />
+						</div>
+						<div className='text-sm text-[#6F7787]'>We recommend high-quality .jpg, .png files less than 20MB or .mp4 files 100MB.</div>
+						{
+							post.image.length > 0 && <>
+								<div className='flex items-center flex-wrap gap-2'>
+									{post.image.map((d, i) => (
+										<div key={i} className='relative w-[100px] h-[100px]'>
+											<Image src={URL.createObjectURL(d)} width={100} height={100} alt="image" className="rounded-lg w-[100px] h-[100px]" />
+											<div onClick={() => handleImageRemove(i)} className="absolute cursor-pointer top-0 right-0 p-1"><RxCross2 /></div>
+										</div>
+									))}
+								</div>
+								<div>{post.image.length}/4 images uploaded</div>
+							</>
+						}
+
+					</div>
+					<div className='w-full flex flex-col gap-2'>
+						<div className="flex flex-col w-full gap-1">
+							<div>Title</div>
+							<div>
+								<input
+									type="text" value={post.title} onChange={(e) => setPost({ ...post, title: e.target.value })} className="p-1.5 px-3 bg-[#FAFAFA] outline-none rounded-lg w-full" placeholder="Enter Title" />
+							</div>
+						</div>
+						<div className="flex flex-col w-full gap-1">
+							<div>Description</div>
+							<div>
+								<textarea
+									className="outline-none p-2 bg-[#FAFAFA] w-[100%] scrollbar-hide resize-y rounded-lg min-h-32 max-h-48 "
+									type="text"
+									value={post.desc} onChange={(e) => setPost({ ...post, desc: e.target.value })}
+									placeholder="Describe the Post in few words"
+									maxLength={500}
+								/>
+							</div>
+						</div>
+						<div className='flex flex-col w-full gap-1'>
+							<div>Add Hashtags</div>
+							<div className='w-full bg-[#FAFAFA] rounded-lg flex justify-center items-center'>
+								<input
+									value={post.sampletags} onChange={(e) => setPost({ ...post, sampletags: e.target.value })}
+									type="text" className="p-1.5 px-3 bg-transparent outline-none rounded-lg w-full" placeholder="Enter Hastags" />
+								<button onClick={() => setPost({ ...post, tags: [...post.tags, post.sampletags], sampletags: "" })} className='flex justify-center items-center p-2 rounded-r-lg text-[#2461FD] bg-[#F0F4FF]'>
+									<div><MdAdd /></div>
+									<div>Add</div>
+								</button>
+							</div>
+							<div className='flex items-center pt-2 flex-wrap gap-2'>
+								{post.tags.map((d, g) => (
+									<div key={g} className='bg-[#FDF8F1] flex justify-center items-center gap-2 text-[#E7A034] p-1 rounded-full px-4'>
+										<div>{d}</div>
+										<div onClick={() => handleTagsRemove(g)}><RxCross2 /></div>
+									</div>
+								))}
+							</div>
+						</div>
+						<div className='flex items-center gap-1'>
+							<div className='text-2xl'><FaToggleOn /></div>
+							<div>Allow people to comment</div>
+						</div>
+						<div className='h-1 w-full border-t mt-2 border-black'></div>
+						<div className='flex justify-between items-center'>
+							<div className='text-lg font-medium'>Advanced options</div>
+							<div><SlArrowRight /></div>
+						</div>
+					</div>
+				</div>
+			</div >
+		</div >
+
+		</>
+	)
+}
+
+export default CreatePost

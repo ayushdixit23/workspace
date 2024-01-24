@@ -71,7 +71,7 @@ function Communitybox({ data, id, index, handleDelete }) {
                   Cookies.set("cmdyd", encryptaes(data?.c?._id))
                 }}>Edit</Link>
                 <button onClick={() => { setComDelete(true), setOpen(false), dispatch(LoadThis(true)) }}>Delete</button>
-                <button>Analytics</button>
+                <Link href={`/main/post/${encryptaes(data?.c?._id)}`}>Posts</Link>
               </div>
             </div>
           </div>
@@ -89,7 +89,7 @@ function Communitybox({ data, id, index, handleDelete }) {
                     Cookies.set("cmdyd", encryptaes(data?.c?._id))
                   }}>Edit</Link>
                   <button onClick={() => { setComDelete(true); setOpen(false) }}>Delete</button>
-                  <button>Analytics</button>
+                  <Link href={`/main/post/${encryptaes(data?.c?._id)}`}>Posts</Link>
                 </div>
               </div>
             </div>
@@ -165,7 +165,6 @@ function Communitybox({ data, id, index, handleDelete }) {
         </div>
 
       </div >
-
     </>
   );
 }

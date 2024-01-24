@@ -19,7 +19,7 @@ import { getData } from "@/app/utils/Useful";
 import Cookies from "js-cookie";
 import { encryptaes } from "@/app/utils/security";
 import { GoPlus } from "react-icons/go";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { LoadThis } from "@/app/redux/slice/userData";
 
 function page() {
@@ -91,6 +91,7 @@ function page() {
       collecid: collecid,
       pid: pid,
     });
+    toast.success("Product Deleted!")
     await refetch()
     console.log(result);
   };

@@ -1,10 +1,11 @@
 import React from "react";
 import { FaAngleDown } from "react-icons/fa";
+import MemorizedDontHave from "./DontHave";
 
-const LocationCom = () => {
+const LocationCom = ({ data }) => {
   return (
     <>
-      <div>
+      {data > 0 ? < div >
         <div className="flex justify-between mt-3 px-3 items-center">
           <div className="text-lg font-semibold">Top Location</div>
           <div className="flex justify-center text-sm p-[5px] rounded-xl gap-1 border px-3 items-center">
@@ -43,7 +44,8 @@ const LocationCom = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div > : <MemorizedDontHave />
+      }
     </>
   );
 };
