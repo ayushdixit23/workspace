@@ -7,6 +7,7 @@ import React, { useState } from 'react'
 import { GoPlus } from 'react-icons/go'
 import CreatePost from '../../community/CreatePost'
 import { BiUpArrowAlt } from 'react-icons/bi'
+import Loader from '@/app/data/Loader'
 
 const page = () => {
 	const path = usePathname()
@@ -14,7 +15,7 @@ const page = () => {
 	const { id } = getData()
 	const comid = decryptaes(decomid)
 
-	const { data, refetch } = useFetchPostsQuery({ id, comid }, { skip: !id || !comid })
+	const { data, refetch, isLoading } = useFetchPostsQuery({ id, comid }, { skip: !id || !comid })
 
 	const mergedData = data?.posts?.map((d, i) => ({
 		post: d,
@@ -23,7 +24,9 @@ const page = () => {
 
 	const [open, setOpen] = useState(false)
 
-	console.log(mergedData)
+	if (isLoading) {
+		return <Loader />
+	}
 
 	return (
 

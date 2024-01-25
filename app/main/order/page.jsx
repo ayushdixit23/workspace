@@ -8,10 +8,11 @@ import Fetch from "@/app/components/Fetch";
 import { useGetFetchOrderQuery } from "@/app/redux/apiroutes/userLoginAndSetting";
 import { getData } from "@/app/utils/Useful";
 import Pagination from "@/app/components/Pagination";
+import Loader from "@/app/data/Loader";
 
 const page = () => {
   const { id } = getData()
-  const { data: getorderdata } = useGetFetchOrderQuery(
+  const { data: getorderdata, isLoading } = useGetFetchOrderQuery(
     { id: id },
     { skip: !id }
   );
@@ -21,8 +22,11 @@ const page = () => {
   const [postPerPage, setPostPerPage] = useState(6);
   const lastindex = currentPage * postPerPage;
   const firstIndex = lastindex - postPerPage;
+  const postperData = getorderdata?.mergedOrder?.slice(firstIndex, lastindex);
 
-  const postperData = getorderdata?.orders?.slice(firstIndex, lastindex);
+  if (isLoading) {
+    return <Loader />
+  }
 
   return (
     <>
@@ -71,12 +75,12 @@ const page = () => {
       </div> */}
 
       <div className="grid grid-cols-1 w-full sm:p-3">
-        <div className="text-[#8B8D97] my-2 text-lg">Track Order</div>
+        <div className="text-[#8B8D97] px-2 my-2 text-lg">Track Order</div>
         <div className="grid grid-cols-1 w-full">
           <div className="flex flex-col">
             {/* web */}
             <div className="flex pn:max-sm:hidden justify-center bg-[#FAFAFA] p-3 w-full items-center gap-2 md:gap-5">
-              <div className="flex sm:max-md:text-xs flex-col p-3 py-5 bg-white rounded-xl gap-4 border-2 w-full">
+              <div className="flex sm:max-md:text-xs flex-col p-3 py-5 bg-white rounded-xl gap-4 border w-full">
                 <div>
                   <Image src={c1} alt="p1" />
                 </div>
@@ -90,7 +94,7 @@ const page = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex sm:max-md:text-xs flex-col p-3 py-5 bg-white rounded-xl gap-4 border-2 w-full">
+              <div className="flex sm:max-md:text-xs flex-col p-3 py-5 bg-white rounded-xl gap-4 border w-full">
                 <div>
                   <Image src={c2} alt="p2" />
                 </div>
@@ -102,7 +106,7 @@ const page = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col p-3 sm:max-md:text-xs py-5 bg-white rounded-xl gap-4 border-2 w-full">
+              <div className="flex flex-col p-3 sm:max-md:text-xs py-5 bg-white rounded-xl gap-4 border w-full">
                 <div>
                   <Image src={c3} alt="p2" />
                 </div>
@@ -139,7 +143,7 @@ const page = () => {
             </div>
             {/* mobile */}
             <div className="grid grid-cols-2 sm:hidden bg-[#FAFAFA] p-3 w-full items-center gap-2 md:gap-7">
-              <div className="flex flex-col bg-white p-3 rounded-xl gap-2 border-2 w-full">
+              <div className="flex flex-col bg-white p-3 rounded-xl gap-2 border w-full">
                 <div>
                   <Image src={c1} alt="p1" />
                 </div>
@@ -153,7 +157,7 @@ const page = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col bg-white p-3 rounded-xl gap-2 border-2 w-full">
+              <div className="flex flex-col bg-white p-3 rounded-xl gap-2 border w-full">
                 <div>
                   <Image src={c2} alt="p2" />
                 </div>
@@ -165,7 +169,7 @@ const page = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex col-span-2 bg-white flex-col p-3 rounded-xl gap-3 border-2 w-full">
+              <div className="flex col-span-2 bg-white flex-col p-3 rounded-xl gap-3 border w-full">
                 <div>
                   <Image src={c3} alt="p2" />
                 </div>
@@ -205,7 +209,7 @@ const page = () => {
               postPerPage={postPerPage}
               setCurrentPage={setCurrentPage}
               currentPage={currentPage}
-              length={postperData?.length}
+              length={getorderdata?.mergedOrder.length}
             />
           </div>
         </div>

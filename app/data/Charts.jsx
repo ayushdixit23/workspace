@@ -18,11 +18,11 @@ const Charts = ({ data }) => {
 			<ResponsiveContainer width="100%" height={300}>
 				<BarChart className='w-full relative -left-5 top-3' width={730} height={250} data={data}>
 					<XAxis dataKey="X" className='text-xs' />
-					<YAxis className='text-xs' />
+					<YAxis domain={[0, 10]} className='text-xs' />
 					<Tooltip />
 					<Legend />
-					<Bar dataKey="Y1" fill="#5a6acf" />
-					<Bar dataKey="Y2" fill="#16dbcc" />
+					<Bar dataKey="members" fill="#5a6acf" />
+					<Bar dataKey="visitors" fill="#16dbcc" />
 				</BarChart>
 			</ResponsiveContainer>
 		</div>

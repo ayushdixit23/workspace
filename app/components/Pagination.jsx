@@ -2,6 +2,7 @@ import React from "react";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 
 const Pagination = ({ length, postPerPage, currentPage, setCurrentPage }) => {
+
   let page = [];
   const totalPages = Math.ceil(length / postPerPage);
   const generatePageArray = () => {
@@ -32,13 +33,12 @@ const Pagination = ({ length, postPerPage, currentPage, setCurrentPage }) => {
 
   return (
     <>
-      <div className="flex justify-between items-center p-3">
+      <div className="flex justify-between items-center p-2">
         <div className="text-sm text-[#667085]">Showing 1-10 from 100</div>
         <div className="flex justify-center items-center gap-3">
           <button
             onClick={() => setCurrentPage((prevPage) => prevPage - 1)}
             disabled={currentPage === 1}
-            className="text-lg"
           >
             <BsChevronLeft />
           </button>
@@ -48,9 +48,9 @@ const Pagination = ({ length, postPerPage, currentPage, setCurrentPage }) => {
               <div
                 key={i}
                 onClick={() => setCurrentPage(p)}
-                className={`text-white gap-2 p-2 px-5 rounded-md ${p === currentPage
-                    ? "bg-[#0066FF] text-white shadow-2xl border-2"
-                    : "bg-[#0066FF]/20 text-[#0066FF] border"
+                className={`text-white gap-2 p-1 px-3 rounded-md ${p === currentPage
+                  ? "bg-[#0066FF] text-white shadow-2xl border-2"
+                  : "bg-[#0066FF]/20 text-[#0066FF] border"
                   }`}
               >
                 {p}
@@ -67,7 +67,6 @@ const Pagination = ({ length, postPerPage, currentPage, setCurrentPage }) => {
           <button
             onClick={() => setCurrentPage((prevPage) => prevPage + 1)}
             disabled={currentPage === totalPages}
-            className="text-lg"
           >
             <BsChevronRight />
           </button>

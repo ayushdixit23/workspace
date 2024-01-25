@@ -9,9 +9,9 @@ import Charts from "./Charts"
 const Communitydata = ({ state, analyticsdata, setState, open, setOpen }) => {
 
   const communityData = state.stats && state?.stats?.map((d) => ({
-    Y1: Number(d.Y1),
-    X: formatISOStringToDMY(d.X),
-    Y2: Number(d.Y2)
+    members: Number(d.Y1),
+    X: d.X,
+    visitors: Number(d.Y2)
   }))
 
   return (
@@ -19,7 +19,7 @@ const Communitydata = ({ state, analyticsdata, setState, open, setOpen }) => {
       <div className="rounded-xl bg-white">
         <div className="flex justify-between p-2">
           <div className="flex justify-bewteen sm:min-w-[150px] sm:justify-center pn:max-sm:order-2 p-[6px] rounded-2xl px-2 bg-[#FAFAFA] relative items-center gap-2">
-            <div className="flex justify-center gap-1 items-center ">
+            <div className="flex gap-1 items-center ">
               <div>
                 {state.dp ? (
                   <img
@@ -61,7 +61,9 @@ const Communitydata = ({ state, analyticsdata, setState, open, setOpen }) => {
                         totalmembers: d?.totalmembers,
                         visitors: d?.visitors,
                         paidmember: d?.paidmember,
-                        id: d?.id
+                        id: d?.id,
+                        age: d?.agerange,
+                        location: d?.location
                       });
                       setOpen(false);
                     }}

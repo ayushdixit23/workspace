@@ -12,7 +12,7 @@ const Fetch = ({ data }) => {
       ) : (
         <div className="w-full p-3">
           <table className="w-full border-collapse bg-white pn:max-sm:hidden border border-gray-300">
-            <thead className="bg-gray-200">
+            <thead className="bg-[#f1f1f1]">
               <tr>
                 <th className="py-2 px-4 text-left">Order ID</th>
                 <th colSpan="2" className="py-2 px-4 text-left">
@@ -33,13 +33,20 @@ const Fetch = ({ data }) => {
                   </td>
                   <td colSpan="2" className="py-2 px-4 text-left">
                     <div className="flex items-center gap-2">
-                      <div>
+                      {/* <div>
                         <Image src={Img} alt="image" className="max-w-[50px]" />
+                      </div> */}
+                      <div>
+                        <img src={d?.image?.[0]} alt="image" className="max-w-[50px]" />
+
                       </div>
-                      <div className="flex flex-col">
-                        {d?.productId?.map((f, iq) => (
-                          <div key={iq}>{f?.name}</div>
+                      <div className="flex text-sm flex-col">
+                        {d?.productId?.map((product, index) => (
+                          <div key={index}>
+                            {index < 2 ? product?.name : null}
+                          </div>
                         ))}
+                        {d?.productId?.length > 2 && <span>And more...</span>}
                       </div>
                     </div>
                   </td>
@@ -59,8 +66,8 @@ const Fetch = ({ data }) => {
                   <td className="py-2 px-4 ">{d?.currentStatus}</td>
                 </tr>
               ))}
-            </tbody>
-          </table>
+            </tbody >
+          </table >
           <div className="sm:hidden rounded-xl bg-white">
             <div>
               <div className="flex justify-between font-semibold p-3 items-center text-[#4A4C56]">
@@ -77,18 +84,17 @@ const Fetch = ({ data }) => {
                   >
                     <div className="flex justify-center items-center gap-2 pp:gap-4">
                       <div>
-                        <Image src={Img} alt="image" className="max-w-[60px]" />
+                        <img src={d?.image?.[0]} alt="image" className="min-w-[50px] max-w-[100px]" />
+
                       </div>
                       <div className="flex flex-col">
-                        <div>
-                          {d?.productId?.map((f, k) => (
-                            <div
-                              key={k}
-                              className="font-semibold text-sm pp:text-base"
-                            >
-                              {f?.name}
+                        <div className="flex text-sm flex-col">
+                          {d?.productId?.map((product, index) => (
+                            <div key={index}>
+                              {index < 2 ? product?.name : null}
                             </div>
                           ))}
+                          {d?.productId?.length > 2 && <span>And more...</span>}
                         </div>
 
                         <div className="text-[#667085] text-sm">
@@ -107,7 +113,7 @@ const Fetch = ({ data }) => {
               </div>
             </div>
           </div>
-        </div>
+        </div >
       )}
     </>
   );

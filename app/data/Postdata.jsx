@@ -18,7 +18,7 @@ const Postdata = ({ analyticsdata, state }) => {
           ).length === 0 ? (
           <NoPost />
         ) : (
-          <div className="overflow-y-scroll scrollbar-hide max-h-[300px] ">
+          <div className="overflow-y-scroll bg-white scrollbar-hide max-h-[300px] ">
             {analyticsdata?.postmerged
               ?.filter((w) => w?.community?.title === state.name)
               ?.map((d, i, arr) => (
@@ -58,7 +58,7 @@ const Postdata = ({ analyticsdata, state }) => {
                       <div className="bg-[#ecfdf3] p-1 px-2 flex justify-center items-center rounded-xl">
                         <div><BiUpArrowAlt className="text-[#12b76a]" /></div>
                         {/* <div><BiDownArrowAlt /></div> */}
-                        <div className="text-[#12b76a]">0%</div>
+                        <div className="text-[#12b76a]">{`${Math.round(parseInt(d?.engrate))}%`}</div>
                       </div>
 
                       <div className="hidden">-5</div>
@@ -224,8 +224,7 @@ const Postdata = ({ analyticsdata, state }) => {
                         {d?.sharescount}
                       </td>
                       <td className="text-sm leading-5 py-2 px-3 text-center">
-                        {/* {Math.round(parseInt(d?.engrate))} */}
-                        0
+                        {`${Math.round(parseInt(d?.engrate))}%`}
                       </td>
                     </tr>
                   ))}

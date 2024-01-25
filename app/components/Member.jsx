@@ -20,11 +20,11 @@ const Member = ({ state, data }) => {
         </div> */}
         <div className="flex justify-between items-center p-1 w-full">
           <div>Paid Members</div>
-          <div>{visitors}</div>
+          <div>{paidmember}</div>
         </div>
         <div className="flex justify-between items-center p-1 w-full">
           <div>Visitors</div>
-          <div>{paidmember}</div>
+          <div>{visitors}</div>
         </div>
       </div> :
         <MemorizedDontHave />

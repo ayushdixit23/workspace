@@ -1,7 +1,5 @@
-import Image from "next/image";
 import React from "react";
 import NoOrder from "../components/NoOrder";
-import Img from "../assets/image/Img.png";
 import { formatISOStringToDMY } from "../utils/Useful";
 import ChartsStore from "./ChartsStore";
 import Link from "next/link";
@@ -9,15 +7,14 @@ import Link from "next/link";
 const Storedata = ({ getorderdata, sales }) => {
 
   const salesData = sales && sales.map((d) => {
-    console.log(formatISOStringToDMY(d.X))
     return {
-      Y: Number(d.Y),
-      X: formatISOStringToDMY(d.X)
+      Sales: d.Sales,
+      Dates: formatISOStringToDMY(d.Dates)
     }
   })
 
   return (
-    <Link href={"/main/order"} className={`flex flex-col gap-4`}>
+    <div className={`flex flex-col gap-4`}>
       <div className="bg-white rounded-xl p-2 px-3">
         <div className="text-[#030229] font-semibold pt-3 px-2">
           Store Analytics
@@ -37,16 +34,16 @@ const Storedata = ({ getorderdata, sales }) => {
         </div>
       </div>
 
-      {getorderdata?.orders.length == 0 ? (
+      {getorderdata?.mergedOrder.length == 0 ? (
         <div className="bg-white rounded-xl h-[370px] sm:h-[400px]">
           <NoOrder />
         </div>
       ) : (
-        <div className="w-full rounded-xl bg-white sm:max-h-[600px] overflow-y-scroll overflow-hidden no-scrollbar min-h-[200px] ">
+        <Link href={"/main/order"} className="w-full rounded-xl bg-white sm:max-h-[600px] max-w-full overflow-y-scroll scrollbar-hide sm:min-h-[200px] ">
           <div className="text-lg font-semibold hidden sm:block p-2 sm:p-3 text-[#030229]">
             Recent Orders
           </div>
-          <div className="pn:max-sm:hidden sm:px-3">
+          <div className="pn:max-sm:hidden max-w-full min-w-[700px] overflow-scroll scrollbar-hide bg-white sm:px-3">
             <table className="w-full">
               <thead className="bg-[#FCFCFD]">
                 <tr>
@@ -60,7 +57,7 @@ const Storedata = ({ getorderdata, sales }) => {
                 </tr>
               </thead>
               <tbody>
-                {getorderdata?.orders?.map((d, iw) => (
+                {getorderdata?.mergedOrder?.map((d, iw) => (
                   <tr key={iw}>
                     <td className="py-2 px-4 text-[#667085] text-sm">
                       #{d?.orderId?.slice(0, 8)}
@@ -69,15 +66,18 @@ const Storedata = ({ getorderdata, sales }) => {
                       <div className="flex items-center gap-2">
                         <div>
                           <img
-                            src={getorderdata?.dp[iw]?.[0]}
+                            src={d?.image?.[0]}
                             alt="image"
                             className="max-w-[50px]"
                           />
                         </div>
-                        <div className="flex flex-col text-sm">
-                          {d?.productId?.map((e, y) => (
-                            <div key={y}>{e?.name}</div>
+                        <div className="flex text-sm flex-col">
+                          {d?.productId?.map((product, index) => (
+                            <div key={index}>
+                              {index < 2 ? product?.name : null}
+                            </div>
                           ))}
+                          {d?.productId?.length > 2 && <span>And more...</span>}
                         </div>
                       </div>
                     </td>
@@ -104,30 +104,28 @@ const Storedata = ({ getorderdata, sales }) => {
               </div>
 
               <div>
-                {getorderdata?.orders?.map((d, i) => (
+                {getorderdata?.mergedOrder?.map((d, i) => (
                   <div
                     key={i}
                     className="flex justify-between p-2 px-4 items-center"
                   >
                     <div className="flex justify-center items-center gap-2 pp:gap-4">
-                      {d?.productId?.map((f, ias) => (
-                        <div key={ias}>
-                          <Image
-                            src={Img}
-                            alt="image"
-                            className="max-w-[60px]"
-                          />
-                        </div>
-                      ))}
+                      <div>
+                        <img
+                          src={d?.image?.[0]}
+                          alt="image"
+                          className="min-w-[50px] max-w-[100px]"
+                        />
+                      </div>
                       <div className="flex flex-col">
-                        {d?.productId?.map((f, ia) => (
-                          <div
-                            key={ia}
-                            className="font-semibold text-sm pp:text-base"
-                          >
-                            {f?.name}
-                          </div>
-                        ))}
+                        <div className="flex text-sm flex-col">
+                          {d?.productId?.map((product, index) => (
+                            <div key={index}>
+                              {index < 2 ? product?.name : null}
+                            </div>
+                          ))}
+                          {d?.productId?.length > 2 && <span>And more...</span>}
+                        </div>
                         <div className="text-[#667085] text-sm">
                           #{d?.orderId?.slice(0, 8)}
                         </div>
@@ -144,9 +142,9 @@ const Storedata = ({ getorderdata, sales }) => {
               </div>
             </div>
           </div>
-        </div>
+        </Link>
       )}
-    </Link>
+    </div>
   );
 };
 

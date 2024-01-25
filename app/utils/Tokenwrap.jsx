@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import useTokenAndData from "../utils/tokens";
 import { useDispatch } from "react-redux";
 import { changelaoding, sendData } from "../redux/slice/userData";
@@ -51,10 +51,6 @@ const TokenDataWrapper = ({ children }) => {
     if (isValid) {
       dispatch(changelaoding({ loading: false }));
       dispatch(sendData(data))
-      const header = new Headers()
-      header.set("x-session-id", 10)
-
-      console.log(header.get("x-session-id"))
     }
   }, [isValid, data, dispatch]);
   return <>{children}</>;

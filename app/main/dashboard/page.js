@@ -43,11 +43,10 @@ function Dashboard() {
 		totalmembers: "",
 		visitors: "",
 		paidmember: "",
-		id: ""
-	});
-
-	console.log(analyticsdata)
-
+		location: "",
+		id: "",
+		age: ""
+	})
 	useEffect(() => {
 		if (
 			analyticsdata?.commerged[0]?.image &&
@@ -64,12 +63,18 @@ function Dashboard() {
 				totalmembers: analyticsdata?.commerged[0].totalmembers,
 				visitors: analyticsdata?.commerged[0].visitors,
 				paidmember: analyticsdata?.commerged[0].paidmember,
-				id: analyticsdata?.commerged[0].id
+				id: analyticsdata?.commerged[0].id,
+				location: analyticsdata?.commerged[0].location,
+				age: analyticsdata?.commerged[0].agerange
 			});
 			setLoading(false);
 		}
 		setLoading(false);
 	}, [analyticsdata]);
+
+	// console.log(
+	// 	analyticsdata
+	// )
 
 	if (isLoading || loading) {
 		return <Loader />;
@@ -171,10 +176,10 @@ function Dashboard() {
 									</div>
 								</div>
 								<div className={`${comchange == 2 ? null : "hidden"}`}>
-									<Demographics demo={analyticsdata?.demo} data={analyticsdata?.commerged?.length} />
+									<Demographics demo={analyticsdata?.demo} member={state.totalmembers} ages={state.age} data={analyticsdata?.commerged.length} />
 								</div>
 								<div className={`${comchange == 3 ? null : "hidden"}`}>
-									<LocationCom data={analyticsdata?.commerged?.length} />
+									<LocationCom data={analyticsdata?.commerged?.length} state={state} />
 								</div>
 
 							</div>
@@ -266,12 +271,12 @@ function Dashboard() {
 									Location
 								</div>
 							</div>
-							<div className="max-h-[300px] overflow-y-scroll rounded-xl bg-white scrollbar-hide">
+							<div className="sm:max-h-[300px] overflow-y-scroll rounded-xl bg-white scrollbar-hide">
 								{/* <div className="sm:max-h-[400px] min-w-full overflow-scroll no-scrollbar bg-white rounded-xl"> */}
 								{prochange == 0 && <DontHave />}
 								{prochange == 1 && <Products data={analyticsdata?.promerged} />}
-								{prochange == 2 && <Customer />}
-								{prochange == 3 && <LocationStore />}
+								{prochange == 2 && <Customer data={analyticsdata?.pieChart} />}
+								{prochange == 3 && <LocationStore data={analyticsdata?.storeLocation} />}
 							</div>
 						</div>
 					</div>
