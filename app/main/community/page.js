@@ -35,6 +35,8 @@ function page() {
     }
   };
 
+  console.log(comdata)
+
   if (isLoading) {
     return <div>
       <div className="overflow-auto pt-1 scrollbar-hide h-full ">

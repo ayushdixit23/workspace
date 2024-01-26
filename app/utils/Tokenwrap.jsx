@@ -4,7 +4,6 @@ import useTokenAndData from "../utils/tokens";
 import { useDispatch } from "react-redux";
 import { changelaoding, sendData } from "../redux/slice/userData";
 import Cookies from "js-cookie";
-import { getData } from "./Useful";
 
 export const storeInSessionStorage = (sessionId) => {
   try {
@@ -28,13 +27,11 @@ export const getItemSessionStorage = () => {
 const TokenDataWrapper = ({ children }) => {
   const { isValid, data } = useTokenAndData();
   const dispatch = useDispatch();
-  const { id } = getData()
 
   useEffect(() => {
     if (isValid) {
       dispatch(changelaoding({ loading: false }));
       dispatch(sendData(data))
-      console.log("runnded")
     }
   }, [isValid, data, dispatch]);
   return <>{children}</>;

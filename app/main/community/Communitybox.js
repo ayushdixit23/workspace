@@ -78,7 +78,7 @@ function Communitybox({ data, id, index, handleDelete }) {
 
           <div className="flex justify-around pn:max-sm:hidden items-center w-36 sm:max-md:w-28">
             <div className="flex text-center justify-center items-center">
-              3%
+              {data?.avgeng}%
             </div>
             <div className="flex text-center cursor-pointer relative justify-around items-center">
               <BsThreeDotsVertical onClick={() => setOpen(!open)} />
@@ -157,8 +157,8 @@ function Communitybox({ data, id, index, handleDelete }) {
                 Engagement Rate
               </div>
               <div className="flex justify-between w-[100%] items-center">
-                <div className={`text-[20px]`}>0</div>
-                {/* <div>+00.0%</div> */}
+                <div className={`text-[20px]`}>{data?.avgeng}%</div>
+
               </div>
             </div>
           </div>

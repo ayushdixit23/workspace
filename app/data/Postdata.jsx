@@ -16,7 +16,7 @@ const Postdata = ({ analyticsdata, state }) => {
           analyticsdata?.postmerged.filter(
             (d) => d?.community?.title === state.name
           ).length === 0 ? (
-          <NoPost />
+          <NoPost id={encryptaes(state.id)} setOpen={false} />
         ) : (
           <div className="overflow-y-scroll bg-white scrollbar-hide max-h-[300px] ">
             {analyticsdata?.postmerged
@@ -160,7 +160,7 @@ const Postdata = ({ analyticsdata, state }) => {
           analyticsdata?.postmerged.filter(
             (d) => d?.community?.title === state.name
           ).length === 0 ? (
-          <NoPost />
+          <NoPost id={encryptaes(state.id)} setOpen={false} />
         ) : (
           <div className="max-h-[300px] overflow-y-scroll no-scrollbar bg-white rounded-xl sm:p-2  w-full">
             <table className="w-full sm:max-lg:min-w-[750px] rounded-xl border-collapse">

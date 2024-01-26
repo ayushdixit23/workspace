@@ -1,6 +1,22 @@
+"use client"
+import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 
-const NoPost = () => {
+const NoPost = ({ setOpen, id }) => {
+  const path = usePathname()
+  const router = useRouter()
+  const handleChange = () => {
+    try {
+      if (path.startsWith("/main/post")) {
+        setOpen(true)
+      } else {
+        router.push(`/main/post/${id}`)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <>
       <div className="bg-white rounded-xl my-4 h-[300px]">
@@ -11,7 +27,7 @@ const NoPost = () => {
           <div className="pn:max-sm:text-center">
             Sharing about a life update is not a bad idea.
           </div>
-          <div className="bg-[#1554F6] text-white p-2 px-4 rounded-lg text-sm">
+          <div onClick={handleChange} className="bg-[#1554F6] text-white p-2 px-4 rounded-lg text-sm">
             + Start Post
           </div>
         </div>

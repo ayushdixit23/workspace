@@ -7,7 +7,6 @@ export default async function middleware(request) {
 	if (request.middlewareHasRun) {
 		return NextResponse.next();
 	}
-
 	const cookieHeader = request.headers.get('cookie') || '';
 	const cookies = parse(cookieHeader);
 
@@ -43,9 +42,7 @@ export default async function middleware(request) {
 			return NextResponse.redirect(new URL('/main/dashboard', request.nextUrl));
 		}
 	}
-
 	request.middlewareHasRun = true;
-
 	return NextResponse.next();
 }
 

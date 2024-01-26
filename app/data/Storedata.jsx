@@ -30,7 +30,7 @@ const Storedata = ({ getorderdata, sales }) => {
           </div>
         </div> */}
         <div className="w-full">
-          <ChartsStore data={salesData} />
+          {salesData.length > 0 ? < ChartsStore data={salesData} /> : <div className="h-[200px] w-full flex text-2xl font-semibold justify-center items-center">No Data To Show</div>}
         </div>
       </div>
 
