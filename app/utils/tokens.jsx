@@ -87,8 +87,9 @@ const useTokenAndData = () => {
             await refresh()
           } else {
             setIsValid(false);
-
+            Cookies.remove(`excktn${sessionId}`);
             Cookies.remove(`frhktn${sessionId}`);
+            Cookies.remove(`sessionId_${sessionId}`)
           }
         }
       } catch (e) {
