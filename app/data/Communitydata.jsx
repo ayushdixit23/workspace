@@ -110,8 +110,8 @@ const Communitydata = ({ state, analyticsdata, setState, open, setOpen }) => {
         <div className="w-full p-2 h-full z-0">
 
 
-          {communityData && communityData?.length > 0 &&
-            <Charts data={communityData} />
+          {communityData && communityData?.length > 0 ?
+            <Charts data={communityData} /> : <div className="h-[200px] w-full flex text-2xl font-semibold justify-center items-center">No Data To Show</div>
           }
         </div>
       </div>

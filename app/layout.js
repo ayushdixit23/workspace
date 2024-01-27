@@ -25,6 +25,7 @@ export default function RootLayout({ children }) {
         <Providers>
           <TokenDataWrapper>{children}</TokenDataWrapper>
         </Providers>
+        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
       </body>
     </html>
   );

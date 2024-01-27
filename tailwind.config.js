@@ -19,6 +19,9 @@ module.exports = {
       boxShadow: {
         'def': '0px 1.566px 4.698px 0px rgba(13, 10, 44, 0.08)',
         'new': '0px 0px 0px 4px rgba(112, 144, 176, 0.08)'
+      },
+      zIndex: {
+        '200': '200',
       }
     },
 

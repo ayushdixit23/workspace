@@ -101,7 +101,7 @@ const CreatePost = ({ id, comid, open, setOpen, refetch }) => {
 										</div>
 									))}
 								</div>
-								<div>{post.image.length}/4 images uploaded</div>
+								<div>{post.image.length}/4 files uploaded</div>
 							</>
 						}
 

@@ -1,189 +1,211 @@
 "use client"
 import { useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
-const pricingData = [
-	{
-		mainTitle: "",
-		price: "",
-		infoNote: "",
-		"Product Listings": "Product Listings",
-		"Platform  Fees": "Platform  Fees",
-		"Create Collections": "Create Collections",
-		"Product Review Time": "Product Review Time",
-		"Create Community": "Create Community",
-		"Analytics and Reports": "Analytics and Reports",
-		"Export Reports": "Export Reports",
-		"Discounts and Promotions": "Discounts and Promotions",
-		titleRow1: "Store",
-		"Create Topics (free/paid)": "Create Topics (free/paid)",
-		"Analytics and reports for Community": "Analytics and reports",
-		"Platform Fees (only for paid topics)": "Platform Fees (only for paid topics)",
-		titleRow5: "Community",
-		"Members Recognition": "Members Recognition",
-		titleRow9: "Deliveries",
-		Deliveries: "Deliveries",
-		"Delivery Options": "Delivery Options",
-		"Shipping Discounts": "Shipping Discounts",
-		"Animated intro": "Animated intro",
-		"Express Delivery": "Express Delivery",
-		titleRow13: "Prosite",
-		"Responsive Templates": "Responsive Templates",
-		"Quick Suggestion": "Quick Suggestion",
-		titleRow17: "AI Support",
-		"Thumbnail Generator": "Thumbnail Generator",
-		"Description generator": "Description generator",
-		"Keyword Suggestions": "Keyword Suggestions",
-		"Contact Support": "Contact Support"
-	},
-	{
-		mainTitle: "Basic",
-		popular: true,
-		price: {
-			month: "$0",
-			year: "$0",
-		},
-		infoNote: "Basic features for up to 10 employees with everything you need.",
-		"Product Listings": "Up-to 5 Products",
-		"Analytics and Reports": "Basic analytics",
-		"Platform  Fees": "10% per transaction",
-		"Create Collections": "1",
-		"Product Review Time": "6 Hrs",
+import { getData } from "../utils/Useful";
+import axios from "axios";
+import Razorpay from "razorpay";
 
-		"Create Topics (free/paid)": "2",
-		"Discounts and Promotions": "Not available",
-		"Platform Fees (only for paid topics)": "10% per transaction",
-		"Create Community": "2",
-		"Analytics and reports for Community": <div className="flex flex-col justify-center items-center w-full h-full text-sm">
-			<div>Basic analytics</div>
-			<div>Popularity</div>
-			<div>Custom</div>
-			<div>Custom</div>
-		</div>,
-		"Export Reports": true,
-		"Members Recognition": "Not available",
-		Deliveries: "Free 10 Devilries for free ",
-		"Delivery Options": "Basic Delivery option",
-		"Shipping Discounts": "Not available",
-		"Express Delivery": "Not available",
-		"Responsive Templates": "Limited selection of templates",
-		"Animated intro": "Not available",
-		"Quick Suggestion": "Limited selection of templates",
-		"Thumbnail Generator": "Not available",
-		"Description generator": "Not available",
-		"Keyword Suggestions": "Not available",
-		"Contact Support": "Basic Support"
-	},
-	{
-		mainTitle: "Professional",
-		price: {
-			month: "$108",
-			year: "$1296",
-		},
-		infoNote:
-			"Advanced features and reporting better workflows and automation.",
-		"Product Listings": "10 products / collection",
-		"Platform  Fees": "1% per transaaction",
-		"Create Collections": "5",
-		"Create Topics (free/paid)": "5",
-		"Product Review Time": "1 hrs ",
-		"Discounts and Promotions": "Create and manage discounts and promotions",
-		"Create Community": "5",
-		"Analytics and Reports": "Advanced analytics",
-		"Platform Fees (only for paid topics)": "1% per transaction",
-		"Analytics and reports for Community": <div className="flex flex-col justify-center items-center w-full h-full text-sm">
-			<div>Advanced analytics</div>
-			<div>Custom</div>
-			<div>Custom</div>
-			<div>Custom</div>
-		</div>,
-		"Export Reports": true,
-		"Members Recognition": "Recognition and badges for premium members",
-		Deliveries: "1000 deliveries",
-		"Delivery Options": "Expanded delivery options",
-		"Shipping Discounts": "Exclusive shipping discounts",
-		"Animated intro": "Access to premium intro",
-		"Express Delivery": "Priority and express delivery options",
-		"Responsive Templates": "Access to premium responsive templates",
-		"Quick Suggestion": "Access to premium responsive templates",
-		"Thumbnail Generator": <FaCheckCircle />,
-		"Description generator": <FaCheckCircle />,
-		"Keyword Suggestions": <FaCheckCircle />,
-		"Contact Support": "24 hrs Contact Support"
-	},
-	{
-		mainTitle: "Custom",
-		// price: {
-		// 	month: "$4",
-		// 	year: "$40",
-		// },
-		infoNote: "Personalised service and enterprise security for large teams.",
-		"Create Topics (free/paid)": "custom",
-		"Product Listings": "Custom",
-		"Platform  Fees": "1% per transaaction",
-		"Create Collections": "Custom",
-		"Discounts and Promotions": "Custom",
-		"Product Review Time": "Custom",
-		"Analytics and Reports": "Custom",
-		"Platform Fees (only for paid topics)": "Custom",
-		"Analytics and reports for Community": "Custom",
-		"Create Community": "custom",
-		"Export Reports": true,
-		"Members Recognition": "Custom",
-		Deliveries: "Custom",
-		"Delivery Options": "Custom",
-		"Shipping Discounts": "Custom",
-		"Express Delivery": "Custom",
-		"Responsive Templates": "Custom",
-		"Animated intro": "Custom",
-		"Quick Suggestion": "Custom",
-		"Thumbnail Generator": "Custom",
-		"Description generator": "Custom",
-		"Keyword Suggestions": "Custom",
-		"Contact Support": "Custom"
-	},
-];
-const LineIcon = ({ bgcolor }) => {
-	return (
-		<svg
-			className="w-5 h-5 mt-1 fill-current"
-			width="12"
-			height="1"
-			viewBox="0 0 12 1"
-			fill="none"
-			xmlns="http://www.w3.org/2000/svg"
-		>
-			<path
-				fillRule="evenodd"
-				clipRule="evenodd"
-				d="M0 0.5C0 0.367392 0.0526785 0.240215 0.146447 0.146447C0.240215 0.0526785 0.367392 0 0.5 0H11.5C11.6326 0 11.7598 0.0526785 11.8536 0.146447C11.9473 0.240215 12 0.367392 12 0.5C12 0.632608 11.9473 0.759786 11.8536 0.853554C11.7598 0.947322 11.6326 1 11.5 1H0.5C0.367392 1 0.240215 0.947322 0.146447 0.853554C0.0526785 0.759786 0 0.632608 0 0.5Z"
-				fill={bgcolor}
-			/>
-		</svg>
-	);
-};
-const RightIcon = ({ bgcolor }) => {
-	return (
-		<svg
-			className="w-5 h-5 mt-1"
-			width="56"
-			height="56"
-			viewBox="0 0 56 56"
-			fill="none"
-			xmlns="http://www.w3.org/2000/svg"
-		>
-			<path
-				d="M15.8267 26.817L24.3485 36.3763L42.6482 18.1795"
-				stroke={bgcolor}
-				strokeWidth="4"
-				strokeLinecap="round"
-				strokeLinejoin="round"
-			/>
-			<circle cx="28" cy="28" r="26" stroke={bgcolor} strokeWidth="4" />
-		</svg>
-	);
-};
 const Sample5 = () => {
 	const [monthprice, setMonthPrice] = useState(true);
+	const { id, fullname } = getData()
+
+	const pricingData = [
+		{
+			mainTitle: "",
+			price: "",
+			infoNote: "",
+			"Product Listings": "Product Listings",
+			"Platform  Fees": "Platform  Fees",
+			"Create Collections": "Create Collections",
+			"Product Review Time": "Product Review Time",
+			"Create Community": "Create Community",
+			"Analytics and Reports": "Analytics and Reports",
+			"Export Reports": "Export Reports",
+			"Discounts and Promotions": "Discounts and Promotions",
+			titleRow1: "Store",
+			"Create Topics (free/paid)": "Create Topics (free/paid)",
+			"Analytics and reports for Community": "Analytics and reports",
+			"Platform Fees (only for paid topics)": "Platform Fees (only for paid topics)",
+			titleRow5: "Community",
+			"Members Recognition": "Members Recognition",
+			titleRow9: "Deliveries",
+			Deliveries: "Deliveries",
+			"Delivery Options": "Delivery Options",
+			"Shipping Discounts": "Shipping Discounts",
+			"Animated intro": "Animated intro",
+			"Express Delivery": "Express Delivery",
+			titleRow13: "Prosite",
+			"Responsive Templates": "Responsive Templates",
+			"Quick Suggestion": "Quick Suggestion",
+			titleRow17: "AI Support",
+			"Thumbnail Generator": "Thumbnail Generator",
+			"Description generator": "Description generator",
+			"Keyword Suggestions": "Keyword Suggestions",
+			"Contact Support": "Contact Support"
+		},
+		{
+			mainTitle: "Basic",
+			popular: true,
+			price: {
+				month: "$0",
+				year: "$0",
+			},
+			infoNote: "Basic features for up to 10 employees with everything you need.",
+			"Product Listings": "Up-to 5 Products",
+			"Analytics and Reports": "Basic analytics",
+			"Platform  Fees": "10% per transaction",
+			"Create Collections": "1",
+			"Product Review Time": "6 Hrs",
+
+			"Create Topics (free/paid)": "2",
+			"Discounts and Promotions": "Not available",
+			"Platform Fees (only for paid topics)": "10% per transaction",
+			"Create Community": "2",
+			"Analytics and reports for Community": <div className="flex flex-col justify-center items-center w-full h-full text-sm">
+				<div>Basic analytics</div>
+				<div>Popularity</div>
+				<div>Custom</div>
+				<div>Custom</div>
+			</div>,
+			"Export Reports": true,
+			"Members Recognition": "Not available",
+			Deliveries: "Free 10 Devilries for free ",
+			"Delivery Options": "Basic Delivery option",
+			"Shipping Discounts": "Not available",
+			"Express Delivery": "Not available",
+			"Responsive Templates": "Limited selection of templates",
+			"Animated intro": "Not available",
+			"Quick Suggestion": "Limited selection of templates",
+			"Thumbnail Generator": "Not available",
+			"Description generator": "Not available",
+			"Keyword Suggestions": "Not available",
+			"Contact Support": "Basic Support"
+		},
+		{
+			mainTitle: "Professional",
+			price: {
+				month: "$108",
+				year: "$1296",
+			},
+			infoNote:
+				"Advanced features and reporting better workflows and automation.",
+			"Product Listings": "10 products / collection",
+			"Platform  Fees": "1% per transaaction",
+			"Create Collections": "5",
+			"Create Topics (free/paid)": "5",
+			"Product Review Time": "1 hrs ",
+			"Discounts and Promotions": "Create and manage discounts and promotions",
+			"Create Community": "5",
+			"Analytics and Reports": "Advanced analytics",
+			"Platform Fees (only for paid topics)": "1% per transaction",
+			"Analytics and reports for Community": <div className="flex flex-col justify-center items-center w-full h-full text-sm">
+				<div>Advanced analytics</div>
+				<div>Custom</div>
+				<div>Custom</div>
+				<div>Custom</div>
+			</div>,
+			"Export Reports": true,
+			"Members Recognition": "Recognition and badges for premium members",
+			Deliveries: "1000 deliveries",
+			"Delivery Options": "Expanded delivery options",
+			"Shipping Discounts": "Exclusive shipping discounts",
+			"Animated intro": "Access to premium intro",
+			"Express Delivery": "Priority and express delivery options",
+			"Responsive Templates": "Access to premium responsive templates",
+			"Quick Suggestion": "Access to premium responsive templates",
+			"Thumbnail Generator": <FaCheckCircle />,
+			"Description generator": <FaCheckCircle />,
+			"Keyword Suggestions": <FaCheckCircle />,
+			"Contact Support": "24 hrs Contact Support"
+		},
+		{
+			mainTitle: "Custom",
+			// price: {
+			// 	month: "$4",
+			// 	year: "$40",
+			// },
+			infoNote: "Personalised service and enterprise security for large teams.",
+			"Create Topics (free/paid)": "custom",
+			"Product Listings": "Custom",
+			"Platform  Fees": "1% per transaaction",
+			"Create Collections": "Custom",
+			"Discounts and Promotions": "Custom",
+			"Product Review Time": "Custom",
+			"Analytics and Reports": "Custom",
+			"Platform Fees (only for paid topics)": "Custom",
+			"Analytics and reports for Community": "Custom",
+			"Create Community": "custom",
+			"Export Reports": true,
+			"Members Recognition": "Custom",
+			Deliveries: "Custom",
+			"Delivery Options": "Custom",
+			"Shipping Discounts": "Custom",
+			"Express Delivery": "Custom",
+			"Responsive Templates": "Custom",
+			"Animated intro": "Custom",
+			"Quick Suggestion": "Custom",
+			"Thumbnail Generator": "Custom",
+			"Description generator": "Custom",
+			"Keyword Suggestions": "Custom",
+			"Contact Support": "Custom"
+		},
+	];
+
+	const buyMembership = async (data) => {
+		console.log(data)
+		try {
+			const res = await axios.post(`http://localhost:7200/api/v1/membershipbuy/${id}/65671ded04b7d0d07ef0e794`)
+			if (res.data.success) {
+				let options = {
+					"key_id": "rzp_live_Ms5I8V8VffSpYq", // Enter the Key ID generated from the Dashboard
+					"amount": monthprice ? data.price.month * 100 : data.price.year * 100,
+					"currency": "INR",
+					"name": `${fullname}`,
+					"description": `Buying Membership of ${data.mainTitle}`,
+					// "image": "https://example.com/your_logo",
+					"order_id": res?.data?.oid, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+					"handler": async function (response) {
+						const finalres = await axios.post(`http://localhost:7200/api/v1/memfinalize/${id}/${res.data?.order}`,
+							{
+								razorpay_order_id: response?.razorpay_order_id,
+								razorpay_payment_id: response?.razorpay_payment_id,
+								razorpay_signature: response?.razorpay_signature,
+								status: true,
+							},
+						);
+						console.log(finalres)
+					},
+					prefill: {
+						email: res?.data?.email || '',
+						contact: res?.data?.phone || '',
+						name: fullname,
+					},
+
+					"theme": {
+						"color": "#3399cc"
+					}
+				};
+
+				let rpay = new Razorpay(options);
+
+				// rpay.on('payment.failed', async function (response) {
+				// 	const finalres = await axios.post(`http://localhost:7200/api/v1/memfinalize/${id}/${res.data?.order}`,
+				// 		{
+				// 			razorpay_order_id: response?.razorpay_order_id,
+				// 			razorpay_payment_id: response?.razorpay_payment_id,
+				// 			razorpay_signature: response?.razorpay_signature,
+				// 			status: false,
+				// 		},
+				// 	);
+				// 	console.log(finalres)
+				// })
+
+				// rpay.open();
+			}
+		} catch (error) {
+			console.log(error)
+		}
+	}
 
 	return (
 		<div className="bg-gray-300 min-h-[100vh] scrollbar-hide flex items-center justify-center">
@@ -268,6 +290,7 @@ const Sample5 = () => {
 									) : (
 										<td>
 											<button
+												onClick={() => buyMembership(data)}
 												className="w-full bg-[#365CCE] text-white rounded-lg py-3 font-semibold"
 											>
 												Get Started

@@ -19,6 +19,7 @@ import Storedata from "@/app/data/Storedata";
 import { useGetAnalyticsQuery } from "@/app/redux/apiroutes/community";
 import { useGetFetchOrderQuery } from "@/app/redux/apiroutes/userLoginAndSetting";
 import { getData } from "@/app/utils/Useful";
+import Link from "next/link";
 
 function Dashboard() {
 	const [change, setChange] = useState("community");
@@ -51,8 +52,7 @@ function Dashboard() {
 		if (
 			analyticsdata?.commerged[0]?.image &&
 			analyticsdata?.commerged[0]?.name &&
-			analyticsdata?.commerged[0]?.popularity &&
-			analyticsdata?.commerged[0]?.stats
+			analyticsdata?.commerged[0].id
 		) {
 			setLoading(true);
 			setState({
@@ -72,10 +72,13 @@ function Dashboard() {
 		setLoading(false);
 	}, [analyticsdata]);
 
-	// console.log(
-	// 	analyticsdata
-	// )
+	console.log(
+		analyticsdata
+	)
 
+	console.log(analyticsdata?.commerged)
+
+	console.log(state.dp, state.name)
 	if (isLoading || loading) {
 		return <Loader />;
 	}
@@ -121,9 +124,9 @@ function Dashboard() {
 										<div className="text-center">
 											Start connecting with new people and enjoy the Grovyo!
 										</div>
-										<div className="bg-[#1554F6] text-white p-2 px-6 rounded-xl">
+										<Link href={"/main/community/createCommunity"} className="bg-[#1554F6] text-white p-2 px-6 rounded-xl">
 											Create Community
-										</div>
+										</Link>
 									</div>
 								</div>
 							) : (
