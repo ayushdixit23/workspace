@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import Sign from "../login/number/page";
 import w1 from "../assets/image/w1.png"
 import w2 from "../assets/image/w2.png"
 import w3 from "../assets/image/w3.png"
