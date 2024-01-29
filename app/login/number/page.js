@@ -5,6 +5,7 @@ import { auth } from "../../../firebase.config";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { CgSpinner } from "react-icons/cg";
+import OtpInput from "otp-input-react";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { changelaoding } from "@/app/redux/slice/userData";
@@ -15,21 +16,17 @@ import { RiLoader4Line } from "react-icons/ri";
 import { database } from "@/firebase.config";
 import { useLoginWithQrMutation } from "@/app/redux/apiroutes/userLoginAndSetting";
 import useTokenAndData from "@/app/utils/tokens";
-import 'react-phone-input-2/lib/style.css'
 import toast, { Toaster } from "react-hot-toast";
 import { storeInSessionStorage } from "@/app/utils/Tokenwrap";
 
 function page() {
-  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
-  const otpInputRefs = Array.from({ length: 6 }, () => React.createRef());
-  const otpElementRef = useRef(null);
+  const [otp, setOtp] = useState("")
   const router = useRouter();
   const [number, setNumber] = useState("");
-  const [OTP, setOTP] = useState();
   const [loading, setLoading] = useState(false);
   const [loadingqr, setLoadingqr] = useState(false)
   const [showOTP, setShowOTP] = useState(false);
-  const [seconds, setSeconds] = useState(30);
+  const [seconds, setSeconds] = useState(30)
   const [isActive, setIsActive] = useState(true);
   const [come, setCome] = useState(0);
   const [change, setChange] = useState(1);
@@ -37,37 +34,16 @@ function page() {
   const [login] = useLoginMutation();
   const { generateData } = useTokenAndData()
 
-  const handleInputChange = (event, index) => {
-    const { value } = event.target;
-    setOtp((prevOTP) => {
-      const newOTP = [...prevOTP];
-      newOTP[index] = value;
-      return newOTP;
-    });
-
-    if (value === "" && index > 0) {
-      otpInputRefs[index - 1].current.focus();
-    } else if (value !== "" && index < 5) {
-      otpInputRefs[index + 1].current.focus();
+  const handleOtpChange = (otp) => {
+    try {
+      setOtp(otp)
+    } catch (error) {
+      toast.error("Something Went Wrong!")
+      console.log(error)
     }
-  };
+  }
 
-
-  useEffect(() => {
-    const finalOTP = otp.join("");
-    setOTP(finalOTP);
-    const otpElement = otpElementRef.current;
-
-    if (otpElement) {
-      otpElement.innerText = finalOTP;
-
-      if (finalOTP.length === 6) {
-        otpElement.classList.replace("_notok", "_ok");
-      } else {
-        otpElement.classList.replace("_ok", "_notok");
-      }
-    }
-  }, [otp]);
+  console.log(otp)
 
   useEffect(() => {
     let interval;
@@ -176,7 +152,7 @@ function page() {
   function onOTPVerify() {
     setLoading(true);
     window.confirmationResult
-      .confirm(OTP)
+      .confirm(otp)
       .then(async (res) => {
         setLoading(false);
         fetchid();
@@ -369,48 +345,24 @@ function page() {
           </div>
 
           <>
-            <div className="mx-auto max-w-md w-full  flex justify-center gap-2 p-10">
-              {otp.map((value, inde) => (
-                <div key={inde}>
-                  <input
-                    key={`otp - field - ${inde}`}
-                    onKeyPress={(e) => {
-                      if (e.key === "Enter") {
-                        onOTPVerify();
-                      }
-                    }}
-                    className="otp__digit otp__field md:hidden outline-slate-200 bg-slate-100 h-[50px] w-[50px] rounded-2xl flex justify-center items-center text-center text-[#3e3e3e]"
-                    value={value}
-                    onChange={(event) => handleInputChange(event, inde)}
-                    ref={otpInputRefs[inde]}
-                    maxLength="1"
-                    type="number"
-                  />
-                  <input
-                    key={`otp - field - ${inde + 1} `}
-                    onKeyPress={(e) => {
-                      if (e.key === "Enter") {
-                        onOTPVerify();
-                      }
-                    }}
-                    className="otp__digit otp__field pn:max-md:hidden outline-slate-200 bg-slate-100 h-[50px] w-[50px] rounded-2xl flex justify-center items-center text-center text-[#3e3e3e]"
-                    value={value}
-                    onChange={(event) => handleInputChange(event, inde)}
-                    ref={otpInputRefs[inde]}
-                    maxLength="1"
-                  />
-                </div>
-              ))}
-            </div>
+            <OtpInput
+              value={otp}
+              onChange={handleOtpChange}
+              OTPLength={6}
+              otpType="number"
+              disabled={false}
+              autoFocus
+              className="opt-container"
+            ></OtpInput>
           </>
-          <div className="text-black font-semibold flex text-[15px] pt-8">
+          <div className="text-black font-semibold flex text-[15px] pt-6">
             <div className="text-center">
               {come === 1 ? (
                 <div className="space-x-4 flex ">
                   <div className="text-[#3e3e3e]">
                     Don't receive code ?{" "}
                     <button
-                      className={` text - blue - 600 rounded ${isActive ? "" : ""
+                      className={` text-blue-600 rounded ${isActive ? "" : ""
                         } `}
                       onClick={toggleTimer}
                     >
@@ -496,8 +448,6 @@ function page() {
                 Email
               </div>
             </div>
-
-
           </div>
 
           {/* phone */}
@@ -509,20 +459,6 @@ function page() {
           >
             <div className="text-sm pb-3 px-1 font-semibold text-[#424856]">Enter Your Phone Number</div>
             <div className="bg-[#f7f7f7] flex items-center border w-[300px] justify-center rounded-2xl">
-
-              {/* <PhoneInput
-                onKeyPress={(e) => {
-                  if (e.key === "Enter") {
-                    onSignup();
-                  }
-                }}
-                country={'in'}
-                value={number}
-                onChange={(value, data, event) => setNumber(value)}
-                placeholder="Phone no."
-
-                inputProps={{ required: true }}
-              /> */}
               <div className="border-r-2 sm:-ml-3 p-1 sm:pr-2 "> +91</div>
               <input value={number} onChange={(e) => setNumber(e.target.value)} type="tel"
                 className=" p-2 outline-none rounded-xl bg-[#f7f7f7]" />

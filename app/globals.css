@@ -12,3 +12,25 @@
     scrollbar-width: none;
   }
 }
+.opt-container {
+  @apply flex justify-center items-center; /* Center items horizontally and space between them */
+}
+
+.opt-container input {
+  @apply h-12 py-3 outline-none border-2 rounded-md text-center text-lg focus:ring focus:border-blue-500 transition-all duration-300 ease-in-out;
+
+  /* Additional styling for better appearance */
+  background-color: #f4f4f4;
+  color: #333;
+  font-weight: bold;
+}
+
+/* Style for the input when it's disabled */
+.opt-container input:disabled {
+  @apply opacity-60 cursor-not-allowed;
+}
+
+/* Optional: Style for the input when it's focused */
+.opt-container input:focus {
+  @apply ring-2 ring-blue-500;
+}

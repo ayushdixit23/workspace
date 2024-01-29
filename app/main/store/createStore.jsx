@@ -24,7 +24,7 @@ const CreateStore = ({
   };
 
   const send = async (e) => {
-    if (!store.d1 || !store.d2 || !store.d3 || !store.d4 || !store.d5 || !store.d6 || !store.d7 || !store.d9 || !store.d8) {
+    if (!store.d1 || !store.d2 || !store.d3 || !store.d4 || !store.d5 || !store.d7 || !store.d9 || !store.d8) {
       toast.error("Please Enter All Details")
       return
     }
@@ -104,7 +104,7 @@ const CreateStore = ({
                 <div className="flex flex-col gap-1 w-full">
                   <div className="text-sm font-medium">Postal Code</div>
                   <input
-                    type="text"
+                    type="number"
                     className="border-2 bg-[#FAFAFA] outline-none p-1 rounded-lg"
                     value={store.d4}
                     onChange={(e) => setStore({ ...store, d4: e.target.value })}
@@ -143,7 +143,7 @@ const CreateStore = ({
                   Enter PAN or Aadhaar Number
                 </div>
                 <input
-                  type="text"
+                  type="number"
                   className="border-2 bg-[#FAFAFA] outline-none p-1 rounded-lg"
                   value={store.d8}
                   onChange={(e) => setStore({ ...store, d8: e.target.value })}
