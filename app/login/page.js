@@ -1,9 +1,10 @@
 import React from 'react'
-import Number from './number/page'
+import dynamic from 'next/dynamic'
+const Number = dynamic(() => import('./number/page'), { ssr: false })
 
 function page() {
   return (
-    <div><Number/></div>
+    <div><Number /></div>
   )
 }
 

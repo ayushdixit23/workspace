@@ -19,6 +19,7 @@ import useTokenAndData from "@/app/utils/tokens";
 import toast, { Toaster } from "react-hot-toast";
 import { storeInSessionStorage } from "@/app/utils/Tokenwrap";
 
+
 function page() {
   const [otp, setOtp] = useState("")
   const router = useRouter();
@@ -75,7 +76,6 @@ function page() {
   const waitkrnevalafunc = async (data) => {
     try {
       storeInSessionStorage(data.sessionId)
-
       Cookies.set(`excktn${data.sessionId}`, data.access_token);
       Cookies.set(`frhktn${data.sessionId}`, data.refresh_token);
       toast.success("success");
@@ -162,89 +162,6 @@ function page() {
         setLoading(false);
       });
   }
-  // const handleCreate = async () => {
-  //   setLoad(true);
-
-  //   const isValidEmail = email;
-
-  //   try {
-  //     if (!email.trim() || !pass.trim()) {
-  //       setToast({
-  //         appear: true,
-  //         text: "Please Enter the Email and Password",
-  //         success: false,
-  //       });
-  //       setTimeout(() => {
-  //         setToast({ appear: false });
-  //       }, 1500);
-  //     } else {
-  //       if (pass.length < 8) {
-  //         setToast({
-  //           appear: true,
-  //           text: "Please Enter More then 8 Characters in Password",
-  //           success: false,
-  //         });
-  //         setTimeout(() => {
-  //           setToast({ appear: false });
-  //         }, 1500);
-  //       } else {
-  //         if (isValidEmail) {
-  //           const res = await axios.post(`${API}/v1/checkacc`, {
-  //             email,
-  //             password: pass,
-  //             loc,
-  //             device,
-  //             contacts: contactList,
-  //             type: "login",
-  //             time: `${Date.now()}`,
-  //             token,
-  //           });
-  //           if (res.data.success) {
-  //             if (res.data.userexists) {
-  //               await sessionStorage.setItem("id", res.data.user._id);
-  //               await sessionStorage.setItem("pic", res.data.pic);
-  //               await sessionStorage.setItem(
-  //                 "fullname",
-  //                 res.data.user.fullname
-  //               );
-  //               await sessionStorage.setItem(
-  //                 "username",
-  //                 res.data.user.username
-  //               );
-  //               router.push("../main/dashboard");
-  //               toast.success("Successfully!");
-  //             } else {
-  //               toast.apply("Seems like you don't have an account in the app.");
-  //               router.push("../login/singUp");
-  //             }
-  //           } else {
-  //             setToast({
-  //               appear: true,
-  //               text: "Something went wrong",
-  //               success: false,
-  //             });
-  //             setTimeout(() => {
-  //               setToast({ appear: false });
-  //             }, 2000);
-  //           }
-  //         } else {
-  //           setToast({
-  //             appear: true,
-  //             text: "Please Enter correct email",
-  //             success: false,
-  //           });
-  //           setTimeout(() => {
-  //             setToast({ appear: false });
-  //           }, 1500);
-  //         }
-  //       }
-  //     }
-  //   } catch (e) {
-  //     console.log(e);
-  //     setLoad(false);
-  //   }
-  //   setLoad(false);
-  // };
 
   const [qrCodeValue, setQRCodeValue] = useState("");
   const newRandomString = generateRandomString(17);
