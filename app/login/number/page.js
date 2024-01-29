@@ -5,7 +5,7 @@ import { auth } from "../../../firebase.config";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { CgSpinner } from "react-icons/cg";
-import OtpInput from "otp-input-react";
+const DynamicOtpInput = dynamic(() => import('otp-input-react'), { ssr: false });
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { changelaoding } from "@/app/redux/slice/userData";
@@ -18,6 +18,7 @@ import { useLoginWithQrMutation } from "@/app/redux/apiroutes/userLoginAndSettin
 import useTokenAndData from "@/app/utils/tokens";
 import toast, { Toaster } from "react-hot-toast";
 import { storeInSessionStorage } from "@/app/utils/Tokenwrap";
+import dynamic from "next/dynamic";
 
 
 function page() {
@@ -113,7 +114,7 @@ function page() {
   };
 
   function onCaptchaVerify() {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== undefined) {
       if (!window.recaptchaVerifier) {
         window.recaptchaVerifier = new RecaptchaVerifier(
           auth,
@@ -133,7 +134,7 @@ function page() {
   }
 
   function onSignup() {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== undefined) {
       setLoading(true);
       onCaptchaVerify();
       setSeconds(30);
@@ -154,7 +155,7 @@ function page() {
   }
 
   function onOTPVerify() {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== undefined) {
       setLoading(true);
       window.confirmationResult
         .confirm(otp)
@@ -267,7 +268,7 @@ function page() {
           </div>
 
           <>
-            <OtpInput
+            <DynamicOtpInput
               value={otp}
               onChange={handleOtpChange}
               OTPLength={6}
@@ -275,7 +276,7 @@ function page() {
               disabled={false}
               autoFocus
               className="opt-container"
-            ></OtpInput>
+            ></DynamicOtpInput>
           </>
           <div className="text-black font-semibold flex text-[15px] pt-6">
             <div className="text-center">
