@@ -58,7 +58,7 @@ export default function LoginLayout({ children }) {
         </div>
       </div>
       <div className="w-[50%] h-[100%] flex justify-center items-center pn:max-sm:w-[100%] pn:max-sm:h-[100%]">
-        <Sign />
+        {children}
       </div>
     </div >
   );

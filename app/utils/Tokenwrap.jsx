@@ -5,22 +5,46 @@ import { useDispatch } from "react-redux";
 import { changelaoding, sendData } from "../redux/slice/userData";
 import Cookies from "js-cookie";
 
+// export const storeInSessionStorage = (sessionId) => {
+//   try {
+//     Cookies.set(`sessionId_${sessionId}`, sessionId)
+//     sessionStorage.setItem("sessionId", sessionId)
+//   } catch (error) {
+//     console.log(error)
+//   }
+// }
+
+// export const getItemSessionStorage = () => {
+//   try {
+//     const sessionId = sessionStorage.getItem("sessionId")
+//     return sessionId
+//   } catch (error) {
+//     console.log(error)
+//   }
+// }
+
 export const storeInSessionStorage = (sessionId) => {
   try {
-    Cookies.set(`sessionId_${sessionId}`, sessionId)
+    Cookies.set(`sessionId_${sessionId}`, sessionId);
 
-    sessionStorage.setItem("sessionId", sessionId)
+    // Check if sessionStorage is available before using it
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem("sessionId", sessionId);
+    }
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 }
 
 export const getItemSessionStorage = () => {
   try {
-    const sessionId = sessionStorage.getItem("sessionId")
-    return sessionId
+    // Check if sessionStorage is available before using it
+    if (typeof window !== 'undefined') {
+      const sessionId = sessionStorage.getItem("sessionId");
+      return sessionId;
+    }
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 }
 
