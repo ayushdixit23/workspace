@@ -24,10 +24,6 @@ const page = () => {
 		engrate: data.eng[i]
 	}))
 
-	console.log(data)
-
-	// console.log(mergedData)
-
 	const [open, setOpen] = useState(false)
 
 	if (isLoading) {
@@ -35,7 +31,6 @@ const page = () => {
 	}
 
 	return (
-
 		<>
 			{
 				open && <CreatePost id={id} comid={comid} open={open} setOpen={setOpen} refetch={refetch} />
@@ -184,7 +179,7 @@ const page = () => {
 								</div>
 							))}
 						</div> :
-							<NoPost />
+							<NoPost setOpen={setOpen} />
 					}
 
 				</div>

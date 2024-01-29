@@ -40,7 +40,6 @@ function Header() {
   const handleOpen = () => {
     setOpen(!open)
   }
-  console.log(open)
 
   return (
 

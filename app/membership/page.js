@@ -2,12 +2,16 @@
 import { useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { getData } from "../utils/Useful";
-import axios from "axios";
-import Razorpay from "razorpay";
+import axios from "axios"
+import useRazorpay from "react-razorpay";
+import { useMemfinalizeMutation } from "../redux/apiroutes/payment";
+
 
 const Sample5 = () => {
 	const [monthprice, setMonthPrice] = useState(true);
+	const [Razorpay] = useRazorpay()
 	const { id, fullname } = getData()
+	const [membershipFinalise] = useMemfinalizeMutation()
 
 	const pricingData = [
 		{
@@ -47,8 +51,8 @@ const Sample5 = () => {
 			mainTitle: "Basic",
 			popular: true,
 			price: {
-				month: "$0",
-				year: "$0",
+				month: "Free",
+				year: "Free",
 			},
 			infoNote: "Basic features for up to 10 employees with everything you need.",
 			"Product Listings": "Up-to 5 Products",
@@ -84,8 +88,8 @@ const Sample5 = () => {
 		{
 			mainTitle: "Professional",
 			price: {
-				month: "$108",
-				year: "$1296",
+				month: `₹3499`,
+				year: `₹35700`,
 			},
 			infoNote:
 				"Advanced features and reporting better workflows and automation.",
@@ -120,10 +124,10 @@ const Sample5 = () => {
 		},
 		{
 			mainTitle: "Custom",
-			// price: {
-			// 	month: "$4",
-			// 	year: "$40",
-			// },
+			price: {
+				month: "Custom",
+				year: "Custom",
+			},
 			infoNote: "Personalised service and enterprise security for large teams.",
 			"Create Topics (free/paid)": "custom",
 			"Product Listings": "Custom",
@@ -154,53 +158,55 @@ const Sample5 = () => {
 	const buyMembership = async (data) => {
 		console.log(data)
 		try {
-			const res = await axios.post(`http://localhost:7200/api/v1/membershipbuy/${id}/65671ded04b7d0d07ef0e794`)
+			const res = await axios.post(`http://localhost:7200/api/v1/membershipbuy/${id}/65671ded04b7d0d07ef0e794`, { amount: monthprice ? data.price.month : data.price.year })
+			console.log(res.data)
 			if (res.data.success) {
 				let options = {
-					"key_id": "rzp_live_Ms5I8V8VffSpYq", // Enter the Key ID generated from the Dashboard
+					"key": process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
 					"amount": monthprice ? data.price.month * 100 : data.price.year * 100,
 					"currency": "INR",
 					"name": `${fullname}`,
 					"description": `Buying Membership of ${data.mainTitle}`,
-					// "image": "https://example.com/your_logo",
-					"order_id": res?.data?.oid, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+					"order_id": res?.data?.oid,
 					"handler": async function (response) {
-						const finalres = await axios.post(`http://localhost:7200/api/v1/memfinalize/${id}/${res.data?.order}`,
-							{
-								razorpay_order_id: response?.razorpay_order_id,
-								razorpay_payment_id: response?.razorpay_payment_id,
-								razorpay_signature: response?.razorpay_signature,
-								status: true,
-							},
-						);
-						console.log(finalres)
+						const paymentMethod = response?.method;
+						const data = {
+							paymentMethod,
+							razorpay_order_id: response?.razorpay_order_id,
+							razorpay_payment_id: response?.razorpay_payment_id,
+							razorpay_signature: response?.razorpay_signature,
+							status: true,
+						}
+						await membershipFinalise({
+							id,
+							orderid: res.data?.order,
+							data
+						})
 					},
 					prefill: {
 						email: res?.data?.email || '',
 						contact: res?.data?.phone || '',
 						name: fullname,
 					},
-
 					"theme": {
 						"color": "#3399cc"
 					}
 				};
-
 				let rpay = new Razorpay(options);
-
-				// rpay.on('payment.failed', async function (response) {
-				// 	const finalres = await axios.post(`http://localhost:7200/api/v1/memfinalize/${id}/${res.data?.order}`,
-				// 		{
-				// 			razorpay_order_id: response?.razorpay_order_id,
-				// 			razorpay_payment_id: response?.razorpay_payment_id,
-				// 			razorpay_signature: response?.razorpay_signature,
-				// 			status: false,
-				// 		},
-				// 	);
-				// 	console.log(finalres)
-				// })
-
-				// rpay.open();
+				rpay.on('payment.failed', async function (response) {
+					const data = {
+						razorpay_order_id: response?.razorpay_order_id,
+						razorpay_payment_id: response?.razorpay_payment_id,
+						razorpay_signature: response?.razorpay_signature,
+						status: false,
+					}
+					await membershipFinalise({
+						id,
+						orderid: res.data?.order,
+						data
+					})
+				})
+				rpay.open();
 			}
 		} catch (error) {
 			console.log(error)

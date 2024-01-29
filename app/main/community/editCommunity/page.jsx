@@ -441,7 +441,7 @@ function page() {
                 <div>Enter Welcome Message</div>
                 <div>
                   <input value={topics.message}
-                    onChange={(e) => setTopics({ ...topics, message: e.target.value })} type="text" className="p-1.5 px-3 bg-[#F4F7FE] outline-none rounded-xl w-full" placeholder="Topic Name" />
+                    onChange={(e) => setTopics({ ...topics, message: e.target.value })} type="text" className="p-1.5 px-3 bg-[#F4F7FE] outline-none rounded-xl w-full" placeholder="Welcome Message" />
                 </div>
               </div>
               <div className="flex justify-between items-center my-2">
