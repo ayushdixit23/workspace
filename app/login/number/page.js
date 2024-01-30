@@ -103,7 +103,9 @@ function page() {
               path: `/main/dashboard`,
             })
           );
+          setLoading(false);
         }
+        setLoading(false);
       } else {
         toast.error("You Dont have Account");
       }
@@ -159,7 +161,6 @@ function page() {
       window.confirmationResult
         .confirm(otp)
         .then(async (res) => {
-          setLoading(false);
           fetchid();
         })
         .catch((err) => {
@@ -389,8 +390,8 @@ function page() {
           </div>
           <div className={`${change === 1 ? "py-5 " : "hidden"} `}>
             <div
-              onClick={onSignup}
-              // onClick={fetchid}
+              // onClick={onSignup}
+              onClick={fetchid}
               className="h-[50px] w-[300px] select-none cursor-pointer bg-black  flex items-center justify-center rounded-2xl text-white "
             >
               {loading && <CgSpinner size={20} className="m-1 animate-spin" />}

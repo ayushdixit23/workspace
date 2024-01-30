@@ -16,6 +16,9 @@ export default async function middleware(request) {
 
 	const tokenExists = sessionIds.some(sessionId => cookies[`frhktn${sessionId}`]);
 
+	console.log(cookies, "cookies")
+	console.log(tokenExists, "tokenExists")
+
 	if (!tokenExists && request.nextUrl.pathname !== '/login') {
 
 		console.log("Redirecting to login due to missing token");
