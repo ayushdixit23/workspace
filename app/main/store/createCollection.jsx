@@ -67,7 +67,7 @@ const CreateCollection = ({ col, setCol, image, refetch, dispatch, setCheck, set
     <>
       <Toaster />
       <div
-        className={` fixed inset-0 bg-black bg-opacity-50  backdrop-filter w-screen h-screen backdrop-blur-md z-40 `}
+        className={` fixed inset-0 bg-black bg-opacity-50  backdrop-filter w-screen h-screen backdrop-blur-md z-50 `}
       >
         <div className="flex justify-center pn:max-vs:text-sm items-center h-screen pn:max-pp:p-2">
           <div className="flex max-w-[450px] max-h-[700px] p-3 gap-2 pp:p-5 rounded-lg bg-white flex-col">

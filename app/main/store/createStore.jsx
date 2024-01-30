@@ -63,7 +63,7 @@ const CreateStore = ({
         className={`fixed inset-0 bg-black bg-opacity-50 backdrop-filter h-screen backdrop-blur-md z-10`}
       >
         <div className="flex justify-center pn:max-vs:text-sm items-center h-screen pn:max-pp:p-2">
-          <div className="bg-white overflow-y-scroll no-scrollbar max-h-[700px] p-3 pp:p-5 rounded-lg md:min-w-[500px] w-[95%] pp:max-w-[900px]">
+          <div className="bg-white overflow-y-scroll no-scrollbar max-h-[550px] sm:max-h-[650px] p-3 pp:p-5 rounded-lg md:min-w-[500px] w-[95%] pp:max-w-[900px]">
             <div className="flex flex-col mb-3">
               <div className="text-lg font-semibold">
                 Continue to Setup Your Store

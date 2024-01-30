@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Productinformation from "./productinformation";
 import Link from "next/link";
 import Image from "next/image";
@@ -27,6 +27,7 @@ function page() {
   const { id } = getData()
   const dispatch = useDispatch();
   const [check, setCheck] = useState(null);
+  let path = "/main/store"
   const [render, setRender] = useState(false)
   const [col, setCol] = useState({
     d1: "",
@@ -96,13 +97,72 @@ function page() {
     console.log(result);
   };
 
+  useEffect(() => {
+    if (typeof window !== undefined) {
+      window.history.pushState(null, "", path);
+    }
+
+    const handlePopState = () => {
+      if (check !== null) {
+        setCheck(null);
+        dispatch(LoadThis(false));
+      } else {
+
+        if (typeof window !== undefined) {
+          dispatch(LoadThis(false));
+          window.history.replaceState(null, "", "/main/dashboard")
+        }
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    // Clean up the event listener when the component is unmounted
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [check, dispatch]);
+
+  // useEffect(() => {
+  //   // Ensure the component is mounted
+  //   let isMounted = true;
+
+  //   const handlePopState = () => {
+  //     if (isMounted) {
+  //       if (check !== null) {
+  //         setCheck(null);
+  //         dispatch(LoadThis(false));
+  //       } else {
+  //         dispatch(LoadThis(false));
+  //         path = "/main/dashboard";
+  //         // Update the URL immediately when the back button is pressed
+  //         window.history.replaceState("", "", path)
+  //       }
+  //     }
+  //   };
+
+  //   // Attach the popstate event listener
+  //   window.addEventListener('popstate', handlePopState);
+
+  //   // Clean up the event listener when the component is unmounted
+  //   return () => {
+  //     isMounted = false;
+  //     window.removeEventListener('popstate', handlePopState);
+  //   };
+  // }, [check, dispatch]);
+
+
+  // Your component JSX...
+
+
   const createCheck = () => {
-    dispatch(LoadThis(true))
     if (checkstore?.exist) {
       setRender(true)
-      setCheck(1);
+      dispatch(LoadThis(true))
+      setCheck(1)
     } else {
       setCheck(2);
+      dispatch(LoadThis(true))
     }
   };
   if (isLoading) {

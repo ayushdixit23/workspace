@@ -4,6 +4,7 @@ import { ref, set, onValue, remove } from "firebase/database";
 import { auth } from "../../../firebase.config";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
 import { CgSpinner } from "react-icons/cg";
 const DynamicOtpInput = dynamic(() => import('otp-input-react'), { ssr: false });
 import Cookies from "js-cookie";
@@ -18,8 +19,6 @@ import { useLoginWithQrMutation } from "@/app/redux/apiroutes/userLoginAndSettin
 import useTokenAndData from "@/app/utils/tokens";
 import toast, { Toaster } from "react-hot-toast";
 import { storeInSessionStorage } from "@/app/utils/Tokenwrap";
-import dynamic from "next/dynamic";
-
 
 function page() {
   const [otp, setOtp] = useState("")
@@ -390,8 +389,8 @@ function page() {
           </div>
           <div className={`${change === 1 ? "py-5 " : "hidden"} `}>
             <div
-              onClick={onSignup}
-              // onClick={fetchid}
+              // onClick={onSignup}
+              onClick={fetchid}
               className="h-[50px] w-[300px] select-none cursor-pointer bg-black  flex items-center justify-center rounded-2xl text-white "
             >
               {loading && <CgSpinner size={20} className="m-1 animate-spin" />}

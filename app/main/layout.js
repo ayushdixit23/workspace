@@ -14,7 +14,7 @@ export default function MainLayout({ children }) {
   return (
     <div>
       <div className="bg-[#f1f1f1]  vs:max-sm:h-[95.5vh] font-nunito duration-75 min-h-screen w-screen flex overflow-auto scrollbar-hide">
-        <div className={`${path === "/main/community/editCommunity" || path === "/main/community/createCommunity" || path === "/main/store/addproduct" || path === "/main/store/editproduct" || isLoading ? "pn:max-sm:hidden" : null} h-full pn:max-sm:z-50 z-20`}>
+        <div className={`${path === "/main/community/editCommunity" || path === "/main/community/createCommunity" || path === "/main/store/addproduct" || path === "/main/store/editproduct" || isLoading ? "pn:max-sm:hidden " : null} h-full pn:max-sm:z-50 z-20`}>
           <MemorizedNav />
         </div>
         <div className="w-full overflow-y-scroll scrollbar-hide 

@@ -4,6 +4,8 @@ import w1 from "../assets/image/w1.png"
 import w2 from "../assets/image/w2.png"
 import w3 from "../assets/image/w3.png"
 import Image from "next/image";
+import dynamic from "next/dynamic";
+const Number = dynamic(() => import('./number/page'), { ssr: false })
 
 export default function LoginLayout({ children }) {
   const [activeSlide, setActiveSlide] = useState(0);
@@ -57,7 +59,7 @@ export default function LoginLayout({ children }) {
         </div>
       </div>
       <div className="w-[50%] h-[100%] flex justify-center items-center pn:max-sm:w-[100%] pn:max-sm:h-[100%]">
-        {children}
+        <Number />
       </div>
     </div >
   );
