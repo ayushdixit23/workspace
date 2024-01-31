@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { CgSpinner } from "react-icons/cg";
 const DynamicOtpInput = dynamic(() => import('otp-input-react'), { ssr: false });
-import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { changelaoding } from "@/app/redux/slice/userData";
 import { encryptaes, decryptaes } from "@/app/utils/security";
@@ -19,6 +18,8 @@ import { useLoginWithQrMutation } from "@/app/redux/apiroutes/userLoginAndSettin
 import useTokenAndData from "@/app/utils/tokens";
 import toast, { Toaster } from "react-hot-toast";
 import { storeInSessionStorage } from "@/app/utils/Tokenwrap";
+import { setCookie } from 'cookies-next';
+
 
 function page() {
   const [otp, setOtp] = useState("")
@@ -76,8 +77,8 @@ function page() {
   const waitkrnevalafunc = async (data) => {
     try {
       storeInSessionStorage(data.sessionId)
-      Cookies.set(`excktn${data.sessionId}`, data.access_token);
-      Cookies.set(`frhktn${data.sessionId}`, data.refresh_token);
+      setCookie(`excktn${data.sessionId}`, data.access_token, { secure: false, sameSite: 'None' })
+      setCookie(`frhktn${data.sessionId}`, data.refresh_token, { secure: false, sameSite: 'None' })
       toast.success("success");
       return true;
     } catch (e) {
@@ -114,61 +115,62 @@ function page() {
     }
   };
 
-  function onCaptchaVerify() {
-    if (typeof window !== undefined) {
-      if (!window.recaptchaVerifier) {
-        window.recaptchaVerifier = new RecaptchaVerifier(
-          auth,
-          "recaptcha-container",
-          {
-            size: "invisible",
-            callback: (response) => {
-              onSignup();
-            },
-            "expired-callback": () => {
 
-            },
-          }
-        );
-      }
+
+
+  function onCaptchaVerify() {
+
+    if (!window.recaptchaVerifier) {
+      window.recaptchaVerifier = new RecaptchaVerifier(
+        auth,
+        "recaptcha-container",
+        {
+          size: "invisible",
+          callback: (response) => {
+            onSignup();
+          },
+          "expired-callback": () => {
+
+          },
+        }
+      );
     }
+
   }
 
   function onSignup() {
-    if (typeof window !== undefined) {
-      setLoading(true);
-      onCaptchaVerify();
-      setSeconds(30);
-      const appVerifier = window.recaptchaVerifier;
-      const updatedNumber = "91" + number
-      signInWithPhoneNumber(auth, "+" + updatedNumber, appVerifier)
-        .then((confirmationResult) => {
-          window.confirmationResult = confirmationResult;
-          setLoading(false);
-          setShowOTP(true);
-          toast.success("Successfully!");
-        })
-        .catch((error) => {
-          console.log(error);
-          setLoading(false);
-        });
-    }
+
+    setLoading(true);
+    onCaptchaVerify();
+    setSeconds(30);
+    const appVerifier = window.recaptchaVerifier;
+    const updatedNumber = "91" + number
+    signInWithPhoneNumber(auth, "+" + updatedNumber, appVerifier)
+      .then((confirmationResult) => {
+        window.confirmationResult = confirmationResult;
+        setLoading(false);
+        setShowOTP(true);
+        toast.success("Successfully!");
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+      });
   }
 
   function onOTPVerify() {
-    if (typeof window !== undefined) {
-      setLoading(true);
-      window.confirmationResult
-        .confirm(otp)
-        .then(async (res) => {
-          fetchid();
-        })
-        .catch((err) => {
-          console.log(err);
-          setLoading(false);
-        });
-    }
+    setLoading(true);
+    window.confirmationResult
+      .confirm(otp)
+      .then(async (res) => {
+        fetchid();
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
   }
+
   const [qrCodeValue, setQRCodeValue] = useState("");
   const newRandomString = generateRandomString(17);
   const starCountRef = ref(database, `/qr/`);
@@ -390,8 +392,8 @@ function page() {
           </div>
           <div className={`${change === 1 ? "py-5 " : "hidden"} `}>
             <div
-              // onClick={onSignup}
-              onClick={fetchid}
+              onClick={onSignup}
+              // onClick={fetchid}
               className="h-[50px] w-[300px] select-none cursor-pointer bg-black  flex items-center justify-center rounded-2xl text-white "
             >
               {loading && <CgSpinner size={20} className="m-1 animate-spin" />}

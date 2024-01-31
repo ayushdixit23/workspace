@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import useTokenAndData from "../utils/tokens";
 import { useDispatch } from "react-redux";
 import { changelaoding, sendData } from "../redux/slice/userData";
-import Cookies from "js-cookie";
+import { setCookie } from 'cookies-next';
 
 // export const storeInSessionStorage = (sessionId) => {
 //   try {
@@ -25,10 +25,9 @@ import Cookies from "js-cookie";
 
 export const storeInSessionStorage = (sessionId) => {
   try {
-    Cookies.set(`sessionId_${sessionId}`, sessionId);
-
     // Check if sessionStorage is available before using it
-    if (typeof window !== 'undefined') {
+    if (typeof window !== undefined) {
+      setCookie(`sessionId_${sessionId}`, sessionId, { secure: false, sameSite: 'None' })
       sessionStorage.setItem("sessionId", sessionId);
     }
   } catch (error) {

@@ -1,17 +1,16 @@
 import { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Cookies from "js-cookie";
 import jwt from "jsonwebtoken";
 import { useRouter } from "next/navigation";
 import { changelaoding, sendData } from "../redux/slice/userData";
 import { useGetRefreshTokenMutation } from "../redux/apiroutes/userLoginAndSetting";
 import { checkToken } from "./Useful";
 import { getItemSessionStorage } from "./Tokenwrap";
-
+import { setCookie, getCookie, deleteCookie } from "cookies-next"
 const useTokenAndData = () => {
   const [isValid, setIsValid] = useState(false);
   const sessionId = getItemSessionStorage()
-  const token = Cookies.get(`excktn${sessionId}`);
+  const token = getCookie(`excktn${sessionId}`);
   const path = useSelector((state) => state.userData.path);
   const router = useRouter();
   const [data, setData] = useState(null);
@@ -37,7 +36,7 @@ const useTokenAndData = () => {
 
   const checkRefreshTokenValidity = useCallback(() => {
     try {
-      const refreshToken = Cookies.get(`frhktn${sessionId}`);
+      const refreshToken = getCookie(`frhktn${sessionId}`);
       if (!refreshToken) {
         console.error("No refresh token found");
         return false;
@@ -54,7 +53,7 @@ const useTokenAndData = () => {
   }, []);
 
   const refresh = useCallback(async () => {
-    const refreshToken = Cookies.get(`frhktn${sessionId}`);
+    const refreshToken = getCookie(`frhktn${sessionId}`);
     if (!refreshToken) {
       console.error("No refresh token found");
       return Promise.reject("No refresh token found");
@@ -62,7 +61,7 @@ const useTokenAndData = () => {
     try {
       const newToken = await refreshAccessToken(refreshToken);
       if (newToken) {
-        Cookies.set(`excktn${sessionId}`, newToken.access_token);
+        setCookie(`excktn${sessionId}`, newToken.access_token);
       }
     } catch (error) {
       console.error("Error during token refresh:", error);
@@ -87,16 +86,16 @@ const useTokenAndData = () => {
             await refresh()
           } else {
             setIsValid(false);
-            Cookies.remove(`excktn${sessionId}`);
-            Cookies.remove(`frhktn${sessionId}`);
-            Cookies.remove(`sessionId_${sessionId}`)
+            deleteCookie(`excktn${sessionId}`);
+            deleteCookie(`frhktn${sessionId}`);
+            deleteCookie(`sessionId_${sessionId}`)
           }
         }
       } catch (e) {
         console.error(e);
         setIsValid(false);
-        Cookies.remove(`frhktn${sessionId}`);
-        Cookies.remove(`excktn${sessionId}`);
+        deleteCookie(`frhktn${sessionId}`);
+        deleteCookie(`excktn${sessionId}`);
       }
     },
     [token]

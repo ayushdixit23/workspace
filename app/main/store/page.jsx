@@ -16,11 +16,11 @@ import {
   useRemoveCollectionMutation,
 } from "@/app/redux/apiroutes/product";
 import { getData } from "@/app/utils/Useful";
-import Cookies from "js-cookie";
 import { encryptaes } from "@/app/utils/security";
 import { GoPlus } from "react-icons/go";
 import toast, { Toaster } from "react-hot-toast";
 import { LoadThis } from "@/app/redux/slice/userData";
+import { setCookie } from "cookies-next";
 
 function page() {
   const [data, setData] = useState([]);
@@ -396,7 +396,7 @@ function page() {
                           >
                             <Link href={"/main/store/addproduct"}
                               onClick={() => {
-                                Cookies.set("clvss", encryptaes(d._id))
+                                setCookie("clvss", encryptaes(d._id))
                               }}
                               className="bg-[#5570F1] text-white p-1.5 px-3 text-xs sm:text-base sm:px-6 font-semibold rounded-xl"
                             >

@@ -2,7 +2,7 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
+import { deleteCookie, getCookie } from "cookies-next"
 import { decryptaes } from "@/app/utils/security";
 import {
   useGetSingleProductQuery,
@@ -28,9 +28,9 @@ function page() {
   const [loading, setLoading] = useState(false)
   const [type, setType] = useState("");
   const { id } = getData()
-  const a = Cookies.get("pivc");
+  const a = getCookie("pivc");
   const pid = a ? decryptaes(a) : null;
-  const b = Cookies.get("clvss");
+  const b = getCookie("clvss");
   const cid = b ? decryptaes(b) : null;
   const {
     data: getProduct,
@@ -121,8 +121,8 @@ function page() {
   // }, []);
 
   const clearCookies = () => {
-    Cookies.remove("pivc")
-    Cookies.remove("clvss");
+    deleteCookie("pivc")
+    deleteCookie("clvss");
   };
 
   useEffect(() => {

@@ -6,7 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import { getData } from "../utils/Useful";
 import { getItemSessionStorage } from "../utils/Tokenwrap";
-import Cookies from "js-cookie";
+import { deleteCookie } from "cookies-next";
 
 function Header() {
   const [prof, setProf] = useState(true);
@@ -26,9 +26,9 @@ function Header() {
 
   const logout = () => {
     try {
-      Cookies.remove(`excktn${sessionId}`)
-      Cookies.remove(`sessionId_${sessionId}`)
-      Cookies.remove(`frhktn${sessionId}`)
+      deleteCookie(`excktn${sessionId}`)
+      deleteCookie(`sessionId_${sessionId}`)
+      deleteCookie(`frhktn${sessionId}`)
       setOpen(false)
       router.push("/login")
       console.log("Fds")

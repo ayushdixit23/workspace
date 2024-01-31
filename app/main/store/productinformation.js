@@ -4,7 +4,7 @@ import Link from "next/link";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { formatISOStringToDMY } from "../../utils/Useful"
 import { encryptaes } from "@/app/utils/security";
-import Cookies from "js-cookie";
+import { setCookie } from "cookies-next";
 
 function productinformation({ handleDelete, data, userid, collectionid, index }) {
   const [open, setOpen] = useState()
@@ -127,8 +127,8 @@ function productinformation({ handleDelete, data, userid, collectionid, index })
           >
             <Link href={"/main/store/editproduct"} className="cursor-pointer" onClick={() => {
 
-              Cookies.set("pivc", encryptaes(data?._id));
-              Cookies.set("clvss", encryptaes(collectionid));
+              setCookie("pivc", encryptaes(data?._id));
+              setCookie("clvss", encryptaes(collectionid));
             }} title="Edit">
               <MdEdit size={20} />
             </Link>

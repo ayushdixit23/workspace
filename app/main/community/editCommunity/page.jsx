@@ -8,7 +8,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FaCamera, FaChevronDown, FaPlus } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
-import Cookies from "js-cookie";
+import { getCookie, deleteCookie } from "cookies-next"
 import { decryptaes } from "@/app/utils/security";
 import { Toaster, toast } from "react-hot-toast";
 import {
@@ -22,10 +22,10 @@ import { getData } from "@/app/utils/Useful";
 import Image from "next/image";
 
 function page() {
-  const s = Cookies.get("edta");
+  const s = getCookie("edta");
   const data = s ? JSON.parse(decryptaes(s)) : null;
   const { id } = getData()
-  const comidCookie = Cookies.get("cmdyd");
+  const comidCookie = getCookie("cmdyd");
   const comid = comidCookie ? decryptaes(comidCookie) : null;
   const [editCommunity, setEditCommunity] = useState({
     title: "",
@@ -165,8 +165,8 @@ function page() {
   }, []);
 
   const clearCookies = () => {
-    Cookies.remove("edta");
-    Cookies.remove("cmdyd");
+    deleteCookie("edta");
+    deleteCookie("cmdyd");
   };
 
 

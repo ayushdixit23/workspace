@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import { CgProfile } from "react-icons/cg"
 import s1 from "../../assets/image/svg.png";
 import s2 from "../../assets/image/svg1.png";
-import Cookies from "js-cookie";
 import Loader from "@/app/data/Loader";
 import {
   useGetProfileQuery,
@@ -13,6 +12,7 @@ import {
 } from "@/app/redux/apiroutes/userLoginAndSetting";
 import { getData } from "@/app/utils/Useful";
 import { getItemSessionStorage, storeInSessionStorage } from "@/app/utils/Tokenwrap";
+import { deleteCookie, setCookie } from "cookies-next";
 
 
 const page = () => {
@@ -88,9 +88,9 @@ const page = () => {
 
   const resetCookies = async (data) => {
     try {
-      Cookies.remove(`excktn${sessionId}`);
+      deleteCookie(`excktn${sessionId}`);
       storeInSessionStorage(data?.sessionId)
-      Cookies.set(`excktn${data?.sessionId}`, data?.access_token);
+      setCookie(`excktn${data?.sessionId}`, data?.access_token);
     } catch (e) {
       console.log(e);
     }

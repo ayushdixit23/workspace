@@ -9,6 +9,7 @@ import { getData } from "@/app/utils/Useful";
 import { AiOutlineLoading3Quarters, AiOutlinePlus } from "react-icons/ai";
 import { RxCross2 } from "react-icons/rx";
 import toast, { Toaster } from "react-hot-toast";
+import { deleteCookie, getCookie } from "cookies-next";
 
 function page() {
   const router = useRouter();
@@ -25,7 +26,7 @@ function page() {
   const [finalimages, setFinalimages] = useState([]);
   const [AddProduct] = useAddProductMutation();
   const { id } = getData()
-  const hoja = Cookies.get("clvss");
+  const hoja = getCookie("clvss");
   const [loading, setLoading] = useState(false)
   const cid = hoja ? decryptaes(hoja) : null;
   const handleImageChange = (e) => {
@@ -79,7 +80,7 @@ function page() {
   };
 
   const clearCookies = () => {
-    Cookies.remove("clvss");
+    deleteCookie("clvss");
   };
 
   const handleImageRemove = (indexToRemove) => {

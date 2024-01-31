@@ -1,5 +1,5 @@
 "use client";
-import Cookies from "js-cookie";
+import { setCookie } from "cookies-next";
 import React, { useState } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { encryptaes } from "@/app/utils/security";
@@ -67,8 +67,8 @@ function Communitybox({ data, id, index, handleDelete }) {
             <div className={`${open ? "absolute top-5 z-50 -left-20 h-[120px] rounded-lg w-[100px] bg-white shadow-lg" : "hidden"} `}>
               <div className="flex flex-col justify-start items-start gap-3 p-3">
                 <Link href={"/main/community/editCommunity"} onClick={() => {
-                  Cookies.set("edta", encryptaes(JSON.stringify(data)))
-                  Cookies.set("cmdyd", encryptaes(data?.c?._id))
+                  setCookie("edta", encryptaes(JSON.stringify(data)))
+                  setCookie("cmdyd", encryptaes(data?.c?._id))
                 }}>Edit</Link>
                 <button onClick={() => { setComDelete(true), setOpen(false), dispatch(LoadThis(true)) }}>Delete</button>
                 <Link href={`/main/post/${encryptaes(data?.c?._id)}`}>Posts</Link>
@@ -85,8 +85,8 @@ function Communitybox({ data, id, index, handleDelete }) {
               <div className={`${open ? "absolute top-5 z-50 -left-20 h-[120px] rounded-lg w-[100px] bg-white shadow-lg" : "hidden"} `}>
                 <div className="flex flex-col justify-start items-start gap-3 p-3">
                   <Link href={"/main/community/editCommunity"} onClick={() => {
-                    Cookies.set("edta", encryptaes(JSON.stringify(data)))
-                    Cookies.set("cmdyd", encryptaes(data?.c?._id))
+                    setCookie("edta", encryptaes(JSON.stringify(data)))
+                    setCookie("cmdyd", encryptaes(data?.c?._id))
                   }}>Edit</Link>
                   <button onClick={() => { setComDelete(true); setOpen(false) }}>Delete</button>
                   <Link href={`/main/post/${encryptaes(data?.c?._id)}`}>Posts</Link>
