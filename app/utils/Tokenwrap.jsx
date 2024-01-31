@@ -27,7 +27,7 @@ export const storeInSessionStorage = (sessionId) => {
   try {
     // Check if sessionStorage is available before using it
     if (typeof window !== undefined) {
-      setCookie(`sessionId_${sessionId}`, sessionId, { secure: false, sameSite: 'None' })
+      setCookie(`sessionId_${sessionId}`, sessionId, { secure: true })
       sessionStorage.setItem("sessionId", sessionId);
     }
   } catch (error) {

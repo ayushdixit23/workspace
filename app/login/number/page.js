@@ -77,8 +77,8 @@ function page() {
   const waitkrnevalafunc = async (data) => {
     try {
       storeInSessionStorage(data.sessionId)
-      setCookie(`excktn${data.sessionId}`, data.access_token, { secure: false, sameSite: 'None' })
-      setCookie(`frhktn${data.sessionId}`, data.refresh_token, { secure: false, sameSite: 'None' })
+      setCookie(`excktn${data.sessionId}`, data.access_token, { secure: true })
+      setCookie(`frhktn${data.sessionId}`, data.refresh_token, { secure: true })
       toast.success("success");
       return true;
     } catch (e) {
