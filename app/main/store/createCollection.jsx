@@ -147,7 +147,7 @@ const CreateCollection = ({ col, setCol, image, refetch, loading, setLoading, di
                     loading ?
                       <button
                         disabled={true}
-                        className="bg-[#1554F6] text-white p-2 w-full rounded-xl"
+                        className="bg-[#1554F6] flex justify-center items-center text-white p-2 w-full rounded-xl"
                         onClick={(e) => sendCol(e)}
                       >
                         <RiLoader2Line className="text-lg animate-spin text-white" />

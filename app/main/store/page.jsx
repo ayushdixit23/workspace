@@ -123,47 +123,16 @@ function page() {
     };
   }, [check, dispatch]);
 
-  // useEffect(() => {
-  //   // Ensure the component is mounted
-  //   let isMounted = true;
-
-  //   const handlePopState = () => {
-  //     if (isMounted) {
-  //       if (check !== null) {
-  //         setCheck(null);
-  //         dispatch(LoadThis(false));
-  //       } else {
-  //         dispatch(LoadThis(false));
-  //         path = "/main/dashboard";
-  //         // Update the URL immediately when the back button is pressed
-  //         window.history.replaceState("", "", path)
-  //       }
-  //     }
-  //   };
-
-  //   // Attach the popstate event listener
-  //   window.addEventListener('popstate', handlePopState);
-
-  //   // Clean up the event listener when the component is unmounted
-  //   return () => {
-  //     isMounted = false;
-  //     window.removeEventListener('popstate', handlePopState);
-  //   };
-  // }, [check, dispatch]);
-
-
-  // Your component JSX...
-
-
   const createCheck = () => {
     if (checkstore?.exist) {
       dispatch(LoadThis(true))
       setCheck(1)
     } else {
-      setCheck(2);
       dispatch(LoadThis(true))
+      setCheck(2);
     }
   };
+
   if (isLoading) {
     return <div>
       <div className="overflow-auto pt-1 scrollbar-hide h-full ">

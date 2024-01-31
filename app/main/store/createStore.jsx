@@ -192,7 +192,7 @@ const CreateStore = ({
 
                 loading ? <button
                   disabled
-                  className="w-full p-2 bg rounded-lg bg-[#5570F1] text-white"
+                  className="w-full p-2 flex justify-center items-center rounded-lg bg-[#5570F1] text-white"
                   onClick={(e) => send(e)}
                 >
                   <RiLoader2Line className="text-lg animate-spin text-white" />

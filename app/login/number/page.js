@@ -89,8 +89,7 @@ function page() {
   const fetchid = async () => {
     try {
       const updatedNumber = "91" + number
-      const en = encryptaes(updatedNumber);
-
+      const en = encryptaes(updatedNumber)
       const result = await login({
         phone: en,
       });
@@ -114,9 +113,6 @@ function page() {
       console.log(err);
     }
   };
-
-
-
 
   function onCaptchaVerify() {
 
