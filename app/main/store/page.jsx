@@ -28,7 +28,7 @@ function page() {
   const dispatch = useDispatch();
   const [check, setCheck] = useState(null);
   let path = "/main/store"
-  const [render, setRender] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [col, setCol] = useState({
     d1: "",
     d2: "Retail",
@@ -42,7 +42,7 @@ function page() {
   const { data: checkstore, refetch: refetchStore } = useCheckStoreExistsQuery(
     { id },
     {
-      skip: !id || render
+      skip: !id
     }
   );
 
@@ -157,7 +157,6 @@ function page() {
 
   const createCheck = () => {
     if (checkstore?.exist) {
-      setRender(true)
       dispatch(LoadThis(true))
       setCheck(1)
     } else {
@@ -208,6 +207,8 @@ function page() {
           setCheck={setCheck}
           refetch={refetch}
           dispatch={dispatch}
+          loading={loading}
+          setLoading={setLoading}
           col={col}
           id={id}
           setImage={setImage}
@@ -222,6 +223,8 @@ function page() {
         <CreateStore
           store={store}
           id={id}
+          loading={loading}
+          setLoading={setLoading}
           dispatch={dispatch}
           setCheck={setCheck}
           setStore={setStore}

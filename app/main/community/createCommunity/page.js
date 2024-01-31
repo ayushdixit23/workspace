@@ -107,6 +107,10 @@ function page() {
   };
 
   const handleSubmit = async (e) => {
+    if (!selectImage || !createCommunity.title || !createCommunity.desc || createCommunity.selectedCategory) {
+      toast.error("Please Enter All Details")
+      return
+    }
     setLoading(true);
     e.preventDefault();
     const formDataToSend = new FormData();

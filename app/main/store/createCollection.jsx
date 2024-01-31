@@ -5,8 +5,9 @@ import { FaPlus } from "react-icons/fa";
 import { useCreateCollectionMutation } from "@/app/redux/apiroutes/product";
 import { LoadThis } from "@/app/redux/slice/userData";
 import toast, { Toaster } from "react-hot-toast";
+import { RiLoader2Line } from "react-icons/ri";
 
-const CreateCollection = ({ col, setCol, image, refetch, dispatch, setCheck, setImage, id }) => {
+const CreateCollection = ({ col, setCol, image, refetch, loading, setLoading, dispatch, setCheck, setImage, id }) => {
   const [createCollectionMutation] = useCreateCollectionMutation();
   const handleFileChangeCol = (e) => {
     const selectedFile = e.target.files[0];
@@ -37,7 +38,7 @@ const CreateCollection = ({ col, setCol, image, refetch, dispatch, setCheck, set
       toast.error("Please fill in all required details.");
       return;
     }
-
+    setLoading(true)
     e.preventDefault();
     const formDataCol = new FormData();
     formDataCol.append("name", col.d1);
@@ -54,12 +55,15 @@ const CreateCollection = ({ col, setCol, image, refetch, dispatch, setCheck, set
       if (result.data?.success) {
         toast.success("Collection Created Successfully!")
         await refetch()
+        setLoading(false)
       } else {
         toast.error("Something Went Wrong!")
       }
       dispatch(LoadThis(false))
       setCheck(0)
+      setLoading(false)
     } catch (e) {
+      setLoading(false)
       console.log(e);
     }
   };
@@ -138,12 +142,24 @@ const CreateCollection = ({ col, setCol, image, refetch, dispatch, setCheck, set
                   >
                     Cancel
                   </button>
-                  <button
-                    className="bg-[#1554F6] text-white p-2 w-full rounded-xl"
-                    onClick={(e) => sendCol(e)}
-                  >
-                    Create Collection
-                  </button>
+
+                  {
+                    loading ?
+                      <button
+                        disabled={true}
+                        className="bg-[#1554F6] text-white p-2 w-full rounded-xl"
+                        onClick={(e) => sendCol(e)}
+                      >
+                        <RiLoader2Line className="text-lg animate-spin text-white" />
+                      </button> :
+                      <button
+                        className="bg-[#1554F6] text-white p-2 w-full rounded-xl"
+                        onClick={(e) => sendCol(e)}
+                      >
+                        Create Collection
+                      </button>
+                  }
+
                 </div>
               </div>
             </div>

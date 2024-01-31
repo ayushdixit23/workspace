@@ -3,12 +3,15 @@ import { LoadThis } from "@/app/redux/slice/userData";
 import React from "react";
 import toast from "react-hot-toast";
 import { FaPlus } from "react-icons/fa";
+import { RiLoader2Line } from "react-icons/ri";
 
 const CreateStore = ({
   store,
   dispatch,
   setStore,
   setCheck,
+  loading,
+  setLoading,
   setShowImage,
   showImage,
   refetch,
@@ -29,6 +32,7 @@ const CreateStore = ({
       return
     }
     e.preventDefault();
+    setLoading(true)
     try {
       const formDataToSend = new FormData();
       formDataToSend.append("buildingno", store.d1);
@@ -47,13 +51,16 @@ const CreateStore = ({
       console.log(result);
       if (result.data?.success) {
         await refetch();
+        setLoading(false)
         toast.success("Store Created Successfully!")
       } else {
+        setLoading(false)
         toast.error("Something Went Wrong!")
       }
       dispatch(LoadThis(false))
       setCheck(0);
     } catch (e) {
+      setLoading(false)
       console.log(e);
     }
   };
@@ -181,12 +188,23 @@ const CreateStore = ({
               >
                 Cancel
               </button>
-              <button
-                className="w-full p-2 bg rounded-lg bg-[#5570F1] text-white"
-                onClick={(e) => send(e)}
-              >
-                Submit
-              </button>
+              {
+
+                loading ? <button
+                  disabled
+                  className="w-full p-2 bg rounded-lg bg-[#5570F1] text-white"
+                  onClick={(e) => send(e)}
+                >
+                  <RiLoader2Line className="text-lg animate-spin text-white" />
+                </button> :
+                  <button
+                    className="w-full p-2 bg rounded-lg bg-[#5570F1] text-white"
+                    onClick={(e) => send(e)}
+                  >
+                    Submit
+                  </button>
+
+              }
             </div>
           </div>
         </div>
