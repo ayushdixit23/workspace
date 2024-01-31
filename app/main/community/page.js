@@ -10,7 +10,6 @@ import { getData } from "@/app/utils/Useful";
 import { GoPlus } from "react-icons/go";
 import toast, { Toaster } from "react-hot-toast";
 import NoCommunity from "@/app/data/NoCommunity";
-import Post from "./CreatePost";
 
 function page() {
   const { id } = getData()

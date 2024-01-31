@@ -1,5 +1,4 @@
-import React from "react";
-import MainLayout from "./layout";
+import React from "react"
 import Dashboard from "./dashboard/page";
 
 function page() {
