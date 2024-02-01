@@ -7,7 +7,7 @@ import { LoadThis } from "@/app/redux/slice/userData";
 import toast, { Toaster } from "react-hot-toast";
 import { RiLoader2Line } from "react-icons/ri";
 
-const CreateCollection = ({ col, setCol, image, refetch, loading, setLoading, dispatch, setCheck, setImage, id }) => {
+const CreateCollection = ({ col, setCol, image, refetch, loading, setLoading, router, dispatch, setCheck, setImage, id }) => {
   const [createCollectionMutation] = useCreateCollectionMutation();
   const handleFileChangeCol = (e) => {
     const selectedFile = e.target.files[0];
@@ -61,6 +61,7 @@ const CreateCollection = ({ col, setCol, image, refetch, loading, setLoading, di
       }
       dispatch(LoadThis(false))
       setCheck(0)
+      router.push("/main/store")
       setLoading(false)
     } catch (e) {
       setLoading(false)
@@ -138,7 +139,7 @@ const CreateCollection = ({ col, setCol, image, refetch, loading, setLoading, di
                 <div className="flex justify-center items-center w-full gap-3">
                   <button
                     className="bg-white border-2 text-black p-2 w-full rounded-xl"
-                    onClick={() => { setCheck(0); dispatch(LoadThis(false)) }}
+                    onClick={() => { setCheck(0); dispatch(LoadThis(false)); router.push("/main/store") }}
                   >
                     Cancel
                   </button>

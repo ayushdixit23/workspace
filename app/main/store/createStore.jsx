@@ -1,5 +1,6 @@
 import { useCreateStoreMutation } from "@/app/redux/apiroutes/product";
 import { LoadThis } from "@/app/redux/slice/userData";
+import Link from "next/link";
 import React from "react";
 import toast from "react-hot-toast";
 import { FaPlus } from "react-icons/fa";
@@ -13,6 +14,7 @@ const CreateStore = ({
   loading,
   setLoading,
   setShowImage,
+  router,
   showImage,
   refetch,
   id,
@@ -59,6 +61,7 @@ const CreateStore = ({
       }
       dispatch(LoadThis(false))
       setCheck(0);
+      router.push("/main/store")
     } catch (e) {
       setLoading(false)
       console.log(e);
@@ -184,8 +187,8 @@ const CreateStore = ({
             </div>
             <div className="flex justify-center items-center gap-2 mt-2 p-2 w-full">
               <button
-                onClick={() => { setCheck(0); dispatch(LoadThis(false)) }}
-                className="w-full rounded-lg p-2 text-black border-2"
+                onClick={() => { setCheck(0); dispatch(LoadThis(false)); router.push("/main/store") }}
+                className="w-full rounded-lg text-center p-2 text-black border-2"
               >
                 Cancel
               </button>
@@ -198,17 +201,16 @@ const CreateStore = ({
                   <RiLoader2Line className="text-lg animate-spin text-white" />
                 </button> :
                   <button
-                    className="w-full p-2 bg rounded-lg bg-[#5570F1] text-white"
+                    className="w-full p-2 text-center rounded-lg bg-[#5570F1] text-white"
                     onClick={(e) => send(e)}
                   >
                     Submit
                   </button>
-
               }
             </div>
           </div>
         </div>
-      </div>
+      </div >
     </>
   );
 };

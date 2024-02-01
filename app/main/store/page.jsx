@@ -21,13 +21,17 @@ import { GoPlus } from "react-icons/go";
 import toast, { Toaster } from "react-hot-toast";
 import { LoadThis } from "@/app/redux/slice/userData";
 import { setCookie } from "cookies-next";
+import { useSearchParams, useRouter } from "next/navigation";
 
 function page() {
   const [data, setData] = useState([]);
   const { id } = getData()
   const dispatch = useDispatch();
   const [check, setCheck] = useState(null);
-  let path = "/main/store"
+  const params = useSearchParams()
+  const queryForCreation = params.get("q")
+
+  const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [col, setCol] = useState({
     d1: "",
@@ -132,6 +136,12 @@ function page() {
     }
   };
 
+  useEffect(() => {
+    if (!params.has("q")) {
+      dispatch(LoadThis(false))
+    }
+  }, [params])
+
   if (isLoading) {
     return <div>
       <div className="overflow-auto pt-1 scrollbar-hide h-full ">
@@ -169,8 +179,8 @@ function page() {
   return (
     <>
       <Toaster />
-      {/* collection create krne ka pop up starts */}
-      {check == 1 && (
+
+      {queryForCreation == "collection" && check == 1 && (
         <CreateCollection
           setCheck={setCheck}
           refetch={refetch}
@@ -178,6 +188,7 @@ function page() {
           loading={loading}
           setLoading={setLoading}
           col={col}
+          router={router}
           id={id}
           setImage={setImage}
           image={image}
@@ -185,36 +196,36 @@ function page() {
         />
       )}
 
-      {/* collection create krne ka pop up ends */}
-      {/* create store starts */}
-      {check == 2 && (
-        <CreateStore
+
+      {queryForCreation == "store" && check == 2 &&
+        < CreateStore
           store={store}
           id={id}
           loading={loading}
           setLoading={setLoading}
           dispatch={dispatch}
           setCheck={setCheck}
+          router={router}
           setStore={setStore}
           refetch={refetchStore}
           setShowImage={setShowImage}
           showImage={showImage}
-        />
-      )}
-      {/* create store ends */}
+        />}
+
       <div>
         <div className="overflow-auto scrollbar-hide h-full ">
           <div className="flex justify-between py-1 px-4 items-center">
             <div className="sm:font-semibold sm:pl-4 text-[22px] text-[#202224] ">
               Product
             </div>
-            <div
+
+            <Link href={`/main/store?q=${checkstore?.q}`}
               onClick={createCheck}
               className="py-2 flex justify-center items-center gap-1 border border-[#f1f1f1] vs:max-pp:text-[12px] px-2.5 sm:px-5 font-medium bg-white text-black rounded-xl"
             >
               Create Collection
               <GoPlus />
-            </div>
+            </Link>
           </div>
 
           <div className="p-1 px-2 w-full  grid grid-cols-1">
