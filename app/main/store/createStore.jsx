@@ -51,8 +51,8 @@ const CreateStore = ({
       console.log(result);
       if (result.data?.success) {
         await refetch();
-        setLoading(false)
         toast.success("Store Created Successfully!")
+        setLoading(false)
       } else {
         setLoading(false)
         toast.error("Something Went Wrong!")
@@ -112,6 +112,7 @@ const CreateStore = ({
                   <div className="text-sm font-medium">Postal Code</div>
                   <input
                     type="number"
+                    maxLength={6}
                     className="border-2 bg-[#FAFAFA] outline-none p-1 rounded-lg"
                     value={store.d4}
                     onChange={(e) => setStore({ ...store, d4: e.target.value })}
@@ -193,7 +194,6 @@ const CreateStore = ({
                 loading ? <button
                   disabled
                   className="w-full p-2 flex justify-center items-center rounded-lg bg-[#5570F1] text-white"
-                  onClick={(e) => send(e)}
                 >
                   <RiLoader2Line className="text-lg animate-spin text-white" />
                 </button> :

@@ -20,7 +20,10 @@ function page() {
     quantity: "",
   })
   const [selectedImage, setSelectedImage] = useState([]);
-  const [call, setCall] = useState(true);
+  const [call, setCall] = useState({
+    c1: true,
+    c2: true
+  });
   const [by, setBy] = useState(false);
   const [finalimages, setFinalimages] = useState([]);
   const [AddProduct] = useAddProductMutation();
@@ -281,7 +284,7 @@ function page() {
                     <input
                       className="p-1 m-1"
                       onClick={() => {
-                        setCall(!call);
+                        setCall({ ...call, c1: !call.c1 });
                       }}
                       type="checkbox"
                     />
@@ -291,13 +294,13 @@ function page() {
                   </div>
 
                   <div
-                    className={`${call
+                    className={`${call.c1
                       ? "hidden"
                       : "outline-none flex justify-center mt-2 bg-[#ffffff] items-center rounded-[12px] h-10 w-[40%] ring-1 ring-[#f5f5f5]"
                       }`}
                   >
                     <select
-                      className={`${call
+                      className={`${call.c1
                         ? "hidden"
                         : "outline-none flex px-2 justify-center bg-[#ffffff] items-center rounded-r-[12px] h-10"
                         }`}
@@ -316,9 +319,19 @@ function page() {
                 <input
                   className="outline-none flex pl-3 justify-center mt-2 bg-[#F4F5F7] items-center   rounded-lg h-10 w-[100%]"
                   type="number"
+                  onChange={(e) => {
+                    const newValue = e.target.value;
+                    if (
+                      !isNaN(newValue) &&
+                      parseFloat(newValue) >= 0
+                    ) {
+                      setProduct({ ...product, quantity: newValue });
+                    } else if (newValue === "" || newValue === "-") {
+                      setProduct({ ...product, quantity: newValue });
+                    }
+                  }}
                   placeholder="Quantity in Stock"
                   value={product.quantity}
-                  onChange={(e) => setProduct({ ...product, quantity: e.target.value })}
                 />
               </div>
               {/* <div className="bg-white p-4 rounded-2xl mt-2">
@@ -361,7 +374,7 @@ function page() {
                   <input
                     className="p-1 m-1"
                     onClick={() => {
-                      setCall(!call);
+                      setCall({ ...call, c2: !call.c2 });
                     }}
                     type="checkbox"
                   />
@@ -370,13 +383,13 @@ function page() {
                   </div>
                 </div>
                 <div
-                  className={`${call
+                  className={`${call.c2
                     ? "hidden"
                     : "outline-none flex justify-center mt-2 bg-[#ffffff] items-center rounded-[12px] h-10 w-[40%] ring-1 ring-[#f5f5f5]"
                     }`}
                 >
                   <input
-                    className={`${call
+                    className={`${call.c2
                       ? "hidden"
                       : "outline-none flex pl-3 justify-center bg-[#F4F5F7] items-center rounded-l-[12px] h-10 w-[60%]"
                       }`}
@@ -384,7 +397,7 @@ function page() {
                     placeholder="0.0"
                   />
                   <select
-                    className={`${call
+                    className={`${call.c2
                       ? "hidden"
                       : "outline-none flex px-2 justify-center bg-[#ffffff] items-center rounded-r-[12px] h-10"
                       }`}

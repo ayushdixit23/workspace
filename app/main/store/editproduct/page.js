@@ -23,7 +23,10 @@ function page() {
     quantity: "",
   })
   const [selectedImage, setSelectedImage] = useState([]);
-  const [call, setCall] = useState(true);
+  const [call, setCall] = useState({
+    c1: true,
+    c2: true
+  });
   const [by, setBy] = useState(false);
   const [loading, setLoading] = useState(false)
   const [type, setType] = useState("");
@@ -348,14 +351,37 @@ function page() {
                     <div className="font-semibold pb-2">Selling Price</div>
                     <div className="w-full">
                       <input className="outline-none p-2 w-full bg-[#fafafa] rounded-lg" placeholder="Type base price here..." value={product.price}
-                        onChange={(e) => setProduct({ ...product, price: e.target.value })} />
+
+                        onChange={(e) => {
+                          const newValue = e.target.value;
+                          if (
+                            !isNaN(newValue) &&
+                            parseFloat(newValue) >= 0
+                          ) {
+                            setProduct({ ...product, price: newValue });
+                          } else if (newValue === "" || newValue === "-") {
+                            setProduct({ ...product, price: newValue });
+                          }
+                        }}
+                      />
                     </div>
                   </div>
                   <div className="flex flex-col w-full">
                     <div className="font-semibold pb-2">Discounted Price</div>
                     <div className="w-full">
                       <input className="outline-none p-2 w-full bg-[#fafafa] rounded-lg" placeholder="Type Discounted amount..." value={product.discountedprice}
-                        onChange={(e) => setProduct({ ...product, discountedprice: e.target.value })} />
+                        onChange={(e) => {
+                          const newValue = e.target.value;
+                          if (
+                            !isNaN(newValue) &&
+                            parseFloat(newValue) >= 0
+                          ) {
+                            setProduct({ ...product, discountedprice: newValue });
+                          } else if (newValue === "" || newValue === "-") {
+                            setProduct({ ...product, discountedprice: newValue });
+                          }
+                        }}
+                      />
                     </div>
                   </div>
                 </div>
@@ -364,7 +390,7 @@ function page() {
                     <input
                       className="p-1 m-1"
                       onClick={() => {
-                        setCall(!call);
+                        setCall({ ...call, c1: !call.c1 });
                       }}
                       type="checkbox"
                     />
@@ -374,13 +400,13 @@ function page() {
                   </div>
 
                   <div
-                    className={`${call
+                    className={`${call.c1
                       ? "hidden"
                       : "outline-none flex justify-center mt-2 bg-[#ffffff] items-center rounded-[12px] h-10 w-[40%] ring-1 ring-[#f5f5f5]"
                       }`}
                   >
                     <select
-                      className={`${call
+                      className={`${call.c1
                         ? "hidden"
                         : "outline-none flex px-2 justify-center bg-[#ffffff] items-center rounded-r-[12px] h-10"
                         }`}
@@ -401,7 +427,17 @@ function page() {
                   type="number"
                   placeholder="Quantity in Stock"
                   value={product.quantity}
-                  onChange={(e) => setProduct({ ...product, quantity: e.target.value })}
+                  onChange={(e) => {
+                    const newValue = e.target.value;
+                    if (
+                      !isNaN(newValue) &&
+                      parseFloat(newValue) >= 0
+                    ) {
+                      setProduct({ ...product, quantity: newValue });
+                    } else if (newValue === "" || newValue === "-") {
+                      setProduct({ ...product, quantity: newValue });
+                    }
+                  }}
                 />
               </div>
 
@@ -411,7 +447,7 @@ function page() {
                   <input
                     className="p-1 m-1"
                     onClick={() => {
-                      setCall(!call);
+                      setCall({ ...call, c2: !call.c2 });
                     }}
                     type="checkbox"
                   />
@@ -420,13 +456,13 @@ function page() {
                   </div>
                 </div>
                 <div
-                  className={`${call
+                  className={`${call.c2
                     ? "hidden"
                     : "outline-none flex justify-center mt-2 bg-[#ffffff] items-center rounded-[12px] h-10 w-[40%] ring-1 ring-[#f5f5f5]"
                     }`}
                 >
                   <input
-                    className={`${call
+                    className={`${call.c2
                       ? "hidden"
                       : "outline-none flex pl-3 justify-center bg-[#F4F5F7] items-center rounded-l-[12px] h-10 w-[60%]"
                       }`}
@@ -434,7 +470,7 @@ function page() {
                     placeholder="0.0"
                   />
                   <select
-                    className={`${call
+                    className={`${call.c2
                       ? "hidden"
                       : "outline-none flex px-2 justify-center bg-[#ffffff] items-center rounded-r-[12px] h-10"
                       }`}

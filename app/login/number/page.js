@@ -45,8 +45,6 @@ function page() {
     }
   }
 
-  console.log(otp)
-
   useEffect(() => {
     let interval;
     if (seconds === 0) {
@@ -76,9 +74,10 @@ function page() {
 
   const waitkrnevalafunc = async (data) => {
     try {
+      console.log(data.sessionId)
       storeInSessionStorage(data.sessionId)
-      setCookie(`excktn${data.sessionId}`, data.access_token, { secure: true })
-      setCookie(`frhktn${data.sessionId}`, data.refresh_token, { secure: true })
+      setCookie(`excktn${data.sessionId}`, data.access_token, { secure: false })
+      setCookie(`frhktn${data.sessionId}`, data.refresh_token, { secure: false })
       toast.success("success");
       return true;
     } catch (e) {
@@ -388,8 +387,8 @@ function page() {
           </div>
           <div className={`${change === 1 ? "py-5 " : "hidden"} `}>
             <div
-              onClick={onSignup}
-              // onClick={fetchid}
+              // onClick={onSignup}
+              onClick={fetchid}
               className="h-[50px] w-[300px] select-none cursor-pointer bg-black  flex items-center justify-center rounded-2xl text-white "
             >
               {loading && <CgSpinner size={20} className="m-1 animate-spin" />}

@@ -97,31 +97,30 @@ function page() {
     console.log(result);
   };
 
-  useEffect(() => {
-    if (typeof window !== undefined) {
-      window.history.pushState(null, "", path);
-    }
+  // useEffect(() => {
+  //   if (typeof window !== undefined) {
+  //     window.history.pushState(null, "", path);
+  //   }
 
-    const handlePopState = () => {
-      if (check !== null) {
-        setCheck(null);
-        dispatch(LoadThis(false));
-      } else {
+  //   const handlePopState = () => {
+  //     if (check !== null) {
+  //       setCheck(null);
+  //       dispatch(LoadThis(false));
+  //     } else {
 
-        if (typeof window !== undefined) {
-          dispatch(LoadThis(false));
-          window.history.replaceState(null, "", "/main/dashboard")
-        }
-      }
-    };
+  //       if (typeof window !== undefined) {
+  //         dispatch(LoadThis(false));
+  //         window.history.replaceState(null, "", "/main/dashboard")
+  //       }
+  //     }
+  //   };
+  //   window.addEventListener('popstate', handlePopState);
 
-    window.addEventListener('popstate', handlePopState);
-
-    // Clean up the event listener when the component is unmounted
-    return () => {
-      window.removeEventListener('popstate', handlePopState);
-    };
-  }, [check, dispatch]);
+  //   // Clean up the event listener when the component is unmounted
+  //   return () => {
+  //     window.removeEventListener('popstate', handlePopState);
+  //   };
+  // }, [check, dispatch]);
 
   const createCheck = () => {
     if (checkstore?.exist) {

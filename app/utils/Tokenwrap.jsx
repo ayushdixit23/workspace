@@ -25,9 +25,10 @@ import { setCookie } from 'cookies-next';
 
 export const storeInSessionStorage = (sessionId) => {
   try {
+    console.log("runnded")
     // Check if sessionStorage is available before using it
+    setCookie(`sessionId_${sessionId}`, sessionId, { secure: false })
     if (typeof window !== undefined) {
-      setCookie(`sessionId_${sessionId}`, sessionId, { secure: true })
       sessionStorage.setItem("sessionId", sessionId);
     }
   } catch (error) {

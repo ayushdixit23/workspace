@@ -9,6 +9,6 @@ export const Api = createApi({
 		// fetchBaseQuery({
 		// 	baseUrl: "http://192.168.29.225:7190/api"
 		// }),
-	fetchBaseQuery({ baseUrl: "https://work.grovyo.xyz/api" }),
+		fetchBaseQuery({ baseUrl: "https://work.grovyo.xyz/api" }),
 	endpoints: () => ({}),
 });
