@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import Productinformation from "./productinformation";
 import Link from "next/link";
 import Image from "next/image";
@@ -22,8 +22,9 @@ import toast, { Toaster } from "react-hot-toast";
 import { LoadThis } from "@/app/redux/slice/userData";
 import { setCookie } from "cookies-next";
 import { useSearchParams, useRouter } from "next/navigation";
+import Loader from "@/app/data/Loader";
 
-function page() {
+function Store() {
   const [data, setData] = useState([]);
   const { id } = getData()
   const dispatch = useDispatch();
@@ -414,80 +415,18 @@ function page() {
                 </div>
               }
 
-              {/* <Link
-                href="/main/store/addproduct"
-                className="animate-bounce sm:hidden h-12 w-12  bg-blue-700 rounded-full flex justify-center items-center fixed right-5 sm:right-10 bottom-20 cursor-pointer"
-              >
-                <div className="text-white text-[30px] font-semibold">+</div>
-              </Link> */}
             </div>
           </div>
         </div>
       </div>
     </>
   );
-  // else {
-  //   return (
-  //     <div>
-  //       <div className="overflow-auto pt-2 scrollbar-hide flex flex-col items-center justify-center h-[80vh] sm:mx-5 ">
-  //         <Image src={Empty} className="h-96 w-96" alt="create community" />
-  //         <div className="font-semibold text-[18px] mt-6">
-  //           No products - yet!
-  //         </div>
-  //         <div className="flex items-center flex-col justify-center">
-  //           <div>
-  //             Look like you haven’t added a product, no worries. click the
-  //           </div>
-  //           <div>“add new product button“</div>
-  //         </div>
-
-  //         <Link
-  //           href="/main/store/addproduct"
-  //           className="py-2 px-6 bg-blue-600 text-white rounded-2xl mt-6"
-  //         >
-  //           Add new product
-  //         </Link>
-  //       </div>
-  //     </div>
-  //   );
-  // }
-
-  // else {
-  //   return (
-  //     <div>
-  //       <div className="overflow-auto pt-1 scrollbar-hide h-full ">
-  //         <div className="flex justify-between items-center">
-  //           <div className="sm:font-medium sm:pl-4 text-[18px] animate-pulse px-10 py-4 bg-[#f2f2f2] rounded-2xl text-[#8B8D97]"></div>
-  //           <Link
-  //             href="/main/store/addproduct"
-  //             className="vs:max-sm:hidden  animate-pulse px-10 py-4  bg-[#f2f2f2] text-white rounded-2xl"
-  //           ></Link>
-  //         </div>
-
-  //         <div className=" sm:grid-cols-4 w-full grid-cols-2 grid gap-2 pt-8 sm:pl-[4%] vs:max-sm:px-[2%] ">
-  //           <div className="sm:h-36 vs:max-sm:h-28  animate-pulse px-40 sm:w-[80%] rounded-3xl items-center flex justify-between md:px-10 vs:max-sm:px-2 bg-[#f2f2f2] ring-1 ring-[#f9f9f9] "></div>
-  //           <div className="sm:h-36 vs:max-sm:h-28  animate-pulse px-40 sm:w-[80%] rounded-3xl items-center flex justify-between md:px-10 vs:max-sm:px-2 bg-[#f2f2f2] ring-1 ring-[#f9f9f9] "></div>
-  //           <div className="sm:h-36 vs:max-sm:h-28  animate-pulse px-40 sm:w-[80%] rounded-3xl items-center flex justify-between md:px-10 vs:max-sm:px-2 bg-[#f2f2f2] ring-1 ring-[#f9f9f9] "></div>
-  //           <div className="sm:h-36 vs:max-sm:h-28  animate-pulse px-40 sm:w-[80%] rounded-3xl items-center flex justify-between md:px-10 vs:max-sm:px-2 bg-[#f2f2f2] ring-1 ring-[#f9f9f9] "></div>
-  //         </div>
-
-  //         <div className="pt-4">
-  //           <div className="flex w-full vs:max-sm:hidden sm:pt-4 px-4 justify-between">
-  //             <div className="w-64 sm:max-md:w-52 bg-[#f2f2f2]  animate-pulse font-medium flex justify-start "></div>
-  //             <div className="w-36 sm:max-md:w-24 bg-[#f2f2f2] animate-pulse flex justify-center font-medium "></div>
-  //             <div className="w-36  sm:max-md:w-24 bg-[#f2f2f2] animate-pulse flex justify-center font-medium "></div>
-  //             <div className="w-36 sm:max-md:w-24 bg-[#f2f2f2] animate-pulse flex justify-center font-medium "></div>
-  //             <div className="w-36 sm:max-md:w-24 flex justify-center font-medium "></div>
-  //           </div>
-  //           <div className="bg-[#f2f2f2] animate-pulse h-20 sm:rounded-2xl mt-4"></div>
-  //           <div className="bg-[#f2f2f2] animate-pulse h-20 sm:rounded-2xl mt-4"></div>
-  //           <div className="bg-[#f2f2f2] animate-pulse h-20 sm:rounded-2xl mt-4"></div>
-  //           <div className="bg-[#f2f2f2] animate-pulse h-20 sm:rounded-2xl mt-4"></div>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   );
-  // }
 }
 
-export default page;
+export function page() {
+  return (
+    <Suspense fallback={<Loader />}>
+      <Store />
+    </Suspense>
+  )
+}
