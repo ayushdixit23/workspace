@@ -1,3 +1,4 @@
+"use client"
 import React, { Suspense } from "react";
 import { Toaster } from "react-hot-toast";
 import Loader from "@/app/data/Loader";

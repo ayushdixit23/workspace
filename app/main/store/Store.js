@@ -1,5 +1,5 @@
 "use client";
-import React, { Suspense, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Productinformation from "./productinformation";
 import Link from "next/link";
 import Image from "next/image";
@@ -18,11 +18,10 @@ import {
 import { getData } from "@/app/utils/Useful";
 import { encryptaes } from "@/app/utils/security";
 import { GoPlus } from "react-icons/go";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { LoadThis } from "@/app/redux/slice/userData";
 import { setCookie } from "cookies-next";
 import { useSearchParams, useRouter } from "next/navigation";
-import Loader from "@/app/data/Loader";
 
 export default function Store() {
 	const [data, setData] = useState([]);
@@ -38,7 +37,7 @@ export default function Store() {
 		d2: "Retail",
 		d3: null,
 	});
-	const [productdeletemutate] = useDeleteProductMutation();
+	//const [productdeletemutate] = useDeleteProductMutation();
 	const { data: productdata, isLoading, refetch } = useGetProductQuery(
 		{ id: id },
 		{ skip: !id, refetchOnMountOrArgChange: true, }
@@ -50,7 +49,7 @@ export default function Store() {
 		}
 	);
 
-	const [deleteMutation] = useRemoveCollectionMutation();
+	//const [deleteMutation] = useRemoveCollectionMutation();
 	const [showImage, setShowImage] = useState(null);
 	const [image, setImage] = useState(null);
 
