@@ -350,7 +350,7 @@ function page() {
                   <div className="flex flex-col w-full">
                     <div className="font-semibold pb-2">Selling Price</div>
                     <div className="w-full">
-                      <input className="outline-none p-2 w-full bg-[#fafafa] rounded-lg" placeholder="Type base price here..." value={product.price}
+                      <input type="number" className="outline-none p-2 w-full bg-[#fafafa] rounded-lg" placeholder="Type base price here..." value={product.price}
 
                         onChange={(e) => {
                           const newValue = e.target.value;
@@ -369,7 +369,7 @@ function page() {
                   <div className="flex flex-col w-full">
                     <div className="font-semibold pb-2">Discounted Price</div>
                     <div className="w-full">
-                      <input className="outline-none p-2 w-full bg-[#fafafa] rounded-lg" placeholder="Type Discounted amount..." value={product.discountedprice}
+                      <input type="number" className="outline-none p-2 w-full bg-[#fafafa] rounded-lg" placeholder="Type Discounted amount..." value={product.discountedprice}
                         onChange={(e) => {
                           const newValue = e.target.value;
                           if (

@@ -15,8 +15,7 @@ const page = () => {
   const { data: getorderdata, isLoading } = useGetFetchOrderQuery(
     { id: id },
     { skip: !id }
-  );
-  console.log(getorderdata);
+  )
 
   const [currentPage, setCurrentPage] = useState(1);
   const [postPerPage, setPostPerPage] = useState(6);

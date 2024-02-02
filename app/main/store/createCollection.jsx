@@ -70,7 +70,6 @@ const CreateCollection = ({ col, setCol, image, refetch, loading, setLoading, ro
   };
   return (
     <>
-      <Toaster />
       <div
         className={` fixed inset-0 bg-black bg-opacity-50  backdrop-filter w-screen h-screen backdrop-blur-md z-50 `}
       >

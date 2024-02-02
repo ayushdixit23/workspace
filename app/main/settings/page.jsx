@@ -75,7 +75,7 @@ const page = () => {
         id: id,
         data: data,
       });
-      console.log(response.data);
+     
       if (response.data?.success) {
         await resetCookies(response.data);
         await refetch();

@@ -1,6 +1,5 @@
 import { useCreateStoreMutation } from "@/app/redux/apiroutes/product";
 import { LoadThis } from "@/app/redux/slice/userData";
-import Link from "next/link";
 import React from "react";
 import toast from "react-hot-toast";
 import { FaPlus } from "react-icons/fa";
@@ -53,8 +52,8 @@ const CreateStore = ({
       console.log(result);
       if (result.data?.success) {
         await refetch();
-        toast.success("Store Created Successfully!")
         setLoading(false)
+        toast.success("Store Created Successfully!")
       } else {
         setLoading(false)
         toast.error("Something Went Wrong!")

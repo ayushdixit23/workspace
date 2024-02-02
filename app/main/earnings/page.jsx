@@ -46,7 +46,6 @@ const page = () => {
       })
       await refetch()
       setOpen(false)
-      console.log(res.data)
       toast.success("Bank Details Saved!")
     } catch (error) {
       console.log(error)
@@ -66,9 +65,6 @@ const page = () => {
     }
     console.log(data?.earningStats.bank)
   }, [data])
-
-  console.log(bank)
-  console.log(data)
 
   if (isLoading) {
     return <Loader />

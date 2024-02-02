@@ -267,15 +267,37 @@ function page() {
                   <div className="flex flex-col w-full">
                     <div className="font-semibold pb-2">Selling Price</div>
                     <div className="w-full">
-                      <input className="outline-none p-2 w-full bg-[#F4F5F7] rounded-lg" placeholder="Type base price here..." value={product.price}
-                        onChange={(e) => setProduct({ ...product, price: e.target.value })} />
+                      <input type="number" className="outline-none p-2 w-full bg-[#F4F5F7] rounded-lg" placeholder="Type base price here..." value={product.price}
+                        onChange={(e) => {
+                          const newValue = e.target.value;
+                          if (
+                            !isNaN(newValue) &&
+                            parseFloat(newValue) >= 0
+                          ) {
+                            setProduct({ ...product, price: newValue });
+                          } else if (newValue === "" || newValue === "-") {
+                            setProduct({ ...product, price: newValue });
+                          }
+                        }}
+                      />
                     </div>
                   </div>
                   <div className="flex flex-col w-full">
                     <div className="font-semibold pb-2">Discounted Price</div>
                     <div className="w-full">
-                      <input className="outline-none p-2 w-full bg-[#F4F5F7] rounded-lg" placeholder="Type Discounted amount..." value={product.discountedprice}
-                        onChange={(e) => setProduct({ ...product, discountedprice: e.target.value })} />
+                      <input type="number" className="outline-none p-2 w-full bg-[#F4F5F7] rounded-lg" placeholder="Type Discounted amount..." value={product.discountedprice}
+                        onChange={(e) => {
+                          const newValue = e.target.value;
+                          if (
+                            !isNaN(newValue) &&
+                            parseFloat(newValue) >= 0
+                          ) {
+                            setProduct({ ...product, discountedprice: newValue });
+                          } else if (newValue === "" || newValue === "-") {
+                            setProduct({ ...product, discountedprice: newValue });
+                          }
+                        }}
+                      />
                     </div>
                   </div>
                 </div>
