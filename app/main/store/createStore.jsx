@@ -153,7 +153,7 @@ const CreateStore = ({
                   Enter PAN or Aadhaar Number
                 </div>
                 <input
-                  type="number"
+                  type="text"
                   className="border-2 bg-[#FAFAFA] outline-none p-1 rounded-lg"
                   value={store.d8}
                   onChange={(e) => setStore({ ...store, d8: e.target.value })}

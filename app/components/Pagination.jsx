@@ -1,7 +1,7 @@
 import React from "react";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 
-const Pagination = ({ length, postPerPage, currentPage, setCurrentPage }) => {
+const Pagination = ({ length, postPerPage, firstIndex, lastindex, currentPage, setCurrentPage }) => {
 
   let page = [];
   const totalPages = Math.ceil(length / postPerPage);
@@ -34,7 +34,7 @@ const Pagination = ({ length, postPerPage, currentPage, setCurrentPage }) => {
   return (
     <>
       <div className="flex justify-between items-center p-2">
-        <div className="text-sm text-[#667085]">Showing 1-10 from 100</div>
+        <div className="text-sm text-[#667085]">Showing {firstIndex + 1}-{lastindex} from {totalPages}</div>
         <div className="flex justify-center items-center gap-3">
           <button
             onClick={() => setCurrentPage((prevPage) => prevPage - 1)}

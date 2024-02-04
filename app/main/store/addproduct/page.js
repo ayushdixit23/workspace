@@ -9,6 +9,7 @@ import { AiOutlineLoading3Quarters, AiOutlinePlus } from "react-icons/ai";
 import { RxCross2 } from "react-icons/rx";
 import toast, { Toaster } from "react-hot-toast";
 import { deleteCookie, getCookie } from "cookies-next";
+import { IoChevronDownSharp, IoChevronUpSharp } from "react-icons/io5";
 
 function page() {
   const router = useRouter();
@@ -21,9 +22,16 @@ function page() {
   })
   const [selectedImage, setSelectedImage] = useState([]);
   const [call, setCall] = useState({
-    c1: true,
-    c2: true
+    c1: false,
+    c2: false
   });
+  const [productInfo, setProductInfo] = useState({
+    gst: false,
+    gstValue: "",
+    shipping: false,
+    shippingValue: "",
+    weightType: "kg"
+  })
   const [by, setBy] = useState(false);
   const [finalimages, setFinalimages] = useState([]);
   const [AddProduct] = useAddProductMutation();
@@ -301,7 +309,7 @@ function page() {
                     </div>
                   </div>
                 </div>
-                <div className="bg-white pt-3 rounded-2xl mt-2">
+                <div className="bg-white pt-3 my-1 rounded-2xl">
                   <div className="flex items-center">
                     <input
                       className="p-1 m-1"
@@ -309,30 +317,36 @@ function page() {
                         setCall({ ...call, c1: !call.c1 });
                       }}
                       type="checkbox"
+                      checked={call.c1}
                     />
                     <div className="text-[#5570F1]">
                       This product includes gst
                     </div>
                   </div>
 
-                  <div
-                    className={`${call.c1
-                      ? "hidden"
-                      : "outline-none flex justify-center mt-2 bg-[#ffffff] items-center rounded-[12px] h-10 w-[40%] ring-1 ring-[#f5f5f5]"
-                      }`}
-                  >
-                    <select
-                      className={`${call.c1
-                        ? "hidden"
-                        : "outline-none flex px-2 justify-center bg-[#ffffff] items-center rounded-r-[12px] h-10"
-                        }`}
-                    >
-                      <option>0</option>
-                      <option>12%</option>
-                      <option></option>
-                      <option>pounds</option>
-                    </select>
+
+                  <div className={`${call.c1 ? "flex flex-col pt-1 w-full" : "hidden"}`}>
+                    <div className="font-semibold py-1">GST</div>
+                    <div className="relative w-full">
+                      <div className="w-full  flex justify-between items-end p-2 sm:max-w-[250px] bg-[#F4F5F7] rounded-lg">
+                        <div>{productInfo.gstValue}</div>
+                        {
+                          productInfo.gst ? <IoChevronUpSharp onClick={() => setProductInfo({ ...productInfo, gst: false })} className="text-lg " /> : <IoChevronDownSharp onClick={() => setProductInfo({ ...productInfo, gst: true })} className="text-lg " />
+                        }
+                        {console.log(productInfo)}
+                        <div className={`${productInfo.gst ? "absolute top-10 sm:max-w-[250px] left-0 w-full bg-white rounded-lg p-3 shadow-md" : "hidden"} `}>
+                          <div className="flex gap-3 font-semibold cursor-pointer flex-col">
+
+                            <div onClick={() => setProductInfo({ ...productInfo, gst: false, gstValue: "5%" })}>5%</div>
+                            <div onClick={() => setProductInfo({ ...productInfo, gst: false, gstValue: "12%" })}>12%</div>
+                            <div onClick={() => setProductInfo({ ...productInfo, gst: false, gstValue: "18%" })}>18%</div>
+                            <div onClick={() => setProductInfo({ ...productInfo, gst: false, gstValue: "28%" })}>28%</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
+
                 </div>
               </div>
               <div className="bg-white p-4 rounded-2xl mt-2">
@@ -390,45 +404,59 @@ function page() {
                   </button>
                 </div>
               </div> */}
-              <div className="bg-white p-4 rounded-2xl mt-2">
-                <div className="font-semibold text-[20px] pt-1">Shiping</div>
-                <div className="flex pt-4 items-center">
+              <div className="bg-white p-4 pn:max-sm:mb-8 mt-2 rounded-2xl">
+                <div className="font-semibold text-[20px]">Shiping</div>
+                <div className="flex py-[5px] gap-1 items-center">
                   <input
-                    className="p-1 m-1"
+                    className="p-1 "
                     onClick={() => {
                       setCall({ ...call, c2: !call.c2 });
                     }}
                     type="checkbox"
+                    checked={call.c2}
                   />
                   <div className="text-[#5570F1]">
                     This is a physical product
                   </div>
                 </div>
-                <div
-                  className={`${call.c2
-                    ? "hidden"
-                    : "outline-none flex justify-center mt-2 bg-[#ffffff] items-center rounded-[12px] h-10 w-[40%] ring-1 ring-[#f5f5f5]"
-                    }`}
-                >
-                  <input
-                    className={`${call.c2
-                      ? "hidden"
-                      : "outline-none flex pl-3 justify-center bg-[#F4F5F7] items-center rounded-l-[12px] h-10 w-[60%]"
-                      }`}
-                    type="text"
-                    placeholder="0.0"
-                  />
-                  <select
-                    className={`${call.c2
-                      ? "hidden"
-                      : "outline-none flex px-2 justify-center bg-[#ffffff] items-center rounded-r-[12px] h-10"
-                      }`}
-                  >
-                    <option>kg</option>
-                    <option>mg</option>
-                    <option>lit</option>
-                    <option>pounds</option>
-                  </select>
+                <div className={`${call.c2 ? "flex flex-col w-full" : "hidden"} `}>
+
+
+                  <div className="w-full ">
+                    <div className="font-semibold pb-1">Weight</div>
+                    <div className=" grid grid-cols-7 gap-2 w-full">
+                      <input type="number" className="outline-none p-2 col-span-5 w-full bg-[#F4F5F7] rounded-lg" placeholder="Type Weight Of The Product here..." value={productInfo.shippingValue}
+                        onChange={(e) => {
+                          const newValue = e.target.value;
+                          if (
+                            !isNaN(newValue) &&
+                            parseFloat(newValue) >= 0
+                          ) {
+                            setProductInfo({ ...productInfo, shippingValue: newValue });
+                          } else if (newValue === "" || newValue === "-") {
+                            setProductInfo({ ...productInfo, shippingValue: newValue });
+                          }
+                        }}
+                      />
+                      <div className="relative flex justify-center items-center col-span-2 rounded-lg bg-[#F4F5F7] w-full">
+                        <div className="w-full  flex justify-between items-end p-2 sm:max-w-[250px] bg-[#F4F5F7] rounded-lg">
+                          <div>{productInfo.weightType}</div>
+                          {
+                            productInfo.shipping ? <IoChevronUpSharp onClick={() => setProductInfo({ ...productInfo, shipping: false })} className="text-lg " /> : <IoChevronDownSharp onClick={() => setProductInfo({ ...productInfo, shipping: true })} className="text-lg " />
+                          }
+
+                          <div className={`${productInfo.shipping ? "absolute top-10 sm:max-w-[250px] left-0 w-full bg-white rounded-lg p-3 shadow-md" : "hidden"} `}>
+                            <div className="flex gap-3 font-semibold cursor-pointer flex-col">
+
+                              <div onClick={() => setProductInfo({ ...productInfo, shipping: false, weightType: "Kg" })}>Kg</div>
+                              <div onClick={() => setProductInfo({ ...productInfo, shipping: false, weightType: "grams" })}>grams</div>
+                              <div onClick={() => setProductInfo({ ...productInfo, shipping: false, weightType: "pounds" })}>pounds</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

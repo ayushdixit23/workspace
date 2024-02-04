@@ -204,12 +204,15 @@ const page = () => {
               </div>
             </div>
             <Fetch data={postperData} />
-            <Pagination
+            {getorderdata?.mergedOrder?.length > postPerPage && <Pagination
               postPerPage={postPerPage}
               setCurrentPage={setCurrentPage}
               currentPage={currentPage}
+              firstIndex={firstIndex}
+              lastindex={lastindex}
               length={getorderdata?.mergedOrder.length}
             />
+            }
           </div>
         </div>
       </div>

@@ -214,14 +214,14 @@ const Sample5 = () => {
 	}
 
 	return (
-		<div className="bg-gray-300 min-h-[100vh] scrollbar-hide flex items-center justify-center">
+		<div className="bg-[#1d212a] min-h-[100vh] scrollbar-hide flex items-center justify-center">
 			<div className="sm:mx-5 mx-2 pb-10">
-				<div className="py-8 lg:py-14 flex flex-col items-center">
+				<div className="py-8 lg:py-14 flex flex-col text-white items-center">
 					<span className="text-[#365CCE] text-base">Pricing</span>
 					<span className="font-semibold text-center text-4xl sm:text-5xl mt-3 mb-6">
 						Find your perfect plan
 					</span>
-					<span className="sm:text-xl text-center text-lg font-light">
+					<span className="sm:text-xl text-white text-center text-lg font-light">
 						Simple, transparent pricing that grows with you. Try any plan free
 						for 30 days.
 					</span>
@@ -244,7 +244,7 @@ const Sample5 = () => {
 					</div>
 				</div>
 
-				<div className="sm:max-w-[1280px] max-w-[450px] mx-auto bg-white rounded-xl">
+				<div className="md:max-w-[1280px] max-w-[500px] flex justify-center items-center w-full mx-auto bg-white rounded-xl">
 					<table className="w-full text-start border-spacing-5 border-separate flex gap-4 flex-col md:flex-row sm:p-5 lg:p-0">
 						{pricingData.map((data, index) => (
 							<tbody
@@ -252,7 +252,7 @@ const Sample5 = () => {
 								className={
 									index === 0
 										? "hidden lg:block"
-										: "border-2 lg:border-none font-medium text-sm text-[#101828] mb-10 lg:mb-0 rounded-lg"
+										: "border-2 lg:border-none sm:max-md:w-full font-medium text-sm text-[#101828] mb-10 lg:mb-0 rounded-lg"
 								}
 							>
 								<tr>

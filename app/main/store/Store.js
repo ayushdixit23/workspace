@@ -13,7 +13,7 @@ import {
 	useCheckStoreExistsQuery,
 	useDeleteProductMutation,
 	useGetProductQuery,
-	useRemoveCollectionMutation,
+	//useRemoveCollectionMutation,
 } from "@/app/redux/apiroutes/product";
 import { getData } from "@/app/utils/Useful";
 import { encryptaes } from "@/app/utils/security";
@@ -37,7 +37,7 @@ export default function Store() {
 		d2: "Retail",
 		d3: null,
 	});
-	//const [productdeletemutate] = useDeleteProductMutation();
+	const [productdeletemutate] = useDeleteProductMutation();
 	const { data: productdata, isLoading, refetch } = useGetProductQuery(
 		{ id: id },
 		{ skip: !id, refetchOnMountOrArgChange: true, }
@@ -169,7 +169,6 @@ export default function Store() {
 			)}
 			{queryForCreation == "store" && check == 2 &&
 				<CreateStore
-
 					store={store}
 					id={id}
 					loading={loading}
@@ -343,9 +342,7 @@ export default function Store() {
 												<div className="flex justify-between py-2 px-3 items-center">
 													<div className="font-semibold text-[#4A4C56]">{d.name}</div>
 													<div
-														className="flex cursor-pointer
-					  justify-center
-					  items-center gap-2"
+														className="flex cursor-pointer justify-center items-center gap-2"
 													>
 														<Link href={"/main/store/addproduct"}
 															onClick={() => {
@@ -359,7 +356,7 @@ export default function Store() {
 												</div>
 												<div className="mt-1">
 													{d.products?.length > 0 ? (
-														<React.Fragment className="flex flex-col gap-3">
+														<div className="flex flex-col gap-3">
 															{d.products.map((f, g) => (
 																<Productinformation
 																	key={g}
@@ -370,7 +367,7 @@ export default function Store() {
 																	userid={f.creator}
 																/>
 															))}
-														</React.Fragment>
+														</div>
 													) : (
 														<div className="flex justify-center items-center mb-5">No product in this collection.</div>
 													)}
