@@ -72,7 +72,6 @@ function page() {
   }, [getProduct, isLoading, isError]);
 
   const handleImageChange = (e) => {
-    // setSelectImage(null);
     const files = e.target.files;
     const newImages = Array.from(files);
     const combinedImages = [...selectedImage, ...newImages];
@@ -110,7 +109,7 @@ function page() {
         clearCookies();
         setLoading(false)
         console.log(result.error)
-        // router.push("/main/store");
+        router.push("/main/store");
       }
     } catch (error) {
       setLoading(false)
@@ -418,7 +417,7 @@ function page() {
                         {
                           productInfo.gst ? <IoChevronUpSharp onClick={() => setProductInfo({ ...productInfo, gst: false })} className="text-lg " /> : <IoChevronDownSharp onClick={() => setProductInfo({ ...productInfo, gst: true })} className="text-lg " />
                         }
-                        {console.log(productInfo)}
+
                         <div className={`${productInfo.gst ? "absolute top-10 sm:max-w-[250px] left-0 w-full bg-white rounded-lg p-3 shadow-md" : "hidden"} `}>
                           <div className="flex gap-3 font-semibold cursor-pointer flex-col">
 

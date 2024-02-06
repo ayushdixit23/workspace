@@ -379,7 +379,7 @@ function page() {
           >
             <div className="text-sm pb-3 px-1 font-semibold text-[#424856]">Enter Your Phone Number</div>
             <div className="bg-[#f7f7f7] flex items-center border w-[300px] justify-center rounded-2xl">
-              <div className="border-r-2 sm:-ml-3 p-1 sm:pr-2 "> +91</div>
+              <div className="border-r-2 -ml-3 p-1 pr-2 "> +91</div>
               <input value={number} onChange={(e) => setNumber(e.target.value)} type="tel"
                 className=" p-2 outline-none rounded-xl bg-[#f7f7f7]" />
 

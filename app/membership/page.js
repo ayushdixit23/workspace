@@ -13,146 +13,141 @@ const Sample5 = () => {
 	const { id, fullname } = getData()
 	const [membershipFinalise] = useMemfinalizeMutation()
 
-	const pricingData = [
-		{
-			mainTitle: "",
-			price: "",
-			infoNote: "",
-			"Product Listings": "Product Listings",
-			"Platform  Fees": "Platform  Fees",
-			"Create Collections": "Create Collections",
-			"Product Review Time": "Product Review Time",
-			"Create Community": "Create Community",
-			"Analytics and Reports": "Analytics and Reports",
-			"Export Reports": "Export Reports",
-			"Discounts and Promotions": "Discounts and Promotions",
-			titleRow1: "Store",
-			"Create Topics (free/paid)": "Create Topics (free/paid)",
-			"Analytics and reports for Community": "Analytics and reports",
-			"Platform Fees (only for paid topics)": "Platform Fees (only for paid topics)",
-			titleRow5: "Community",
-			"Members Recognition": "Members Recognition",
-			titleRow9: "Deliveries",
-			Deliveries: "Deliveries",
-			"Delivery Options": "Delivery Options",
-			"Shipping Discounts": "Shipping Discounts",
-			"Animated intro": "Animated intro",
-			"Express Delivery": "Express Delivery",
-			titleRow13: "Prosite",
-			"Responsive Templates": "Responsive Templates",
-			"Quick Suggestion": "Quick Suggestion",
-			titleRow17: "AI Support",
-			"Thumbnail Generator": "Thumbnail Generator",
-			"Description generator": "Description generator",
-			"Keyword Suggestions": "Keyword Suggestions",
-			"Contact Support": "Contact Support"
+	const pricingData = [{
+		mainTitle: "",
+		price: "",
+		infoNote: "",
+		"Product Listings": "Product Listings",
+		"Platform  Fees": "Platform  Fees",
+		"Create Collections": "Create Collections",
+		"Product Review Time": "Product Review Time",
+		"Create Community": "Create Community",
+		"Analytics and Reports": "Analytics and Reports",
+		"Export Reports": "Export Reports",
+		"Discounts and Promotions": "Discounts and Promotions",
+		titleRow1: "Store",
+		"Create Topics (free/paid)": "Create Topics (free/paid)",
+		"Analytics and reports for Community": "Analytics and reports",
+		"Platform Fees (only for paid topics)": "Platform Fees (only for paid topics)",
+		titleRow5: "Community",
+		"Members Recognition": "Members Recognition",
+		titleRow9: "Deliveries",
+		Deliveries: "Deliveries",
+		"Delivery Options": "Delivery Options",
+		"Shipping Discounts": "Shipping Discounts",
+		"Animated intro": "Animated intro",
+		"Express Delivery": "Express Delivery",
+		titleRow13: "Prosite",
+		"Responsive Templates": "Responsive Templates",
+		"Quick Suggestion": "Quick Suggestion",
+		titleRow17: "AI Support",
+		"Thumbnail Generator": "Thumbnail Generator",
+		"Description generator": "Description generator",
+		"Keyword Suggestions": "Keyword Suggestions",
+		"Contact Support": "Contact Support"
+	},
+	{
+		mainTitle: "Basic",
+		popular: true,
+		price: {
+			month: "Free",
+			year: "Free",
 		},
-		{
-			mainTitle: "Basic",
-			popular: true,
-			price: {
-				month: "Free",
-				year: "Free",
-			},
-			infoNote: "Basic features for up to 10 employees with everything you need.",
-			"Product Listings": "Up-to 5 Products",
-			"Analytics and Reports": "Basic analytics",
-			"Platform  Fees": "10% per transaction",
-			"Create Collections": "1",
-			"Product Review Time": "6 Hrs",
+		infoNote: "Basic features for up to 10 employees with everything you need.",
+		"Product Listings": "Up-to 5 Products",
+		"Analytics and Reports": "Basic analytics",
+		"Platform  Fees": "10% per transaction",
+		"Create Collections": "1",
+		"Product Review Time": "6 Hrs",
 
-			"Create Topics (free/paid)": "2",
-			"Discounts and Promotions": "Not available",
-			"Platform Fees (only for paid topics)": "10% per transaction",
-			"Create Community": "2",
-			"Analytics and reports for Community": <div className="flex flex-col justify-center items-center w-full h-full text-sm">
-				<div>Basic analytics</div>
-				<div>Popularity</div>
-				<div>Custom</div>
-				<div>Custom</div>
-			</div>,
-			"Export Reports": true,
-			"Members Recognition": "Not available",
-			Deliveries: "Free 10 Devilries for free ",
-			"Delivery Options": "Basic Delivery option",
-			"Shipping Discounts": "Not available",
-			"Express Delivery": "Not available",
-			"Responsive Templates": "Limited selection of templates",
-			"Animated intro": "Not available",
-			"Quick Suggestion": "Limited selection of templates",
-			"Thumbnail Generator": "Not available",
-			"Description generator": "Not available",
-			"Keyword Suggestions": "Not available",
-			"Contact Support": "Basic Support"
+		"Create Topics (free/paid)": "2",
+		"Discounts and Promotions": "Not available",
+		"Platform Fees (only for paid topics)": "10% per transaction",
+		"Create Community": "2",
+		"Analytics and reports for Community":
+			"Basic analytics",
+		"Export Reports": true,
+		"Members Recognition": "Not available",
+		Deliveries: "Free 10 Deliveries for free ",
+		"Delivery Options": "Basic Delivery option",
+		"Shipping Discounts": "Not available",
+		"Express Delivery": "Not available",
+		"Responsive Templates": "Limited selection of templates",
+		"Animated intro": "Not available",
+		"Quick Suggestion": "Limited selection of templates",
+		"Thumbnail Generator": "Not available",
+		"Description generator": "Not available",
+		"Keyword Suggestions": "Not available",
+		"Contact Support": "Basic Support"
+	},
+	{
+		mainTitle: "Professional",
+		price: {
+			month: `₹3499`,
+			year: `₹35700`,
 		},
-		{
-			mainTitle: "Professional",
-			price: {
-				month: `₹3499`,
-				year: `₹35700`,
-			},
-			infoNote:
-				"Advanced features and reporting better workflows and automation.",
-			"Product Listings": "10 products / collection",
-			"Platform  Fees": "1% per transaaction",
-			"Create Collections": "5",
-			"Create Topics (free/paid)": "5",
-			"Product Review Time": "1 hrs ",
-			"Discounts and Promotions": "Create and manage discounts and promotions",
-			"Create Community": "5",
-			"Analytics and Reports": "Advanced analytics",
-			"Platform Fees (only for paid topics)": "1% per transaction",
-			"Analytics and reports for Community": <div className="flex flex-col justify-center items-center w-full h-full text-sm">
-				<div>Advanced analytics</div>
-				<div>Custom</div>
-				<div>Custom</div>
-				<div>Custom</div>
-			</div>,
-			"Export Reports": true,
-			"Members Recognition": "Recognition and badges for premium members",
-			Deliveries: "1000 deliveries",
-			"Delivery Options": "Expanded delivery options",
-			"Shipping Discounts": "Exclusive shipping discounts",
-			"Animated intro": "Access to premium intro",
-			"Express Delivery": "Priority and express delivery options",
-			"Responsive Templates": "Access to premium responsive templates",
-			"Quick Suggestion": "Access to premium responsive templates",
-			"Thumbnail Generator": <FaCheckCircle />,
-			"Description generator": <FaCheckCircle />,
-			"Keyword Suggestions": <FaCheckCircle />,
-			"Contact Support": "24 hrs Contact Support"
+		infoNote:
+			"Advanced features and reporting better workflows and automation.",
+		"Product Listings": "10 products / collection",
+		"Platform  Fees": "1% per transaaction",
+		"Create Collections": "5",
+		"Create Topics (free/paid)": "5",
+		"Product Review Time": "1 hrs ",
+		"Discounts and Promotions": "Create and manage discounts and promotions",
+		"Create Community": "5",
+		"Analytics and Reports": "Advanced analytics",
+		"Platform Fees (only for paid topics)": "1% per transaction",
+		"Analytics and reports for Community":
+			"Advanced analytics"
+		// <div>Custom</div>
+		// <div>Custom</div>
+		// <div>Custom</div>
+		,
+		"Export Reports": true,
+		"Members Recognition": "Recognition and badges for premium members",
+		Deliveries: "1000 deliveries",
+		"Delivery Options": "Expanded delivery options",
+		"Shipping Discounts": "Exclusive shipping discounts",
+		"Animated intro": "Access to premium intro",
+		"Express Delivery": "Priority and express delivery options",
+		"Responsive Templates": "Access to premium responsive templates",
+		"Quick Suggestion": "Access to premium responsive templates",
+		"Thumbnail Generator": <FaCheckCircle />,
+		"Description generator": <FaCheckCircle />,
+		"Keyword Suggestions": <FaCheckCircle />,
+		"Contact Support": "24 hrs Contact Support"
+	},
+	{
+		mainTitle: "Custom",
+		price: {
+			month: "Custom",
+			year: "Custom",
 		},
-		{
-			mainTitle: "Custom",
-			price: {
-				month: "Custom",
-				year: "Custom",
-			},
-			infoNote: "Personalised service and enterprise security for large teams.",
-			"Create Topics (free/paid)": "custom",
-			"Product Listings": "Custom",
-			"Platform  Fees": "1% per transaaction",
-			"Create Collections": "Custom",
-			"Discounts and Promotions": "Custom",
-			"Product Review Time": "Custom",
-			"Analytics and Reports": "Custom",
-			"Platform Fees (only for paid topics)": "Custom",
-			"Analytics and reports for Community": "Custom",
-			"Create Community": "custom",
-			"Export Reports": true,
-			"Members Recognition": "Custom",
-			Deliveries: "Custom",
-			"Delivery Options": "Custom",
-			"Shipping Discounts": "Custom",
-			"Express Delivery": "Custom",
-			"Responsive Templates": "Custom",
-			"Animated intro": "Custom",
-			"Quick Suggestion": "Custom",
-			"Thumbnail Generator": "Custom",
-			"Description generator": "Custom",
-			"Keyword Suggestions": "Custom",
-			"Contact Support": "Custom"
-		},
+		infoNote: "Personalised service and enterprise security for large teams.",
+		"Create Topics (free/paid)": "custom",
+		"Product Listings": "Custom",
+		"Platform  Fees": "1% per transaaction",
+		"Create Collections": "Custom",
+		"Discounts and Promotions": "Custom",
+		"Product Review Time": "Custom",
+		"Analytics and Reports": "Custom",
+		"Platform Fees (only for paid topics)": "Custom",
+		"Analytics and reports for Community": "Custom",
+		"Create Community": "custom",
+		"Export Reports": true,
+		"Members Recognition": "Custom",
+		Deliveries: "Custom",
+		"Delivery Options": "Custom",
+		"Shipping Discounts": "Custom",
+		"Express Delivery": "Custom",
+		"Responsive Templates": "Custom",
+		"Animated intro": "Custom",
+		"Quick Suggestion": "Custom",
+		"Thumbnail Generator": "Custom",
+		"Description generator": "Custom",
+		"Keyword Suggestions": "Custom",
+		"Contact Support": "Custom"
+	},
 	];
 
 	const buyMembership = async (data) => {
@@ -245,14 +240,14 @@ const Sample5 = () => {
 				</div>
 
 				<div className="md:max-w-[1280px] max-w-[500px] flex justify-center items-center w-full mx-auto bg-white rounded-xl">
-					<table className="w-full text-start border-spacing-5 border-separate flex gap-4 flex-col md:flex-row sm:p-5 lg:p-0">
+					<table className="w-full text-start border-spacing-5 border-separate flex gap-4 flex-col md:flex-row pp:p-5 lg:p-0">
 						{pricingData.map((data, index) => (
 							<tbody
 								key={index}
 								className={
 									index === 0
 										? "hidden lg:block"
-										: "border-2 lg:border-none sm:max-md:w-full font-medium text-sm text-[#101828] mb-10 lg:mb-0 rounded-lg"
+										: "border-2 lg:border-none font-medium text-sm text-[#101828] mb-10 lg:mb-0 rounded-lg"
 								}
 							>
 								<tr>
@@ -311,7 +306,7 @@ const Sample5 = () => {
 										colSpan={2}
 									>
 										{data.titleRow1}
-										<span className="lg:hidden">
+										<span className="lg:hidden text-left">
 											{pricingData[0]["titleRow1"]}
 										</span>
 									</td>
@@ -321,13 +316,13 @@ const Sample5 = () => {
 										className={
 											index === 0
 												? "h-5"
-												: "h-6 text-center flex justify-between lg:justify-center flex-row-reverse"
+												: "h-6 text-right flex justify-between lg:justify-center flex-row-reverse"
 										}
 									>
 										<span className="font-medium text-sm text-[#101828]">
 											{data["Product Listings"]}
 										</span>
-										<span className="lg:hidden">{pricingData[0]["Product Listings"]}</span>
+										<span className="lg:hidden text-left">{pricingData[0]["Product Listings"]}</span>
 									</td>
 								</tr>
 
@@ -336,13 +331,13 @@ const Sample5 = () => {
 										className={
 											index === 0
 												? "h-5"
-												: "h-6 text-center flex justify-between lg:justify-center flex-row-reverse"
+												: "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"
 										}
 									>
 										<span className="font-medium text-sm text-[#101828]">
 											{data["Platform  Fees"]}
 										</span>
-										<span className="lg:hidden">{pricingData[0]["Platform  Fees"]}</span>
+										<span className="lg:hidden text-left">{pricingData[0]["Platform  Fees"]}</span>
 									</td>
 								</tr>
 								<tr>
@@ -350,13 +345,13 @@ const Sample5 = () => {
 										className={
 											index === 0
 												? "h-5"
-												: "h-7 text-center flex justify-between lg:justify-center flex-row-reverse"
+												: "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"
 										}
 									>
 										<span className="font-medium text-sm text-[#101828]">
 											{data["Create Collections"]}
 										</span>
-										<span className="lg:hidden">
+										<span className="lg:hidden text-left">
 											{pricingData[0]["Create Collections"]}
 										</span>
 									</td>
@@ -366,13 +361,13 @@ const Sample5 = () => {
 										className={
 											index === 0
 												? "h-5"
-												: "h-7 text-center flex justify-between lg:justify-center flex-row-reverse"
+												: "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"
 										}
 									>
 										<span className="font-medium text-sm text-[#101828]">
 											{data["Product Review Time"]}
 										</span>
-										<span className="lg:hidden">
+										<span className="lg:hidden text-left">
 											{pricingData[0]["Product Review Time"]}
 										</span>
 									</td>
@@ -382,13 +377,13 @@ const Sample5 = () => {
 										className={
 											index === 0
 												? "h-5"
-												: "h-7 text-center flex justify-between lg:justify-center flex-row-reverse"
+												: "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"
 										}
 									>
 										<span className="font-medium text-sm text-[#101828]">
 											{data["Analytics and Reports"]}
 										</span>
-										<span className="lg:hidden">
+										<span className="lg:hidden text-left">
 											{pricingData[0]["Analytics and Reports"]}
 										</span>
 									</td>
@@ -398,13 +393,13 @@ const Sample5 = () => {
 										className={
 											index === 0
 												? "h-5"
-												: "h-7 text-center flex justify-between lg:justify-center flex-row-reverse"
+												: "h-9 text-right flex justify-between lg:justify-center flex-row-reverse"
 										}
 									>
 										<span className="font-medium text-sm text-[#101828]">
 											{data["Discounts and Promotions"]}
 										</span>
-										<span className="lg:hidden">
+										<span className="lg:hidden text-left">
 											{pricingData[0]["Discounts and Promotions"]}
 										</span>
 									</td>
@@ -421,7 +416,7 @@ const Sample5 = () => {
 										className="h-5 text-sm font-semibold text-[#365CCE] whitespace-nowrap"
 									>
 										{data.titleRow5}
-										<span className="lg:hidden">
+										<span className="lg:hidden text-left">
 											{pricingData[0]["titleRow5"]}
 										</span>
 									</td>
@@ -432,11 +427,11 @@ const Sample5 = () => {
 										className={
 											index === 0
 												? "h-5"
-												: "h-7 text-center flex justify-between lg:justify-center flex-row-reverse"
+												: "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"
 										}
 									>
 										<span className="font-medium text-sm text-[#101828]">{data["Create Community"]}</span>
-										<span className="lg:hidden">
+										<span className="lg:hidden text-left">
 											{pricingData[0]["Create Community"]}
 										</span>
 									</td>
@@ -447,11 +442,11 @@ const Sample5 = () => {
 										className={
 											index === 0
 												? "h-5"
-												: "h-7 text-center flex justify-between lg:justify-center flex-row-reverse"
+												: "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"
 										}
 									>
 										<span className="font-medium text-sm text-[#101828]">{data["Create Topics (free/paid)"]}</span>
-										<span className="lg:hidden">
+										<span className="lg:hidden text-left">
 											{pricingData[0]["Create Topics (free/paid)"]}
 										</span>
 									</td>
@@ -463,11 +458,11 @@ const Sample5 = () => {
 										className={
 											index === 0
 												? "h-5"
-												: "h-7 text-center flex justify-between lg:justify-center flex-row-reverse"
+												: "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"
 										}
 									>
 										<span>{data["Platform Fees (only for paid topics)"]}</span>
-										<span className="lg:hidden">
+										<span className="lg:hidden text-left">
 											{pricingData[0]["Platform Fees (only for paid topics)"]}
 										</span>
 									</td>
@@ -477,12 +472,12 @@ const Sample5 = () => {
 
 										className={
 											index === 0
-												? "h-[82px]"
-												: "h-[100px] text-center flex justify-between lg:justify-center flex-row-reverse"
+												? "h-5"
+												: "h-9 text-right flex justify-between lg:justify-center items-center flex-row-reverse"
 										}
 									>
 										<span>{data["Analytics and reports for Community"]}</span>
-										<span className="lg:hidden">
+										<span className="lg:hidden text-left h-full flex items-center justify-center">
 											{pricingData[0]["Analytics and reports for Community"]}
 										</span>
 									</td>
@@ -492,11 +487,11 @@ const Sample5 = () => {
 										className={
 											index === 0
 												? "h-10"
-												: "h-10 text-center flex justify-between lg:justify-center flex-row-reverse"
+												: "h-10 text-right flex justify-between lg:justify-center flex-row-reverse"
 										}
 									>
 										<span>{data["Members Recognition"]}</span>
-										<span className="lg:hidden">
+										<span className="lg:hidden text-left">
 											{pricingData[0]["Members Recognition"]}
 										</span>
 									</td>
@@ -509,39 +504,39 @@ const Sample5 = () => {
 								<tr>
 									<td colSpan={2} className="h-5 text-sm font-semibold text-[#365CCE] whitespace-nowrap">
 										{data.titleRow9}
-										<span className="lg:hidden">
+										<span className="lg:hidden text-left">
 											{pricingData[0]["titleRow9"]}
 										</span>
 									</td>
 								</tr>
 								<tr>
-									<td className={index === 0 ? "h-5" : "h-7 text-center flex justify-between lg:justify-center flex-row-reverse"}>
+									<td className={index === 0 ? "h-5" : "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"}>
 										<span>{data["Deliveries"]}</span>
-										<span className="lg:hidden">
+										<span className="lg:hidden text-left">
 											{pricingData[0]["Deliveries"]}
 										</span>
 									</td>
 								</tr>
 								<tr>
-									<td className={index === 0 ? "h-5" : "h-7 text-center flex justify-between lg:justify-center flex-row-reverse"}>
+									<td className={index === 0 ? "h-5" : "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"}>
 										<span>{data["Delivery Options"]}</span>
-										<span className="lg:hidden">
+										<span className="lg:hidden text-left">
 											{pricingData[0]["Delivery Options"]}
 										</span>
 									</td>
 								</tr>
 								<tr>
-									<td className={index === 0 ? "h-5" : "h-7 text-center flex justify-between lg:justify-center flex-row-reverse"}>
+									<td className={index === 0 ? "h-5" : "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"}>
 										<span>{data["Shipping Discounts"]}</span>
-										<span className="lg:hidden">
+										<span className="lg:hidden text-left">
 											{pricingData[0]["Shipping Discounts"]}
 										</span>
 									</td>
 								</tr>
 								<tr>
-									<td className={index === 0 ? "h-5" : "h-7 text-center flex justify-between lg:justify-center flex-row-reverse"}>
+									<td className={index === 0 ? "h-5" : "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"}>
 										<span>{data["Express Delivery"]}</span>
-										<span className="lg:hidden">
+										<span className="lg:hidden text-left">
 											{pricingData[0]["Express Delivery"]}
 										</span>
 									</td>
@@ -554,23 +549,23 @@ const Sample5 = () => {
 								<tr>
 									<td colSpan={2} className="h-5 text-sm font-semibold text-[#365CCE] whitespace-nowrap">
 										{data.titleRow13}
-										<span className="lg:hidden">
+										<span className="lg:hidden text-left">
 											{pricingData[0]["titleRow13"]}
 										</span>
 									</td>
 								</tr>
 								<tr>
-									<td className={index === 0 ? "h-5" : "h-7 text-center flex justify-between lg:justify-center flex-row-reverse"}>
+									<td className={index === 0 ? "h-5" : "h-9 text-right flex justify-between lg:justify-center flex-row-reverse"}>
 										<span>{data["Responsive Templates"]}</span>
-										<span className="lg:hidden">
+										<span className="lg:hidden text-left">
 											{pricingData[0]["Responsive Templates"]}
 										</span>
 									</td>
 								</tr>
 								<tr>
-									<td className={index === 0 ? "h-5" : "h-7 text-center flex justify-between lg:justify-center flex-row-reverse"}>
+									<td className={index === 0 ? "h-5" : "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"}>
 										<span>{data["Animated intro"]}</span>
-										<span className="lg:hidden">
+										<span className="lg:hidden text-left">
 											{pricingData[0]["Animated intro"]}
 										</span>
 									</td>
@@ -583,47 +578,47 @@ const Sample5 = () => {
 								<tr>
 									<td colSpan={2} className="h-5 text-sm font-semibold text-[#365CCE] whitespace-nowrap">
 										{data.titleRow17}
-										<span className="lg:hidden">
+										<span className="lg:hidden text-left">
 											{pricingData[0]["titleRow17"]}
 										</span>
 									</td>
 								</tr>
 								<tr>
-									<td className={index === 0 ? "h-5" : "h-7 text-center flex justify-between lg:justify-center flex-row-reverse"}>
+									<td className={index === 0 ? "h-5" : "h-9 text-right flex justify-between lg:justify-center flex-row-reverse"}>
 										<span>{data["Quick Suggestion"]}</span>
-										<span className="lg:hidden">
+										<span className="lg:hidden text-left">
 											{pricingData[0]["Quick Suggestion"]}
 										</span>
 									</td>
 								</tr>
 								<tr>
-									<td className={index === 0 ? "h-5" : "h-7 text-center flex justify-between lg:justify-center flex-row-reverse"}>
+									<td className={index === 0 ? "h-5" : "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"}>
 										<span>{data["Thumbnail Generator"]}</span>
-										<span className="lg:hidden">
+										<span className="lg:hidden text-left">
 											{pricingData[0]["Thumbnail Generator"]}
 										</span>
 									</td>
 								</tr>
 								<tr>
-									<td className={index === 0 ? "h-5" : "h-7 text-center flex justify-between lg:justify-center flex-row-reverse"}>
+									<td className={index === 0 ? "h-5" : "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"}>
 										<span>{data["Description generator"]}</span>
-										<span className="lg:hidden">
+										<span className="lg:hidden text-left">
 											{pricingData[0]["Description generator"]}
 										</span>
 									</td>
 								</tr>
 								<tr>
-									<td className={index === 0 ? "h-5" : "h-7 text-center flex justify-between lg:justify-center flex-row-reverse"}>
+									<td className={index === 0 ? "h-5" : "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"}>
 										<span>{data["Keyword Suggestions"]}</span>
-										<span className="lg:hidden">
+										<span className="lg:hidden text-left">
 											{pricingData[0]["Keyword Suggestions"]}
 										</span>
 									</td>
 								</tr>
 								<tr>
-									<td className={index === 0 ? "h-5" : "h-7 text-center flex justify-between lg:justify-center flex-row-reverse"}>
+									<td className={index === 0 ? "h-5" : "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"}>
 										<span>{data["Contact Support"]}</span>
-										<span className="lg:hidden">
+										<span className="lg:hidden text-left">
 											{pricingData[0]["Contact Support"]}
 										</span>
 									</td>

@@ -35,7 +35,7 @@ function page() {
   const [by, setBy] = useState(false);
   const [finalimages, setFinalimages] = useState([]);
   const [AddProduct] = useAddProductMutation();
-  const { id } = getData()
+  const { id, fullname } = getData()
   const hoja = getCookie("clvss");
   const [loading, setLoading] = useState(false)
   const cid = hoja ? decryptaes(hoja) : null;
@@ -62,9 +62,9 @@ function page() {
     formDataToSend.append("quantity", product.quantity);
     formDataToSend.append("desc", product.desc);
     formDataToSend.append("price", product.price);
-    formDataToSend.append("brandname", "price");
+    formDataToSend.append("brandname", fullname);
     formDataToSend.append("shippingcost", 24);
-    formDataToSend.append("sellername", "price");
+    formDataToSend.append("sellername", fullname);
     formDataToSend.append("discountedprice", product.discountedprice);
     try {
       const result = await AddProduct({
