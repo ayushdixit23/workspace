@@ -20,7 +20,6 @@ export default async function middleware(request) {
 	console.log(tokenExists, "tokenExists")
 
 	if (!tokenExists && request.nextUrl.pathname !== '/login') {
-
 		console.log("Redirecting to login due to missing token");
 		return NextResponse.redirect(new URL('/login', request.nextUrl));
 	}

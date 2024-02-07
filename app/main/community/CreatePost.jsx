@@ -8,6 +8,7 @@ import { GrUploadOption } from "react-icons/gr";
 import Image from 'next/image'
 import { useCreatePostMutation } from '@/app/redux/apiroutes/community'
 import toast, { Toaster } from 'react-hot-toast'
+import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 
 const CreatePost = ({ id, comid, open, setOpen, refetch }) => {
 	const [post, setPost] = useState({
