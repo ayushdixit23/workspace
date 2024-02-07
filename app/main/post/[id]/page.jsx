@@ -25,7 +25,7 @@ const page = () => {
 	}))
 
 	const [open, setOpen] = useState(false)
-
+	
 	if (isLoading) {
 		return <Loader />
 	}

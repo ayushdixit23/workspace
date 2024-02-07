@@ -18,6 +18,7 @@ const CreatePost = ({ id, comid, open, setOpen, refetch }) => {
 		video: [],
 		sampletags: ""
 	})
+	const [loading, setLoading] = useState(false)
 	const [postAnything] = useCreatePostMutation()
 	const savePost = async () => {
 		if (!post.title || !post.image) {
@@ -25,6 +26,7 @@ const CreatePost = ({ id, comid, open, setOpen, refetch }) => {
 			return
 		}
 		try {
+			setLoading(true)
 			const data = new FormData()
 			data.append("title", post.title)
 			data.append("desc", post.desc)
@@ -45,8 +47,12 @@ const CreatePost = ({ id, comid, open, setOpen, refetch }) => {
 			}
 			await refetch()
 			setOpen(false)
+			setLoading(false)
 		} catch (error) {
 			console.log(error)
+			setLoading(false)
+		} finally {
+			setLoading(false)
 		}
 	}
 
@@ -74,6 +80,18 @@ const CreatePost = ({ id, comid, open, setOpen, refetch }) => {
 	const handleMediaRemove = (indexToRemove, media) => {
 		setPost({ ...post, [media]: [...post[media].filter((_, i) => i !== indexToRemove)] })
 	};
+
+	if (loading) {
+		return (
+			<>
+				<div className="fixed inset-0 w-screen z-50 bg-black/60 h-screen flex justify-center items-center backdrop-blur-md">
+					<div className="animate-spin">
+						<AiOutlineLoading3Quarters className="text-2xl text-white" />
+					</div>
+				</div>
+			</>
+		);
+	}
 
 	return (
 		<>
