@@ -42,6 +42,13 @@ export const userLoginAndSettingApi = Api.injectEndpoints({
         body: data,
       }),
     }),
+    emailLogin: builder.mutation({
+      query: (data) => ({
+        url: `/v1/checkemail`,
+        method: "POST",
+        body: data
+      })
+    })
   }),
 });
 
@@ -52,5 +59,6 @@ export const {
   useGetProfileQuery,
   usePostProfileMutation,
   useLoginWithQrMutation,
+  useEmailLoginMutation,
   usePostProfileStoreMutation,
 } = userLoginAndSettingApi;

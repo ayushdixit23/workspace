@@ -23,10 +23,17 @@ import Image from "next/image";
 
 function page() {
   const s = getCookie("edta");
-  const data = s ? JSON.parse(decryptaes(s)) : null;
+  let data
+  try {
+    data = JSON.parse(s);
+    console.log(data);
+  } catch (error) {
+    console.error('Error parsing JSON:', error);
+  }
   const { id } = getData()
   const comidCookie = getCookie("cmdyd");
   const comid = comidCookie ? decryptaes(comidCookie) : null;
+
   const [editCommunity, setEditCommunity] = useState({
     title: "",
     desc: "",
@@ -82,7 +89,7 @@ function page() {
         topicid: topics.topicidForEdit,
         data,
       });
-      console.log(res.data);
+
       const updatedataoftopic = topicdata.map((d) => {
         return d._id === topics.topicidForEdit ? res.data.updatedTopic : d;
       });
@@ -142,6 +149,7 @@ function page() {
       console.log(res.data);
       if (res.data.success) {
         toast.success("Changes Saved!");
+        router.refresh()
         await refetch()
         clearCookies();
         router.push("/main/community");
@@ -168,8 +176,6 @@ function page() {
     deleteCookie("edta");
     deleteCookie("cmdyd");
   };
-
-
 
   const deleteTopic = async (tId) => {
     try {
@@ -239,8 +245,6 @@ function page() {
     "Supply Chain Management",
     "Real Estate",
   ];
-
-  console.log(topics)
 
   if (loading) {
     return (
@@ -819,7 +823,7 @@ function page() {
                         ))}
                     </div>
                   </div>
-                  <div className="mt-6">
+                  <div className="my-6">
                     <button className="flex justify-center gap-2 items-center bg-[#E8F1FF] text-[#5570F1] p-2 px-5 rounded-xl">
                       <div>
                         <FaPlus />

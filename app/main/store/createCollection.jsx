@@ -52,6 +52,7 @@ const CreateCollection = ({ col, setCol, image, refetch, loading, setLoading, ro
         id: id,
         data: formDataCol,
       });
+      console.log(result)
       if (result.data?.success) {
         toast.success("Collection Created Successfully!")
         await refetch()

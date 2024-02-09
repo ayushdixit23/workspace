@@ -86,7 +86,7 @@ function page() {
               <GoPlus />
             </Link>
           </div>
-          {comdata?.merged?.length > 0 ? < div className="sm:px-5 w-full text-[#202224]">
+          {comdata?.merged?.length > 0 ? < div className="sm:px-5 w-full sm:min-h-[65vh] text-[#202224]">
             <div className="flex w-full py-4 bg-[#F1F4F9] rounded-xl px-4 justify-between vs:max-sm:hidden mt-4">
               <div className="w-64 sm:max-md:w-52 font-semibold flex pl-10">
                 Communities

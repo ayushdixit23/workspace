@@ -67,7 +67,7 @@ function Communitybox({ data, id, index, handleDelete }) {
             <div className={`${open ? "absolute top-5 z-50 -left-20 h-[120px] rounded-lg w-[100px] bg-white shadow-lg" : "hidden"} `}>
               <div className="flex flex-col justify-start items-start gap-3 p-3">
                 <Link href={"/main/community/editCommunity"} onClick={() => {
-                  setCookie("edta", encryptaes(JSON.stringify(data)))
+                  setCookie("edta", JSON.stringify(data))
                   setCookie("cmdyd", encryptaes(data?.c?._id))
                 }}>Edit</Link>
                 <button onClick={() => { setComDelete(true), setOpen(false), dispatch(LoadThis(true)) }}>Delete</button>
@@ -85,7 +85,7 @@ function Communitybox({ data, id, index, handleDelete }) {
               <div className={`${open ? "absolute top-5 z-50 -left-20 h-[120px] rounded-lg w-[100px] bg-white shadow-lg" : "hidden"} `}>
                 <div className="flex flex-col justify-start items-start gap-3 p-3">
                   <Link href={"/main/community/editCommunity"} onClick={() => {
-                    setCookie("edta", encryptaes(JSON.stringify(data)))
+                    setCookie("edta", JSON.stringify(data))
                     setCookie("cmdyd", encryptaes(data?.c?._id))
                   }}>Edit</Link>
                   <button onClick={() => { setComDelete(true); setOpen(false) }}>Delete</button>

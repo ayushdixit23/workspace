@@ -95,6 +95,7 @@ function page() {
 
   const handleImageRemove = (indexToRemove) => {
     setSelectedImage(prevImages => prevImages.filter((_, i) => i !== indexToRemove));
+    setFinalimages(prevImages => prevImages.filter((_, i) => i !== indexToRemove))
   };
 
 

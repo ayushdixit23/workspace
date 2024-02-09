@@ -10,7 +10,7 @@ const DynamicOtpInput = dynamic(() => import('otp-input-react'), { ssr: false })
 import { useDispatch } from "react-redux";
 import { changelaoding } from "@/app/redux/slice/userData";
 import { encryptaes, decryptaes } from "@/app/utils/security";
-import { useLoginMutation } from "@/app/redux/apiroutes/userLoginAndSetting";
+import { useEmailLoginMutation, useLoginMutation } from "@/app/redux/apiroutes/userLoginAndSetting";
 import { QRCodeSVG } from "qrcode.react";
 import { RiLoader4Line } from "react-icons/ri";
 import { database } from "@/firebase.config";
@@ -31,10 +31,13 @@ function page() {
   const [seconds, setSeconds] = useState(30)
   const [isActive, setIsActive] = useState(true);
   const [come, setCome] = useState(0);
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
   const [change, setChange] = useState(1);
   const dispatch = useDispatch();
   const [login] = useLoginMutation();
   const { generateData } = useTokenAndData()
+  const [emailLogin] = useEmailLoginMutation();
 
   const handleOtpChange = (otp) => {
     try {
@@ -134,7 +137,13 @@ function page() {
   }
 
   function onSignup() {
-
+    if (!number) {
+      toast.error("Enter the Phone Number")
+      return
+    }
+    if (number.length !== 10) {
+      toast.error("Please Enter 10 digit number")
+    }
     setLoading(true);
     onCaptchaVerify();
     setSeconds(30);
@@ -164,6 +173,36 @@ function page() {
         console.log(err);
         setLoading(false);
       });
+  }
+
+
+  const handleEmailLogin = async () => {
+    if (!email || !password) {
+      toast.error("Enter All Details");
+      return;
+    }
+    try {
+      setLoading(true)
+      const encryptedPassword = encryptaes(password)
+      const res = await emailLogin({
+        email,
+        password: encryptedPassword
+      })
+      console.log(res.data)
+      await waitkrnevalafunc(res.data);
+      dispatch(
+        changelaoding({
+          loading: true,
+          path: `/main/dashboard`,
+        })
+      );
+      // router.push("/main/dashboard")
+    } catch (error) {
+      console.log(error)
+      setLoading(false)
+    } finally {
+      setLoading(false)
+    }
   }
 
   const [qrCodeValue, setQRCodeValue] = useState("");
@@ -205,7 +244,6 @@ function page() {
         loading === false
       ) {
         const fd = decryptaes(data[strignref.current]?.data);
-
         setLoadingqr(true);
         if (fd) {
           const dataforSend = JSON.parse(fd);
@@ -379,7 +417,7 @@ function page() {
           >
             <div className="text-sm pb-3 px-1 font-semibold text-[#424856]">Enter Your Phone Number</div>
             <div className="bg-[#f7f7f7] flex items-center border w-[300px] justify-center rounded-2xl">
-              <div className="border-r-2 -ml-3 p-1 pr-2 "> +91</div>
+              <div className="border-r-2 sm:-ml-3 p-1 sm:pr-2 "> +91</div>
               <input value={number} onChange={(e) => setNumber(e.target.value)} type="tel"
                 className=" p-2 outline-none rounded-xl bg-[#f7f7f7]" />
 
@@ -403,6 +441,8 @@ function page() {
               </div>
 
               <input
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="py-3 w-[300px] ring-1 ring-[#f5f5f5] bg-[#f7f7f7] rounded-2xl px-4 outline-slate-100 "
                 placeholder="Enter your email"
               />
@@ -413,16 +453,19 @@ function page() {
               </div>
 
               <input
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className="py-3 w-[300px] ring-1 ring-[#f5f5f5] bg-[#f7f7f7] rounded-2xl px-4 outline-slate-100 "
                 placeholder="Enter your Password"
               />
             </div>
             <div className="py-5 ">
               <div
-                // onClick={handleCreate}
+                onClick={handleEmailLogin}
                 className="py-3 w-[300px] select-none cursor-pointer bg-black  flex items-center justify-center rounded-2xl text-white "
               >
-                <span>Continue</span>
+                {loading && <CgSpinner size={20} className="m-1 animate-spin" />}
+                <span className={`${loading ? "hidden" : ""} `}>Continue</span>
               </div>
             </div>
           </div>

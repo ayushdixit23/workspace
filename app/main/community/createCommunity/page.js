@@ -504,7 +504,7 @@ function page() {
                       ))}
                     </div>
                   </div>
-                  <div className="mt-6">
+                  <div className="my-6">
                     <button
                       onClick={() => setTopics({ ...topics, isOpen: true })}
                       className="flex justify-center gap-2 items-center bg-[#E8F1FF] text-[#5570F1] p-2 px-5 rounded-xl"
