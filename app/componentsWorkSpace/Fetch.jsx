@@ -2,7 +2,15 @@ import React from "react";
 import Img from "../assets/image/Img.png";
 import Image from "next/image";
 import NoOrder from "./NoOrder";
-import { formatISOStringToDMY } from "../utils/Useful";
+import { formatISOStringToDMY } from "../utilsHelper/Useful";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
 
 const Fetch = ({ data }) => {
   return (
@@ -11,7 +19,7 @@ const Fetch = ({ data }) => {
         <NoOrder />
       ) : (
         <div className="w-full p-3">
-          <table className="w-full border-collapse bg-white pn:max-sm:hidden border border-gray-300">
+          {/* <table className="w-full border-collapse bg-white pn:max-sm:hidden border border-gray-300">
             <thead className="bg-[#f1f1f1]">
               <tr>
                 <th className="py-2 px-4 text-left">Order ID</th>
@@ -33,9 +41,7 @@ const Fetch = ({ data }) => {
                   </td>
                   <td colSpan="2" className="py-2 px-4 text-left">
                     <div className="flex items-center gap-2">
-                      {/* <div>
-                        <Image src={Img} alt="image" className="max-w-[50px]" />
-                      </div> */}
+                  
                       <div>
                         <img src={d?.image?.[0]} alt="image" className="max-w-[50px]" />
 
@@ -67,7 +73,59 @@ const Fetch = ({ data }) => {
                 </tr>
               ))}
             </tbody >
-          </table >
+          </table> */}
+
+          <Table className="bg-white">
+            <TableHeader className="bg-slate-100">
+              <TableRow>
+                <TableHead className="w-[150px]">Order ID</TableHead>
+                <TableHead className="text-center">Product</TableHead>
+                <TableHead className="text-center">Date</TableHead>
+                <TableHead className="text-center">Total</TableHead>
+                <TableHead className="text-center">Customer</TableHead>
+                <TableHead className="text-center">Payment</TableHead>
+                <TableHead className="text-center">Status</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {data?.map((d, i) => (
+                <TableRow key={i}>
+                  <TableCell className="font-medium w-[150px] text-left">
+                    #{d?.orderId?.slice(0, 8)}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    <div className="flex items-center gap-2">
+                      {/* <div>
+                        <Image src={Img} alt="image" className="max-w-[50px]" />
+                      </div> */}
+                      <div>
+                        <img src={d?.image?.[0]} alt="image" className="max-w-[50px]" />
+
+                      </div>
+                      <div className="flex text-sm flex-col">
+                        {d?.productId?.map((product, index) => (
+                          <div key={index}>
+                            {index < 2 ? product?.name : null}
+                          </div>
+                        ))}
+                        {d?.productId?.length > 2 && <span>And more...</span>}
+                      </div>
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {formatISOStringToDMY(d?.createdAt)}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    ${d?.finalprice}
+                  </TableCell>
+                  <TableCell className="text-center"> {d?.buyerId?.fullname}</TableCell>
+                  <TableCell className="text-center"> {d?.paymentMode}</TableCell>
+                  <TableCell className="text-center">{d?.currentStatus}</TableCell>
+                </TableRow>
+              ))
+              }
+            </TableBody>
+          </Table>
           <div className="sm:hidden rounded-xl bg-white">
             <div>
               <div className="flex justify-between font-semibold p-3 items-center text-[#4A4C56]">

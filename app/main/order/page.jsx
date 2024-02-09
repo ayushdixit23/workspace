@@ -4,10 +4,10 @@ import React, { useState } from "react";
 import c1 from "../../assets/image/c1.png";
 import c2 from "../../assets/image/c2.png";
 import c3 from "../../assets/image/c3.png";
-import Fetch from "@/app/components/Fetch";
+import Fetch from "@/app/componentsWorkSpace/Fetch";
 import { useGetFetchOrderQuery } from "@/app/redux/apiroutes/userLoginAndSetting";
-import { getData } from "@/app/utils/Useful";
-import Pagination from "@/app/components/Pagination";
+import { getData } from "@/app/utilsHelper/Useful";
+import Pagination from "@/app/componentsWorkSpace/Pagination";
 import Loader from "@/app/data/Loader";
 
 const page = () => {

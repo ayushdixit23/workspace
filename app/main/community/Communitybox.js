@@ -2,7 +2,7 @@
 import { setCookie } from "cookies-next";
 import React, { useState } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { encryptaes } from "@/app/utils/security";
+import { encryptaes } from "@/app/utilsHelper/security";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { LoadThis } from "@/app/redux/slice/userData";
@@ -80,7 +80,7 @@ function Communitybox({ data, id, index, handleDelete }) {
             <div className="flex text-center justify-center items-center">
               {data?.avgeng}%
             </div>
-            <div className="flex text-center cursor-pointer relative justify-around items-center">
+            <div className="flex cursor-pointer relative justify-around items-center">
               <BsThreeDotsVertical onClick={() => setOpen(!open)} />
               <div className={`${open ? "absolute top-5 z-50 -left-20 h-[120px] rounded-lg w-[100px] bg-white shadow-lg" : "hidden"} `}>
                 <div className="flex flex-col justify-start items-start gap-3 p-3">

@@ -1,8 +1,16 @@
 import React from "react";
-import NoOrder from "../components/NoOrder";
-import { formatISOStringToDMY } from "../utils/Useful";
+import NoOrder from "../componentsWorkSpace/NoOrder";
+import { formatISOStringToDMY } from "../utilsHelper/Useful";
 import ChartsStore from "./ChartsStore";
 import Link from "next/link";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
 
 const Storedata = ({ getorderdata, sales }) => {
 
@@ -39,11 +47,11 @@ const Storedata = ({ getorderdata, sales }) => {
           <NoOrder />
         </div>
       ) : (
-        <Link href={"/main/order"} className="w-full rounded-xl bg-white sm:max-h-[600px] max-w-full overflow-y-scroll scrollbar-hide sm:min-h-[200px] ">
+        <Link href={"/main/order"} className="w-full rounded-xl bg-white sm:max-h-[600px] max-w-full overflow-y-scroll no-scrollbar sm:min-h-[200px] ">
           <div className="text-lg font-semibold hidden sm:block p-2 sm:p-3 text-[#030229]">
             Recent Orders
           </div>
-          <div className="pn:max-sm:hidden max-w-full min-w-[700px] overflow-scroll scrollbar-hide bg-white sm:px-3">
+          {/* <div className="pn:max-sm:hidden max-w-full min-w-[700px] overflow-scroll no-scrollbar bg-white sm:px-3">
             <table className="w-full">
               <thead className="bg-[#FCFCFD]">
                 <tr>
@@ -95,6 +103,51 @@ const Storedata = ({ getorderdata, sales }) => {
                 ))}
               </tbody>
             </table>
+          </div> */}
+
+          <div className="pn:max-sm:hidden max-w-full min-w-[700px] overflow-scroll no-scrollbar bg-white sm:px-3">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[150px]">Order ID</TableHead>
+                  <TableHead>Product Name</TableHead>
+                  <TableHead>Price</TableHead>
+                  <TableHead>Total Order</TableHead>
+                  <TableHead>Total Amount</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {getorderdata?.mergedOrder?.map((d, iw) => (
+                  <TableRow key={iw}>
+                    <TableCell className="font-medium w-[150px] text-left">
+                      #{d?.orderId?.slice(0, 8)}
+                    </TableCell>
+                    <TableCell className="text-center"> <div className="flex items-center gap-2">
+                      <div>
+                        <img
+                          src={d?.image?.[0]}
+                          alt="image"
+                          className="max-w-[50px]"
+                        />
+                      </div>
+                      <div className="flex text-sm flex-col">
+                        {d?.productId?.map((product, index) => (
+                          <div key={index}>
+                            {index < 2 ? product?.name : null}
+                          </div>
+                        ))}
+                        {d?.productId?.length > 2 && <span>And more...</span>}
+                      </div>
+                    </div></TableCell>
+                    <TableCell className="text-center">&#8377; {d?.finalprice}</TableCell>
+                    <TableCell className="text-center"> {getorderdata?.allorders}</TableCell>
+                    <TableCell className="text-center"> &#8377; {d?.total}</TableCell>
+
+                  </TableRow>
+                ))
+                }
+              </TableBody>
+            </Table>
           </div>
           <div className="sm:hidden rounded-xl bg-white">
             <div>

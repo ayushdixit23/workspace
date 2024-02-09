@@ -1,14 +1,22 @@
 "use client"
 import { useFetchPostsQuery } from '@/app/redux/apiroutes/community'
-import { formatISOStringToDMY, getData } from '@/app/utils/Useful'
-import { decryptaes } from '@/app/utils/security'
+import { formatISOStringToDMY, getData } from '@/app/utilsHelper/Useful'
+import { decryptaes } from '@/app/utilsHelper/security'
 import { usePathname } from 'next/navigation'
 import React, { useState } from 'react'
 import { GoPlus } from 'react-icons/go'
 import CreatePost from '../../community/CreatePost'
 import { BiUpArrowAlt } from 'react-icons/bi'
 import Loader from '@/app/data/Loader'
-import NoPost from '@/app/components/NoPost'
+import NoPost from '@/app/componentsWorkSpace/NoPost'
+import {
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "@/components/ui/table"
 
 const page = () => {
 	const path = usePathname()
@@ -25,7 +33,7 @@ const page = () => {
 	}))
 
 	const [open, setOpen] = useState(false)
-	
+
 	if (isLoading) {
 		return <Loader />
 	}
@@ -55,7 +63,7 @@ const page = () => {
 				<div className='pn:max-sm:hidden'>
 					{
 						mergedData?.length > 0 ? <div className="bg-white  rounded-xl sm:p-2 w-full">
-							<table className="w-full sm:max-lg:min-w-[750px] rounded-xl border-collapse">
+							{/* <table className="w-full sm:max-lg:min-w-[750px] rounded-xl border-collapse">
 								<thead>
 									<tr className="bg-gray-50">
 										<th
@@ -123,7 +131,48 @@ const page = () => {
 									}
 
 								</tbody>
-							</table>
+							</table> */}
+
+							<Table>
+								<TableHeader>
+									<TableRow>
+										<TableHead className="w-[150px] text-left">Posts</TableHead>
+										<TableHead className="text-center">Date Uploaded</TableHead>
+										<TableHead className="text-center">Applauses</TableHead>
+										<TableHead className="text-center">Comments</TableHead>
+										<TableHead className="text-center">Shares</TableHead>
+										<TableHead className="text-center">Engagement Rate</TableHead>
+									</TableRow>
+								</TableHeader>
+								<TableBody>
+									{
+										mergedData?.map((d, i) => (
+
+											<TableRow key={i}>
+												<TableCell className="font-medium w-[150px] text-left">
+													<div className="flex gap-2 p-1 items-center">
+														<div>
+															<img
+																src={d?.dps}
+																className="h-12 w-12 cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
+																alt="image"
+															/>
+														</div>
+														<div className="flex flex-col text-xs font-medium gap-1">
+															{d?.post.title.length <= 15 ? d?.post.title : `${d?.post.title.slice(0, 15)}...`}
+														</div>
+													</div>
+												</TableCell>
+												<TableCell className="text-center">{formatISOStringToDMY(d?.post.createdAt)}</TableCell>
+												<TableCell className="text-center">{d?.post.likes}</TableCell>
+												<TableCell className="text-center">{d?.post.comments?.length}</TableCell>
+												<TableCell className="text-center">{d?.post.sharescount}</TableCell>
+												<TableCell className="text-center">{`${Math.round(parseInt(d?.post.engrate))}%`}</TableCell>
+											</TableRow>
+										))
+									}
+								</TableBody>
+							</Table>
 						</div>
 							: <NoPost setOpen={setOpen} />
 					}

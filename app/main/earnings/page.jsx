@@ -12,7 +12,7 @@ import rupee from "../../assets/image/rupee.png";
 import { MdAdd } from "react-icons/md";
 import { useAddBankMutation, useGetEarningStatsQuery } from "@/app/redux/apiroutes/payment";
 import Loader from "@/app/data/Loader";
-import { getData } from "@/app/utils/Useful";
+import { getData } from "@/app/utilsHelper/Useful";
 import toast, { Toaster } from "react-hot-toast";
 
 const page = () => {

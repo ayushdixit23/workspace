@@ -4,9 +4,10 @@ import Workspaceicon from "../assets/icons/Logo";
 import Notify from "../assets/icons/Notify";
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
-import { getData } from "../utils/Useful";
-import { getItemSessionStorage } from "../utils/Tokenwrap";
+import { getData } from "../utilsHelper/Useful";
+import { getItemSessionStorage } from "../utilsHelper/Tokenwrap";
 import { deleteCookie } from "cookies-next";
+import { ModeToggle } from "./ModeToggle";
 
 function Header() {
   const [prof, setProf] = useState(true);
@@ -62,8 +63,10 @@ function Header() {
 
         </div>
         <div className="flex justify-center items-center gap-3">
-          <div>
-            <MemoizedNotify />
+          <div className="flex justify-center
+           items-center">
+            {/* <MemoizedNotify /> */}
+            <ModeToggle />
           </div>
 
 

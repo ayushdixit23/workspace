@@ -3,7 +3,6 @@ import MemorizedDontHave from "./DontHave";
 
 const LocationCom = ({ data, state }) => {
   const { location } = state
-  console.log(location)
   return (
     <>
       {data > 0 ? < div >

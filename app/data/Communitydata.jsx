@@ -1,12 +1,18 @@
 import Image from "next/image";
 import React from "react";
 import Empty from "../assets/image/iconContainer.png";
-import { FaAngleDown } from "react-icons/fa";
 import Postdata from "./Postdata";
-import { formatISOStringToDMY } from "../utils/Useful";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import Charts from "./Charts"
 
-const Communitydata = ({ state, analyticsdata, setState, open, setOpen }) => {
+const Communitydata = ({ state, analyticsdata, setState }) => {
 
   const communityData = state.stats && state?.stats?.map((d) => ({
     members: Number(d.Y1),
@@ -18,7 +24,7 @@ const Communitydata = ({ state, analyticsdata, setState, open, setOpen }) => {
     <div className="max-h-[90%]">
       <div className="rounded-xl bg-white">
         <div className="flex justify-between p-2">
-          <div className="flex justify-bewteen sm:min-w-[150px] sm:justify-center pn:max-sm:order-2 p-[6px] rounded-2xl px-2 bg-[#FAFAFA] relative items-center gap-2">
+          {/* <div className="flex justify-bewteen sm:min-w-[150px] sm:justify-center pn:max-sm:order-2 p-[6px] rounded-2xl px-2 bg-[#FAFAFA] relative items-center gap-2">
             <div className="flex gap-1 items-center ">
               <div>
                 {state.dp ? (
@@ -83,11 +89,88 @@ const Communitydata = ({ state, analyticsdata, setState, open, setOpen }) => {
                 ))}
               </div>
             </div>
-          </div>
+          </div> */}
 
-          <div className="flex order-1 font-semibold sm:hidden justify-center items-center gap-1">
-            {state.name ? state.name : "Community"}
-          </div>
+          <Select
+            defaultValue={
+              < div className="flex items-center">
+                {state.dp ? (
+                  <img
+                    src={state.dp}
+                    className="max-w-[30px] rounded-lg min-h-[30px] min-w-[30px] max-h-[30px]"
+                    alt="image"
+                  />
+                ) : (
+                  <Image
+                    src={Empty}
+                    className="max-w-[30px] rounded-lg min-h-[30px] min-w-[30px] max-h-[30px]"
+                    alt="image"
+                  />
+                )}
+                <div className="text-xs font-semibold pn:max-sm:hidden">
+                  {state.name ? state.name : "Community"}
+                </div>
+              </div>
+            }
+
+            onValueChange={(selectedValue) => {
+              const selectedData = analyticsdata?.commerged?.find(
+                (item) => item.id === selectedValue
+              );
+              if (selectedData) {
+                setState({
+                  dp: selectedData.image,
+                  name: selectedData.name,
+                  popularity: selectedData.popularity,
+                  stats: selectedData.stats,
+                  totalmembers: selectedData.totalmembers,
+                  visitors: selectedData.visitors,
+                  paidmember: selectedData.paidmember,
+                  id: selectedData.id,
+                  age: selectedData.agerange,
+                  location: selectedData.location
+                });
+
+                console.log("clicked");
+              }
+            }}
+
+          >
+            <SelectTrigger className="w-[150px]">
+              <SelectValue
+              />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup className="max-h-[200px] gap-1 w-full flex flex-col justify-center items-center">
+                {analyticsdata?.commerged?.map((d, i) => (
+                  <SelectItem
+                    value={
+                      `${d?.id}`
+                    }
+                    key={i}
+                    className="flex justify-start p-2 gap-2 w-full items-center "
+                  >
+
+                    <div className="flex justify-center items-center w-full">
+                      <div>
+                        <img
+                          src={d?.image}
+                          className="max-w-[30px] rounded-lg min-h-[30px] min-w-[30px] max-h-[30px]"
+                          alt="image"
+                        />
+                      </div>
+                      <div className="flex flex-col">
+                        <div className="text-xs">{d?.name}</div>
+                      </div>
+                    </div>
+
+                  </SelectItem>
+                ))}
+
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+
           {/* <div className="flex pn:max-sm:hidden justify-center items-center gap-1">
             <div className="text-xl">
               <BiUpArrowAlt />
@@ -95,6 +178,8 @@ const Communitydata = ({ state, analyticsdata, setState, open, setOpen }) => {
             <div className="text-sm">2.1% vs last week</div>
           </div> */}
         </div>
+
+
 
         {/* <div className="flex items-center px-3 py-2 gap-4 w-full">
           <div className="flex justify-center items-center gap-2">
@@ -114,14 +199,14 @@ const Communitydata = ({ state, analyticsdata, setState, open, setOpen }) => {
             <Charts data={communityData} /> : <div className="h-[200px] w-full flex text-2xl font-semibold justify-center items-center">No Data To Show</div>
           }
         </div>
-      </div>
+      </div >
 
       <div className="flex flex-col my-3 gap-2 pn:max-sm:hidden bg-white p-2 px-4 rounded-xl">
         <div className="font-semibold">Topics</div>
         <div className="flex w-full items-center gap-4">
           {analyticsdata?.commerged
             ?.filter((c) => c?.name == state.name)
-            .map((w, index) =>
+            .map((w) =>
               w?.topic.map((d, i) => (
                 <div key={i} className="bg-[#fafafa] p-1 px-4 rounded-xl">
                   {d?.title}

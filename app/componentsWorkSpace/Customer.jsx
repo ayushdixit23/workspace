@@ -9,7 +9,7 @@ const Customer = ({ data }) => {
   return (
     <>
       {data ?
-        <div className="overflow-y-scroll sm:max-h-[220px] scrollbar-hide">
+        <div className="overflow-y-scroll sm:max-h-[220px] no-scrollbar">
           <div className="flex justify-between w-full p-2 items-center">
             <div className="text-lg font-semibold">Customers</div>
             {/* <div className="flex justify-center items-center gap-1 p-2 rounded-xl bg-[#FAFAFA]">

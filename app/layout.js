@@ -9,7 +9,7 @@ const nunito = Nunito({
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Providers from "./redux/Providers";
-import TokenDataWrapper from "./utils/Tokenwrap";
+import TokenDataWrapper from "./utilsHelper/Tokenwrap";
 
 const inter = Inter({ subsets: ["latin"] });
 

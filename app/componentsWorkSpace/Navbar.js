@@ -88,7 +88,7 @@ function NavBar() {
               ))}
             </ul>
           </nav>
-          <div className="flex justify-center items-center relative -left-3">
+          <div className="flex flex-col justify-center items-center relative -left-3">
             <div className="flex gap-3 h-[60px] items-center">
               <MemoizedSettingIcon className="w-2 h-2" />
               <Link

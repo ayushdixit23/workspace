@@ -167,7 +167,7 @@ const CreatePost = ({ id, comid, open, setOpen, refetch }) => {
 								<div>Description</div>
 								<div>
 									<textarea
-										className="outline-none p-2 bg-[#FAFAFA] w-[100%] scrollbar-hide resize-y rounded-lg min-h-32 max-h-48 "
+										className="outline-none p-2 bg-[#FAFAFA] w-[100%] no-scrollbar resize-y rounded-lg min-h-32 max-h-48 "
 										type="text"
 										value={post.desc} onChange={(e) => setPost({ ...post, desc: e.target.value })}
 										placeholder="Describe the Post in few words"

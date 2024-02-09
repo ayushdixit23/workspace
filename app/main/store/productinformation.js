@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { MdEdit } from "react-icons/md";
 import Link from "next/link";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { formatISOStringToDMY } from "../../utils/Useful"
-import { encryptaes } from "@/app/utils/security";
+import { formatISOStringToDMY } from "../../utilsHelper/Useful"
+import { encryptaes } from "@/app/utilsHelper/security";
 import { setCookie } from "cookies-next";
 
 function productinformation({ handleDelete, data, userid, collectionid, index }) {

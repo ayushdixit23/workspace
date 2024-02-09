@@ -1,7 +1,7 @@
 "use client"
 import { useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
-import { getData } from "../utils/Useful";
+import { getData } from "../utilsHelper/Useful";
 import axios from "axios"
 import useRazorpay from "react-razorpay";
 import { useMemfinalizeMutation } from "../redux/apiroutes/payment";
@@ -209,7 +209,7 @@ const Sample5 = () => {
 	}
 
 	return (
-		<div className="bg-[#1d212a] min-h-[100vh] scrollbar-hide flex items-center justify-center">
+		<div className="bg-[#1d212a] min-h-[100vh] no-scrollbar flex items-center justify-center">
 			<div className="sm:mx-5 mx-2 pb-10">
 				<div className="py-8 lg:py-14 flex flex-col text-white items-center">
 					<span className="text-[#365CCE] text-base">Pricing</span>

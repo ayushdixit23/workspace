@@ -6,7 +6,7 @@ import {
   useDeleteCommunityMutation,
   useGetCommunityQuery,
 } from "@/app/redux/apiroutes/community";
-import { getData } from "@/app/utils/Useful";
+import { getData } from "@/app/utilsHelper/Useful";
 import { GoPlus } from "react-icons/go";
 import toast, { Toaster } from "react-hot-toast";
 import NoCommunity from "@/app/data/NoCommunity";
@@ -34,11 +34,9 @@ function page() {
     }
   };
 
-  console.log(comdata)
-
   if (isLoading) {
     return <div>
-      <div className="overflow-auto pt-1 scrollbar-hide h-full ">
+      <div className="overflow-auto pt-1 no-scrollbar h-full ">
         <div className="flex justify-between items-center">
           <div className="sm:font-medium sm:pl-4 text-[18px] animate-pulse px-10 py-4 bg-[#f2f2f2] rounded-2xl text-[#8B8D97]"></div>
           <Link

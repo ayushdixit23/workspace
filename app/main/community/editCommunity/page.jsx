@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { FaCamera, FaChevronDown, FaPlus } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
 import { getCookie, deleteCookie } from "cookies-next"
-import { decryptaes } from "@/app/utils/security";
+import { decryptaes } from "@/app/utilsHelper/security";
 import { Toaster, toast } from "react-hot-toast";
 import {
   useCreateTopicMutation,
@@ -18,7 +18,7 @@ import {
   useUpdateComMutation,
   useUpdateTopicMutation,
 } from "@/app/redux/apiroutes/community";
-import { getData } from "@/app/utils/Useful";
+import { getData } from "@/app/utilsHelper/Useful";
 import Image from "next/image";
 
 function page() {
@@ -317,7 +317,7 @@ function page() {
               }}
             />
           </div>
-          <div className="overflow-auto scrollbar-hide h-60 font-semibold bg-[#fff]  gap-2 flex-wrap w-[100%]  sm:bg-white  flex duration-100">
+          <div className="overflow-auto no-scrollbar h-60 font-semibold bg-[#fff]  gap-2 flex-wrap w-[100%]  sm:bg-white  flex duration-100">
             {categories.map((c, i) => (
               <div
                 onClick={() => {
@@ -488,7 +488,7 @@ function page() {
       </div>
 
       {/* 
-      <div className="overflow-auto overflow-x-hidden scrollbar-hide h-full ">
+      <div className="overflow-auto overflow-x-hidden no-scrollbar h-full ">
         <div className=" pt-1 pb-20"> */}
 
       {/* <div className="flex justify-between p-2 my-2 px-4 items-center ">
@@ -584,7 +584,7 @@ function page() {
                   </p>
                 </div>
                 <textarea
-                  className="outline-none px-3 pt-3 mt-2 bg-[#F4F5F7] w-[100%] scrollbar-hide resize-y rounded-[25px] h-48 "
+                  className="outline-none px-3 pt-3 mt-2 bg-[#F4F5F7] w-[100%] no-scrollbar resize-y rounded-[25px] h-48 "
                   type="text"
                   placeholder="Describe the product in few words"
 
@@ -680,7 +680,7 @@ function page() {
       </div> */}
 
       <div className="grid grid-cols-1 p-3 bg-white w-full">
-        <div className="flex justify-center sm:max-h-[80vh] sm:overflow-y-scroll sm:scrollbar-hide w-full items-center ">
+        <div className="flex justify-center sm:max-h-[80vh] sm:overflow-y-scroll sm:no-scrollbar w-full items-center ">
           <div className="sm:w-[85%] w-full md:w-[75%]">
             <div className="flex flex-col justify-center items-center">
               <label
@@ -739,7 +739,7 @@ function page() {
                   <div className="flex flex-col gap-1">
 
                     <textarea
-                      className="outline-none p-2 bg-[#F4F7FE] w-[100%] scrollbar-hide resize-y rounded-xl min-h-32 max-h-48 "
+                      className="outline-none p-2 bg-[#F4F7FE] w-[100%] no-scrollbar resize-y rounded-xl min-h-32 max-h-48 "
                       type="text"
                       placeholder="Describe the product in few words"
                       value={editCommunity.desc}

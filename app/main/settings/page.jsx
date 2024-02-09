@@ -10,8 +10,8 @@ import {
   usePostProfileMutation,
   usePostProfileStoreMutation,
 } from "@/app/redux/apiroutes/userLoginAndSetting";
-import { getData } from "@/app/utils/Useful";
-import { getItemSessionStorage, storeInSessionStorage } from "@/app/utils/Tokenwrap";
+import { getData } from "@/app/utilsHelper/Useful";
+import { getItemSessionStorage, storeInSessionStorage } from "@/app/utilsHelper/Tokenwrap";
 import { deleteCookie, setCookie } from "cookies-next";
 
 
@@ -75,7 +75,7 @@ const page = () => {
         id: id,
         data: data,
       });
-     
+
       if (response.data?.success) {
         await resetCookies(response.data);
         await refetch();

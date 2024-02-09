@@ -1,9 +1,18 @@
-import NoPost from "@/app/components/NoPost";
-import { formatISOStringToDMY } from "@/app/utils/Useful";
+import NoPost from "@/app/componentsWorkSpace/NoPost";
+import { formatISOStringToDMY } from "@/app/utilsHelper/Useful";
 import Link from "next/link";
 import React from "react";
 import { BiUpArrowAlt } from "react-icons/bi"
-import { encryptaes } from "../utils/security";
+import { encryptaes } from "../utilsHelper/security";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+
 
 const Postdata = ({ analyticsdata, state }) => {
   return (
@@ -162,42 +171,94 @@ const Postdata = ({ analyticsdata, state }) => {
           ).length === 0 ? (
           <NoPost id={encryptaes(state.id)} setOpen={false} />
         ) : (
+          // <div className="max-h-[300px] overflow-y-scroll no-scrollbar bg-white rounded-xl sm:p-2  w-full">
+          //   <table className="w-full sm:max-lg:min-w-[750px] rounded-xl border-collapse">
+          //     <thead>
+          //       <tr className="bg-gray-50">
+          //         <th
+          //           colSpan="2"
+          //           className="text-left text-xs leading-4 py-2 px-3 font-medium uppercase tracking-wider"
+          //         >
+          //           Posts
+          //         </th>
+          //         <th className="text-left text-xs leading-4 py-2 px-3 font-medium uppercase tracking-wider">
+          //           Date Uploaded
+          //         </th>
+          //         <th className="text-left text-xs leading-4 py-2 px-3 font-medium uppercase tracking-wider">
+          //           Applauses
+          //         </th>
+          //         <th className="text-left text-xs leading-4 py-2 px-3 font-medium uppercase tracking-wider">
+          //           Comments
+          //         </th>
+          //         <th className="text-left text-xs leading-4 py-2 px-3 font-medium uppercase tracking-wider">
+          //           Shares
+          //         </th>
+          //         <th className="text-left text-xs leading-4 py-2 px-3 font-medium uppercase tracking-wider">
+          //           Engagement Rate
+          //         </th>
+          //       </tr>
+          //     </thead>
+          //     <tbody className="gap-10">
+          //       {analyticsdata?.postmerged
+          //         .filter((s) => s?.community?.title === state.name)
+          //         .map((d, i) => (
+          //           <tr key={i}>
+          //             <td
+          //               colSpan="2"
+          //               className="text-left text-sm py-2 leading-5 font-medium text-gray-900 col-span-3"
+          //             >
+          //               <div className="flex gap-2 p-1 items-center">
+          //                 <div>
+          //                   <img
+          //                     src={d?.dps}
+          //                     className="h-12 w-12 cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
+          //                     alt="image"
+          //                   />
+          //                 </div>
+          //                 <div className="flex flex-col text-xs font-medium gap-1">
+          //                   {d?.title.length <= 15 ? d?.title : `${d?.title.slice(0, 15)}...`}
+          //                 </div>
+          //               </div>
+          //             </td>
+          //             <td className="text-xs leading-5 py-2 px-3 text-center">
+          //               {formatISOStringToDMY(d?.createdAt)}
+          //             </td>
+          //             <td className="text-sm leading-5 py-2 px-3 text-center">
+          //               {d?.likes}
+          //             </td>
+          //             <td className="text-sm leading-5 py-2 px-3 text-center">
+          //               {d?.comments?.length}
+          //             </td>
+          //             <td className="text-sm leading-5 py-2 px-3 text-center">
+          //               {d?.sharescount}
+          //             </td>
+          //             <td className="text-sm leading-5 py-2 px-3 text-center">
+          //               {`${Math.round(parseInt(d?.engrate))}%`}
+          //             </td>
+          //           </tr>
+          //         ))}
+          //     </tbody>
+          //   </table>
+          // </div>
           <div className="max-h-[300px] overflow-y-scroll no-scrollbar bg-white rounded-xl sm:p-2  w-full">
-            <table className="w-full sm:max-lg:min-w-[750px] rounded-xl border-collapse">
-              <thead>
-                <tr className="bg-gray-50">
-                  <th
-                    colSpan="2"
-                    className="text-left text-xs leading-4 py-2 px-3 font-medium uppercase tracking-wider"
-                  >
-                    Posts
-                  </th>
-                  <th className="text-left text-xs leading-4 py-2 px-3 font-medium uppercase tracking-wider">
-                    Date Uploaded
-                  </th>
-                  <th className="text-left text-xs leading-4 py-2 px-3 font-medium uppercase tracking-wider">
-                    Applauses
-                  </th>
-                  <th className="text-left text-xs leading-4 py-2 px-3 font-medium uppercase tracking-wider">
-                    Comments
-                  </th>
-                  <th className="text-left text-xs leading-4 py-2 px-3 font-medium uppercase tracking-wider">
-                    Shares
-                  </th>
-                  <th className="text-left text-xs leading-4 py-2 px-3 font-medium uppercase tracking-wider">
-                    Engagement Rate
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="gap-10">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[150px]">Posts</TableHead>
+                  <TableHead>Date Uploaded</TableHead>
+                  <TableHead>Applauses</TableHead>
+                  <TableHead>Comments</TableHead>
+                  <TableHead>Shares</TableHead>
+                  <TableHead>Engagement Rate</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
                 {analyticsdata?.postmerged
                   .filter((s) => s?.community?.title === state.name)
                   .map((d, i) => (
-                    <tr key={i}>
-                      <td
-                        colSpan="2"
-                        className="text-left text-sm py-2 leading-5 font-medium text-gray-900 col-span-3"
-                      >
+
+                    <TableRow key={i}>
+                      <TableCell className="font-medium w-[150px] text-left">
                         <div className="flex gap-2 p-1 items-center">
                           <div>
                             <img
@@ -210,29 +271,20 @@ const Postdata = ({ analyticsdata, state }) => {
                             {d?.title.length <= 15 ? d?.title : `${d?.title.slice(0, 15)}...`}
                           </div>
                         </div>
-                      </td>
-                      <td className="text-xs leading-5 py-2 px-3 text-center">
-                        {formatISOStringToDMY(d?.createdAt)}
-                      </td>
-                      <td className="text-sm leading-5 py-2 px-3 text-center">
-                        {d?.likes}
-                      </td>
-                      <td className="text-sm leading-5 py-2 px-3 text-center">
-                        {d?.comments?.length}
-                      </td>
-                      <td className="text-sm leading-5 py-2 px-3 text-center">
-                        {d?.sharescount}
-                      </td>
-                      <td className="text-sm leading-5 py-2 px-3 text-center">
-                        {`${Math.round(parseInt(d?.engrate))}%`}
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
+                      </TableCell>
+                      <TableCell className="text-center">{formatISOStringToDMY(d?.createdAt)}</TableCell>
+                      <TableCell className="text-center">{d?.likes}</TableCell>
+                      <TableCell className="text-center">{d?.comments?.length}</TableCell>
+                      <TableCell className="text-center">{d?.sharescount}</TableCell>
+                      <TableCell className="text-center">{`${Math.round(parseInt(d?.engrate))}%`}</TableCell>
+                    </TableRow>
+                  ))
+                }
+              </TableBody>
+            </Table>
           </div>
         )}
-      </Link>
+      </Link >
     </>
   );
 };

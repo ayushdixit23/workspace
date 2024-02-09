@@ -15,7 +15,7 @@ import {
   useDeleteTopicMutation,
   useUpdateTopicMutation,
 } from "@/app/redux/apiroutes/community";
-import { getData } from "@/app/utils/Useful";
+import { getData } from "@/app/utilsHelper/Useful";
 import Image from "next/image";
 
 function page() {
@@ -295,7 +295,7 @@ function page() {
               }}
             />
           </div>
-          <div className="overflow-auto scrollbar-hide h-60 font-semibold bg-[#fff]  gap-2 flex-wrap w-[100%]  sm:bg-white  flex duration-100">
+          <div className="overflow-auto no-scrollbar h-60 font-semibold bg-[#fff]  gap-2 flex-wrap w-[100%]  sm:bg-white  flex duration-100">
             {categories.map((c, i) => (
               <div
                 onClick={() => {
@@ -369,7 +369,7 @@ function page() {
       </div>
 
       <div className="grid grid-cols-1 p-3 bg-white w-full">
-        <div className="flex justify-center sm:max-h-[80vh] sm:overflow-y-scroll sm:scrollbar-hide w-full items-center ">
+        <div className="flex justify-center sm:max-h-[80vh] sm:overflow-y-scroll sm:no-scrollbar w-full items-center ">
           <div className="sm:w-[85%] w-full md:w-[75%]">
             <div className="flex flex-col justify-center items-center">
               <label
@@ -428,7 +428,7 @@ function page() {
                   <div className="flex flex-col gap-1">
 
                     <textarea
-                      className="outline-none p-2 bg-[#F4F7FE] w-[100%] scrollbar-hide resize-y rounded-xl min-h-32 max-h-48 "
+                      className="outline-none p-2 bg-[#F4F7FE] w-[100%] no-scrollbar resize-y rounded-xl min-h-32 max-h-48 "
                       type="text"
                       placeholder="Describe the product in few words"
                       value={createCommunity.desc}

@@ -9,15 +9,15 @@ import { CgSpinner } from "react-icons/cg";
 const DynamicOtpInput = dynamic(() => import('otp-input-react'), { ssr: false });
 import { useDispatch } from "react-redux";
 import { changelaoding } from "@/app/redux/slice/userData";
-import { encryptaes, decryptaes } from "@/app/utils/security";
+import { encryptaes, decryptaes } from "@/app/utilsHelper/security";
 import { useEmailLoginMutation, useLoginMutation } from "@/app/redux/apiroutes/userLoginAndSetting";
 import { QRCodeSVG } from "qrcode.react";
 import { RiLoader4Line } from "react-icons/ri";
 import { database } from "@/firebase.config";
 import { useLoginWithQrMutation } from "@/app/redux/apiroutes/userLoginAndSetting";
-import useTokenAndData from "@/app/utils/tokens";
+import useTokenAndData from "@/app/utilsHelper/tokens";
 import toast, { Toaster } from "react-hot-toast";
-import { storeInSessionStorage } from "@/app/utils/Tokenwrap";
+import { storeInSessionStorage } from "@/app/utilsHelper/Tokenwrap";
 import { setCookie } from 'cookies-next';
 
 
@@ -425,8 +425,8 @@ function page() {
           </div>
           <div className={`${change === 1 ? "py-5 " : "hidden"} `}>
             <div
-              onClick={onSignup}
-              // onClick={fetchid}
+              // onClick={onSignup}
+              onClick={fetchid}
               className="h-[50px] w-[300px] select-none cursor-pointer bg-black  flex items-center justify-center rounded-2xl text-white "
             >
               {loading && <CgSpinner size={20} className="m-1 animate-spin" />}

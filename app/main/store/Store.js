@@ -15,8 +15,8 @@ import {
 	useGetProductQuery,
 	//useRemoveCollectionMutation,
 } from "@/app/redux/apiroutes/product";
-import { getData } from "@/app/utils/Useful";
-import { encryptaes } from "@/app/utils/security";
+import { getData } from "@/app/utilsHelper/Useful";
+import { encryptaes } from "@/app/utilsHelper/security";
 import { GoPlus } from "react-icons/go";
 import toast from "react-hot-toast";
 import { LoadThis } from "@/app/redux/slice/userData";
@@ -118,7 +118,7 @@ export default function Store() {
 
 	if (isLoading) {
 		return <div>
-			<div className="overflow-auto pt-1 scrollbar-hide h-full ">
+			<div className="overflow-auto pt-1 no-scrollbar h-full ">
 				<div className="flex justify-between items-center">
 					<div className="sm:font-medium sm:pl-4 text-[18px] animate-pulse px-10 py-4 bg-[#f2f2f2] rounded-2xl text-[#8B8D97]"></div>
 					<Link
@@ -183,7 +183,7 @@ export default function Store() {
 				/>}
 
 			<div>
-				<div className="overflow-auto scrollbar-hide h-full ">
+				<div className="overflow-auto no-scrollbar h-full ">
 					<div className="flex justify-between py-1 px-4 items-center">
 						<div className="sm:font-semibold sm:pl-4 text-[22px] text-[#202224] ">
 							Product

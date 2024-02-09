@@ -1,9 +1,10 @@
 "use client"
 import React, { useEffect } from "react";
-import useTokenAndData from "../utils/tokens";
+import useTokenAndData from "./tokens";
 import { useDispatch } from "react-redux";
 import { changelaoding, sendData } from "../redux/slice/userData";
 import { setCookie } from 'cookies-next';
+import { ThemeProvider } from "@/components/theme-provider";
 
 // export const storeInSessionStorage = (sessionId) => {
 //   try {
@@ -58,7 +59,16 @@ const TokenDataWrapper = ({ children }) => {
       dispatch(sendData(data))
     }
   }, [isValid, data, dispatch]);
-  return <>{children}</>;
+  return <>
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+    >
+      {children}
+    </ThemeProvider>
+  </>;
 };
 
 export default TokenDataWrapper;

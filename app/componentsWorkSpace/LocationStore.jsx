@@ -2,10 +2,10 @@ import React from "react";
 import { FaAngleDown } from "react-icons/fa";
 
 const LocationStore = ({ data }) => {
-  
+
   return (
     <>
-      <div className="overflow-y-scroll sm:max-h-[200px] scrollbar-hide">
+      <div className="overflow-y-scroll sm:max-h-[200px] no-scrollbar">
         <div className="flex justify-between mt-3 px-3 items-center">
           <div className="text-lg font-semibold">Top Location</div>
           {/* <div className="flex justify-center text-sm p-[5px] rounded-xl gap-1 border px-3 items-center">

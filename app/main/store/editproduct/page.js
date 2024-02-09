@@ -3,12 +3,12 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { deleteCookie, getCookie } from "cookies-next"
-import { decryptaes } from "@/app/utils/security";
+import { decryptaes } from "@/app/utilsHelper/security";
 import {
   useGetSingleProductQuery,
   useUpdateProductMutation,
 } from "@/app/redux/apiroutes/product";
-import { getData } from "@/app/utils/Useful";
+import { getData } from "@/app/utilsHelper/Useful";
 import { AiOutlineLoading3Quarters, AiOutlinePlus } from "react-icons/ai";
 import { RxCross2 } from "react-icons/rx";
 import toast, { Toaster } from "react-hot-toast";
@@ -257,7 +257,7 @@ function page() {
                   </p>
                 </div>
                 <textarea
-                  className="outline-none px-3 pt-3 mt-2 bg-[#F4F5F7] scrollbar-hide resize-y rounded-xl w-[100%] h-48 "
+                  className="outline-none px-3 pt-3 mt-2 bg-[#F4F5F7] no-scrollbar resize-y rounded-xl w-[100%] h-48 "
                   type="text"
                   placeholder="Describe the product in few words"
                   value={product.desc}

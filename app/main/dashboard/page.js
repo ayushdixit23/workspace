@@ -5,25 +5,24 @@ import p2 from "../../assets/image/p2.png";
 import p3 from "../../assets/image/p3.png";
 import emcom from "../../assets/image/emptycom.png";
 import Image from "next/image";
-import DontHave from "@/app/components/DontHave";
-import Products from "@/app/components/Products";
-import Customer from "@/app/components/Customer";
-import Member from "@/app/components/Member";
-import Demographics from "@/app/components/Demographics";
-import LocationStore from "@/app/components/LocationStore";
-import LocationCom from "@/app/components/LocationCom";
+import DontHave from "@/app/componentsWorkSpace/DontHave";
+import Products from "@/app/componentsWorkSpace/Products";
+import Customer from "@/app/componentsWorkSpace/Customer";
+import Member from "@/app/componentsWorkSpace/Member";
+import Demographics from "@/app/componentsWorkSpace/Demographics";
+import LocationStore from "@/app/componentsWorkSpace/LocationStore";
+import LocationCom from "@/app/componentsWorkSpace/LocationCom";
 import MemorizedPopularity from "@/app/data/Popularity";
 import Loader from "@/app/data/Loader";
 import Communitydata from "@/app/data/Communitydata";
 import Storedata from "@/app/data/Storedata";
 import { useGetAnalyticsQuery } from "@/app/redux/apiroutes/community";
 import { useGetFetchOrderQuery } from "@/app/redux/apiroutes/userLoginAndSetting";
-import { getData } from "@/app/utils/Useful";
+import { getData } from "@/app/utilsHelper/Useful";
 import Link from "next/link";
 
 function Dashboard() {
 	const [change, setChange] = useState("community");
-	const [open, setOpen] = useState(false);
 	const [comchange, setComchange] = useState(1);
 	const [prochange, setProchange] = useState("1");
 	const [loading, setLoading] = useState(true);
@@ -72,16 +71,11 @@ function Dashboard() {
 		setLoading(false);
 	}, [analyticsdata]);
 
-	console.log(
-		analyticsdata
-	)
-
-	console.log(analyticsdata?.commerged)
-
-	console.log(state.dp, state.name)
 	if (isLoading || loading) {
 		return <Loader />;
 	}
+
+	console.log(state)
 	return (
 		<div>
 			{/* <Toaster /> */}
@@ -103,11 +97,8 @@ function Dashboard() {
 							</div>
 						</div>
 
-						<div
-							onClick={() => setOpen(false)}
-							className={`${open ? "fixed inset-0 z-10" : "-z-40"}`}
-						></div>
-						<div className="overflow-y-scroll scrollbar-hide max-h-full ">
+
+						<div className="overflow-y-scroll no-scrollbar max-h-full ">
 							{analyticsdata?.commerged?.length == 0 ? (
 								<div
 									className={`w-full ${change == "community" ? null : "hidden"
@@ -136,8 +127,6 @@ function Dashboard() {
 											state={state}
 											analyticsdata={analyticsdata}
 											setState={setState}
-											open={open}
-											setOpen={setOpen}
 										/>
 									)}
 								</>
@@ -145,8 +134,8 @@ function Dashboard() {
 							{change == "store" && <Storedata sales={analyticsdata?.sales} getorderdata={getorderdata} />}
 						</div>
 					</div>
-					<div className="md:col-span-4 sm:col-span-5 max-h-[570px] sticky top-2 mt-2 w-full sm:rounded-xl sm:bg-white p-3">
-						<div className={` ${change == "community" ? null : "hidden"}`}>
+					<div className="md:col-span-4 sm:col-span-5 max-h-[570px] flex-1 sticky top-2 w-full sm:rounded-xl sm:bg-white p-2.5">
+						<div className={`h-full ${change == "community" ? null : "hidden"}`}>
 							<MemorizedPopularity state={state} />
 							<div className="flex justify-evenly sm:justify-between bg-white py-2 rounded-xl my-2 px-3 sm:flex-wrap items-center gap-2">
 								<div
@@ -169,7 +158,7 @@ function Dashboard() {
 									Location
 								</div>
 							</div>
-							<div className="sm:max-h-[250px] pn:max-sm:mt-4 rounded-xl bg-white sm:overflow-y-scroll z-20 sm:scrollbar-hide">
+							<div className="sm:max-h-[250px] pn:max-sm:mt-4 rounded-xl bg-white sm:overflow-y-scroll z-20 sm:no-scrollbar">
 								<div className="rounded-xl w-full bg-white">
 									{/* <div className={`${comchange == 0 ? null : "hidden"}`}>
 										<DontHave />
@@ -274,7 +263,7 @@ function Dashboard() {
 									Location
 								</div>
 							</div>
-							<div className="sm:max-h-[300px] overflow-y-scroll rounded-xl bg-white scrollbar-hide">
+							<div className="sm:max-h-[300px] overflow-y-scroll rounded-xl bg-white no-scrollbar">
 								{/* <div className="sm:max-h-[400px] min-w-full overflow-scroll no-scrollbar bg-white rounded-xl"> */}
 								{prochange == 0 && <DontHave />}
 								{prochange == 1 && <Products data={analyticsdata?.promerged} />}
