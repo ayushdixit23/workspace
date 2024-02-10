@@ -7,7 +7,7 @@ function DashIcon() {
         viewBox="0 0 192 192"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="sm:max-md:h-9 sm:max-md:w-9 w-7 h-7"
+        className="sm:max-md:h-9 dark:text-white sm:max-md:w-9 w-7 h-7"
       >
         <path
           opacity="0.4"

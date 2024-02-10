@@ -19,7 +19,7 @@ const NoPost = ({ setOpen, id }) => {
 
   return (
     <>
-      <div className="bg-white rounded-xl my-4 h-[300px]">
+      <div className="bg-white dark:text-white dark:border-2 dark:border-[#313d4f] dark:bg-[#273142] rounded-xl my-4 h-[300px]">
         <div className="sm:p-5 p-3 flex justify-center gap-3 h-full items-center flex-col">
           <div className="text-2xl text-[#1554F6] font-semibold">
             No posts yet

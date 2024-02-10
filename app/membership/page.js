@@ -209,7 +209,7 @@ const Sample5 = () => {
 	}
 
 	return (
-		<div className="bg-[#1d212a] min-h-[100vh] no-scrollbar flex items-center justify-center">
+		<div className="bg-[#1d212a] dark:bg-[#273142] min-h-[100vh] no-scrollbar flex items-center justify-center">
 			<div className="sm:mx-5 mx-2 pb-10">
 				<div className="py-8 lg:py-14 flex flex-col text-white items-center">
 					<span className="text-[#365CCE] text-base">Pricing</span>
@@ -239,7 +239,7 @@ const Sample5 = () => {
 					</div>
 				</div>
 
-				<div className="md:max-w-[1280px] max-w-[500px] flex justify-center items-center w-full mx-auto bg-white rounded-xl">
+				<div className="md:max-w-[1280px] max-w-[500px] flex justify-center items-center w-full mx-auto dark:bg-[#1d212a] dark:text-white bg-white rounded-xl">
 					<table className="w-full text-start border-spacing-5 border-separate flex gap-4 flex-col md:flex-row pp:p-5 lg:p-0">
 						{pricingData.map((data, index) => (
 							<tbody
@@ -247,12 +247,12 @@ const Sample5 = () => {
 								className={
 									index === 0
 										? "hidden lg:block"
-										: "border-2 lg:border-none font-medium text-sm text-[#101828] mb-10 lg:mb-0 rounded-lg"
+										: "border-2 lg:border-none font-medium text-sm text-[#101828] dark:text-white mb-10 lg:mb-0 rounded-lg"
 								}
 							>
 								<tr>
 									<td>
-										<div className="font-semibold text-xl  text-[#101828] h-7">
+										<div className="font-semibold text-xl dark:text-white text-[#101828] h-7">
 											{data.mainTitle}
 											{data.popular && (
 												<span
@@ -265,13 +265,13 @@ const Sample5 = () => {
 									</td>
 								</tr>
 								<tr>
-									<td className="h-[50px]">
+									<td className="h-[50px] dark:text-white">
 										<div>
-											<span className="font-semibold text-5xl">
+											<span className="font-semibold dark:text-white text-5xl">
 												{monthprice ? data.price?.month : data.price?.year}
 											</span>
 											{data.price && (
-												<span className="text-[#475467] font-normal ml-1">
+												<span className="text-[#475467] dark:text-white font-normal ml-1">
 													{monthprice ? "per month" : "per year"}
 												</span>
 											)}
@@ -279,8 +279,8 @@ const Sample5 = () => {
 									</td>
 								</tr>
 								<tr>
-									<td className="h-[50px] lg:h-[70px] xl:h-[50px]">
-										<span className="text-[#475467] text-sm font-normal">
+									<td className="h-[50px] dark:text-white lg:h-[70px] xl:h-[50px]">
+										<span className="text-[#475467] dark:text-white text-sm font-normal">
 											{data.infoNote}
 										</span>
 									</td>
@@ -292,7 +292,7 @@ const Sample5 = () => {
 										<td>
 											<button
 												onClick={() => buyMembership(data)}
-												className="w-full bg-[#365CCE] text-white rounded-lg py-3 font-semibold"
+												className="w-full bg-[#365CCE] text-white dark:text-white rounded-lg py-3 font-semibold"
 											>
 												Get Started
 											</button>
@@ -302,7 +302,7 @@ const Sample5 = () => {
 								{/* portion after first title */}
 								<tr>
 									<td
-										className="h-5 text-sm font-semibold text-[#365CCE]"
+										className="h-5 text-sm font-semibold  text-[#365CCE]"
 										colSpan={2}
 									>
 										{data.titleRow1}
@@ -319,7 +319,7 @@ const Sample5 = () => {
 												: "h-6 text-right flex justify-between lg:justify-center flex-row-reverse"
 										}
 									>
-										<span className="font-medium text-sm text-[#101828]">
+										<span className="font-medium text-sm text-[#101828] dark:text-white">
 											{data["Product Listings"]}
 										</span>
 										<span className="lg:hidden text-left">{pricingData[0]["Product Listings"]}</span>
@@ -334,7 +334,7 @@ const Sample5 = () => {
 												: "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"
 										}
 									>
-										<span className="font-medium text-sm text-[#101828]">
+										<span className="font-medium text-sm text-[#101828] dark:text-white">
 											{data["Platform  Fees"]}
 										</span>
 										<span className="lg:hidden text-left">{pricingData[0]["Platform  Fees"]}</span>
@@ -348,7 +348,7 @@ const Sample5 = () => {
 												: "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"
 										}
 									>
-										<span className="font-medium text-sm text-[#101828]">
+										<span className="font-medium text-sm text-[#101828] dark:text-white">
 											{data["Create Collections"]}
 										</span>
 										<span className="lg:hidden text-left">
@@ -364,7 +364,7 @@ const Sample5 = () => {
 												: "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"
 										}
 									>
-										<span className="font-medium text-sm text-[#101828]">
+										<span className="font-medium text-sm text-[#101828] dark:text-white">
 											{data["Product Review Time"]}
 										</span>
 										<span className="lg:hidden text-left">
@@ -380,7 +380,7 @@ const Sample5 = () => {
 												: "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"
 										}
 									>
-										<span className="font-medium text-sm text-[#101828]">
+										<span className="font-medium text-sm text-[#101828] dark:text-white">
 											{data["Analytics and Reports"]}
 										</span>
 										<span className="lg:hidden text-left">
@@ -396,7 +396,7 @@ const Sample5 = () => {
 												: "h-9 text-right flex justify-between lg:justify-center flex-row-reverse"
 										}
 									>
-										<span className="font-medium text-sm text-[#101828]">
+										<span className="font-medium text-sm text-[#101828] dark:text-white">
 											{data["Discounts and Promotions"]}
 										</span>
 										<span className="lg:hidden text-left">
@@ -430,7 +430,7 @@ const Sample5 = () => {
 												: "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"
 										}
 									>
-										<span className="font-medium text-sm text-[#101828]">{data["Create Community"]}</span>
+										<span className="font-medium text-sm text-[#101828] dark:text-white">{data["Create Community"]}</span>
 										<span className="lg:hidden text-left">
 											{pricingData[0]["Create Community"]}
 										</span>
@@ -445,7 +445,7 @@ const Sample5 = () => {
 												: "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"
 										}
 									>
-										<span className="font-medium text-sm text-[#101828]">{data["Create Topics (free/paid)"]}</span>
+										<span className="font-medium text-sm text-[#101828] dark:text-white">{data["Create Topics (free/paid)"]}</span>
 										<span className="lg:hidden text-left">
 											{pricingData[0]["Create Topics (free/paid)"]}
 										</span>

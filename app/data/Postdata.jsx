@@ -18,8 +18,8 @@ const Postdata = ({ analyticsdata, state }) => {
   return (
     <>
       {/* mobile */}
-      <Link href={`/main/post/${encryptaes(state.id)}`} className="bg-white my-3 rounded-xl overflow-hidden  sm:hidden">
-        <div className="p-3 px-4 font-bold text-[#030229]">Recent Posts</div>
+      <Link href={`/main/post/${encryptaes(state.id)}`} className="bg-white dark:text-white dark:bg-[#273142] my-3 rounded-xl overflow-hidden  sm:hidden">
+        <div className="p-3 px-4 font-bold dark:text-white text-[#030229]">Recent Posts</div>
         {!analyticsdata?.postmerged ||
           analyticsdata?.postmerged.length === 0 ||
           analyticsdata?.postmerged.filter(
@@ -27,7 +27,7 @@ const Postdata = ({ analyticsdata, state }) => {
           ).length === 0 ? (
           <NoPost id={encryptaes(state.id)} setOpen={false} />
         ) : (
-          <div className="overflow-y-scroll bg-white scrollbar-hide max-h-[300px] ">
+          <div className="overflow-y-scroll dark:text-white dark:border-2 dark:border-[#313d4f] dark:bg-[#273142] bg-white scrollbar-hide max-h-[300px] ">
             {analyticsdata?.postmerged
               ?.filter((w) => w?.community?.title === state.name)
               ?.map((d, i, arr) => (
@@ -44,13 +44,13 @@ const Postdata = ({ analyticsdata, state }) => {
                           alt="image"
                         />
                       </div>
-                      <div className="text-sm font-bold text-[#101828]">{d?.title.length <= 15 ? d?.title : `${d?.title.slice(0, 15)}...`}</div>
+                      <div className="text-sm font-bold dark:text-white text-[#101828]">{d?.title.length <= 15 ? d?.title : `${d?.title.slice(0, 15)}...`}</div>
                     </div>
                     <div className="text-[#667085] text-sm">
                       {formatISOStringToDMY(d?.createdAt)}
                     </div>
                   </div>
-                  <div className="flex justify-evenly text-[#101828] mb-3 w-full items-center">
+                  <div className="flex justify-evenly dark:text-white text-[#101828] mb-3 w-full items-center">
                     <div className="flex text-sm flex-col justify-center items-center">
                       <div>{d?.likes}</div>
                       <div className="pn:max-pp:text-xs">Applauses</div>
@@ -163,7 +163,7 @@ const Postdata = ({ analyticsdata, state }) => {
       )} */}
 
       {/* web */}
-      <Link href={`/main/post/${encryptaes(state.id)}`} className="pn:max-sm:hidden">
+      <Link href={`/main/post/${encryptaes(state.id)}`} className=" pn:max-sm:hidden">
         {!analyticsdata?.postmerged ||
           analyticsdata?.postmerged.length === 0 ||
           analyticsdata?.postmerged.filter(
@@ -240,11 +240,11 @@ const Postdata = ({ analyticsdata, state }) => {
           //     </tbody>
           //   </table>
           // </div>
-          <div className="max-h-[300px] overflow-y-scroll no-scrollbar bg-white rounded-xl sm:p-2  w-full">
-            <Table>
-              <TableHeader>
+          <div className="max-h-[300px] overflow-y-scroll no-scrollbar dark:text-white dark:border-2 dark:border-[#313d4f] dark:bg-[#273142] bg-white rounded-xl sm:p-2  w-full">
+            <Table className="text-sm">
+              <TableHeader className="dark:text-white dark:text-sm">
                 <TableRow>
-                  <TableHead className="w-[150px]">Posts</TableHead>
+                  <TableHead className="w-[180px]">Posts</TableHead>
                   <TableHead>Date Uploaded</TableHead>
                   <TableHead>Applauses</TableHead>
                   <TableHead>Comments</TableHead>
@@ -258,7 +258,7 @@ const Postdata = ({ analyticsdata, state }) => {
                   .map((d, i) => (
 
                     <TableRow key={i}>
-                      <TableCell className="font-medium w-[150px] text-left">
+                      <TableCell className="font-medium w-[180px] text-left">
                         <div className="flex gap-2 p-1 items-center">
                           <div>
                             <img
@@ -272,7 +272,7 @@ const Postdata = ({ analyticsdata, state }) => {
                           </div>
                         </div>
                       </TableCell>
-                      <TableCell className="text-center">{formatISOStringToDMY(d?.createdAt)}</TableCell>
+                      <TableCell className="text-center w-[120px]">{formatISOStringToDMY(d?.createdAt)}</TableCell>
                       <TableCell className="text-center">{d?.likes}</TableCell>
                       <TableCell className="text-center">{d?.comments?.length}</TableCell>
                       <TableCell className="text-center">{d?.sharescount}</TableCell>

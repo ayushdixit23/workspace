@@ -184,14 +184,14 @@ export default function Store() {
 
 			<div>
 				<div className="overflow-auto no-scrollbar h-full ">
-					<div className="flex justify-between py-1 px-4 items-center">
-						<div className="sm:font-semibold sm:pl-4 text-[22px] text-[#202224] ">
+					<div className="flex justify-between dark:text-white py-1 px-4 items-center">
+						<div className="sm:font-semibold sm:pl-4 text-[22px] text-[#202224] dark:text-white">
 							Product
 						</div>
 
 						<Link href={`/main/store?q=${checkstore?.q}`}
 							onClick={createCheck}
-							className="py-2 flex justify-center items-center gap-1 border border-[#f1f1f1] vs:max-pp:text-[12px] px-2.5 sm:px-5 font-medium bg-white text-black rounded-xl"
+							className="py-2 flex justify-center items-center dark:bg-[#323d4e] dark:text-white gap-1 border light:border-[#f1f1f1] vs:max-pp:text-[12px] px-2.5 sm:px-5 font-medium bg-white text-black rounded-xl"
 						>
 							Create Collection
 							<GoPlus />
@@ -202,7 +202,7 @@ export default function Store() {
 						<div className="rounded-2xl grid grid-cols-1 w-full">
 							{/* web */}
 							<div className="flex pn:max-sm:hidden justify-center p-3 w-full items-center gap-2 md:gap-5">
-								<div className="flex sm:max-md:text-xs flex-col p-3 py-5 bg-white rounded-xl gap-4 border border-[#f1f1f1] w-full">
+								<div className="flex sm:max-md:text-xs flex-col p-3 py-5 bg-white dark:bg-[#273142] rounded-xl gap-4 border light:border-[#f1f1f1] w-full">
 									<div>
 										<Image src={p3} alt="p1" />
 									</div>
@@ -214,7 +214,7 @@ export default function Store() {
 										</div>
 									</div>
 								</div>
-								<div className="flex sm:max-md:text-xs flex-col p-3 py-5 bg-white rounded-xl gap-4 border border-[#f1f1f1] w-full">
+								<div className="flex sm:max-md:text-xs flex-col p-3 py-5 bg-white dark:bg-[#273142] rounded-xl gap-4 border light:border-[#f1f1f1] w-full">
 									<div>
 										<Image src={p1} alt="p2" />
 									</div>
@@ -226,7 +226,7 @@ export default function Store() {
 										</div>
 									</div>
 								</div>
-								<div className="flex flex-col p-3 sm:max-md:text-xs py-5 bg-white rounded-xl gap-4 border border-[#f1f1f1] w-full">
+								<div className="flex flex-col p-3 sm:max-md:text-xs py-5 bg-white dark:bg-[#273142] rounded-xl gap-4 border light:border-[#f1f1f1] w-full">
 									<div>
 										<Image src={p2} alt="p2" />
 									</div>
@@ -257,7 +257,7 @@ export default function Store() {
 							</div>
 							{/* mobile */}
 							<div className="grid grid-cols-2 sm:hidden  p-3 w-full items-center gap-2 md:gap-7">
-								<div className="flex flex-col bg-white p-3 rounded-xl gap-2 border border-[#f1f1f1] w-full">
+								<div className="flex flex-col bg-white dark:bg-[#273142] p-3 rounded-xl gap-2 border light:border-[#f1f1f1] w-full">
 									<div>
 										<Image src={p3} alt="p1" />
 									</div>
@@ -269,7 +269,7 @@ export default function Store() {
 										</div>
 									</div>
 								</div>
-								<div className="flex flex-col bg-white p-3 rounded-xl gap-2 border border-[#f1f1f1] w-full">
+								<div className="flex flex-col bg-white dark:bg-[#273142] p-3 rounded-xl gap-2 border light:border-[#f1f1f1] w-full">
 									<div>
 										<Image src={p1} alt="p2" />
 									</div>
@@ -281,7 +281,7 @@ export default function Store() {
 										</div>
 									</div>
 								</div>
-								<div className="flex col-span-2 bg-white flex-col p-3 rounded-xl gap-3 border border-[#f1f1f1] w-full">
+								<div className="flex col-span-2 bg-white dark:bg-[#273142] flex-col p-3 rounded-xl gap-3 border light:border-[#f1f1f1] w-full">
 									<div>
 										<Image src={p2} alt="p2" />
 									</div>
@@ -314,7 +314,7 @@ export default function Store() {
 							{productdata?.collections.length > 0 ?
 								<>
 									<div className="p-3">
-										<div className="flex w-full bg-white py-4 vs:max-sm:hidden px-1 rounded-xl justify-between">
+										<div className="flex w-full bg-white dark:bg-[#323d4e] py-4 vs:max-sm:hidden px-1 rounded-xl justify-between">
 											<div className="w-64 sm:max-md:w-52 font-medium flex justify-start pl-4 ">
 												Product
 											</div>
@@ -338,9 +338,9 @@ export default function Store() {
 
 									<div className="px-3 flex flex-col gap-5 py-3">
 										{productdata?.collections.map((d, i) => (
-											<div key={i} className="bg-white py-2 rounded-xl">
+											<div key={i} className="bg-white dark:bg-[#273142] py-2 rounded-xl">
 												<div className="flex justify-between py-2 px-3 items-center">
-													<div className="font-semibold text-[#4A4C56]">{d.name}</div>
+													<div className="font-semibold text-[#4A4C56] dark:text-white">{d.name}</div>
 													<div
 														className="flex cursor-pointer justify-center items-center gap-2"
 													>

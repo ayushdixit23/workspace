@@ -72,7 +72,7 @@ const CreateStore = ({
         className={`fixed inset-0 bg-black bg-opacity-50 backdrop-filter h-screen backdrop-blur-md z-10`}
       >
         <div className="flex justify-center pn:max-vs:text-sm items-center h-screen pn:max-pp:p-2">
-          <div className="bg-white overflow-y-scroll no-scrollbar max-h-[550px] sm:max-h-[650px] p-3 pp:p-5 rounded-lg md:min-w-[500px] w-[95%] pp:max-w-[900px]">
+          <div className="bg-white dark:bg-[#273142] overflow-y-scroll no-scrollbar max-h-[550px] sm:max-h-[650px] p-3 pp:p-5 rounded-lg md:min-w-[500px] w-[95%] pp:max-w-[900px]">
             <div className="flex flex-col mb-3">
               <div className="text-lg font-semibold">
                 Continue to Setup Your Store
@@ -84,7 +84,7 @@ const CreateStore = ({
                 <div className="text-sm font-medium">Address</div>
                 <input
                   type="text"
-                  className="border-2 bg-[#FAFAFA] outline-none p-1 rounded-lg"
+                  className="border-2 bg-[#FAFAFA] dark:bg-[#323d4e] dark:border-none outline-none p-1 rounded-lg"
                   value={store.d1}
                   onChange={(e) => setStore({ ...store, d1: e.target.value })}
                 />
@@ -94,7 +94,7 @@ const CreateStore = ({
                   <div className="text-sm font-medium">City</div>
                   <input
                     type="text"
-                    className="border-2 bg-[#FAFAFA] outline-none p-1 rounded-lg"
+                    className="border-2 bg-[#FAFAFA] dark:bg-[#323d4e] dark:border-none outline-none p-1 rounded-lg"
                     value={store.d2}
                     onChange={(e) => setStore({ ...store, d2: e.target.value })}
                   />
@@ -103,7 +103,7 @@ const CreateStore = ({
                   <div className="text-sm font-medium">State</div>
                   <input
                     type="text"
-                    className="border-2 bg-[#FAFAFA] outline-none p-1 rounded-lg"
+                    className="border-2 bg-[#FAFAFA] dark:bg-[#323d4e] dark:border-none outline-none p-1 rounded-lg"
                     value={store.d3}
                     onChange={(e) => setStore({ ...store, d3: e.target.value })}
                   />
@@ -115,7 +115,7 @@ const CreateStore = ({
                   <input
                     type="number"
                     maxLength={6}
-                    className="border-2 bg-[#FAFAFA] outline-none p-1 rounded-lg"
+                    className="border-2 bg-[#FAFAFA] dark:bg-[#323d4e] dark:border-none outline-none p-1 rounded-lg"
                     value={store.d4}
                     onChange={(e) => setStore({ ...store, d4: e.target.value })}
                   />
@@ -124,7 +124,7 @@ const CreateStore = ({
                   <div className="text-sm font-medium">Famous Landmark</div>
                   <input
                     type="text"
-                    className="border-2 bg-[#FAFAFA] outline-none p-1 rounded-lg"
+                    className="border-2 bg-[#FAFAFA] dark:bg-[#323d4e] dark:border-none outline-none p-1 rounded-lg"
                     value={store.d5}
                     onChange={(e) => setStore({ ...store, d5: e.target.value })}
                   />
@@ -134,7 +134,7 @@ const CreateStore = ({
                 <div className="text-sm font-medium">GST Number (Optional)</div>
                 <input
                   type="text"
-                  className="border-2 bg-[#FAFAFA] outline-none p-1 rounded-lg"
+                  className="border-2 bg-[#FAFAFA] dark:bg-[#323d4e] dark:border-none outline-none p-1 rounded-lg"
                   value={store.d6}
                   onChange={(e) => setStore({ ...store, d6: e.target.value })}
                 />
@@ -143,7 +143,7 @@ const CreateStore = ({
                 <div className="text-sm font-medium">Business Category</div>
                 <input
                   type="text"
-                  className="border-2 bg-[#FAFAFA] outline-none p-1 rounded-lg"
+                  className="border-2 bg-[#FAFAFA] dark:bg-[#323d4e] dark:border-none outline-none p-1 rounded-lg"
                   value={store.d7}
                   onChange={(e) => setStore({ ...store, d7: e.target.value })}
                 />
@@ -154,7 +154,7 @@ const CreateStore = ({
                 </div>
                 <input
                   type="text"
-                  className="border-2 bg-[#FAFAFA] outline-none p-1 rounded-lg"
+                  className="border-2 bg-[#FAFAFA] dark:bg-[#323d4e] dark:border-none outline-none p-1 rounded-lg"
                   value={store.d8}
                   onChange={(e) => setStore({ ...store, d8: e.target.value })}
                 />
@@ -171,7 +171,7 @@ const CreateStore = ({
                       />
                     </div>
                   ) : (
-                    <div className="border-2 pn:max-pp:p-16 p-6 border-dashed rounded-xl flex justify-center items-center">
+                    <div className="border-2 pn:max-pp:p-16 p-6 border-dashed dark:border-white rounded-xl flex justify-center items-center">
                       <FaPlus />
                     </div>
                   )}
@@ -187,7 +187,7 @@ const CreateStore = ({
             <div className="flex justify-center items-center gap-2 mt-2 p-2 w-full">
               <button
                 onClick={() => { setCheck(0); dispatch(LoadThis(false)); router.push("/main/store") }}
-                className="w-full rounded-lg text-center p-2 text-black border-2"
+                className="w-full rounded-lg text-center p-2 dark:text-white dark:border-white text-black border-2"
               >
                 Cancel
               </button>

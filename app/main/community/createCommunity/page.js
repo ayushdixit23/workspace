@@ -247,7 +247,7 @@ function page() {
       >
         <div
           className={`${leave
-            ? "h-48 w-80 bg-[#F9F9F9] px-2 sm:bg-white shadow-xl rounded-3xl flex flex-col items-center justify-center duration-100"
+            ? "h-48 w-80 bg-[#F9F9F9] px-2 dark:bg-[#273142] sm:bg-white shadow-xl rounded-3xl flex flex-col items-center justify-center duration-100"
             : "h-0 w-0 duration-100 text-[0px] hidden"
             }`}
         >
@@ -258,13 +258,13 @@ function page() {
           <div className="flex gap-4 mt-4">
             <div
               onClick={() => setLeave(false)}
-              className="ring-1 cursor-pointer ring-black px-6 py-2 rounded-2xl hover:bg-black hover:text-white"
+              className="ring-1 cursor-pointer ring-black px-6 py-2 rounded-2xl "
             >
               No, cancel
             </div>
             <Link
               href="/main/community"
-              className=" px-6 py-2 cursor-pointer rounded-2xl bg-black text-white hover:bg-[#3f3f3f]"
+              className=" px-6 py-2 cursor-pointer rounded-2xl bg-black text-white "
             >
               Yes, Confirm
             </Link>
@@ -280,7 +280,7 @@ function page() {
       >
         <div
           className={`${by
-            ? "h-[390px] p-6 bg-[#fff] ring-1 ring-[#f7f7f7] pn:max-sm:bottom-0 gap-2 flex-wrap w-[95%] sm:w-[550px] shadow-md sm:bg-white rounded-3xl flex duration-100"
+            ? "h-[390px] p-6 dark:bg-[#273142] bg-[#fff] pn:max-sm:bottom-0 gap-2 flex-wrap w-[95%] sm:w-[550px] shadow-md sm:bg-white rounded-3xl flex duration-100"
             : "h-0 w-0 duration-100 text-[0px] hidden"
             }`}
         >
@@ -295,7 +295,7 @@ function page() {
               }}
             />
           </div>
-          <div className="overflow-auto no-scrollbar h-60 font-semibold bg-[#fff]  gap-2 flex-wrap w-[100%]  sm:bg-white  flex duration-100">
+          <div className="overflow-auto no-scrollbar h-60 font-semibold bg-[#fff]  gap-2 flex-wrap w-[100%]  sm:bg-white dark:bg-[#273142] flex duration-100">
             {categories.map((c, i) => (
               <div
                 onClick={() => {
@@ -312,7 +312,7 @@ function page() {
         </div>
       </div>
       <div className={`${topics.isOpen ? "fixed inset-0 w-screen z-50 bg-[#cccccc33] h-screen flex justify-center items-center" : "hidden -z-50"}`}>
-        <div className="flex justify-center shadow-md items-center w-[90%] pp:w-[65%] sm:max-w-[500px] lg:w-[30%] p-3 rounded-xl bg-white">
+        <div className="flex justify-center shadow-md items-center w-[90%] pp:w-[65%] sm:max-w-[500px] lg:w-[30%] p-3 rounded-xl dark:bg-[#273142] bg-white">
           <div className="w-full flex flex-col gap-2">
             <div className="text-xl text-center mt-2 font-semibold">Create Topics</div>
             <div className="flex flex-col gap-3 p-2">
@@ -320,33 +320,33 @@ function page() {
                 <div>Topic Name</div>
                 <div>
                   <input value={topics.topicTitle}
-                    onChange={(e) => setTopics({ ...topics, topicTitle: e.target.value })} type="text" className="p-1.5 px-3 bg-[#F4F7FE] outline-none rounded-xl w-full" placeholder="Topic Name" />
+                    onChange={(e) => setTopics({ ...topics, topicTitle: e.target.value })} type="text" className="p-1.5 px-3 bg-[#F4F7FE] dark:bg-[#323d4e] outline-none rounded-xl w-full" placeholder="Topic Name" />
                 </div>
               </div>
               <div className="flex flex-col w-full gap-1">
                 <div>Enter Welcome Message</div>
                 <div>
                   <input value={topics.message}
-                    onChange={(e) => setTopics({ ...topics, message: e.target.value })} type="text" className="p-1.5 px-3 bg-[#F4F7FE] outline-none rounded-xl w-full" placeholder="Welcome Message" />
+                    onChange={(e) => setTopics({ ...topics, message: e.target.value })} type="text" className="p-1.5 px-3 bg-[#F4F7FE] dark:bg-[#323d4e] outline-none rounded-xl w-full" placeholder="Welcome Message" />
                 </div>
               </div>
               <div className="flex justify-between items-center my-2">
                 <div className="text-xl font-medium">Paid</div>
                 <div>
                   {
-                    topics.type === "Free" ? <LiaToggleOffSolid onClick={() => setTopics({ ...topics, type: "Paid" })} className="text-3xl text-[#282828] cursor-pointer" /> : <LiaToggleOnSolid onClick={() => setTopics({ ...topics, type: "Free", price: "" })} className="text-3xl text-[#16dbcc] cursor-pointer" />
+                    topics.type === "Free" ? <LiaToggleOffSolid onClick={() => setTopics({ ...topics, type: "Paid" })} className="text-3xl dark:text-white text-[#282828] cursor-pointer" /> : <LiaToggleOnSolid onClick={() => setTopics({ ...topics, type: "Free", price: "" })} className="text-3xl text-[#16dbcc] cursor-pointer" />
                   }
                 </div>
               </div>
               {topics.type === "Paid" && <div className="flex flex-col w-full gap-1">
                 <div>Price</div>
-                <div className="w-full flex justify-center p-1.5 px-3 bg-[#F4F7FE] rounded-xl items-center">
+                <div className="w-full flex justify-center p-1.5 px-3 bg-[#F4F7FE] dark:bg-[#323d4e] rounded-xl items-center">
                   <input value={topics.price}
                     onChange={(e) => setTopics({ ...topics, price: e.target.value })} type="number" className=" bg-transparent outline-none w-full" placeholder="Price" />
-                  <div className="flex p-1.5 px-3 relative group text-sm rounded-xl bg-white gap-2 justify-center items-center">
+                  <div className="flex p-1.5 px-3 relative group text-sm rounded-xl dark:bg-[#273142] bg-white gap-2 justify-center items-center">
                     <div>Monthly</div>
                     <div><FaChevronDown /></div>
-                    <div className="absolute top-8 hidden left-0 shadow-md group-hover:block rounded-xl cursor-pointer bg-white w-full">
+                    <div className="absolute top-8 hidden left-0 shadow-md group-hover:block rounded-xl cursor-pointer dark:bg-[#273142] bg-white w-full">
                       <div className="flex flex-col justify-center items-center">
                         <div className="p-2 px-3 font-medium">Monthly</div>
                         <div className="p-2 px-3 font-medium">Yearly</div>
@@ -368,13 +368,13 @@ function page() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 p-3 bg-white w-full">
+      <div className="grid grid-cols-1 p-3 dark:bg-[#273142] bg-white w-full">
         <div className="flex justify-center sm:max-h-[80vh] sm:overflow-y-scroll sm:no-scrollbar w-full items-center ">
           <div className="sm:w-[85%] w-full md:w-[75%]">
             <div className="flex flex-col justify-center items-center">
               <label
                 htmlFor="inputTag"
-                className="w-[95px] relative overflow-hidden mb-2 bg-[#ECECEE] items-center justify-center h-[90px] rounded-[30px] border-2 flex flex-col"
+                className="w-[95px] relative overflow-hidden mb-2 dark:bg-[#323d4e] bg-[#ECECEE] items-center justify-center h-[90px] rounded-[30px] light:border-2 flex flex-col"
               >
                 {selectImage != null ? <Image
                   src={selectImage ? selectImage : ""}
@@ -416,19 +416,19 @@ function page() {
             <div className="w-full grid sm:grid-cols-2 gap-7">
               <div className="flex flex-col w-full gap-5">
                 <div className="flex flex-col gap-1">
-                  <div className="text-[#606060] font-medium">Community Name</div>
+                  <div className="text-[#606060] dark:text-white font-medium">Community Name</div>
                   <div>
-                    <input type="text" className="p-2 bg-[#F4F7FE] outline-none rounded-xl w-full" placeholder="Community Name"
+                    <input type="text" className="p-2 bg-[#F4F7FE] dark:bg-[#323d4e] outline-none rounded-xl w-full" placeholder="Community Name"
                       value={createCommunity.title}
                       onChange={(e) => setCreateCommunity({ ...createCommunity, title: e.target.value })} />
                   </div>
                 </div>
                 <div className="flex flex-col gap-1">
-                  <div className="text-[#606060] font-medium">Community Description</div>
+                  <div className="text-[#606060] dark:text-white font-medium">Community Description</div>
                   <div className="flex flex-col gap-1">
 
                     <textarea
-                      className="outline-none p-2 bg-[#F4F7FE] w-[100%] no-scrollbar resize-y rounded-xl min-h-32 max-h-48 "
+                      className="outline-none p-2 bg-[#F4F7FE] dark:bg-[#323d4e] w-[100%] no-scrollbar resize-y rounded-xl min-h-32 max-h-48 "
                       type="text"
                       placeholder="Describe the product in few words"
                       value={createCommunity.desc}
@@ -439,9 +439,9 @@ function page() {
                   </div>
                 </div>
                 {createCommunity.selectedCategory === "Select a Category" ? <div className="flex flex-col gap-1">
-                  <div className="text-[#606060] font-medium">Categories</div>
+                  <div className="text-[#606060] dark:text-white font-medium">Categories</div>
                   <div
-                    className={`"outline-none flex justify-center p-2 bg-[#F4F7FE] items-center rounded-xl w-[100%]"`}
+                    className={`"outline-none flex justify-center p-2 bg-[#F4F7FE] dark:bg-[#323d4e] items-center rounded-xl w-[100%]"`}
                     onClick={() => setBy(!by)}
                   >
                     {createCommunity.selectedCategory}
@@ -449,16 +449,16 @@ function page() {
                 </div> :
 
                   <div className="flex flex-col gap-1">
-                    <div className="text-[#606060] font-medium">Categories</div>
+                    <div className="text-[#606060] dark:text-white font-medium">Categories</div>
                     <div className="flex gap-3 items-center">
                       <div className="bg-[#4880FF] p-2 px-3.5 rounded-full text-white">{createCommunity.selectedCategory}</div>
-                      <div onClick={() => setBy(!by)} className="p-2 px-3.5 border-[#4880FF] bg-[#F4F7FE] rounded-full">Change Category</div>
+                      <div onClick={() => setBy(!by)} className="p-2 px-3.5 border-[#4880FF] bg-[#F4F7FE] dark:bg-[#323d4e] rounded-full">Change Category</div>
                     </div>
                   </div>}
 
               </div>
               <div className=" w-[100%] max-h-[900px] flex flex-col sm:items-center">
-                <div className=" rounded-2xl bg-white pp:w-[95%] min-w-[250px]">
+                <div className=" rounded-2xl bg-white dark:bg-[#273142] pp:w-[95%] min-w-[250px]">
                   {/* <div className="text-xl  font-semibold pb-3">
                     Community Topics
                   </div> */}
@@ -468,16 +468,16 @@ function page() {
                       <div className="">Actions</div>
                     </div>
                     <div className="flex flex-col gap-4">
-                      <div className="p-2 border-2 border-[#f1f1f1] rounded-xl">
+                      <div className="p-2 border-2 dark:border-[#3d4654] border-[#f1f1f1] rounded-xl">
                         All
                       </div>
-                      <div className="p-2 border-2 border-[#f1f1f1] rounded-xl">
+                      <div className="p-2 border-2 dark:border-[#3d4654] border-[#f1f1f1] rounded-xl">
                         Post
                       </div>
                       {dataoftopic.map((d, i) => (
                         <div
                           key={i}
-                          className="flex justify-between border-2 border-[#f1f1f1] rounded-xl items-center p-2"
+                          className="flex justify-between border-2 dark:border-[#3d4654] border-[#f1f1f1] rounded-xl items-center p-2"
                         >
                           <div className="">{d?.title}</div>
                           <div className="flex justify-center gap-2 items-center">
@@ -521,7 +521,7 @@ function page() {
           </div>
         </div>
 
-        <div className={`fixed flex justify-center  items-center ${leave ? "-z-50" : "z-50"} h-16 bg-white w-full sm:hidden bottom-0 left-0`}>
+        <div className={`fixed flex justify-center  items-center ${leave ? "-z-50" : "z-50"} h-16 bg-white w-full dark:bg-[#273142] dark:border-t dark:border-[#3d4654] sm:hidden bottom-0 left-0`}>
           <div className="flex justify-center gap-3 w-full px-3 items-center">
             <div onClick={() => setLeave(true)} className="w-full flex justify-center p-2 border border-[#979797] rounded-lg items-center">Discard</div>
             <div className="w-full flex justify-center p-2 bg-[#4880FF] rounded-lg text-white items-center" onClick={handleSubmit}>Save</div>

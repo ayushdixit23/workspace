@@ -173,7 +173,7 @@ function page() {
       >
         <div
           className={`${by
-            ? "h-48 w-80 bg-[#F9F9F9] px-2 sm:bg-white shadow-xl rounded-3xl flex flex-col items-center justify-center duration-100"
+            ? "h-48 w-80 bg-[#F9F9F9] px-2 sm:bg-white dark:bg-[#273142] shadow-xl rounded-3xl flex flex-col items-center justify-center duration-100"
             : "h-0 w-0 duration-100 text-[0px] hidden"
             }`}
         >
@@ -184,13 +184,13 @@ function page() {
           <div className="flex gap-4 mt-4">
             <div
               onClick={() => setBy(false)}
-              className="ring-1 cursor-pointer ring-black px-6 py-2 rounded-2xl hover:bg-black hover:text-white"
+              className="ring-1 cursor-pointer dark:border-white px-6 py-2 rounded-2xl "
             >
               No, cancel
             </div>
             <Link
               href="/main/store"
-              className=" px-6 py-2 cursor-pointer rounded-2xl bg-black text-white hover:bg-[#3f3f3f]"
+              className=" px-6 py-2 cursor-pointer rounded-2xl bg-white text-black "
             >
               Yes, Confirm
             </Link>
@@ -204,7 +204,7 @@ function page() {
         <div className="sm:font-medium sm:pl-4 text-[18px] text-[#8B8D97]  ">
           Edit Product
         </div>
-        <div className="flex gap-4 pp:gap-8 items-center">
+        <div className="flex gap-4 pp:gap-8 cursor-pointer items-center">
           <div
             className="font-semibold "
             onClick={() => setBy(true)}
@@ -229,17 +229,17 @@ function page() {
       </div>
 
       {/**main */}
-      <div className="grid grid-cols-1 w-full bg-[#FAFAFA]">
+      <div className="grid grid-cols-1 w-full dark:bg-[#1b2431] bg-[#FAFAFA]">
         <div className="sm:flex justify-center sm:px-6 gap-4 rounded-xl pt-3">
           <div className="w-[100%] flex flex-col sm:items-center">
-            <div className="bg-white p-4 w-full rounded-2xl">
+            <div className="bg-white dark:bg-[#273142] p-4 w-full rounded-2xl">
               <div className="font-semibold text-[20px] pt-1">
                 General Information
               </div>
               <div>
                 <div className="font-semibold pt-4">Product name</div>
                 <input
-                  className="outline-none flex pl-3 justify-center mt-2 bg-[#F4F5F7] items-center rounded-xl h-10 w-[100%]"
+                  className="outline-none flex pl-3 justify-center mt-2 bg-[#F4F5F7] dark:bg-[#323d4e] items-center rounded-xl h-10 w-[100%]"
                   type="text"
                   placeholder="Product Name"
                   value={product.name}
@@ -257,7 +257,7 @@ function page() {
                   </p>
                 </div>
                 <textarea
-                  className="outline-none px-3 pt-3 mt-2 bg-[#F4F5F7] no-scrollbar resize-y rounded-xl w-[100%] h-48 "
+                  className="outline-none px-3 pt-3 mt-2 bg-[#F4F5F7] dark:bg-[#323d4e] no-scrollbar resize-y rounded-xl w-[100%] h-48 "
                   type="text"
                   placeholder="Describe the product in few words"
                   value={product.desc}
@@ -269,7 +269,7 @@ function page() {
                 </div>
               </div>
             </div>
-            {/* <div className="bg-white p-4 w-full rounded-2xl mt-2">
+            {/* <div className="bg-white dark:bg-[#273142] p-4 w-full rounded-2xl mt-2">
               <div className="font-semibold text-[20px] pt-1">Media</div>
 
               <div className=" rounded-[25px] border-dotted border-2 w-[100%] mt-2 px-2 ">
@@ -324,7 +324,7 @@ function page() {
                 ,social sharing and more.
               </div>
             </div> */}
-            <div className="bg-white p-4 w-full rounded-2xl mt-2">
+            <div className="bg-white dark:bg-[#273142] p-4 w-full rounded-2xl mt-2">
               <div className="font-semibold text-[20px] pt-1">Media</div>
 
               <div className="flex flex-wrap items-center mt-3 gap-2">
@@ -337,7 +337,7 @@ function page() {
                   ))}
                 </div>
                 {selectedImage.length < 4 && < div >
-                  <label htmlFor="arrayFile" className="w-[95px] relative overflow-hidden rounded-xl items-center justify-center h-[90px] border-dashed border-2 flex flex-col"
+                  <label htmlFor="arrayFile" className="w-[95px] relative overflow-hidden rounded-xl items-center justify-center h-[90px] border-dashed dark:border-white border-2 flex flex-col"
                   >
                     <AiOutlinePlus />
                   </label>
@@ -352,13 +352,13 @@ function page() {
           </div>
           <div className="w-[100%] mt-4 flex flex-col sm:items-center">
             <div className="pn:max-pp:px-2 w-full sm:w-[90%] min-w-[250px]">
-              <div className="bg-white p-4 rounded-2xl ">
+              <div className="bg-white dark:bg-[#273142] p-4 rounded-2xl ">
                 <div className="font-semibold text-[20px] pt-1">Price</div>
                 <div className="w-full pn:max-pp:flex-col mt-1 flex gap-3 justify-center items-center">
                   <div className="flex flex-col w-full">
                     <div className="font-semibold pb-2">Selling Price</div>
                     <div className="w-full">
-                      <input type="number" className="outline-none p-2 w-full bg-[#fafafa] rounded-lg" placeholder="Type base price here..." value={product.price}
+                      <input type="number" className="outline-none p-2 w-full bg-[#F4F5F7] dark:bg-[#323d4e] rounded-lg" placeholder="Type base price here..." value={product.price}
 
                         onChange={(e) => {
                           const newValue = e.target.value;
@@ -377,7 +377,7 @@ function page() {
                   <div className="flex flex-col w-full">
                     <div className="font-semibold pb-2">Discounted Price</div>
                     <div className="w-full">
-                      <input type="number" className="outline-none p-2 w-full bg-[#fafafa] rounded-lg" placeholder="Type Discounted amount..." value={product.discountedprice}
+                      <input type="number" className="outline-none p-2 w-full bg-[#F4F5F7] dark:bg-[#323d4e] rounded-lg" placeholder="Type Discounted amount..." value={product.discountedprice}
                         onChange={(e) => {
                           const newValue = e.target.value;
                           if (
@@ -393,7 +393,7 @@ function page() {
                     </div>
                   </div>
                 </div>
-                <div className="bg-white pt-3 my-1 rounded-2xl">
+                <div className="bg-white dark:bg-[#273142] pt-3 my-1 rounded-2xl">
                   <div className="flex items-center">
                     <input
                       className="p-1 m-1"
@@ -412,13 +412,13 @@ function page() {
                   <div className={`${call.c1 ? "flex flex-col pt-1 w-full" : "hidden"}`}>
                     <div className="font-semibold py-1">GST</div>
                     <div className="relative w-full">
-                      <div className="w-full  flex justify-between items-end p-2 sm:max-w-[250px] bg-[#F4F5F7] rounded-lg">
+                      <div className="w-full  flex justify-between items-end p-2 sm:max-w-[250px] bg-[#F4F5F7] dark:bg-[#323d4e] rounded-lg">
                         <div>{productInfo.gstValue}</div>
                         {
                           productInfo.gst ? <IoChevronUpSharp onClick={() => setProductInfo({ ...productInfo, gst: false })} className="text-lg " /> : <IoChevronDownSharp onClick={() => setProductInfo({ ...productInfo, gst: true })} className="text-lg " />
                         }
 
-                        <div className={`${productInfo.gst ? "absolute top-10 sm:max-w-[250px] left-0 w-full bg-white rounded-lg p-3 shadow-md" : "hidden"} `}>
+                        <div className={`${productInfo.gst ? "absolute top-10 sm:max-w-[250px] left-0 w-full bg-white dark:bg-[#273142] rounded-lg p-3 shadow-md" : "hidden"} `}>
                           <div className="flex gap-3 font-semibold cursor-pointer flex-col">
 
                             <div onClick={() => setProductInfo({ ...productInfo, gst: false, gstValue: "5%" })}>5%</div>
@@ -433,11 +433,11 @@ function page() {
 
                 </div>
               </div>
-              <div className="bg-white p-4 rounded-2xl mt-2">
+              <div className="bg-white dark:bg-[#273142] p-4 rounded-2xl mt-2">
                 <div className="font-semibold text-[20px] pt-1">Inventory</div>
                 <div className="font-semibold pt-4">Quantity</div>
                 <input
-                  className="outline-none flex pl-3 justify-center mt-2 bg-[#F4F5F7] items-center rounded-[12px] h-10 w-[100%]"
+                  className="outline-none flex pl-3 justify-center mt-2 bg-[#F4F5F7] dark:bg-[#323d4e] items-center rounded-[12px] h-10 w-[100%]"
                   type="number"
                   placeholder="Quantity in Stock"
                   value={product.quantity}
@@ -455,7 +455,7 @@ function page() {
                 />
               </div>
 
-              <div className="bg-white p-4 pn:max-sm:mb-8 mt-2 rounded-2xl">
+              <div className="bg-white dark:bg-[#273142] p-4 pn:max-sm:mb-8 mt-2 rounded-2xl">
                 <div className="font-semibold text-[20px]">Shiping</div>
                 <div className="flex py-[5px] gap-1 items-center">
                   <input
@@ -476,7 +476,7 @@ function page() {
                   <div className="w-full ">
                     <div className="font-semibold pb-1">Weight</div>
                     <div className=" grid grid-cols-7 gap-2 w-full">
-                      <input type="number" className="outline-none p-2 col-span-5 w-full bg-[#F4F5F7] rounded-lg" placeholder="Type Weight Of The Product here..." value={productInfo.shippingValue}
+                      <input type="number" className="outline-none p-2 col-span-5 w-full bg-[#F4F5F7] dark:bg-[#323d4e] rounded-lg" placeholder="Type Weight Of The Product here..." value={productInfo.shippingValue}
                         onChange={(e) => {
                           const newValue = e.target.value;
                           if (
@@ -489,14 +489,14 @@ function page() {
                           }
                         }}
                       />
-                      <div className="relative flex justify-center items-center col-span-2 rounded-lg bg-[#F4F5F7] w-full">
-                        <div className="w-full  flex justify-between items-end p-2 sm:max-w-[250px] bg-[#F4F5F7] rounded-lg">
+                      <div className="relative flex justify-center items-center col-span-2 rounded-lg bg-[#F4F5F7] dark:bg-[#323d4e] w-full">
+                        <div className="w-full  flex justify-between items-end p-2 sm:max-w-[250px] bg-[#F4F5F7] dark:bg-[#323d4e] rounded-lg">
                           <div>{productInfo.weightType}</div>
                           {
                             productInfo.shipping ? <IoChevronUpSharp onClick={() => setProductInfo({ ...productInfo, shipping: false })} className="text-lg " /> : <IoChevronDownSharp onClick={() => setProductInfo({ ...productInfo, shipping: true })} className="text-lg " />
                           }
 
-                          <div className={`${productInfo.shipping ? "absolute top-10 sm:max-w-[250px] left-0 w-full bg-white rounded-lg p-3 shadow-md" : "hidden"} `}>
+                          <div className={`${productInfo.shipping ? "absolute top-10 sm:max-w-[250px] left-0 w-full bg-white dark:bg-[#273142] rounded-lg p-3 shadow-md" : "hidden"} `}>
                             <div className="flex gap-3 font-semibold cursor-pointer flex-col">
 
                               <div onClick={() => setProductInfo({ ...productInfo, shipping: false, weightType: "Kg" })}>Kg</div>

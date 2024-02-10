@@ -31,7 +31,7 @@ function Communitybox({ data, id, index, handleDelete }) {
         className={`${open ? "fixed inset-0 z-10" : "-z-40"}`}
       ></div>
       <div
-        className={`px-2 sm:bg-[#ffffff] rounded-xl sm:shadow-sm py-2 sm:py-5 bg-[#f8f9fa] duration-75 
+        className={`px-2 sm:bg-[#ffffff] dark:bg-[#273142] dark:text-white rounded-xl sm:shadow-sm py-2 sm:py-3.5 bg-[#f8f9fa] duration-75 
           `}
       >
         <div className="flex relative items-center w-full justify-between font-semibold ">
@@ -45,7 +45,7 @@ function Communitybox({ data, id, index, handleDelete }) {
               className="h-14 w-14 cursor-pointer border border-[#f1f1f1] flex justify-center items-center rounded-[24px] ring-1 ring-white"
             />
             <div>
-              <div className="md:w-36 sm:max-md:w-24 text-[#1d1f2c] font-semibold">
+              <div className="md:w-36 sm:max-md:w-24 text-[#1d1f2c] dark:text-white font-semibold">
                 {data?.c?.title}
               </div>
               <div className="sm:hidden text-[12px] font-medium">
@@ -64,7 +64,7 @@ function Communitybox({ data, id, index, handleDelete }) {
 
           <div className="flex text-center sm:hidden relative mr-3 justify-around items-center">
             <BsThreeDotsVertical onClick={() => setOpen(!open)} />
-            <div className={`${open ? "absolute top-5 z-50 -left-20 h-[120px] rounded-lg w-[100px] bg-white shadow-lg" : "hidden"} `}>
+            <div className={`${open ? "absolute top-5 z-50 -left-20 h-[120px] rounded-lg w-[100px] bg-white dark:bg-[#273142] shadow-lg" : "hidden"} `}>
               <div className="flex flex-col justify-start items-start gap-3 p-3">
                 <Link href={"/main/community/editCommunity"} onClick={() => {
                   setCookie("edta", JSON.stringify(data))
@@ -82,7 +82,7 @@ function Communitybox({ data, id, index, handleDelete }) {
             </div>
             <div className="flex cursor-pointer relative justify-around items-center">
               <BsThreeDotsVertical onClick={() => setOpen(!open)} />
-              <div className={`${open ? "absolute top-5 z-50 -left-20 h-[120px] rounded-lg w-[100px] bg-white shadow-lg" : "hidden"} `}>
+              <div className={`${open ? "absolute top-5 z-50 -left-20 h-[120px] rounded-lg w-[100px] bg-white dark:bg-[#273142] shadow-lg" : "hidden"} `}>
                 <div className="flex flex-col justify-start items-start gap-3 p-3">
                   <Link href={"/main/community/editCommunity"} onClick={() => {
                     setCookie("edta", JSON.stringify(data))

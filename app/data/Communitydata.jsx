@@ -22,7 +22,7 @@ const Communitydata = ({ state, analyticsdata, setState }) => {
 
   return (
     <div className="max-h-[90%]">
-      <div className="rounded-xl bg-white">
+      <div className="rounded-2xl dark:border-2 dark:border-[#313d4f] dark:text-white dark:bg-[#273142] bg-white">
         <div className="flex justify-between p-2">
           {/* <div className="flex justify-bewteen sm:min-w-[150px] sm:justify-center pn:max-sm:order-2 p-[6px] rounded-2xl px-2 bg-[#FAFAFA] relative items-center gap-2">
             <div className="flex gap-1 items-center ">
@@ -50,7 +50,7 @@ const Communitydata = ({ state, analyticsdata, setState }) => {
             </div>
             <div
               className={`${open
-                ? "absolute pn:max-sm:min-w-[200px] text-black pn:max-sm:-left-32 max-h-[250px] z-20 rounded-xl shadow-lg bg-white top-12 w-full overflow-y-scroll no-scrollbar"
+                ? "absolute pn:max-sm:min-w-[200px] text-black pn:max-sm:-left-32 max-h-[250px] z-20 rounded-2xl shadow-lg bg-white top-12 w-full overflow-y-scroll no-scrollbar"
                 : "hidden"
                 }`}
             >
@@ -92,8 +92,9 @@ const Communitydata = ({ state, analyticsdata, setState }) => {
           </div> */}
 
           <Select
+            className="dark:text-white dark:bg-[#323b4e] dark:border-none "
             defaultValue={
-              < div className="flex items-center">
+              < div className="flex gap-2 items-center">
                 {state.dp ? (
                   <img
                     src={state.dp}
@@ -130,17 +131,15 @@ const Communitydata = ({ state, analyticsdata, setState }) => {
                   age: selectedData.agerange,
                   location: selectedData.location
                 });
-
-                console.log("clicked");
               }
             }}
 
           >
-            <SelectTrigger className="w-[150px]">
-              <SelectValue
+            <SelectTrigger className="w-[150px] dark:text-white dark:bg-[#323b4e] dark:border-none ">
+              <SelectValue className="dark:text-white dark:bg-[#323b4e] dark:border-none "
               />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="dark:text-white dark:bg-[#323b4e] dark:border-none ">
               <SelectGroup className="max-h-[200px] gap-1 w-full flex flex-col justify-center items-center">
                 {analyticsdata?.commerged?.map((d, i) => (
                   <SelectItem
@@ -151,7 +150,7 @@ const Communitydata = ({ state, analyticsdata, setState }) => {
                     className="flex justify-start p-2 gap-2 w-full items-center "
                   >
 
-                    <div className="flex justify-center items-center w-full">
+                    <div className="flex justify-center gap-2 items-center w-full">
                       <div>
                         <img
                           src={d?.image}
@@ -201,19 +200,19 @@ const Communitydata = ({ state, analyticsdata, setState }) => {
         </div>
       </div >
 
-      <div className="flex flex-col my-3 gap-2 pn:max-sm:hidden bg-white p-2 px-4 rounded-xl">
+      <div className="flex flex-col my-3 gap-2 pn:max-sm:hidden dark:text-white dark:border-2 dark:border-[#313d4f]  dark:bg-[#273142] bg-white p-2 px-4 rounded-2xl">
         <div className="font-semibold">Topics</div>
         <div className="flex w-full items-center gap-4">
           {analyticsdata?.commerged
             ?.filter((c) => c?.name == state.name)
             .map((w) =>
               w?.topic.map((d, i) => (
-                <div key={i} className="bg-[#fafafa] p-1 px-4 rounded-xl">
+                <div key={i} className="bg-[#fafafa] dark:text-white dark:border-2 dark:border-[#313d4f] dark:bg-[#323b4e] p-1 px-4 rounded-2xl">
                   {d?.title}
                 </div>
               ))
             )}
-          {/* <div className="bg-[#fafafa] p-1 px-4 rounded-xl">Post</div> */}
+          {/* <div className="bg-[#fafafa] p-1 px-4 rounded-2xl">Post</div> */}
         </div>
       </div>
       <Postdata analyticsdata={analyticsdata} state={state} />

@@ -3,7 +3,7 @@ import React from 'react';
 import {
 	Bar,
 	BarChart,
-	Legend,
+
 	ResponsiveContainer,
 	Tooltip,
 	XAxis,
@@ -11,7 +11,6 @@ import {
 } from 'recharts';
 
 const ChartsStore = ({ data }) => {
-
 	const calculateYAxisDomain = (data) => {
 		const allValues = data.reduce((acc, entry) => {
 			const membersValue = parseFloat(entry.Sales);
@@ -34,7 +33,6 @@ const ChartsStore = ({ data }) => {
 					<XAxis dataKey="Dates" className='text-xs' />
 					<YAxis domain={calculateYAxisDomain(data)} className='text-xs' />
 					<Tooltip />
-					<Legend />
 					<Bar dataKey="Sales" fill="#5a6acf" />
 				</BarChart>
 			</ResponsiveContainer>

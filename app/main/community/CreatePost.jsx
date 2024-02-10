@@ -98,7 +98,7 @@ const CreatePost = ({ id, comid, open, setOpen, refetch }) => {
 		<>
 			<Toaster />
 			<div className={`${open ? "sm:fixed sm:inset-0 w-screen sm:p-2 z-50 bg-[#cccccc33] sm:h-screen flex justify-center items-center" : "hidden -z-50"}`}>
-				<div className="flex flex-col justify-center shadow-md items-center p-3 sm:rounded-xl w-full sm:max-w-[90%] md:max-w-[80%] bg-white">
+				<div className="flex flex-col justify-center shadow-md items-center p-3 sm:rounded-xl w-full sm:max-w-[90%] md:max-w-[80%] dark:bg-[#273142] bg-white">
 					<div className='flex justify-between w-full items-center p-2'>
 						<div className='flex justify-center items-center gap-4'>
 							<div onClick={() => setOpen(false)} className='cursor-pointer'>
@@ -111,14 +111,14 @@ const CreatePost = ({ id, comid, open, setOpen, refetch }) => {
 						</div>
 						<div className='flex justify-center items-center gap-4'>
 							<div className='font-medium p-2 pn:max-pp:hidden px-7 rounded-lg'>Preview</div>
-							<div onClick={savePost} className='bg-[#4880FF] cursor-pointer text-white font-medium textt-white p-2 px-4 pp:px-7 rounded-lg'>Publish</div>
+							<div onClick={savePost} className='bg-[#4880FF] cursor-pointer font-medium text-white p-2 px-4 pp:px-7 rounded-lg'>Publish</div>
 						</div>
 					</div>
 					<div className='grid sm:grid-cols-2 w-full gap-5 p-3'>
 						<div className='w-full flex flex-col gap-2'>
 							<div className='w-full'>
 								<label htmlFor='postUpload' className='w-full h-[220px] cursor-pointer shadow-md rounded-lg'>
-									<div className='h-[220px] w-full border p-2 rounded-lg flex flex-col justify-center items-center'>
+									<div className='h-[220px] dark:border-[#fff] w-full border p-2 rounded-lg flex flex-col justify-center items-center'>
 										<div className='p-5 bg-[#F0F4FF] rounded-full'>
 											<GrUploadOption className='text-4xl text-[#379AE6] font-thin' />
 										</div>
@@ -160,14 +160,14 @@ const CreatePost = ({ id, comid, open, setOpen, refetch }) => {
 								<div>Title</div>
 								<div>
 									<input
-										type="text" value={post.title} onChange={(e) => setPost({ ...post, title: e.target.value })} className="p-1.5 px-3 bg-[#FAFAFA] outline-none rounded-lg w-full" placeholder="Enter Title" />
+										type="text" value={post.title} onChange={(e) => setPost({ ...post, title: e.target.value })} className="p-1.5 px-3 bg-[#FAFAFA] dark:bg-[#323d4e] outline-none rounded-lg w-full" placeholder="Enter Title" />
 								</div>
 							</div>
 							<div className="flex flex-col w-full gap-1">
 								<div>Description</div>
 								<div>
 									<textarea
-										className="outline-none p-2 bg-[#FAFAFA] w-[100%] no-scrollbar resize-y rounded-lg min-h-32 max-h-48 "
+										className="outline-none p-2 bg-[#FAFAFA] dark:bg-[#323d4e] w-[100%] no-scrollbar resize-y rounded-lg min-h-32 max-h-48 "
 										type="text"
 										value={post.desc} onChange={(e) => setPost({ ...post, desc: e.target.value })}
 										placeholder="Describe the Post in few words"
@@ -177,7 +177,7 @@ const CreatePost = ({ id, comid, open, setOpen, refetch }) => {
 							</div>
 							<div className='flex flex-col w-full gap-1'>
 								<div>Add Hashtags</div>
-								<div className='w-full bg-[#FAFAFA] rounded-lg flex justify-center items-center'>
+								<div className='w-full bg-[#FAFAFA] dark:bg-[#323d4e] rounded-lg flex justify-center items-center'>
 									<input
 										value={post.sampletags} onChange={(e) => setPost({ ...post, sampletags: e.target.value })}
 										type="text" className="p-1.5 px-3 bg-transparent outline-none rounded-lg w-full" placeholder="Enter Hastags" />

@@ -290,7 +290,7 @@ function page() {
       {showOTP ? (
         // OTP
         <div className="items-center flex flex-col justify-between">
-          <div className="font-bold  pn:max-sm:text-[30px] text-[25px] text-[#313C58] ">
+          <div className="font-bold  pn:max-sm:text-[30px] text-[25px] dark:text-white text-[#313C58] ">
             Verification
           </div>
           <div className="flex flex-col py-2 justify-center items-center">
@@ -310,7 +310,7 @@ function page() {
               otpType="number"
               disabled={false}
               autoFocus
-              className="opt-container"
+              className="opt-container sm:mt-3"
             ></DynamicOtpInput>
           </>
           <div className="text-black font-semibold flex text-[15px] pt-6">
@@ -330,10 +330,10 @@ function page() {
                 </div>
               ) : (
                 <h1
-                  className={`${come === 1 ? "hidden" : "text-[16px] text-[#3e3e3e]"
+                  className={`${come === 1 ? "hidden" : "text-[16px] font-normal dark:text-white text-[#3e3e3e]"
                     } `}
                 >
-                  Resend: 00:{seconds}
+                  Resend: <span className="font-semibold">00:{seconds}</span>
                 </h1>
               )}
             </div>
@@ -377,7 +377,7 @@ function page() {
 
           <div className="flex pn:max-sm:hidden items-center justify-center w-full">
             <hr className="flex-grow border-t text-[#9095A0] border-[#9095A0] " />
-            <span className="px-3 font-medium text-[#9095A0] bg-white ">
+            <span className="px-3 font-medium text-[#9095A0] dark:bg-[#273142] bg-white ">
               or Sign in with
             </span>
             <hr className="flex-grow border-t text-[#9095A0] border-[#9095A0]" />
@@ -386,12 +386,12 @@ function page() {
           {/* switcher */}
 
           <div className="grid grid-cols-1 w-full md:w-[90%]">
-            <div className=" w-full flex rounded-xl dark:text-[#171717] select-none text-[14px]">
+            <div className=" w-full flex rounded-xl dark:text-white select-none text-[14px]">
               <div
                 onClick={() => {
                   setChange(1);
                 }}
-                className={`m-1 flex justify-center transition-all duration-700 items-center h-8 w-full z-10 ${change === 1 ? 'font-bold border-b-2 border-blue-600' : 'cursor-pointer'
+                className={`m-1 flex justify-center items-center h-8 w-full z-10 ${change === 1 ? 'font-bold border-b-2 border-blue-600' : 'cursor-pointer'
                   }`}
               >
                 Phone no.
@@ -400,7 +400,7 @@ function page() {
                 onClick={() => {
                   setChange(2);
                 }}
-                className={`m-1 flex justify-center transition-all duration-700 items-center h-8 w-full z-10 ${change === 2 ? 'font-bold border-b-2 border-blue-600' : 'cursor-pointer'
+                className={`m-1 flex justify-center items-center h-8 w-full z-10 ${change === 2 ? 'font-bold border-b-2 border-blue-600' : 'cursor-pointer'
                   }`}
               >
                 Email
@@ -415,18 +415,18 @@ function page() {
               : "hidden"
               } `}
           >
-            <div className="text-sm pb-3 px-1 font-semibold text-[#424856]">Enter Your Phone Number</div>
-            <div className="bg-[#f7f7f7] flex items-center border w-[300px] justify-center rounded-2xl">
-              <div className="border-r-2 sm:-ml-3 p-1 sm:pr-2 "> +91</div>
+            <div className="text-sm pb-3 px-1 dark:text-white font-semibold text-[#424856]">Enter Your Phone Number</div>
+            <div className="bg-[#f7f7f7] dark:bg-[#323d4e] flex items-center dark:border-[#8f9bba] border w-[300px] justify-center rounded-2xl">
+              <div className="border-r-2 dark:border-[#8f9bba] sm:-ml-3 p-1 sm:pr-2 "> +91</div>
               <input value={number} onChange={(e) => setNumber(e.target.value)} type="tel"
-                className=" p-2 outline-none rounded-xl bg-[#f7f7f7]" />
+                className=" p-2 outline-none rounded-xl dark:bg-[#323d4e] bg-[#f7f7f7]" />
 
             </div>
           </div>
           <div className={`${change === 1 ? "py-5 " : "hidden"} `}>
             <div
-              // onClick={onSignup}
-              onClick={fetchid}
+              onClick={onSignup}
+              //onClick={fetchid}
               className="h-[50px] w-[300px] select-none cursor-pointer bg-black  flex items-center justify-center rounded-2xl text-white "
             >
               {loading && <CgSpinner size={20} className="m-1 animate-spin" />}
@@ -436,26 +436,27 @@ function page() {
           {/* email */}
           <div className={`${change === 2 ? "" : "hidden"} `}>
             <div>
-              <div className="text-black pn:max-sm:text-[15px] text-[15px] py-2">
+              <div className="text-black dark:text-[#fff] pn:max-sm:text-[15px] text-[15px] py-2">
                 Email
               </div>
 
               <input
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="py-3 w-[300px] ring-1 ring-[#f5f5f5] bg-[#f7f7f7] rounded-2xl px-4 outline-slate-100 "
+                className="py-3 w-[300px] dark:bg-[#3d4654] bg-[#f7f7f7] rounded-2xl px-4 "
                 placeholder="Enter your email"
               />
             </div>
             <div>
-              <div className="text-black pn:max-sm:text-[15px] text-[15px] py-2">
+              <div className="text-black dark:text-[#fff] pn:max-sm:text-[15px] text-[15px] py-2">
                 Password
               </div>
 
               <input
+                type="tel"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="py-3 w-[300px] ring-1 ring-[#f5f5f5] bg-[#f7f7f7] rounded-2xl px-4 outline-slate-100 "
+                className="py-3 w-[300px]  bg-[#f7f7f7] dark:bg-[#3d4654] rounded-2xl px-4 "
                 placeholder="Enter your Password"
               />
             </div>

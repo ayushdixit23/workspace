@@ -23,8 +23,8 @@ const Storedata = ({ getorderdata, sales }) => {
 
   return (
     <div className={`flex flex-col gap-4`}>
-      <div className="bg-white rounded-xl p-2 px-3">
-        <div className="text-[#030229] font-semibold pt-3 px-2">
+      <div className="bg-white dark:text-white dark:bg-[#273142] rounded-xl p-2 px-3">
+        <div className="text-[#030229] dark:text-white font-semibold pt-3 px-2">
           Store Analytics
         </div>
         {/* <div className="flex items-center px-3 py-2 gap-4 w-full">
@@ -37,18 +37,18 @@ const Storedata = ({ getorderdata, sales }) => {
             <div>Last Week</div>
           </div>
         </div> */}
-        <div className="w-full">
-          {salesData.length > 0 ? < ChartsStore data={salesData} /> : <div className="h-[200px] w-full flex text-2xl font-semibold justify-center items-center">No Data To Show</div>}
+        <div className="w-full ">
+          {salesData && salesData.length > 0 ? < ChartsStore data={salesData} /> : <div className="h-[200px] w-full flex text-2xl font-semibold justify-center items-center">No Data To Show</div>}
         </div>
       </div>
 
       {getorderdata?.mergedOrder.length == 0 ? (
-        <div className="bg-white rounded-xl h-[370px] sm:h-[400px]">
+        <div className="bg-white dark:bg-[#273142] rounded-xl h-[370px] sm:h-[400px]">
           <NoOrder />
         </div>
       ) : (
-        <Link href={"/main/order"} className="w-full rounded-xl bg-white sm:max-h-[600px] max-w-full overflow-y-scroll no-scrollbar sm:min-h-[200px] ">
-          <div className="text-lg font-semibold hidden sm:block p-2 sm:p-3 text-[#030229]">
+        <Link href={"/main/order"} className="w-full rounded-xl dark:bg-[#273142] bg-white sm:max-h-[600px] max-w-full overflow-y-scroll no-scrollbar sm:min-h-[200px] ">
+          <div className="text-lg font-semibold hidden sm:block p-2 sm:p-3 dark:text-white text-[#030229]">
             Recent Orders
           </div>
           {/* <div className="pn:max-sm:hidden max-w-full min-w-[700px] overflow-scroll no-scrollbar bg-white sm:px-3">
@@ -105,9 +105,9 @@ const Storedata = ({ getorderdata, sales }) => {
             </table>
           </div> */}
 
-          <div className="pn:max-sm:hidden max-w-full min-w-[700px] overflow-scroll no-scrollbar bg-white sm:px-3">
+          <div className="pn:max-sm:hidden max-w-full min-w-[700px] overflow-scroll no-scrollbar dark:bg-[#273142] bg-white sm:px-3">
             <Table>
-              <TableHeader>
+              <TableHeader className="dark:text-[#cfcfcf]">
                 <TableRow>
                   <TableHead className="w-[150px]">Order ID</TableHead>
                   <TableHead>Product Name</TableHead>
@@ -149,9 +149,9 @@ const Storedata = ({ getorderdata, sales }) => {
               </TableBody>
             </Table>
           </div>
-          <div className="sm:hidden rounded-xl bg-white">
+          <div className="sm:hidden rounded-xl  dark:bg-[#273142] bg-white">
             <div>
-              <div className="flex justify-between font-semibold p-3 px-4 items-center text-[#4A4C56]">
+              <div className="flex justify-between font-semibold p-3 px-4 dark:text-white items-center text-[#4A4C56]">
                 <div>Recent Orders</div>
                 <div className="mr-4 text-sm">Status</div>
               </div>

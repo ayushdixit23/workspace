@@ -71,22 +71,22 @@ function page() {
       {/* <Post /> */}
       <div>
         <Toaster />
-        <div className="">
+        <div className="dark:text-white">
           <div className="flex px-4 py-2 justify-between items-center">
-            <div className=" p-2 text-[22px] text-[#202224] sm:font-semibold  ">
+            <div className=" p-2 text-[22px] text-[#202224] dark:text-white sm:font-semibold  ">
               Community
             </div>
             <Link
               href="/main/community/createCommunity"
-              className="py-2 vs:max-pp:text-[12px] flex justify-center items-center gap-1 border border-[#f1f1f1] px-2.5 sm:px-5 font-medium bg-white text-black rounded-xl"
+              className="py-2 vs:max-pp:text-[12px] flex justify-center items-center gap-1 border light:border-[#f1f1f1] px-2.5 sm:px-5 font-medium bg-white text-black rounded-xl dark:bg-[#323d4e] dark:text-white"
             >
               Create community
               <GoPlus />
             </Link>
           </div>
-          {comdata?.merged?.length > 0 ? < div className="sm:px-5 w-full sm:min-h-[65vh] text-[#202224]">
-            <div className="flex w-full py-4 bg-[#F1F4F9] rounded-xl px-4 justify-between vs:max-sm:hidden mt-4">
-              <div className="w-64 sm:max-md:w-52 font-semibold flex pl-10">
+          {comdata?.merged?.length > 0 ? < div className="sm:px-5  w-full sm:min-h-[65vh] text-[#202224]">
+            <div className="flex w-full py-4 bg-[#F1F4F9] dark:text-white dark:bg-[#273142] rounded-xl px-4 justify-between vs:max-sm:hidden mt-4">
+              <div className="w-64 sm:max-md:w-52 font-semibold flex justify-normal items-start pl-4">
                 Communities
               </div>
 
@@ -105,7 +105,7 @@ function page() {
               </div>
             </div>
 
-            <div className="flex flex-col p-2 gap-3 my-6 pb-10">
+            <div className="flex flex-col gap-3 my-6 pb-10">
               {comdata?.merged?.map((d, i, arr) => (
                 <div
                   key={i}

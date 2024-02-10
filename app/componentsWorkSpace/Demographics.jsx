@@ -5,13 +5,13 @@ const Demographics = ({ demo, data, member, ages }) => {
 
   return (
     <>
-      {data > 0 ? < div className="p-3 border rounded-xl">
+      {data > 0 ? < div className="p-3 border text-sm dark:border-[#3d4654] dark:text-white rounded-xl">
         <div className="flex justify-between items-center text-sm">
           <div>Statistics</div>
           <div>Total:</div>
         </div>
 
-        <div className="flex border-b pb-3 justify-between items-center">
+        <div className="flex border-b pb-3 dark:border-[#3d4654] justify-between items-center">
           <div className="font-bold">Age
             {/* and gender */}
           </div>
@@ -33,7 +33,7 @@ const Demographics = ({ demo, data, member, ages }) => {
         <div className="mt-4 flex flex-col gap-4 sm:gap-6">
           {ages && ages?.map((d, i) => (
             <div key={i} className="flex gap-2 justify-between items-center">
-              <div className="text-sm text-[#615E83] min-w-[40px]">{d?.age}</div>
+              <div className="text-sm text-[#615E83] dark:text-white min-w-[45px]">{d?.age}</div>
               <div className="w-[80%] h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-3xl">
                 {/* <div
                   style={{
@@ -50,7 +50,7 @@ const Demographics = ({ demo, data, member, ages }) => {
                   className="absolute top-0 left-0 rounded-r-xl z-10 bg-[#4A3AFF] h-full"
                 ></div>
               </div>
-              <div className="text-sm text-[#615E83]">
+              <div className="text-sm  dark:text-white text-[#615E83]">
                 {/* {calculation(demo?.ageof18_24man, demo?.ageof18_24woman)}% */}
                 {`${d?.percent}%`}
               </div>

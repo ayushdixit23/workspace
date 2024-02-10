@@ -24,7 +24,7 @@ export default function LoginLayout({ children }) {
   }, []);
 
   return (
-    <div className="h-screen w-screen bg-white flex pn:max-sm:flex-col">
+    <div className="h-screen w-screen dark:bg-[#273142] bg-white flex pn:max-sm:flex-col">
       <div className="w-[50%] h-full flex py-20 justify-end items-center pn:max-sm:hidden">
         <div className="overflow-hidden w-[98%] rounded-xl bg-[#A5BEFE] h-[95vh] pt-36">
           <div

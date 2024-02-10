@@ -47,7 +47,7 @@ function Header() {
     <>
 
       <div onClick={() => setOpen(false)} className={`${open ? "fixed inset-0 w-screen h-screen z-50" : "-z-50"}`}></div>
-      <div className="flex items-center py-3 sm:rounded-full bg-white justify-between px-6 w-full vs:max-sm:px-4">
+      <div className={`flex dark:bg-[#273142] items-center py-3 sm:rounded-3xl bg-white justify-between px-6 ${pathname == "/main/community" ? "sm:mx-4" : ""} w-full vs:max-sm:px-4`}>
         <div className="sm:hidden">
           <MemoizedWorkspaceIcon />
         </div>

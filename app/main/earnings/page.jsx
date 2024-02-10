@@ -73,7 +73,7 @@ const page = () => {
     <>
       <Toaster />
       <div className={`${open ? "fixed inset-0 w-screen z-50 bg-[#cccccc33] h-screen flex justify-center items-center" : "hidden -z-50"}`}>
-        <div className="flex justify-center shadow-md items-center w-[90%] pp:w-[65%] sm:max-w-[500px] lg:w-[30%] p-3 rounded-xl bg-white">
+        <div className="flex justify-center shadow-md items-center w-[90%] pp:w-[65%] sm:max-w-[500px] lg:w-[30%] p-3 rounded-xl dark:bg-[#273142] bg-white">
           <div className="w-full flex flex-col gap-2">
             <div className="text-xl mt-2 text-center font-semibold">Enter Bank Details</div>
             <div className="flex flex-col gap-3 p-2">
@@ -81,28 +81,28 @@ const page = () => {
                 <div>Bank Name</div>
                 <div>
                   <input value={bank.bankname}
-                    onChange={(e) => setBank({ ...bank, bankname: e.target.value })} type="text" className="p-1.5 px-3 bg-[#F4F7FE] outline-none rounded-xl w-full" placeholder="Bank Name" />
+                    onChange={(e) => setBank({ ...bank, bankname: e.target.value })} type="text" className="p-1.5 px-3 bg-[#F4F7FE] dark:bg-[#323d4e] outline-none rounded-xl w-full" placeholder="Bank Name" />
                 </div>
               </div>
               <div className="flex flex-col w-full gap-1">
                 <div>Branch Name</div>
                 <div>
                   <input value={bank.branchname}
-                    onChange={(e) => setBank({ ...bank, branchname: e.target.value })} type="text" className="p-1.5 px-3 bg-[#F4F7FE] outline-none rounded-xl w-full" placeholder="Branch Name" />
+                    onChange={(e) => setBank({ ...bank, branchname: e.target.value })} type="text" className="p-1.5 px-3 bg-[#F4F7FE] dark:bg-[#323d4e] outline-none rounded-xl w-full" placeholder="Branch Name" />
                 </div>
               </div>
               <div className="flex flex-col w-full gap-1">
                 <div>Account Number</div>
                 <div>
                   <input value={bank.accountno}
-                    onChange={(e) => setBank({ ...bank, accountno: e.target.value })} type="text" className="p-1.5 px-3 bg-[#F4F7FE] outline-none rounded-xl w-full" placeholder="Account Number" />
+                    onChange={(e) => setBank({ ...bank, accountno: e.target.value })} type="text" className="p-1.5 px-3 bg-[#F4F7FE] dark:bg-[#323d4e] outline-none rounded-xl w-full" placeholder="Account Number" />
                 </div>
               </div>
               <div className="flex flex-col w-full gap-1">
                 <div>IFSC Code</div>
                 <div>
                   <input value={bank.IFSCcode}
-                    onChange={(e) => setBank({ ...bank, IFSCcode: e.target.value })} type="text" className="p-1.5 px-3 bg-[#F4F7FE] outline-none rounded-xl w-full" placeholder="IFSC Code" />
+                    onChange={(e) => setBank({ ...bank, IFSCcode: e.target.value })} type="text" className="p-1.5 px-3 bg-[#F4F7FE] dark:bg-[#323d4e] outline-none rounded-xl w-full" placeholder="IFSC Code" />
                 </div>
               </div>
               <div className="flex justify-center gap-3 items-center">
@@ -118,14 +118,14 @@ const page = () => {
         </div>
       </div>
       <div className="grid grid-cols-1 w-full">
-        <div className="flex justify-between py-2 my-3 px-5 bg-white rounded-2xl items-center">
+        <div className="flex justify-between py-2 my-3 px-5 bg-white dark:bg-[#273142] rounded-2xl items-center">
           <div className="flex flex-col gap-2 justify-center">
             <div className="text-[#0066FF] sm:leading-snug sm:max-w-[80%] px-3 font-semibold text-xl sm:text-[26px]">
               "Empower Your Community: Unlock Ads and Stores for Earning
               Potential!"
             </div>
             <div className="flex items-center px-3 pb-3">
-              <div className="bg-black rounded-full gap-2 font-medium text-white p-2 px-3 flex justify-center items-center">
+              <div className="bg-black dark:bg-[#3d4654] dark:text-white rounded-full gap-2 font-medium text-white p-2 px-3 flex justify-center items-center">
                 <div>Notify Me!</div>
                 <div className="text-xl bg-white text-black rounded-full flex justify-center items-center w-5 h-5 sm:w-7 sm:h-7">
                   <MdOutlineNotifications />
@@ -142,9 +142,9 @@ const page = () => {
           </div>
         </div>
         <div className="grid w-full grid-cols-1">
-          <div className="grid w-full p-2 sm:p-3 sm:px-5 gap-4 grid-cols-1">
+          <div className="grid w-full gap-4 grid-cols-1">
             <div className="grid w-full grid-cols-2 sm:grid-cols-3 gap-4">
-              <div className="flex bg-white items-center p-3 sm:px-5 rounded-xl gap-3 w-full">
+              <div className="flex bg-white dark:bg-[#273142] items-center p-3 sm:px-5 rounded-xl gap-3 w-full">
                 <div>
                   <Image
                     src={rupee}
@@ -157,7 +157,7 @@ const page = () => {
                   <div className="font-semibold">₹{data?.earningStats?.earnings}</div>
                 </div>
               </div>
-              <div className="flex bg-white items-center p-3 sm:px-5 rounded-xl gap-3 w-full">
+              <div className="flex bg-white dark:bg-[#273142] items-center p-3 sm:px-5 rounded-xl gap-3 w-full">
                 <div>
                   <Image
                     src={e2}
@@ -170,7 +170,7 @@ const page = () => {
                   <div className="font-semibold">₹{data?.earningStats?.pendingpayments}</div>
                 </div>
               </div>
-              <div className="flex pn:max-sm:col-span-2 bg-white justify-between items-center p-4 sm:p-3 px-5 rounded-xl gap-3 w-full">
+              <div className="flex pn:max-sm:col-span-2 bg-white dark:bg-[#273142] justify-between items-center p-4 sm:p-3 px-5 rounded-xl gap-3 w-full">
                 <div className="flex justify-center gap-4 items-center">
                   <div>
                     <BsBank className="text-xl" />
@@ -182,20 +182,20 @@ const page = () => {
                 </div>
               </div>
             </div>
-            <div className="w-full sm:bg-white rounded-xl p-3">
-              <div className="text-[#666666] pn:max-sm:text-center font-medium">
+            <div className="w-full sm:bg-white dark:bg-[#273142] rounded-xl p-3">
+              <div className="text-[#666666] dark:text-white pn:max-sm:text-center font-medium">
                 You haven't met the criteria to apply for monetisation tool
                 access.
               </div>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 my-3 justify-center items-center">
-                <div className="flex flex-col gap-3 bg-white shadow-sm py-4 px-3 rounded-xl sm:max-w-[450px]">
+                <div className="flex flex-col gap-3 bg-white dark:bg-[#273142] dark:border-[#3d4654] dark:border shadow-sm py-4 px-3 rounded-xl sm:max-w-[450px]">
                   <div className="flex gap-2 items-center">
                     <div>
                       <Image src={order} className="max-w-[80px]" alt="image" />
                     </div>
                     <div className="flex flex-col gap-1">
                       <div className="text-xl font-semibold">Store</div>
-                      <div className="text-sm text-[#444444]">
+                      <div className="text-sm text-[#444444] dark:text-white">
                         "Make shopping fun! Help your viewers find and buy cool
                         stuff while they watch your videos. Connect your store
                         to share products with your friends."
@@ -229,14 +229,14 @@ const page = () => {
                     </div>
                   </div> */}
                 </div>
-                <div className="flex flex-col gap-3 bg-white shadow-sm py-4 px-3 rounded-xl sm:max-w-[450px]">
+                <div className="flex flex-col gap-3 bg-white dark:bg-[#273142] dark:border-[#3d4654] dark:border shadow-sm py-4 px-3 rounded-xl sm:max-w-[450px]">
                   <div className="flex gap-2 items-center">
                     <div>
                       <Image src={Cl} className="max-w-[80px]" alt="image" />
                     </div>
                     <div className="flex flex-col gap-1">
                       <div className="text-xl font-semibold">Paid Topics</div>
-                      <div className="text-sm text-[#444444]">
+                      <div className="text-sm text-[#444444] dark:text-white">
                         "Create a paid topic and earn monthly income from your
                         members. Your followers pay for exclusive access, and
                         you generate extra revenue."
@@ -270,14 +270,14 @@ const page = () => {
                     </div>
                   </div> */}
                 </div>
-                <div className="flex flex-col gap-3 bg-white shadow-sm py-4 px-3 rounded-xl sm:max-w-[450px]">
+                <div className="flex flex-col gap-3 bg-white dark:bg-[#273142] dark:border-[#3d4654] dark:border shadow-sm py-4 px-3 rounded-xl sm:max-w-[450px]">
                   <div className="flex gap-2 items-center">
                     <div>
                       <Image src={ads} className="max-w-[80px]" alt="image" />
                     </div>
                     <div className="flex flex-col gap-1">
                       <div className="text-xl font-semibold">Ads</div>
-                      <div className="text-sm text-[#444444]">
+                      <div className="text-sm text-[#444444] dark:text-white">
                         "Make money with ads on your community posts! Earn from
                         ads that appear before, during, and after your videos on
                         the watch page."

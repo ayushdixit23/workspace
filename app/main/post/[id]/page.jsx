@@ -45,13 +45,13 @@ const page = () => {
 			}
 
 			<div className={`${open ? "pn:max-sm:hidden" : null}`}>
-				<div className="flex px-4 py-2 justify-between items-center">
-					<div className=" p-2 text-[22px] text-[#202224] sm:font-semibold  ">
+				<div className="flex px-4 py-2 justify-between dark:text-white items-center">
+					<div className=" p-2 text-[22px] text-[#202224] dark:text-white sm:font-semibold  ">
 						Posts
 					</div>
 					<div
 						onClick={() => setOpen(true)}
-						className="py-2 vs:max-pp:text-[12px] flex justify-center items-center gap-1 border border-[#f1f1f1] px-2.5 sm:px-5 font-medium bg-white text-black rounded-xl"
+						className="py-2 vs:max-pp:text-[12px] flex justify-center items-center gap-1 border dark:bg-[#3d4654] dark:text-white light:border-[#f1f1f1] px-2.5 sm:px-5 font-medium bg-white text-black rounded-xl"
 					>
 						Create Posts
 						<GoPlus />
@@ -62,7 +62,7 @@ const page = () => {
 
 				<div className='pn:max-sm:hidden'>
 					{
-						mergedData?.length > 0 ? <div className="bg-white  rounded-xl sm:p-2 w-full">
+						mergedData?.length > 0 ? <div className="bg-white dark:bg-[#273142] rounded-xl sm:p-2 w-full">
 							{/* <table className="w-full sm:max-lg:min-w-[750px] rounded-xl border-collapse">
 								<thead>
 									<tr className="bg-gray-50">

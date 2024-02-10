@@ -81,17 +81,17 @@ function Dashboard() {
 			{/* <Toaster /> */}
 			<div className="grid grid-cols-1 w-full">
 				<div className="grid sm:grid-cols-12 grid-cols-1 gap-3 h-full">
-					<div className="md:col-span-8 sm:col-span-7 px-3 flex flex-col w-full max-h-[85vh] ">
-						<div className="flex p-2 sm:sticky sm:top-0 text-sm mb-1 items-center gap-3">
+					<div className="md:col-span-8 sm:col-span-7 flex flex-col w-full max-h-[85vh] ">
+						<div className="flex sm:sticky px-1 sm:top-0 text-sm mb-2 items-center gap-3">
 							<div
 								onClick={() => setChange("community")}
-								className={`cursor-pointer ${change === "community" ? "bg-white font-semibold" : "bg-[#F3F3F3]"}  p-[6px] rounded-xl px-4`}
+								className={`cursor-pointer ${change === "community" ? "bg-white dark:bg-[#323d4e] font-semibold" : "dark:border-[#323d4e] dark:border"} p-[6px] rounded-xl px-4`}
 							>
 								Community
 							</div>
 							<div
 								onClick={() => setChange("store")}
-								className={`cursor-pointer ${change === "store" ? "bg-white font-semibold" : "bg-[#F3F3F3]"}  p-[6px] rounded-xl px-4`}
+								className={`cursor-pointer ${change === "store" ? "bg-white dark:bg-[#323d4e] font-semibold" : "dark:border-[#323d4e] dark:border"}  p-[6px] rounded-xl px-4`}
 							>
 								Store
 							</div>
@@ -102,7 +102,7 @@ function Dashboard() {
 							{analyticsdata?.commerged?.length == 0 ? (
 								<div
 									className={`w-full ${change == "community" ? null : "hidden"
-										} bg-white rounded-xl justify-center items-center flex flex-col h-full min-h-[500px]
+										} bg-white dark:bg-[#323d4e] rounded-xl justify-center items-center flex flex-col h-full min-h-[500px]
                 `}
 								>
 									<div className="flex flex-col gap-3 justify-center h-full items-center">
@@ -134,32 +134,32 @@ function Dashboard() {
 							{change == "store" && <Storedata sales={analyticsdata?.sales} getorderdata={getorderdata} />}
 						</div>
 					</div>
-					<div className="md:col-span-4 sm:col-span-5 max-h-[570px] flex-1 sticky top-2 w-full sm:rounded-xl sm:bg-white p-2.5">
+					<div className="md:col-span-4 sm:col-span-5 max-h-[570px] sticky top-2 w-full sm:rounded-xl dark:bg-[#273142] dark:border-2 dark:border-[#323d4e] sm:bg-white p-[6px]">
 						<div className={`h-full ${change == "community" ? null : "hidden"}`}>
 							<MemorizedPopularity state={state} />
-							<div className="flex justify-evenly sm:justify-between bg-white py-2 rounded-xl my-2 px-3 sm:flex-wrap items-center gap-2">
+							<div className="flex text-sm justify-between light:bg-white py-2 rounded-xl my-2 flex-wrap flex-grow  items-center gap-2">
 								<div
 									onClick={() => setComchange(1)}
-									className={`rounded-xl p-1.5 px-3 cursor-pointer ${comchange == 1 ? "bg-white font-semibold shadow-def" : "bg-[#F9F9F9] "}`}
+									className={`rounded-xl p-1  px-3 sm:px-5 cursor-pointer ${comchange == 1 ? "bg-white dark:bg-[#3276ea] font-semibold shadow-def" : "dark:bg-[#323d4e] dark:border-2 dark:border-[#323d4e] "}`}
 								>
 									Members
 								</div>
 								<div
 									onClick={() => setComchange(2)}
-									className={`rounded-xl p-1.5 px-3 cursor-pointer ${comchange == 2 ? "bg-white font-semibold shadow-def" : "bg-[#F9F9F9] "}`}
+									className={`rounded-xl p-1 px-3 sm:px-5 cursor-pointer ${comchange == 2 ? "bg-white dark:bg-[#3276ea] font-semibold shadow-def" : "dark:bg-[#323d4e] dark:border-2 dark:border-[#323d4e] "}`}
 
 								>
 									Demographics
 								</div>
 								<div
 									onClick={() => setComchange(3)}
-									className={`rounded-xl p-1.5 px-3 cursor-pointer ${comchange == 3 ? "bg-white font-semibold shadow-def" : "bg-[#F9F9F9] "}`}
+									className={`rounded-xl p-1 px-3 sm:px-5 cursor-pointer ${comchange == 3 ? "bg-white dark:bg-[#3276ea] font-semibold shadow-def" : "dark:bg-[#323d4e] dark:border-2 dark:border-[#323d4e]"}`}
 								>
 									Location
 								</div>
 							</div>
-							<div className="sm:max-h-[250px] pn:max-sm:mt-4 rounded-xl bg-white sm:overflow-y-scroll z-20 sm:no-scrollbar">
-								<div className="rounded-xl w-full bg-white">
+							<div className="sm:max-h-[250px] pn:max-sm:mt-4 rounded-xl dark:text-white light:bg-white sm:overflow-y-scroll z-20 sm:no-scrollbar">
+								<div className="rounded-xl dark:text-white w-full light:bg-white">
 									{/* <div className={`${comchange == 0 ? null : "hidden"}`}>
 										<DontHave />
 									</div> */}
@@ -177,9 +177,9 @@ function Dashboard() {
 							</div>
 
 						</div>
-						<div className={`max-h-[90vh] ${change == "store" ? null : "hidden"}`}>
+						<div className={`dark:bg-[#273142] max-h-[90vh] ${change == "store" ? null : "hidden"}`}>
 							<div className="grid grid-cols-2  w-full items-center gap-2">
-								<div className="flex flex-col bg-white p-3 rounded-xl gap-2 border border-[#f1f1f1] w-full">
+								<div className="flex flex-col light:bg-white p-3 rounded-xl gap-2 border dark:border-[#3d4654] light:border-[#f1f1f1] w-full">
 									<div>
 										<Image src={p3} alt="p1" />
 									</div>
@@ -191,7 +191,7 @@ function Dashboard() {
 										</div>
 									</div>
 								</div>
-								<div className="flex flex-col bg-white p-3 rounded-xl gap-2 border border-[#f1f1f1] w-full">
+								<div className="flex flex-col light:bg-white p-3 rounded-xl gap-2 border dark:border-[#3d4654] light:border-[#f1f1f1] w-full">
 									<div>
 										<Image src={p1} alt="p2" />
 									</div>
@@ -205,7 +205,7 @@ function Dashboard() {
 										</div>
 									</div>
 								</div>
-								<div className="flex col-span-2 bg-white flex-col p-3 rounded-xl gap-3 border border-[#f1f1f1] w-full">
+								<div className="flex col-span-2 light:bg-white flex-col p-3 rounded-xl gap-3 border dark:border-[#3d4654] light:border-[#f1f1f1] w-full">
 									<div>
 										<Image src={p2} alt="p2" />
 									</div>
@@ -240,30 +240,30 @@ function Dashboard() {
 									</div>
 								</div>
 							</div>
-							<div className="flex sm:justify-evenly bg-white pn:max-sm:rounded-xl text-[12px] my-2 p-2 items-center gap-2">
+							<div className="flex justify-between text-sm light:bg-white pn:max-sm:rounded-xl text-[12px] my-2 py-2 items-center gap-2">
 								<div
 									onClick={() => setProchange(1)}
-									className={`rounded-xl p-2 px-4 cursor-pointer ${prochange == 1 ? "bg-white font-semibold shadow-def" : "bg-[#F9F9F9] "}`}
+									className={`rounded-xl p-1 px-3 cursor-pointer ${prochange == 1 ? "bg-white dark:bg-[#3276ea]  font-semibold shadow-def" : "dark:bg-[#323d4e] dark:border-2 dark:border-[#323d4e] "}`}
 
 								>
 									Top Products
 								</div>
 								<div
 									onClick={() => setProchange(2)}
-									className={`rounded-xl p-2 px-4 cursor-pointer ${prochange == 2 ? "bg-white font-semibold shadow-def" : "bg-[#F9F9F9] "}`}
+									className={`rounded-xl p-1 px-3 cursor-pointer ${prochange == 2 ? "bg-white dark:bg-[#3276ea]  font-semibold shadow-def" : "dark:bg-[#323d4e] dark:border-2 dark:border-[#323d4e] "}`}
 
 								>
 									Customer
 								</div>
 								<div
 									onClick={() => setProchange(3)}
-									className={`rounded-xl p-2 px-4 cursor-pointer ${prochange == 3 ? "bg-white font-semibold shadow-def" : "bg-[#F9F9F9] "}`}
+									className={`rounded-xl p-1 px-3 cursor-pointer ${prochange == 3 ? "bg-white dark:bg-[#3276ea]  font-semibold shadow-def" : "dark:bg-[#323d4e] dark:border-2 dark:border-[#323d4e] "}`}
 
 								>
 									Location
 								</div>
 							</div>
-							<div className="sm:max-h-[300px] overflow-y-scroll rounded-xl bg-white no-scrollbar">
+							<div className="sm:max-h-[300px] overflow-y-scroll rounded-xl light:bg-white no-scrollbar">
 								{/* <div className="sm:max-h-[400px] min-w-full overflow-scroll no-scrollbar bg-white rounded-xl"> */}
 								{prochange == 0 && <DontHave />}
 								{prochange == 1 && <Products data={analyticsdata?.promerged} />}

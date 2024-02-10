@@ -42,7 +42,7 @@ const Charts = ({ data }) => {
 					<XAxis dataKey="X" className='text-xs' />
 					<YAxis domain={calculateYAxisDomain(data)} allowDecimals={false} fill="#000000" className='text-xs' />
 					<Tooltip />
-					<Legend className='rounded-2xl' />
+					
 					<Bar dataKey="members" fill="#1814fc" />
 					<Bar dataKey="visitors" fill="#a855f7" />
 					{/* a855f7 */}
