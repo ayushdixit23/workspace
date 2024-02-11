@@ -20,7 +20,6 @@ import toast, { Toaster } from "react-hot-toast";
 import { storeInSessionStorage } from "@/app/utilsHelper/Tokenwrap";
 import { setCookie } from 'cookies-next';
 
-
 function page() {
   const [otp, setOtp] = useState("")
   const router = useRouter();
@@ -416,8 +415,8 @@ function page() {
               } `}
           >
             <div className="text-sm pb-3 px-1 dark:text-white font-semibold text-[#424856]">Enter Your Phone Number</div>
-            <div className="bg-[#f7f7f7] dark:bg-[#323d4e] flex items-center dark:border-[#8f9bba] border w-[300px] justify-center rounded-2xl">
-              <div className="border-r-2 dark:border-[#8f9bba] sm:-ml-3 p-1 sm:pr-2 "> +91</div>
+            <div className="bg-[#f7f7f7] flex items-center dark:border-[#8f9bba] overflow-hidden dark:bg-[#323d4e] border w-[300px] justify-center rounded-2xl">
+              <div className="border-r-2 sm:-ml-3 p-1 sm:pr-2 "> +91</div>
               <input value={number} onChange={(e) => setNumber(e.target.value)} type="tel"
                 className=" p-2 outline-none rounded-xl dark:bg-[#323d4e] bg-[#f7f7f7]" />
 

@@ -181,7 +181,7 @@ const CreatePost = ({ id, comid, open, setOpen, refetch }) => {
 									<input
 										value={post.sampletags} onChange={(e) => setPost({ ...post, sampletags: e.target.value })}
 										type="text" className="p-1.5 px-3 bg-transparent outline-none rounded-lg w-full" placeholder="Enter Hastags" />
-									<button onClick={() => setPost({ ...post, tags: [...post.tags, post.sampletags], sampletags: "" })} className='flex justify-center items-center p-2 rounded-r-lg text-[#2461FD] bg-[#F0F4FF]'>
+									<button onClick={() => setPost({ ...post, tags: [...post.tags, post.sampletags], sampletags: "" })} className='flex justify-center items-center p-2 rounded-r-lg text-[#2461FD] dark:bg-[#3d4654] dark:text-white bg-[#F0F4FF]'>
 										<div><MdAdd /></div>
 										<div>Add</div>
 									</button>

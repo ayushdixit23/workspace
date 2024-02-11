@@ -143,7 +143,7 @@ const page = () => {
             </div>
             <div className="grid grid-cols-5 my-3 gap-7 md:gap-16 w-full">
               <div className="flex flex-col gap-2 col-span-5 sm:col-span-3">
-                <div className="bg-white p-3 flex justify-center rounded-lg items-center flex-col">
+                <div className="bg-white dark:bg-[#273142] p-3 flex justify-center rounded-lg items-center flex-col">
                   <div className="flex justify-between pb-2 w-full items-center">
                     <div className="text-xl font-semibold">
                       General Information
@@ -151,7 +151,7 @@ const page = () => {
                     <div className="flex justify-center gap-2 items-center">
                       <div
                         onClick={() => setEdit(true)}
-                        className="border-b border-black"
+                        className="border-b dark:border-[#3d4654] border-black"
                       >
                         Edit
                       </div>
@@ -179,7 +179,7 @@ const page = () => {
                               })
                             }
                             type="text"
-                            className="bg-[#F1F1F1] border-2 w-full outline-none focus:border-blue-500 rounded-xl p-2"
+                            className="bg-[#F1F1F1] dark:bg-[#323d4e] dark:border-[#3d4654] border-2 w-full outline-none focus:border-blue-500 rounded-xl p-2"
                             placeholder="Enter FullName"
                           />
                         ) : (
@@ -201,7 +201,7 @@ const page = () => {
                                   phone: e.target.value,
                                 })
                               }
-                              className="bg-[#F1F1F1] border-2 w-full outline-none rounded-xl focus:border-blue-500 p-2"
+                              className="bg-[#F1F1F1] dark:bg-[#323d4e] dark:border-[#3d4654] border-2 w-full outline-none rounded-xl focus:border-blue-500 p-2"
                               placeholder="Enter FullName"
                             />
                           ) : (
@@ -222,7 +222,7 @@ const page = () => {
                                   email: e.target.value,
                                 })
                               }
-                              className="bg-[#F1F1F1] border-2 w-full outline-none rounded-xl focus:border-blue-500 p-2"
+                              className="bg-[#F1F1F1] dark:bg-[#323d4e] dark:border-[#3d4654] border-2 w-full outline-none rounded-xl focus:border-blue-500 p-2"
                               placeholder="Enter FullName"
                             />
                           ) : (
@@ -244,7 +244,7 @@ const page = () => {
                               })
                             }
                             type="text"
-                            className="bg-[#F1F1F1] border-2 w-full outline-none rounded-xl focus:border-blue-500 p-2"
+                            className="bg-[#F1F1F1] dark:bg-[#323d4e] dark:border-[#3d4654] border-2 w-full outline-none rounded-xl focus:border-blue-500 p-2"
                             placeholder="Enter FullName"
                           />
                         ) : (
@@ -254,7 +254,7 @@ const page = () => {
                     </div>
                   </div>
                 </div>
-                <div className="bg-white p-3 flex justify-center rounded-lg items-center flex-col">
+                <div className="bg-white dark:bg-[#273142] p-3 flex justify-center rounded-lg items-center flex-col">
                   <div className="flex justify-between pb-2 w-full items-center">
                     <div className="text-xl font-semibold">
                       Store Information
@@ -262,7 +262,7 @@ const page = () => {
                     <div className="flex justify-center gap-2 items-center">
                       <div
                         onClick={() => setEdit2(true)}
-                        className="border-b border-black"
+                        className="border-b dark:border-[#3d4654] border-black"
                       >
                         Edit
                       </div>
@@ -290,7 +290,7 @@ const page = () => {
                                 storeAddress: e.target.value,
                               })
                             }
-                            className="bg-[#F1F1F1] border-2 w-full outline-none rounded-xl focus:border-blue-500 p-2"
+                            className="bg-[#F1F1F1] dark:bg-[#323d4e] dark:border-[#3d4654] border-2 w-full outline-none rounded-xl focus:border-blue-500 p-2"
                             placeholder="Enter FullName"
                           />
                         ) : (
@@ -314,7 +314,7 @@ const page = () => {
                                 })
                               }
                               type="text"
-                              className="bg-[#F1F1F1] border-2 w-full outline-none rounded-xl focus:border-blue-500 p-2"
+                              className="bg-[#F1F1F1] dark:bg-[#323d4e] dark:border-[#3d4654] border-2 w-full outline-none rounded-xl focus:border-blue-500 p-2"
                               placeholder="Enter FullName"
                             />
                           ) : (
@@ -335,7 +335,7 @@ const page = () => {
                                 })
                               }
                               type="text"
-                              className="bg-[#F1F1F1] border-2 w-full outline-none rounded-xl focus:border-blue-500 p-2"
+                              className="bg-[#F1F1F1] dark:bg-[#323d4e] dark:border-[#3d4654] border-2 w-full outline-none rounded-xl focus:border-blue-500 p-2"
                               placeholder="Enter FullName"
                             />
                           ) : (
@@ -358,7 +358,7 @@ const page = () => {
                                 })
                               }
                               type="number"
-                              className="bg-[#F1F1F1] border-2 w-full outline-none rounded-xl focus:border-blue-500 p-2"
+                              className="bg-[#F1F1F1] dark:bg-[#323d4e] dark:border-[#3d4654] border-2 w-full outline-none rounded-xl focus:border-blue-500 p-2"
                               placeholder="Enter FullName"
                             />
                           ) : (
@@ -383,7 +383,7 @@ const page = () => {
                                   landmark: e.target.value,
                                 })
                               }
-                              className="bg-[#F1F1F1] border-2 w-full outline-none rounded-xl focus:border-blue-500 p-2"
+                              className="bg-[#F1F1F1] dark:bg-[#323d4e] dark:border-[#3d4654] border-2 w-full outline-none rounded-xl focus:border-blue-500 p-2"
                               placeholder="Enter FullName"
                             />
                           ) : (
@@ -398,7 +398,7 @@ const page = () => {
                 </div>
               </div>
               <div className="sm:col-span-2 pn:max-sm:hidden">
-                <div className="flex justify-center  items-center w-full p-3 rounded-lg border-2">
+                <div className="flex justify-center  dark:border-[#3d4654] items-center w-full p-3 rounded-lg border-2">
                   <div className="flex flex-col gap-6">
                     <div className="flex flex-col gap-3">
                       <div>
@@ -412,7 +412,7 @@ const page = () => {
                         identity.
                       </div>
                     </div>
-                    <div className="w-full h-[2px] bg-black"> </div>
+                    <div className="w-full h-[2px] dark:bg-[#3d4654] bg-black"> </div>
                     <div className="flex flex-col gap-3">
                       <div>
                         <Image src={s2} alt="image" />

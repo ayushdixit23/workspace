@@ -165,6 +165,7 @@ function Dashboard() {
 									</div> */}
 									<div className={`${comchange == 1 ? null : "hidden"}`}>
 										<Member state={state} data={analyticsdata?.commerged?.length} />
+
 									</div>
 								</div>
 								<div className={`${comchange == 2 ? null : "hidden"}`}>

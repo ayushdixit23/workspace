@@ -31,7 +31,7 @@ function productinformation({ handleDelete, data, userid, collectionid, index })
       </div >
 
       <div className="w-full text-sm">
-        <div className=" flex items-center vs:max-sm:px-[2.6%]  sm:mx-2 sm:px-[1%] sm:rounded-[20px] py-3 justify-between">
+        <div className=" flex items-center vs:max-sm:px-2  sm:mx-2 sm:px-[1%] sm:rounded-[20px] py-3 justify-between">
           {/** */}
           <div className="flex gap-3 w-64 sm:max-md:w-52 items-center">
             <img

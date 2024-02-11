@@ -256,7 +256,7 @@ export default function Store() {
 								</div>
 							</div>
 							{/* mobile */}
-							<div className="grid grid-cols-2 sm:hidden  p-3 w-full items-center gap-2 md:gap-7">
+							<div className="grid grid-cols-2 sm:hidden p-2 w-full items-center gap-2 md:gap-7">
 								<div className="flex flex-col bg-white dark:bg-[#273142] p-3 rounded-xl gap-2 border light:border-[#f1f1f1] w-full">
 									<div>
 										<Image src={p3} alt="p1" />
@@ -336,7 +336,7 @@ export default function Store() {
 										</div>
 									</div>
 
-									<div className="px-3 flex flex-col gap-5 py-3">
+									<div className="px-2 flex flex-col gap-5 py-3">
 										{productdata?.collections.map((d, i) => (
 											<div key={i} className="bg-white dark:bg-[#273142] py-2 rounded-xl">
 												<div className="flex justify-between py-2 px-3 items-center">

@@ -4,8 +4,15 @@ import Image from "next/image";
 import { FaPlus } from "react-icons/fa";
 import { useCreateCollectionMutation } from "@/app/redux/apiroutes/product";
 import { LoadThis } from "@/app/redux/slice/userData";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { RiLoader2Line } from "react-icons/ri";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 const CreateCollection = ({ col, setCol, image, refetch, loading, setLoading, router, dispatch, setCheck, setImage, id }) => {
   const [createCollectionMutation] = useCreateCollectionMutation();
@@ -75,7 +82,7 @@ const CreateCollection = ({ col, setCol, image, refetch, loading, setLoading, ro
         className={` fixed inset-0 bg-black bg-opacity-50  backdrop-filter w-screen h-screen backdrop-blur-md z-50 `}
       >
         <div className="flex justify-center pn:max-vs:text-sm items-center h-screen pn:max-pp:p-2">
-          <div className="flex max-w-[450px] max-h-[700px] p-3 gap-2 pp:p-5 rounded-lg bg-white dark:bg-[#273142] flex-col">
+          <div className="flex max-w-[450px] max-h-[700px] p-3 gap-2 pp:p-5 rounded-lg bg-white dark:bg-[#131313] flex-col">
             <div>
               <Image src={hehe} alt="hehe" />
             </div>
@@ -88,24 +95,26 @@ const CreateCollection = ({ col, setCol, image, refetch, loading, setLoading, ro
               <div className="w-full flex gap-1 flex-col">
                 <div className="text-sm font-medium">Collection name</div>
                 <input
-                  className="border-2 p-1 rounded-xl bg-[#FAFAFA] dark:border-none dark:bg-[#323d4e] outline-none"
+                  className="border p-1 px-3 rounded-lg bg-[#fff] dark:bg-[#] dark:bg-[#0A0A0A] outline-none"
                   value={col.d1}
                   onChange={(e) => setCol({ ...col, d1: e.target.value })}
                 />
               </div>
               <div className="w-full gap-3 flex flex-col">
                 <div className="text-sm font-medium">Collection Category</div>
-                <select
-                  value={col.d2}
-                  onChange={(e) => setCol({ ...col, d2: e.target.value })}
-                  className="border-2 p-1 rounded-xl "
-                >
-                  {list.map((d, i) => (
-                    <option key={i} value={d.name} className="">
-                      {d.name}
-                    </option>
-                  ))}
-                </select>
+
+                <Select defaultValue={col.d2}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder={col.d2} />
+                  </SelectTrigger>
+                  <SelectContent>
+
+                    {list.map((d, i) => (
+                      <SelectItem key={i} value={d.name}>{d.name}</SelectItem>
+                    ))}
+
+                  </SelectContent>
+                </Select>
                 <div>
                   {col.d2 === "Food and Grocery" && (
                     <>
@@ -138,7 +147,7 @@ const CreateCollection = ({ col, setCol, image, refetch, loading, setLoading, ro
                 </div>
                 <div className="flex justify-center items-center w-full gap-3">
                   <button
-                    className="bg-white border-2 text-black p-2 w-full rounded-xl"
+                    className="bg-white light:border-2 text-black p-2 w-full rounded-xl"
                     onClick={() => { setCheck(0); dispatch(LoadThis(false)); router.push("/main/store") }}
                   >
                     Cancel

@@ -64,7 +64,7 @@ function Communitybox({ data, id, index, handleDelete }) {
 
           <div className="flex text-center sm:hidden relative mr-3 justify-around items-center">
             <BsThreeDotsVertical onClick={() => setOpen(!open)} />
-            <div className={`${open ? "absolute top-5 z-50 -left-20 h-[120px] rounded-lg w-[100px] bg-white dark:bg-[#273142] shadow-lg" : "hidden"} `}>
+            <div className={`${open ? "absolute top-5 z-50 -left-20 h-[120px] rounded-lg w-[100px] bg-white dark:bg-[#273142] dark:border dark:border-[#3d4654] shadow-lg" : "hidden"} `}>
               <div className="flex flex-col justify-start items-start gap-3 p-3">
                 <Link href={"/main/community/editCommunity"} onClick={() => {
                   setCookie("edta", JSON.stringify(data))
@@ -101,7 +101,7 @@ function Communitybox({ data, id, index, handleDelete }) {
         >
           <div
             className={`
-              bg-white p-2.5 rounded-xl
+              bg-white dark:bg-[#273142] dark:border dark:border-[#3d4654] p-2.5 rounded-xl
               `}
           >
             <div className="w-[100%]">
@@ -117,7 +117,7 @@ function Communitybox({ data, id, index, handleDelete }) {
           <div
             className={`
 
-            bg-white p-2.5 rounded-xl
+            bg-white dark:bg-[#273142] dark:border dark:border-[#3d4654] p-2.5 rounded-xl
               `}
           >
             <div className="w-[100%]">
@@ -132,7 +132,7 @@ function Communitybox({ data, id, index, handleDelete }) {
           </div>
           <div
             className={`
-            bg-white p-2.5 rounded-xl
+            bg-white dark:bg-[#273142] dark:border dark:border-[#3d4654] p-2.5 rounded-xl
           
               `}
           >
@@ -149,7 +149,7 @@ function Communitybox({ data, id, index, handleDelete }) {
           <div
             className={`
            
-            bg-white p-2.5 rounded-xl
+            bg-white dark:bg-[#273142] dark:border dark:border-[#3d4654] p-2.5 rounded-xl
               `}
           >
             <div className="w-[100%]">

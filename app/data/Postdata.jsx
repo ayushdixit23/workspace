@@ -18,7 +18,7 @@ const Postdata = ({ analyticsdata, state }) => {
   return (
     <>
       {/* mobile */}
-      <Link href={`/main/post/${encryptaes(state.id)}`} className="bg-white dark:text-white dark:bg-[#273142] my-3 rounded-xl overflow-hidden  sm:hidden">
+      <Link href={`/main/post/${encryptaes(state.id)}`} className="bg-white dark:text-white dark:bg-[#273142] my-3 rounded-xl overflow-hidden sm:hidden">
         <div className="p-3 px-4 font-bold dark:text-white text-[#030229]">Recent Posts</div>
         {!analyticsdata?.postmerged ||
           analyticsdata?.postmerged.length === 0 ||
@@ -27,7 +27,7 @@ const Postdata = ({ analyticsdata, state }) => {
           ).length === 0 ? (
           <NoPost id={encryptaes(state.id)} setOpen={false} />
         ) : (
-          <div className="overflow-y-scroll dark:text-white dark:border-2 dark:border-[#313d4f] dark:bg-[#273142] bg-white scrollbar-hide max-h-[300px] ">
+          <div className="overflow-y-scroll dark:text-white dark:border-2 dark:border-[#313d4f] dark:bg-[#273142] bg-white no-scrollbar max-h-[300px] ">
             {analyticsdata?.postmerged
               ?.filter((w) => w?.community?.title === state.name)
               ?.map((d, i, arr) => (

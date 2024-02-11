@@ -75,8 +75,8 @@ const Fetch = ({ data }) => {
             </tbody >
           </table> */}
 
-          <Table className="bg-white">
-            <TableHeader className="bg-slate-100">
+          <Table className="bg-white pn:max-sm:hidden dark:bg-[#273142]">
+            <TableHeader className="bg-slate-100 dark:bg-[#323d4e]">
               <TableRow>
                 <TableHead className="w-[150px]">Order ID</TableHead>
                 <TableHead className="text-center">Product</TableHead>
@@ -126,9 +126,9 @@ const Fetch = ({ data }) => {
               }
             </TableBody>
           </Table>
-          <div className="sm:hidden rounded-xl bg-white">
+          <div className="sm:hidden rounded-xl dark:bg-[#273142] bg-white">
             <div>
-              <div className="flex justify-between font-semibold p-3 items-center text-[#4A4C56]">
+              <div className="flex justify-between font-semibold p-3 items-center dark:text-white text-[#4A4C56]">
                 <div>Recent Orders</div>
                 <div>Status</div>
               </div>

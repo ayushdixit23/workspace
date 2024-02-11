@@ -74,12 +74,12 @@ const page = () => {
       </div> */}
 
       <div className="grid grid-cols-1 w-full sm:p-3">
-        <div className="text-[#8B8D97] px-2 my-2 text-lg">Track Order</div>
+        <div className="text-[#8B8D97] dark:text-white px-2 my-2 text-lg">Track Order</div>
         <div className="grid grid-cols-1 w-full">
           <div className="flex flex-col">
             {/* web */}
-            <div className="flex pn:max-sm:hidden justify-center bg-[#FAFAFA] p-3 w-full items-center gap-2 md:gap-5">
-              <div className="flex sm:max-md:text-xs flex-col p-3 py-5 bg-white rounded-xl gap-4 border w-full">
+            <div className="flex pn:max-sm:hidden justify-center bg-[#FAFAFA] dark:bg-[#1b2431] p-3 w-full items-center gap-2 md:gap-5">
+              <div className="flex sm:max-md:text-xs flex-col p-3 py-5 bg-white dark:bg-[#273142] dark:border dark:border-[#3d4654] rounded-xl gap-4 border w-full">
                 <div>
                   <Image src={c1} alt="p1" />
                 </div>
@@ -93,7 +93,7 @@ const page = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex sm:max-md:text-xs flex-col p-3 py-5 bg-white rounded-xl gap-4 border w-full">
+              <div className="flex sm:max-md:text-xs flex-col p-3 py-5 bg-white dark:bg-[#273142] dark:border dark:border-[#3d4654] rounded-xl gap-4 border w-full">
                 <div>
                   <Image src={c2} alt="p2" />
                 </div>
@@ -105,7 +105,7 @@ const page = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col p-3 sm:max-md:text-xs py-5 bg-white rounded-xl gap-4 border w-full">
+              <div className="flex flex-col p-3 sm:max-md:text-xs py-5 bg-white dark:bg-[#273142] dark:border dark:border-[#3d4654] rounded-xl gap-4 border w-full">
                 <div>
                   <Image src={c3} alt="p2" />
                 </div>
@@ -141,8 +141,8 @@ const page = () => {
               </div>
             </div>
             {/* mobile */}
-            <div className="grid grid-cols-2 sm:hidden bg-[#FAFAFA] p-3 w-full items-center gap-2 md:gap-7">
-              <div className="flex flex-col bg-white p-3 rounded-xl gap-2 border w-full">
+            <div className="grid grid-cols-2 sm:hidden bg-[#FAFAFA] dark:bg-[#273142] p-3 w-full items-center gap-2 md:gap-7">
+              <div className="flex flex-col bg-white dark:bg-[#273142] dark:border dark:border-[#3d4654] p-3 rounded-xl gap-2 border w-full">
                 <div>
                   <Image src={c1} alt="p1" />
                 </div>
@@ -156,7 +156,7 @@ const page = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col bg-white p-3 rounded-xl gap-2 border w-full">
+              <div className="flex flex-col bg-white dark:bg-[#273142] dark:border dark:border-[#3d4654] p-3 rounded-xl gap-2 border w-full">
                 <div>
                   <Image src={c2} alt="p2" />
                 </div>
@@ -168,7 +168,7 @@ const page = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex col-span-2 bg-white flex-col p-3 rounded-xl gap-3 border w-full">
+              <div className="flex col-span-2 bg-white dark:bg-[#273142] dark:border dark:border-[#3d4654] flex-col p-3 rounded-xl gap-3 border w-full">
                 <div>
                   <Image src={c3} alt="p2" />
                 </div>

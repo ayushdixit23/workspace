@@ -34,15 +34,15 @@ const Charts = ({ data }) => {
 
 		return [0, highestValue * 2];
 	};
-	
+
 	return (
 		<div>
 			<ResponsiveContainer width="100%" height={300}>
-				<BarChart className='w-full relative -left-5 top-3' width={730} height={250} data={data}>
+				<BarChart className='w-full relative -left-9 sm:-left-7 top-3' width={730} height={250} data={data}>
 					<XAxis dataKey="X" className='text-xs' />
 					<YAxis domain={calculateYAxisDomain(data)} allowDecimals={false} fill="#000000" className='text-xs' />
 					<Tooltip />
-					
+
 					<Bar dataKey="members" fill="#1814fc" />
 					<Bar dataKey="visitors" fill="#a855f7" />
 					{/* a855f7 */}

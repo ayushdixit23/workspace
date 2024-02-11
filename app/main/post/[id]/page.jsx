@@ -181,11 +181,11 @@ const page = () => {
 
 				<div className='sm:hidden'>
 					{
-						mergedData?.length > 0 ? <div className="bg-white">
+						mergedData?.length > 0 ? <div className="dark:bg-[#273142] dark:text-white bg-white">
 							{mergedData?.map((d, i) => (
 								<div
 									key={i}
-									className={`border-b border-[#eaecf0] px-2 flex flex-col justify-center items-center gap-4 w-full`}
+									className={`light:border-b light:border-[#eaecf0] px-2 flex flex-col justify-center items-center gap-4 w-full`}
 								>
 									<div className="flex justify-between mt-3 px-3 w-full items-center">
 										<div className="flex justify-center items-center gap-2">
@@ -196,13 +196,13 @@ const page = () => {
 													alt="image"
 												/>
 											</div>
-											<div className="text-sm font-bold text-[#101828]">{d?.post.title.length <= 15 ? d?.post.title : `${d?.post.title.slice(0, 15)}...`}</div>
+											<div className="text-sm font-bold dark:text-white text-[#101828]">{d?.post.title.length <= 15 ? d?.post.title : `${d?.post.title.slice(0, 15)}...`}</div>
 										</div>
-										<div className="text-[#667085] text-sm">
+										<div className="text-[#667085] dark:text-white text-sm">
 											{formatISOStringToDMY(d?.post.createdAt)}
 										</div>
 									</div>
-									<div className="flex justify-evenly text-[#101828] mb-3 w-full items-center">
+									<div className="flex justify-evenly dark:text-white text-[#101828] mb-3 w-full items-center">
 										<div className="flex text-sm flex-col justify-center items-center">
 											<div>{d?.post.likes}</div>
 											<div className="pn:max-pp:text-xs">Applauses</div>

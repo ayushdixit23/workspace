@@ -215,13 +215,13 @@ function page() {
             onClick={handleSubmit}
             className=" vs:max-sm:px-10 py-2 px-10 font-semibold bg-[#5570F1] text-white rounded-xl"
           >
-            Update
+            Save
           </div>
         </div>
       </div>
 
 
-      <div className={`fixed flex justify-center  items-center ${by ? "-z-50" : "z-50"} h-16 bg-white w-full sm:hidden bottom-0 left-0`}>
+      <div className={`fixed flex justify-center items-center ${by ? "-z-50" : "z-50"} h-16 dark:bg-[#273142] bg-white dark:border-t dark:border-[#3d4654] w-full sm:hidden bottom-0 left-0`}>
         <div className="flex justify-center gap-3 w-full px-3 items-center">
           <div onClick={() => setBy(true)} className="w-full flex justify-center p-2 border border-[#979797] rounded-lg items-center">Discard</div>
           <div className="w-full flex justify-center p-2 bg-[#4880FF] rounded-lg text-white items-center" onClick={(e) => handleSubmit(e)}>Save Changes</div>
