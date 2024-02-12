@@ -1,441 +1,277 @@
-"use client";
-import Image from "next/image";
-import React, { useEffect, useState } from "react";
-import { CgProfile } from "react-icons/cg"
-import s1 from "../../assets/image/svg.png";
-import s2 from "../../assets/image/svg1.png";
-import Loader from "@/app/data/Loader";
-import {
-  useGetProfileQuery,
-  usePostProfileMutation,
-  usePostProfileStoreMutation,
-} from "@/app/redux/apiroutes/userLoginAndSetting";
-import { getData } from "@/app/utilsHelper/Useful";
-import { getItemSessionStorage, storeInSessionStorage } from "@/app/utilsHelper/Tokenwrap";
-import { deleteCookie, setCookie } from "cookies-next";
-
+"use client"
+import Loader from '@/app/data/Loader'
+import { useGetProfileQuery, usePostProfileMutation } from '@/app/redux/apiroutes/userLoginAndSetting'
+import { getItemSessionStorage, storeInSessionStorage } from '@/app/utilsHelper/Tokenwrap'
+import { getData } from '@/app/utilsHelper/Useful'
+import { deleteCookie, setCookie } from 'cookies-next'
+import { useRouter } from 'next/navigation'
+import React, { useEffect, useState } from 'react'
+import toast, { Toaster } from 'react-hot-toast'
+import { AiOutlineLoading3Quarters } from 'react-icons/ai'
+import { FaCamera, FaPen } from 'react-icons/fa'
 
 const page = () => {
-  const { id } = getData()
-  const [edit, setEdit] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [edit2, setEdit2] = useState(false);
-  const sessionId = getItemSessionStorage()
+	const { id } = getData()
+	const [profileDetails] = usePostProfileMutation();
+	const [loading, setLoading] = useState(true);
+	const [loading2, setLoading2] = useState(false);
+	const router = useRouter()
+	const [profile, setProfile] = useState({
+		fullname: "",
+		username: "",
+		date: "",
+		image: "",
+		email: "",
+		phone: "",
+		bio: ""
+	})
+	const sessionId = getItemSessionStorage()
 
-  const { data, isLoading, refetch } = useGetProfileQuery(
-    { id: id },
-    { skip: !id }
-  );
-  const [settings, setSettings] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    username: "",
-    storeAddress: "",
-    city: "",
-    landmark: "",
-    state: "",
-    postalCode: "",
-  });
-  const [profileDetails] = usePostProfileMutation();
-  const [profileStoreDetails] = usePostProfileStoreMutation();
-  const sendDetails = async (e) => {
-    e.preventDefault();
-    try {
-      const data = {
-        name: settings.name,
-        phone: settings.phone,
-        email: settings.email,
-        username: settings.username,
-      };
-      const response = await profileDetails({
-        id: id,
-        data: data,
-      });
-      if (response.data?.success) {
-        await resetCookies(response.data);
-        await refetch();
-        setEdit(false);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
-  const sendDetails2 = async (e) => {
-    e.preventDefault();
-    try {
-      const data = {
-        storeAddress: settings.storeAddress,
-        city: settings.city,
-        landmark: settings.landmark,
-        state: settings.state,
-        postalCode: settings.postalCode,
-      };
-      const response = await profileStoreDetails({
-        id: id,
-        data: data,
-      });
+	const { data, isLoading } = useGetProfileQuery(
+		{ id: id },
+		{ skip: !id }
+	);
 
-      if (response.data?.success) {
-        await resetCookies(response.data);
-        await refetch();
-        setEdit2(false);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
+	const formatDatetime = (datetimeString) => {
+		const datetimeObject = new Date(datetimeString);
+		return (
+			("0" + datetimeObject.getDate()).slice(-2) + "/" +
+			("0" + (datetimeObject.getMonth() + 1)).slice(-2) + "/" +
+			datetimeObject.getFullYear()
+		);
+	};
 
-  const resetCookies = async (data) => {
-    try {
-      deleteCookie(`excktn${sessionId}`);
-      storeInSessionStorage(data?.sessionId)
-      setCookie(`excktn${data?.sessionId}`, data?.access_token);
-    } catch (e) {
-      console.log(e);
-    }
-  };
 
-  useEffect(() => {
-    setLoading(true);
-    setSettings({
-      name: `${data?.data?.name}`,
-      phone: `${data?.data?.phone}`,
-      email: `${data?.data?.email}`,
-      username: `${data?.data?.username}`,
-      storeAddress: `${data?.data?.storeAddress}`,
-      city: `${data?.data?.city}`,
-      landmark: `${data?.data?.landmark}`,
-      state: `${data?.data?.state}`,
-      postalCode: `${data?.data?.postalCode}`,
-    });
-    setLoading(false);
-  }, [data]);
+	const formatDatetimereverse = (datetimeString) => {
+		const date = datetimeString?.split("/")
+		const revrsedDate = date?.reverse()
+		const year = revrsedDate?.[0]
+		const month = revrsedDate?.[1]
+		const day = revrsedDate?.[2]
+		return (
+			`${year}-${month}-${day}`
 
-  if (isLoading || loading) {
-    return <Loader />;
-  } else {
-    return (
-      <>
-        <div className="flex justify-center items-center w-full">
-          <div className="grid grid-cols-1 w-[95%] p-3">
-            <div className="flex justify-start items-center">
-              <div className="flex items-center gap-2">
-                <div className="flex justify-center gap-2 items-center p-3 px-7 rounded-lg text-white bg-[#467AFF]">
-                  <div>
-                    <CgProfile />
-                  </div>
-                  <div>Profile Info</div>
-                </div>
-                {/* <div className="flex justify-center gap-2 items-center p-3 px-7 rounded-lg ">
-                  <div>
-                    <FaBell />
-                  </div>
-                  <div>Notifications</div>
-                </div>
-                <div className="flex justify-center gap-2 items-center p-3 px-7 rounded-lg ">
-                  <div>
-                    <FaUnlockAlt />
-                  </div>
-                  <div>Security</div>
-                </div> */}
-              </div>
-            </div>
-            <div className="grid grid-cols-5 my-3 gap-7 md:gap-16 w-full">
-              <div className="flex flex-col gap-2 col-span-5 sm:col-span-3">
-                <div className="bg-white dark:bg-[#273142] p-3 flex justify-center rounded-lg items-center flex-col">
-                  <div className="flex justify-between pb-2 w-full items-center">
-                    <div className="text-xl font-semibold">
-                      General Information
-                    </div>
-                    <div className="flex justify-center gap-2 items-center">
-                      <div
-                        onClick={() => setEdit(true)}
-                        className="border-b dark:border-[#3d4654] border-black"
-                      >
-                        Edit
-                      </div>
-                      {edit && (
-                        <div
-                          onClick={sendDetails}
-                          className="text-white rounded-3xl bg-[#0069FF] p-1 px-3"
-                        >
-                          Save Changes
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <div className="flex justify-center items-center w-full flex-col gap-2">
-                    <div className="flex justify-center w-full flex-col">
-                      <div className="font-semibold pb-1">Name</div>
-                      <div className="w-full">
-                        {edit ? (
-                          <input
-                            value={settings.name}
-                            onChange={(e) =>
-                              setSettings({
-                                ...settings,
-                                name: e.target.value,
-                              })
-                            }
-                            type="text"
-                            className="bg-[#F1F1F1] dark:bg-[#323d4e] dark:border-[#3d4654] border-2 w-full outline-none focus:border-blue-500 rounded-xl p-2"
-                            placeholder="Enter FullName"
-                          />
-                        ) : (
-                          <div className="w-full py-1">{settings.name}</div>
-                        )}
-                      </div>
-                    </div>
-                    <div className="grid sm:grid-cols-2 gap-3 w-full">
-                      <div className="flex justify-center w-full flex-col">
-                        <div className="font-semibold pb-1">Phone number</div>
-                        <div className="w-full">
-                          {edit ? (
-                            <input
-                              type="tel"
-                              value={settings.phone}
-                              onChange={(e) =>
-                                setSettings({
-                                  ...settings,
-                                  phone: e.target.value,
-                                })
-                              }
-                              className="bg-[#F1F1F1] dark:bg-[#323d4e] dark:border-[#3d4654] border-2 w-full outline-none rounded-xl focus:border-blue-500 p-2"
-                              placeholder="Enter FullName"
-                            />
-                          ) : (
-                            <div className="w-full py-1">{settings.phone}</div>
-                          )}
-                        </div>
-                      </div>
-                      <div className="flex justify-center w-full flex-col">
-                        <div className="font-semibold pb-1">Email</div>
-                        <div className="w-full">
-                          {edit ? (
-                            <input
-                              type="email"
-                              value={settings.email}
-                              onChange={(e) =>
-                                setSettings({
-                                  ...settings,
-                                  email: e.target.value,
-                                })
-                              }
-                              className="bg-[#F1F1F1] dark:bg-[#323d4e] dark:border-[#3d4654] border-2 w-full outline-none rounded-xl focus:border-blue-500 p-2"
-                              placeholder="Enter FullName"
-                            />
-                          ) : (
-                            <div className="w-full py-1">{settings.email}</div>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex justify-center w-full flex-col">
-                      <div className="font-semibold pb-1">Username</div>
-                      <div className="w-full">
-                        {edit ? (
-                          <input
-                            value={settings.username}
-                            onChange={(e) =>
-                              setSettings({
-                                ...settings,
-                                username: e.target.value,
-                              })
-                            }
-                            type="text"
-                            className="bg-[#F1F1F1] dark:bg-[#323d4e] dark:border-[#3d4654] border-2 w-full outline-none rounded-xl focus:border-blue-500 p-2"
-                            placeholder="Enter FullName"
-                          />
-                        ) : (
-                          <div className="w-full py-1">{settings.username}</div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="bg-white dark:bg-[#273142] p-3 flex justify-center rounded-lg items-center flex-col">
-                  <div className="flex justify-between pb-2 w-full items-center">
-                    <div className="text-xl font-semibold">
-                      Store Information
-                    </div>
-                    <div className="flex justify-center gap-2 items-center">
-                      <div
-                        onClick={() => setEdit2(true)}
-                        className="border-b dark:border-[#3d4654] border-black"
-                      >
-                        Edit
-                      </div>
-                      {edit2 && (
-                        <div
-                          onClick={sendDetails2}
-                          className="text-white rounded-3xl bg-[#0069FF] p-1 px-3"
-                        >
-                          Save Changes
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <div className="flex justify-center items-center w-full flex-col gap-2">
-                    <div className="flex justify-center w-full flex-col">
-                      <div className="font-semibold pb-1">Address</div>
-                      <div className="w-full">
-                        {edit2 ? (
-                          <input
-                            type="text"
-                            value={settings.storeAddress}
-                            onChange={(e) =>
-                              setSettings({
-                                ...settings,
-                                storeAddress: e.target.value,
-                              })
-                            }
-                            className="bg-[#F1F1F1] dark:bg-[#323d4e] dark:border-[#3d4654] border-2 w-full outline-none rounded-xl focus:border-blue-500 p-2"
-                            placeholder="Enter FullName"
-                          />
-                        ) : (
-                          <div className="w-full py-1">
-                            {settings.storeAddress}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                    <div className="grid sm:grid-cols-2 gap-3 w-full">
-                      <div className="flex justify-center w-full flex-col">
-                        <div className="font-semibold pb-1">City</div>
-                        <div className="w-full">
-                          {edit2 ? (
-                            <input
-                              value={settings.city}
-                              onChange={(e) =>
-                                setSettings({
-                                  ...settings,
-                                  city: e.target.value,
-                                })
-                              }
-                              type="text"
-                              className="bg-[#F1F1F1] dark:bg-[#323d4e] dark:border-[#3d4654] border-2 w-full outline-none rounded-xl focus:border-blue-500 p-2"
-                              placeholder="Enter FullName"
-                            />
-                          ) : (
-                            <div className="w-full py-1">{settings.city}</div>
-                          )}
-                        </div>
-                      </div>
-                      <div className="flex justify-center w-full flex-col">
-                        <div className="font-semibold pb-1">State</div>
-                        <div className="w-full">
-                          {edit2 ? (
-                            <input
-                              value={settings.state}
-                              onChange={(e) =>
-                                setSettings({
-                                  ...settings,
-                                  state: e.target.value,
-                                })
-                              }
-                              type="text"
-                              className="bg-[#F1F1F1] dark:bg-[#323d4e] dark:border-[#3d4654] border-2 w-full outline-none rounded-xl focus:border-blue-500 p-2"
-                              placeholder="Enter FullName"
-                            />
-                          ) : (
-                            <div className="w-full py-1">{settings.state}</div>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="grid sm:grid-cols-2 gap-3 w-full">
-                      <div className="flex justify-center w-full flex-col">
-                        <div className="font-semibold pb-1">Postal Code</div>
-                        <div className="w-full">
-                          {edit2 ? (
-                            <input
-                              value={settings.postalCode}
-                              onChange={(e) =>
-                                setSettings({
-                                  ...settings,
-                                  postalCode: e.target.value,
-                                })
-                              }
-                              type="number"
-                              className="bg-[#F1F1F1] dark:bg-[#323d4e] dark:border-[#3d4654] border-2 w-full outline-none rounded-xl focus:border-blue-500 p-2"
-                              placeholder="Enter FullName"
-                            />
-                          ) : (
-                            <div className="w-full py-1">
-                              {settings.postalCode}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                      <div className="flex justify-center w-full flex-col">
-                        <div className="font-semibold pb-1">
-                          Famous Landmark
-                        </div>
-                        <div className="w-full">
-                          {edit2 ? (
-                            <input
-                              type="text"
-                              value={settings.landmark}
-                              onChange={(e) =>
-                                setSettings({
-                                  ...settings,
-                                  landmark: e.target.value,
-                                })
-                              }
-                              className="bg-[#F1F1F1] dark:bg-[#323d4e] dark:border-[#3d4654] border-2 w-full outline-none rounded-xl focus:border-blue-500 p-2"
-                              placeholder="Enter FullName"
-                            />
-                          ) : (
-                            <div className="w-full py-1">
-                              {settings.landmark}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="sm:col-span-2 pn:max-sm:hidden">
-                <div className="flex justify-center  dark:border-[#3d4654] items-center w-full p-3 rounded-lg border-2">
-                  <div className="flex flex-col gap-6">
-                    <div className="flex flex-col gap-3">
-                      <div>
-                        <Image src={s1} alt="image" />
-                      </div>
-                      <div className="text-xl font-semibold">
-                        Why isn’t my info shown here?
-                      </div>
-                      <div className="text-sm">
-                        We’re hiding some account details to protect your
-                        identity.
-                      </div>
-                    </div>
-                    <div className="w-full h-[2px] dark:bg-[#3d4654] bg-black"> </div>
-                    <div className="flex flex-col gap-3">
-                      <div>
-                        <Image src={s2} alt="image" />
-                      </div>
-                      <div className="text-xl font-semibold">
-                        Which details can be edited?Which details can be edited?
-                      </div>
-                      <div className="text-sm">
-                        Details Airbnb uses to verify your identity can’t be
-                        changed. Contact info and some personal details can be
-                        edited, but we may ask you verify your identity the next
-                        time you book or create a listing.
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </>
-    );
-  }
-};
+		);
+	};
 
-export default page;
+	const sendDetails = async (e) => {
+		e.preventDefault();
+		const stringDate = formatDatetime(profile.date)
+		try {
+			setLoading2(true)
+			// const data = {
+			// 	name: profile.fullname,
+			// 	phone: profile.phone,
+			// 	email: profile.email,
+			// 	username: profile.username,
+			// 	image: profile.image,
+			// 	date: stringDate,
+			// 	bio: profile.bio
+			// };
+			const data = new FormData()
+			data.append("name", profile.fullname)
+			data.append("phone", profile.phone)
+			data.append("email", profile.email)
+			data.append("username", profile.username)
+			data.append("date", stringDate)
+			data.append("image", profile.image)
+			data.append("bio", profile.bio)
+
+			const response = await profileDetails({
+				id: id,
+				data: data,
+			});
+			if (response.data?.success) {
+				await resetCookies(response.data);
+				router.refresh()
+				setLoading2(false)
+				toast.success("Changes Saved!")
+			} else {
+				toast.error(response.error.message)
+			}
+		} catch (e) {
+			setLoading2(false)
+			console.log(e);
+		} finally {
+			setLoading2(false)
+		}
+	};
+
+	const resetCookies = async (data) => {
+		try {
+			deleteCookie(`excktn${sessionId}`);
+			deleteCookie(`sessionId_${sessionId}`);
+			deleteCookie(`frhktn${sessionId}`);
+			storeInSessionStorage(data?.sessionId)
+			setCookie(`excktn${data?.sessionId}`, data?.access_token, { secure: false })
+			setCookie(`frhktn${data?.sessionId}`, data?.refresh_token, { secure: false })
+		} catch (e) {
+			console.log(e);
+		}
+	};
+
+	useEffect(() => {
+		setLoading(true);
+		setProfile({
+			...profile,
+			fullname: data?.data?.name,
+			phone: data?.data?.phone,
+			email: data?.data?.email,
+			username: data?.data?.username,
+			image: data?.data.image,
+			date: formatDatetimereverse(data?.data.date.toString()),
+			bio: data?.data.bio
+		});
+		setLoading(false);
+	}, [data]);
+
+	const handleImageChange = (e) => {
+		const file = e.target.files[0];
+		setProfile({
+			...profile,
+			image: file
+		})
+	}
+
+	// const handleChangePhotoClick = () => {
+	// 	console.log(document);
+	// 	const fileInput = document.getElementById("maryona");
+	// 	console.log(fileInput)
+
+	// 	if (fileInput) {
+	// 		fileInput.click();
+	// 	} else {
+	// 		console.error("Element with ID 'image' not found");
+	// 	}
+	// };
+
+	const isProfileChanged = () => {
+		return (
+			profile.fullname !== data?.data?.name ||
+			profile.phone !== data?.data?.phone ||
+			profile.email !== data?.data?.email ||
+			profile.username !== data?.data?.username ||
+			profile.image !== data?.data.image ||
+			profile.date !== formatDatetimereverse(data?.data.date?.toString()) ||
+			profile.bio !== data?.data.bio
+		);
+	};
+
+	const isProfileChangedAnswer = isProfileChanged()
+
+	console.log(
+		isProfileChanged()
+	)
+
+	if (isLoading || loading) {
+		return <Loader />;
+	}
+
+	if (loading2) {
+		return (
+			<>
+				<div className="fixed inset-0 w-screen z-50 bg-black/60 h-screen flex justify-center items-center backdrop-blur-md">
+					<div className="animate-spin">
+						<AiOutlineLoading3Quarters className="text-2xl text-white" />
+					</div>
+				</div>
+			</>
+		);
+	}
+
+	return (
+		<>
+			<Toaster />
+			<div className='md:h-[83vh] flex flex-1 flex-col dark:bg-[#273142] bg-white'>
+				<div>
+					<div className='pt-4 pb-2 border-b dark:border-[#3d4654] px-7 font-medium text-[#4880FF]'>Edit Profile</div>
+				</div>
+				<div className='flex justify-center items-center w-full'>
+
+					<div className='grid sm:max-md:grid-cols-4 md:grid-cols-8 lg:grid-cols-7 gap-6 p-2 sm:p-5 w-[95%] h-full'>
+						<div className='md:col-span-2 sm:max-md:col-span-4 lg:col-span-1 pt-5'>
+							<div className='flex justify-center items-center'>
+								{
+									data?.data.image ? <label htmlFor="settings" className='relative light:border max-h-[130px] z-30 rounded-[30px] max-w-[130px]'>
+
+										<img className='w-full h-full object-cover min-h-[130px] min-w-[130px] bg-cover rounded-[30px] max-h-[130px] max-w-[130px]' src={typeof profile.image === "string" ? data?.data.image : (profile.image ? URL.createObjectURL(profile.image) : "")} alt="" />
+										<div className='absolute -bottom-1 right-1'>
+											<div htmlFor='settings' className='w-9 h-9 cursor-pointer text-white flex justify-center items-center rounded-full bg-[#5570F1] '>
+												<FaPen />
+											</div>
+										</div>
+
+										<input id='settings' name='image' accept="image/*" type="file" className='hidden' onChange={handleImageChange} />
+									</label>
+										:
+										<>
+											<label htmlFor="settings" className="w-[130px] relative mb-2 dark:bg-[#323d4e] bg-[#ECECEE] items-center justify-center h-[130px] rounded-[30px] light:border-2 flex flex-col">
+												{!profile.image ? < div className=' w-full h-full flex justify-center dark:bg-[#323d4e] bg-[#ECECEE] items-center rounded-[30px]'>
+													<div
+														className="flex justify-center flex-col items-center"
+													>
+														<FaCamera className="text-2xl" />
+													</div>
+												</div> :
+													<>
+														<img className='w-full h-full object-cover bg-cover rounded-[30px] max-h-[130px] max-w-[130px]' src={URL.createObjectURL(profile.image)} alt="" />
+														<div className='absolute -bottom-1 right-1'>
+															<div htmlFor='settings' className='w-9 h-9 z-30 cursor-pointer text-white flex justify-center items-center rounded-full bg-[#5570F1] '>
+																<FaPen />
+															</div>
+														</div>
+													</>}
+											</label>
+											<input id='settings' name='image' accept="image/*" type="file" className='hidden' onChange={handleImageChange} />
+										</>
+
+								}
+
+
+							</div>
+						</div>
+						<div className='w-full flex lg:pl-3 flex-col gap-4 md:col-span-3 sm:max-md:col-span-2 lg:col-span-3'>
+							<div className='w-full flex flex-col gap-1 sm:max-w-[450px]'>
+								<div className='w-full text-sm'>Your Name</div>
+								<input type="text" onChange={(e) => setProfile({ ...profile, fullname: e.target.value })} value={profile.fullname} className='w-full outline-none rounded-xl placeholder:text-sm  placeholder:text-[#718EBF] p-1.5 px-3 dark:bg-[#323d4e] dark:border-none border' placeholder='Charlene Reed' />
+							</div>
+							<div className='w-full flex flex-col gap-1 sm:max-w-[450px]'>
+								<div className='w-full text-sm'>Email</div>
+								<input type="email" onChange={(e) => setProfile({ ...profile, email: e.target.value })} value={profile.email} className='w-full outline-none rounded-xl placeholder:text-sm  placeholder:text-[#718EBF] p-1.5 px-3 dark:bg-[#323d4e] dark:border-none border' placeholder='charlenereed@gmail.com  ' />
+							</div>
+							<div className='w-full flex flex-col gap-1 sm:max-w-[450px]'>
+								<div className='w-full text-sm'>Date of Birth</div>
+								<input type="date" onChange={(e) => setProfile({ ...profile, date: e.target.value })} value={profile.date} className='w-full outline-none rounded-xl placeholder:text-sm  placeholder:text-[#718EBF] p-1.5 px-3 dark:bg-[#323d4e] dark:border-none border' placeholder='25 January 1990' />
+							</div>
+						</div>
+						<div className='w-full lg:pl-3 flex flex-col gap-4 md:col-span-3 sm:max-md:col-span-2 lg:col-span-3'>
+							<div className='w-full flex flex-col gap-1 sm:max-w-[450px]'>
+								<div className='w-full text-sm'>User Name</div>
+								<input type="text" onChange={(e) => setProfile({ ...profile, username: e.target.value })} value={profile.username} className='w-full outline-none rounded-xl placeholder:text-sm  placeholder:text-[#718EBF] p-1.5 px-3 dark:bg-[#323d4e] dark:border-none border' placeholder='@charlenereed' />
+							</div>
+							<div className='w-full flex flex-col gap-1 sm:max-w-[450px]'>
+								<div className='w-full text-sm'>Mobile Number</div>
+								<input type="tel" onChange={(e) => setProfile({ ...profile, phone: e.target.value })} value={profile.phone} className='w-full outline-none rounded-xl placeholder:text-sm  placeholder:text-[#718EBF] p-1.5 px-3 dark:bg-[#323d4e] dark:border-none border' placeholder=' ' />
+							</div>
+							<div className='w-full flex flex-col gap-1 sm:max-w-[450px]'>
+								<div className='w-full text-sm'>Bio</div>
+								<input type="text" onChange={(e) => setProfile({ ...profile, bio: e.target.value })} value={profile.bio} className='w-full outline-none rounded-xl placeholder:text-sm  placeholder:text-[#718EBF] p-1.5 px-3 dark:bg-[#323d4e] dark:border-none border' placeholder='Enter Your Bio' />
+							</div>
+						</div>
+					</div>
+				</div>
+				<div className='flex justify-end items-end p-4 flex-grow'>
+					{isProfileChangedAnswer ? < button onClick={(e) => sendDetails(e)} className='bg-[#5570F1] p-2 px-14 rounded-full text-white'>
+						Save
+					</button> :
+						< button disabled className='bg-[#a1a8ce] p-2 px-14 rounded-full text-white'>
+							Save
+						</button>
+					}
+				</div>
+			</div >
+		</>
+	)
+}
+
+export default page

@@ -115,6 +115,13 @@ function NavBar() {
     }
   }, [location])
 
+  useEffect(() => {
+    if (window != undefined) {
+      const color = sessionStorage.setItem("color", colorToPut)
+      setLocation(color)
+    }
+  }, [path])
+
   return (
     <div>
       {/*sidebar*/}
@@ -197,6 +204,10 @@ function NavBar() {
           </span>
         </div>
 
+        {/* < MemoizedDashIconLight className="w-5 h-5 sm:max-md:w-11 " /> */}
+
+        {/* <MemoizedDashIconDark className="w-5 h-5 sm:max-md:w-11 " /> */}
+
         <div className="flex flex-col sm:max-md:text-sm justify-between flex-1 mt-16">
           <nav>
             <Link onClick={() => ChangeColor("dashboard")} className={`flex ${open ? "-z-30" : null} ${location == "dashboard" ? "dark:bg-[#4880ff] dark:text-white bg-[#4880ff] text-white" : "hover:bg-gray-100 dark:hover:bg-gray-800"} items-center px-4 py-2 gap-2 dark:text-gray-400 rounded-md`} href="/main/dashboard">
@@ -207,8 +218,9 @@ function NavBar() {
               </svg> */}
 
               {
-                theme == "light" ? location == "dashboard" ? <MemoizedDashIconDark className="w-5 h-5 sm:max-md:w-11 " /> : < MemoizedDashIconLight className="w-5 h-5 sm:max-md:w-11 " /> : <MemoizedDashIconDark className="w-5 h-5 sm:max-md:w-11 " />
+                theme == "dark" ? <MemoizedDashIconDark className="w-5 h-5 sm:max-md:w-11 " /> : location == "dashboard" ? <MemoizedDashIconDark className="w-5 h-5 sm:max-md:w-11 " /> : < MemoizedDashIconLight className="w-5 h-5 sm:max-md:w-11 " />
               }
+
 
               <span className=" sm:max-md:hidden sm:max-md:text-sm font-medium">Dashboard</span>
             </Link>
@@ -220,8 +232,10 @@ function NavBar() {
               </svg> */}
 
               {
-                theme == "light" ? location == "community" ? <MemoizedComIconDark className="w-5 h-5 sm:max-md:w-11 " /> : <MemoizedComIconLight className="w-5 h-5 sm:max-md:w-11 " /> : <MemoizedComIconDark className="w-5 h-5 sm:max-md:w-11 " />
+                theme == "dark" ? <MemoizedComIconDark className="w-5 h-5 sm:max-md:w-11 " /> : location == "community" ? <MemoizedComIconDark className="w-5 h-5 sm:max-md:w-11 " /> : <MemoizedComIconLight className="w-5 h-5 sm:max-md:w-11 " />
               }
+
+
               <span className=" sm:max-md:hidden sm:max-md:text-sm font-medium">Community</span>
             </Link>
 
@@ -231,8 +245,10 @@ function NavBar() {
               </svg> */}
 
               {
-                theme == "light" ? location == "store" ? <MemoizedStoreDark className="w-5 h-5 sm:max-md:w-11 " /> : <MemoizedStoreLight className="w-5 h-5 sm:max-md:w-11 " /> : <MemoizedStoreDark className="w-5 h-5 sm:max-md:w-11 " />
+                theme == "dark" ? <MemoizedStoreDark className="w-5 h-5 sm:max-md:w-11 " /> : location == "store" ? <MemoizedStoreDark className="w-5 h-5 sm:max-md:w-11 " /> : <MemoizedStoreLight className="w-5 h-5 sm:max-md:w-11 " />
               }
+
+
               <span className=" sm:max-md:hidden sm:max-md:text-sm font-medium">Store</span>
             </Link>
 
@@ -243,20 +259,22 @@ function NavBar() {
               </svg> */}
 
               {
-                theme == "light" ? location == "customization" ? <MemoizedCustomizationDark className="w-5 h-5 sm:max-md:w-11 " /> : <MemoizedCustomizationLight className="w-5 h-5 sm:max-md:w-11 " /> : <MemoizedCustomizationDark className="w-5 h-5 sm:max-md:w-11 " />
+                theme == "dark" ? <MemoizedCustomizationDark className="w-5 h-5 sm:max-md:w-11 " /> : location == "customization" ? <MemoizedCustomizationDark className="w-5 h-5 sm:max-md:w-11 " /> : <MemoizedCustomizationLight className="w-5 h-5 sm:max-md:w-11 " />
               }
+
+
               <span className=" sm:max-md:hidden sm:max-md:text-sm font-medium">Customization</span>
             </Link>
 
             <hr className="my-6 border-gray-200 dark:border-gray-600" />
 
-            <Link onClick={() => ChangeColor("earings")} className={`flex ${open ? "-z-30" : null} ${location == "earings" ? "dark:bg-[#4880ff] dark:text-white bg-[#4880ff] text-white" : "hover:bg-gray-100 dark:hover:bg-gray-800"} items-center px-4 py-2 gap-2 mt-5 rounded-md dark:text-gray-400 `} href="/main/earnings" >
+            <Link onClick={() => ChangeColor("earnings")} className={`flex ${open ? "-z-30" : null} ${location == "earnings" ? "dark:bg-[#4880ff] dark:text-white bg-[#4880ff] text-white" : "hover:bg-gray-100 dark:hover:bg-gray-800"} items-center px-4 py-2 gap-2 mt-5 rounded-md dark:text-gray-400 `} href="/main/earnings" >
               {/* <svg className="w-5 h-5 sm:max-md:w-11" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M15 5V7M15 11V13M15 17V19M5 5C3.89543 5 3 5.89543 3 7V10C4.10457 10 5 10.8954 5 12C5 13.1046 4.10457 14 3 14V17C3 18.1046 3.89543 19 5 19H19C20.1046 19 21 18.1046 21 17V14C19.8954 14 19 13.1046 19 12C19 10.8954 19.8954 10 21 10V7C21 5.89543 20.1046 5 19 5H5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
               </svg> */}
 
               {
-                theme == "light" ? location == "earings" ? <MemoizedEarningDark className="w-5 h-5 sm:max-md:w-11 " /> : <MemoizedEarningLight className="w-5 h-5 sm:max-md:w-11 " /> : <MemoizedEarningDark className="w-5 h-5 sm:max-md:w-11 " />
+                theme == "dark" ? <MemoizedEarningDark className="w-5 h-5 sm:max-md:w-11 " /> : location == "earnings" ? <MemoizedEarningDark className="w-5 h-5 sm:max-md:w-11 " /> : <MemoizedEarningLight className="w-5 h-5 sm:max-md:w-11 " />
               }
 
               <span className=" sm:max-md:hidden sm:max-md:text-sm font-medium">Earings</span>
@@ -269,8 +287,9 @@ function NavBar() {
               </svg> */}
 
               {
-                theme == "light" ? location == "settings" ? <MemoizedSettingsDark className="w-5 h-5 sm:max-md:w-11 " /> : <MemoizedSettingsLight className="w-5 h-5 sm:max-md:w-11 " /> : <MemoizedSettingsDark className="w-5 h-5 sm:max-md:w-11 " />
+                theme == "dark" ? <MemoizedSettingsDark className="w-5 h-5 sm:max-md:w-11 " /> : location == "settings" ? <MemoizedSettingsDark className="w-5 h-5 sm:max-md:w-11 " /> : < MemoizedSettingsLight className="w-5 h-5 sm:max-md:w-11 " />
               }
+
 
               <span className=" sm:max-md:hidden sm:max-md:text-sm font-medium">Settings</span>
             </Link >
