@@ -304,7 +304,7 @@ function NavBar() {
       </aside >
 
       {/*Tabbar*/}
-      < div className="h-14 sm:hidden bottom-0 dark:text-white dark:bg-[#273142] z-50 light:border-t-2 light:border-[#f5f5f5] bg-white fixed w-[100%] " >
+      < div className="h-14 sm:hidden bottom-0 dark:text-white border-t-2 dark:border-[#3d4654] dark:bg-[#1b2431] z-50 border-[#f5f5f5] bg-white fixed w-[100%] " >
         <nav className="z-20">
           <ul className="flex justify-between px-4">
             {navItems.map((item, index) => (
@@ -321,19 +321,19 @@ function NavBar() {
                 ></div>
                 <div className="h-10 w-10 pt-2">
                   {
-                    theme == "light" ?
+                    theme == "dark" ?
                       <Link
                         href={item.path}
                         className="flex justify-center items-center"
                       >
-                        <div>{item.lighticon}</div>
+                        <div>{item.darkicon}</div>
                       </Link>
                       :
                       <Link
                         href={item.path}
                         className="flex justify-center items-center"
                       >
-                        <div>{item.darkicon}</div>
+                        <div>{item.lighticon}</div>
                       </Link>
                   }
                 </div>

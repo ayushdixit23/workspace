@@ -9,8 +9,8 @@ import { getItemSessionStorage } from "./Tokenwrap";
 import { setCookie, getCookie, deleteCookie } from "cookies-next"
 const useTokenAndData = () => {
   const [isValid, setIsValid] = useState(false);
-  const sessionId = getItemSessionStorage()
-  const token = getCookie(`excktn${sessionId}`);
+  const { lsessionId } = getItemSessionStorage()
+  const token = getCookie(`excktn${lsessionId}`);
   const path = useSelector((state) => state.userData.path);
   const router = useRouter();
   const [data, setData] = useState(null);
@@ -36,7 +36,7 @@ const useTokenAndData = () => {
 
   const checkRefreshTokenValidity = useCallback(() => {
     try {
-      const refreshToken = getCookie(`frhktn${sessionId}`);
+      const refreshToken = getCookie(`frhktn${lsessionId}`);
       if (!refreshToken) {
         console.error("No refresh token found");
         return false;
@@ -53,7 +53,7 @@ const useTokenAndData = () => {
   }, []);
 
   const refresh = useCallback(async () => {
-    const refreshToken = getCookie(`frhktn${sessionId}`);
+    const refreshToken = getCookie(`frhktn${lsessionId}`);
     if (!refreshToken) {
       console.error("No refresh token found");
       return Promise.reject("No refresh token found");
@@ -61,7 +61,7 @@ const useTokenAndData = () => {
     try {
       const newToken = await refreshAccessToken(refreshToken);
       if (newToken) {
-        setCookie(`excktn${sessionId}`, newToken.access_token);
+        setCookie(`excktn${lsessionId}`, newToken.access_token);
       }
     } catch (error) {
       console.error("Error during token refresh:", error);
@@ -86,16 +86,16 @@ const useTokenAndData = () => {
             await refresh()
           } else {
             setIsValid(false);
-            deleteCookie(`excktn${sessionId}`);
-            deleteCookie(`frhktn${sessionId}`);
-            deleteCookie(`sessionId_${sessionId}`)
+            deleteCookie(`excktn${lsessionId}`);
+            deleteCookie(`frhktn${lsessionId}`);
+            deleteCookie(`sessionId_${lsessionId}`)
           }
         }
       } catch (e) {
         console.error(e);
         setIsValid(false);
-        deleteCookie(`frhktn${sessionId}`);
-        deleteCookie(`excktn${sessionId}`);
+        deleteCookie(`frhktn${lsessionId}`);
+        deleteCookie(`excktn${lsessionId}`);
       }
     },
     [token]

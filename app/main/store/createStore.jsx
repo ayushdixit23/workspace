@@ -1,6 +1,7 @@
 import { useCreateStoreMutation } from "@/app/redux/apiroutes/product";
 import { LoadThis } from "@/app/redux/slice/userData";
-import React from "react";
+import axios from "axios";
+import React, { useCallback } from "react";
 import toast from "react-hot-toast";
 import { FaPlus } from "react-icons/fa";
 import { RiLoader2Line } from "react-icons/ri";
@@ -27,9 +28,43 @@ const CreateStore = ({
     setShowImage(sendFile);
   };
 
+  const handlePin = useCallback(async e => {
+    try {
+      const i = e.target.value
+      setStore({
+        ...store,
+        d4: i
+      })
+      if (i.length === 6) {
+        const res = await axios.get(`
+          https://api.postalpincode.in/pincode/${i}
+        `);
+        console.log(res.data)
+        if (res?.status === 200) {
+          setStore({
+            ...store,
+            d2: res.data[0].PostOffice[0].District,
+            d3: res.data[0].PostOffice[0].State,
+            d4: res.data[0].PostOffice[0].Pincode,
+          })
+          // setState(res.data[0].PostOffice[0].State);
+          // setCity(res.data[0].PostOffice[0].District);
+          // setCounty(res.data[0].PostOffice[0].Country);
+        }
+      }
+    } catch (e) {
+      // detecterror({ e });
+      console.log(e);
+    }
+  }, []);
+
   const send = async (e) => {
-    if (!store.d1 || !store.d2 || !store.d3 || !store.d4 || !store.d5 || !store.d7 || !store.d9 || !store.d8) {
+    if (!store.d1 || !store.d2 || !store.d3 || !store.d4 || !store.d5 || !store.d9 || !store.d8) {
       toast.error("Please Enter All Details")
+      return
+    }
+    if (store.d4.length != 6) {
+      toast.error("Enter 6 digit Postal Code")
       return
     }
     e.preventDefault();
@@ -64,12 +99,24 @@ const CreateStore = ({
     } catch (e) {
       setLoading(false)
       console.log(e);
+    } finally {
+      setStore({
+        d1: "",
+        d2: "",
+        d3: "",
+        d4: "",
+        d5: "",
+        d6: "",
+        d7: "",
+        d8: "",
+        d9: ""
+      })
     }
   };
   return (
     <>
       <div
-        className={`fixed inset-0 bg-black bg-opacity-50 backdrop-filter h-screen backdrop-blur-md z-10`}
+        className={`fixed inset-0 bg-black bg-opacity-50 backdrop-filter h-screen backdrop-blur-md z-50`}
       >
         <div className="flex justify-center pn:max-vs:text-sm items-center h-screen pn:max-pp:p-2">
           <div className="bg-white dark:bg-[#273142] overflow-y-scroll no-scrollbar max-h-[550px] sm:max-h-[650px] p-3 pp:p-5 rounded-lg md:min-w-[500px] w-[95%] pp:max-w-[900px]">
@@ -89,26 +136,7 @@ const CreateStore = ({
                   onChange={(e) => setStore({ ...store, d1: e.target.value })}
                 />
               </div>
-              <div className="grid pp:grid-cols-2 gap-2 w-full">
-                <div className="flex flex-col gap-1 w-full">
-                  <div className="text-sm font-medium">City</div>
-                  <input
-                    type="text"
-                    className="border-2 bg-[#FAFAFA] dark:bg-[#323d4e] dark:border-none outline-none p-1 rounded-lg"
-                    value={store.d2}
-                    onChange={(e) => setStore({ ...store, d2: e.target.value })}
-                  />
-                </div>
-                <div className="flex flex-col gap-1 w-full">
-                  <div className="text-sm font-medium">State</div>
-                  <input
-                    type="text"
-                    className="border-2 bg-[#FAFAFA] dark:bg-[#323d4e] dark:border-none outline-none p-1 rounded-lg"
-                    value={store.d3}
-                    onChange={(e) => setStore({ ...store, d3: e.target.value })}
-                  />
-                </div>
-              </div>
+
               <div className="grid pp:grid-cols-2 gap-2 w-full">
                 <div className="flex flex-col gap-1 w-full">
                   <div className="text-sm font-medium">Postal Code</div>
@@ -117,7 +145,8 @@ const CreateStore = ({
                     maxLength={6}
                     className="border-2 bg-[#FAFAFA] dark:bg-[#323d4e] dark:border-none outline-none p-1 rounded-lg"
                     value={store.d4}
-                    onChange={(e) => setStore({ ...store, d4: e.target.value })}
+                    // onChange={(e) => setStore({ ...store, d4: e.target.value })}
+                    onChange={(e) => handlePin(e)}
                   />
                 </div>
                 <div className="flex flex-col gap-1 w-full">
@@ -130,6 +159,28 @@ const CreateStore = ({
                   />
                 </div>
               </div>
+              <div className="grid pp:grid-cols-2 gap-2 w-full">
+                <div className="flex flex-col gap-1 w-full">
+                  <div className="text-sm font-medium">City</div>
+                  <input
+                    disabled={store.d4.length != 6}
+                    type="text"
+                    className="border-2 bg-[#FAFAFA] dark:bg-[#323d4e] dark:border-none outline-none p-1 rounded-lg"
+                    value={store.d2}
+                    onChange={(e) => setStore({ ...store, d2: e.target.value })}
+                  />
+                </div>
+                <div className="flex flex-col gap-1 w-full">
+                  <div className="text-sm font-medium">State</div>
+                  <input
+                    disabled={store.d4.length != 6}
+                    type="text"
+                    className="border-2 bg-[#FAFAFA] dark:bg-[#323d4e] dark:border-none outline-none p-1 rounded-lg"
+                    value={store.d3}
+                    onChange={(e) => setStore({ ...store, d3: e.target.value })}
+                  />
+                </div>
+              </div>
               <div className="flex flex-col gap-1 w-full">
                 <div className="text-sm font-medium">GST Number (Optional)</div>
                 <input
@@ -139,7 +190,7 @@ const CreateStore = ({
                   onChange={(e) => setStore({ ...store, d6: e.target.value })}
                 />
               </div>
-              <div className="flex flex-col gap-1 w-full">
+              {/* <div className="flex flex-col gap-1 w-full">
                 <div className="text-sm font-medium">Business Category</div>
                 <input
                   type="text"
@@ -147,7 +198,7 @@ const CreateStore = ({
                   value={store.d7}
                   onChange={(e) => setStore({ ...store, d7: e.target.value })}
                 />
-              </div>
+              </div> */}
               <div className="flex flex-col gap-1 w-full">
                 <div className="text-sm font-medium">
                   Enter PAN or Aadhaar Number
@@ -160,8 +211,8 @@ const CreateStore = ({
                 />
               </div>
               <div className="flex flex-col gap-1">
-                <label htmlFor="fileInputagain">
-                  <div>Upload Document for Verification</div>
+                <label htmlFor="fileInputagain" >
+                  <div className="mb-1">Upload Document for Verification</div>
                   {store.d9 != "" ? (
                     <div className=" flex justify-center items-center">
                       <img

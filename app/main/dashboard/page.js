@@ -85,13 +85,13 @@ function Dashboard() {
 						<div className="flex sm:sticky px-1 sm:top-0 text-sm mb-2 items-center gap-3">
 							<div
 								onClick={() => setChange("community")}
-								className={`cursor-pointer ${change === "community" ? "bg-white dark:bg-[#323d4e] font-semibold" : "dark:border-[#323d4e] dark:border"} p-[6px] rounded-xl px-4`}
+								className={`cursor-pointer ${change === "community" ? "bg-white dark:bg-[#323d4e] font-semibold" : "dark:border-[#323d4e] border "} p-[6px] rounded-xl px-4`}
 							>
 								Community
 							</div>
 							<div
 								onClick={() => setChange("store")}
-								className={`cursor-pointer ${change === "store" ? "bg-white dark:bg-[#323d4e] font-semibold" : "dark:border-[#323d4e] dark:border"}  p-[6px] rounded-xl px-4`}
+								className={`cursor-pointer ${change === "store" ? "bg-white dark:bg-[#323d4e] font-semibold" : "dark:border-[#323d4e] border"}  p-[6px] rounded-xl px-4`}
 							>
 								Store
 							</div>
@@ -158,7 +158,7 @@ function Dashboard() {
 									Location
 								</div>
 							</div>
-							<div className="sm:max-h-[250px] pn:max-sm:mt-4 rounded-xl dark:text-white light:bg-white sm:overflow-y-scroll z-20 sm:no-scrollbar">
+							<div className="sm:max-h-[250px] bg-white dark:bg-[#273142] pn:max-sm:mt-4 rounded-xl dark:text-white light:bg-white sm:overflow-y-scroll z-20 sm:no-scrollbar">
 								<div className="rounded-xl dark:text-white w-full light:bg-white">
 									{/* <div className={`${comchange == 0 ? null : "hidden"}`}>
 										<DontHave />
@@ -178,7 +178,7 @@ function Dashboard() {
 							</div>
 
 						</div>
-						<div className={`dark:bg-[#273142] max-h-[90vh] ${change == "store" ? null : "hidden"}`}>
+						<div className={`dark:bg-[#273142] bg-white max-h-[90vh] ${change == "store" ? null : "hidden"}`}>
 							<div className="grid grid-cols-2  w-full items-center gap-2">
 								<div className="flex flex-col light:bg-white p-3 rounded-xl gap-2 border dark:border-[#3d4654] light:border-[#f1f1f1] w-full">
 									<div>

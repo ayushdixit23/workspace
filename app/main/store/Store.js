@@ -27,6 +27,7 @@ export default function Store() {
 	const [data, setData] = useState([]);
 	const { id } = getData()
 	const dispatch = useDispatch();
+	// const [check, setCheck] = useState(2);
 	const [check, setCheck] = useState(null);
 	const params = useSearchParams()
 	const queryForCreation = params.get("q")
@@ -78,7 +79,6 @@ export default function Store() {
 		d8: "",
 		d9: "",
 	});
-
 	const handleDelete = async (userid, pid, collecid, index) => {
 		const updatedData = data.map((d) => {
 			if (d._id === collecid) {
@@ -109,6 +109,8 @@ export default function Store() {
 			setCheck(2);
 		}
 	};
+
+	console.log(checkstore)
 
 	useEffect(() => {
 		if (!params.has("q")) {
@@ -156,7 +158,9 @@ export default function Store() {
 				<CreateCollection
 					setCheck={setCheck}
 					refetch={refetch}
+					refetchStore={refetchStore}
 					dispatch={dispatch}
+					checkstore={checkstore}
 					loading={loading}
 					setLoading={setLoading}
 					col={col}
@@ -378,7 +382,7 @@ export default function Store() {
 								</>
 								:
 								<div className=" p-3  w-full rounded-xl h-[350px] ">
-									<div className="flex justify-center rounded-xl font-semibold text-3xl items-center bg-white h-full w-full">No Collections Found</div>
+									<div className="flex justify-center rounded-xl font-semibold text-3xl items-center dark:bg-[#273142] bg-white h-full w-full">No Collections Found</div>
 								</div>
 							}
 						</div>

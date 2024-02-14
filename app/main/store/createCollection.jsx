@@ -14,7 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-const CreateCollection = ({ col, setCol, image, refetch, loading, setLoading, router, dispatch, setCheck, setImage, id }) => {
+const CreateCollection = ({ col, setCol, image, refetch, refetchStore, loading, checkstore, setLoading, router, dispatch, setCheck, setImage, id }) => {
   const [createCollectionMutation] = useCreateCollectionMutation();
   const handleFileChangeCol = (e) => {
     const selectedFile = e.target.files[0];
@@ -41,10 +41,22 @@ const CreateCollection = ({ col, setCol, image, refetch, loading, setLoading, ro
   ];
 
   const sendCol = async (e) => {
-    if (!col.d1 || !col.d2 || (col.d2 === "Food and Grocery" && !col.d3)) {
+
+    // if (!col.d1 || !col.d2) {
+    //   toast.error("Please fill in all required details.");
+    //   return;
+    // } else if (col.d2 === "Food and Grocery") {
+    //   if (!col.d3 && checkstore.foodLicenceExist == false) {
+    //     toast.error("Please fill in all required details.");
+    //     return
+    //   }
+    // }
+
+    if (!col.d1 || !col.d2 || (col.d2 === "Food and Grocery" && (!col.d3 && !checkstore.foodLicenceExist))) {
       toast.error("Please fill in all required details.");
       return;
     }
+
     setLoading(true)
     e.preventDefault();
     const formDataCol = new FormData();
@@ -63,7 +75,16 @@ const CreateCollection = ({ col, setCol, image, refetch, loading, setLoading, ro
       if (result.data?.success) {
         toast.success("Collection Created Successfully!")
         await refetch()
+        if (col.d2 == "Food and Grocery" && col.d3) {
+          await refetchStore()
+        }
+        setCol({
+          d1: "",
+          d2: "",
+          d3: "",
+        })
         setLoading(false)
+        router.refresh()
       } else {
         toast.error("Something Went Wrong!")
       }
@@ -74,6 +95,12 @@ const CreateCollection = ({ col, setCol, image, refetch, loading, setLoading, ro
     } catch (e) {
       setLoading(false)
       console.log(e);
+    } finally {
+      setCol({
+        d1: "",
+        d2: "",
+        d3: "",
+      })
     }
   };
   return (
@@ -103,7 +130,12 @@ const CreateCollection = ({ col, setCol, image, refetch, loading, setLoading, ro
               <div className="w-full gap-3 flex flex-col">
                 <div className="text-sm font-medium">Collection Category</div>
 
-                <Select defaultValue={col.d2}>
+                <Select
+                  onValueChange={(selectedValue) => {
+                    setCol({ ...col, d2: selectedValue })
+                  }}
+
+                  defaultValue={col.d2}>
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder={col.d2} />
                   </SelectTrigger>
@@ -116,7 +148,7 @@ const CreateCollection = ({ col, setCol, image, refetch, loading, setLoading, ro
                   </SelectContent>
                 </Select>
                 <div>
-                  {col.d2 === "Food and Grocery" && (
+                  {col.d2 === "Food and Grocery" && !checkstore.foodLicenceExist && (
                     <>
                       <div>
                         <label htmlFor="fileInput">
@@ -145,9 +177,10 @@ const CreateCollection = ({ col, setCol, image, refetch, loading, setLoading, ro
                     </>
                   )}
                 </div>
+                {col.d2 === "Food and Grocery" && !checkstore.foodLicenceExist && <div className="text-[#aaa] -mt-1 mb-2 text-sm">To add food products, verify your food license</div>}
                 <div className="flex justify-center items-center w-full gap-3">
                   <button
-                    className="bg-white light:border-2 text-black p-2 w-full rounded-xl"
+                    className="bg-white border-2 dark:border-none text-black p-2 w-full rounded-xl"
                     onClick={() => { setCheck(0); dispatch(LoadThis(false)); router.push("/main/store") }}
                   >
                     Cancel
@@ -174,7 +207,7 @@ const CreateCollection = ({ col, setCol, image, refetch, loading, setLoading, ro
             </div>
           </div>
         </div>
-      </div>
+      </div >
     </>
   );
 };
