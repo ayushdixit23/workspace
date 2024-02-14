@@ -36,6 +36,7 @@ function page() {
   const dispatch = useDispatch();
   const [login] = useLoginMutation();
   const { generateData } = useTokenAndData()
+  const otpInputRef = useRef(null);
   const [emailLogin] = useEmailLoginMutation();
 
   const handleOtpChange = (otp) => {
@@ -136,10 +137,6 @@ function page() {
   }
 
   function onSignup() {
-    if (!number) {
-      toast.error("Enter the Phone Number")
-      return
-    }
     if (number.length !== 10) {
       toast.error("Please Enter 10 digit number")
     }
@@ -281,6 +278,49 @@ function page() {
   }, []);
 
 
+  useEffect(() => {
+    let otpCapture = document.getElementById("send-otp")
+    const handleKeyPress = (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        if (number.length === 10) {
+          onSignup()
+        }
+      }
+    };
+
+    if (otpCapture) {
+      otpCapture.addEventListener("keypress", handleKeyPress)
+    }
+    return () => {
+      if (otpCapture) {
+        otpCapture.removeEventListener("keypress", handleKeyPress)
+      }
+    }
+  }, [number])
+
+  useEffect(() => {
+    const verifyOtp = otpInputRef.current;
+    const handleKeyPress = (event) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        if (otp.length === 6) {
+          onOTPVerify();
+        }
+      }
+    };
+
+    if (verifyOtp) {
+      verifyOtp.addEventListener('keypress', handleKeyPress);
+    }
+
+    return () => {
+      if (verifyOtp) {
+        verifyOtp.removeEventListener('keypress', handleKeyPress);
+      }
+    };
+  }, [otp, otpInputRef])
+
   return (
     <div>
       <Toaster toastOptions={{ duration: 4000 }} />
@@ -301,17 +341,18 @@ function page() {
             </div>
           </div>
 
-          <>
+          <div ref={otpInputRef}>
             <DynamicOtpInput
               value={otp}
               onChange={handleOtpChange}
               OTPLength={6}
               otpType="number"
+              // ref={otpInputRef}
               disabled={false}
               autoFocus
               className="opt-container sm:mt-3"
             ></DynamicOtpInput>
-          </>
+          </div>
           <div className="text-black font-semibold flex text-[15px] pt-6">
             <div className="text-center">
               {come === 1 ? (
@@ -416,8 +457,10 @@ function page() {
           >
             <div className="text-sm pb-3 px-1 dark:text-white font-semibold text-[#424856]">Enter Your Phone Number</div>
             <div className="bg-[#f7f7f7] flex items-center dark:border-[#8f9bba] overflow-hidden dark:bg-[#323d4e] border w-[300px] justify-center rounded-2xl">
-              <div className="border-r-2 sm:-ml-3 p-1 sm:pr-2 "> +91</div>
-              <input value={number} onChange={(e) => setNumber(e.target.value)} type="tel"
+              <div className="border-r-2 dark:border-[#8f9bba] sm:-ml-3 p-1 sm:pr-2 "> +91</div>
+              <input value={number}
+                id="send-otp"
+                onChange={(e) => setNumber(e.target.value)} type="tel"
                 className=" p-2 outline-none rounded-xl dark:bg-[#323d4e] bg-[#f7f7f7]" />
 
             </div>
@@ -426,7 +469,7 @@ function page() {
             <div
               onClick={onSignup}
               //onClick={fetchid}
-              className="h-[50px] w-[300px] select-none cursor-pointer bg-black  flex items-center justify-center rounded-2xl text-white "
+              className="h-[50px] w-[300px] select-none cursor-pointer bg-black flex items-center justify-center rounded-2xl text-white "
             >
               {loading && <CgSpinner size={20} className="m-1 animate-spin" />}
               <span className={`${loading ? "hidden" : ""} `}>Send Otp</span>
@@ -442,7 +485,7 @@ function page() {
               <input
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="py-3 w-[300px] dark:bg-[#3d4654] bg-[#f7f7f7] rounded-2xl px-4 "
+                className="py-3 w-[300px] dark:bg-[#3d4654] dark:border-[#8f9bba] dark:border bg-[#f7f7f7] rounded-2xl px-4 "
                 placeholder="Enter your email"
               />
             </div>
@@ -452,10 +495,10 @@ function page() {
               </div>
 
               <input
-                type="tel"
+                type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="py-3 w-[300px]  bg-[#f7f7f7] dark:bg-[#3d4654] rounded-2xl px-4 "
+                className="py-3 w-[300px]  bg-[#f7f7f7] dark:bg-[#3d4654] dark:border-[#8f9bba] dark:border rounded-2xl px-4 "
                 placeholder="Enter your Password"
               />
             </div>

@@ -89,9 +89,13 @@
   }
 }
 
-.opt-container {
+/* .opt-container {
   @apply flex justify-between gap-2;
 }
 .opt-container input {
   @apply !mr-0 flex-1 py-5 outline-none border;
+} */
+
+.opt-container input {
+  @apply !mr-0 m-3 rounded-[12px] h-14 py-4 px-2 dark:border-[#3d4654] outline-none border;
 }

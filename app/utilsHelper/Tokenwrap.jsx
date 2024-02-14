@@ -3,9 +3,10 @@ import React, { useEffect } from "react";
 import useTokenAndData from "./tokens";
 import { useDispatch } from "react-redux";
 import { changelaoding, sendData } from "../redux/slice/userData";
-import { deleteCookie, setCookie } from 'cookies-next';
+import { deleteCookie, getCookie, setCookie } from 'cookies-next';
 import { ThemeProvider } from "@/components/theme-provider";
 import { getData } from "./Useful";
+import { redirect, usePathname } from "next/navigation";
 
 // export const storeInSessionStorage = (sessionId) => {
 //   try {
@@ -63,13 +64,21 @@ export const getItemSessionStorage = () => {
 
 const TokenDataWrapper = ({ children }) => {
   const { isValid, data } = useTokenAndData();
-  // const { sessionId } = getData()
+  const sessionId = getItemSessionStorage()
   const dispatch = useDispatch();
+  const path = usePathname()
+  const token = getCookie(`frhktn${sessionId}`)
 
   useEffect(() => {
     if (isValid) {
       dispatch(changelaoding({ loading: false }));
       dispatch(sendData(data))
+    }
+    if (!token && path != "/login") {
+      redirect("/login")
+    }
+    if (token && path === "/login") {
+      redirect("/main/dashboard")
     }
   }, [isValid, data, dispatch]);
   return <>

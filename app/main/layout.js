@@ -27,7 +27,7 @@ export default function MainLayout({ children }) {
               <div className="pn:max-sm:hidden  pn:max-sm:z-20 flex h-[10vh] justify-center items-center">
                 <MemorizedHeader />
               </div>
-              <div className={`pn:max-sm:z-20 rounded-xl dark:bg-[#1b2431] max-w-full w-full max-h-[83vh] ${path == "/main/dashboard" ? "pn:max-sm:overflow-y-scroll pn:max-sm:no-scrollbar" : "overflow-y-scroll no-scrollbar"} `}>
+              <div className={`pn:max-sm:z-20 sm:rounded-xl dark:bg-[#1b2431] max-w-full w-full max-h-[83vh] ${path == "/main/dashboard" ? "pn:max-sm:overflow-y-scroll pn:max-sm:no-scrollbar" : "overflow-y-scroll no-scrollbar"} `}>
                 {children}
               </div>
             </div>

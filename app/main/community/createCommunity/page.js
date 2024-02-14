@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { LiaToggleOnSolid, LiaToggleOffSolid } from "react-icons/lia";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -34,6 +34,7 @@ function page() {
     price: "",
     topicidForEdit: null
   })
+
   const [by, setBy] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectImage, setSelectImage] = useState(null);
@@ -171,58 +172,70 @@ function page() {
     }
   };
 
+
+
   const EditTopic = async (tId, title, msg) => {
     setTopics({ ...topics, topicTitle: title, isOpen: true, message: msg, topicidForEdit: tId })
   };
 
+  // const categories = [
+  //   "Art",
+  //   "Design",
+  //   "Photography",
+  //   "Fashion",
+  //   "Music",
+  //   "Writing",
+  //   "Film and Video",
+  //   "Crafts",
+  //   "Cooking and Food",
+  //   "Gaming",
+  //   "Fitness and Wellness",
+  //   "Beauty",
+  //   "Technology",
+  //   "Travel",
+  //   "Education",
+  //   "Lifestyle",
+  //   "Parenting",
+  //   "Sports",
+  //   "DIY and Home Improvement",
+  //   "Business",
+  //   "Entrepreneurship",
+  //   "Startups",
+  //   "Marketing",
+  //   "Sales",
+  //   "Business Strategy",
+  //   "Finance and Investing",
+  //   "Leadership and Management",
+  //   "Productivity and Time Management",
+  //   "E-commerce",
+  //   "Social Media Marketing",
+  //   "Personal Branding",
+  //   "Business Consulting",
+  //   "Business Development",
+  //   "Human Resources",
+  //   "Negotiation",
+  //   "Communication Skills",
+  //   "Project Management",
+  //   "Business Analytics",
+  //   "Retail",
+  //   "Merchandising",
+  //   "Supply Chain Management",
+  //   "Real Estate",
+  // ];
+
+
   const categories = [
-    "Art",
-    "Design",
-    "Photography",
-    "Fashion",
-    "Music",
-    "Writing",
-    "Film and Video",
-    "Crafts",
-    "Cooking and Food",
-    "Gaming",
-    "Fitness and Wellness",
-    "Beauty",
-    "Technology",
-    "Travel",
-    "Education",
-    "Lifestyle",
-    "Parenting",
-    "Sports",
-    "DIY and Home Improvement",
-    "Business",
-    "Entrepreneurship",
-    "Startups",
-    "Marketing",
-    "Sales",
-    "Business Strategy",
-    "Finance and Investing",
-    "Leadership and Management",
-    "Productivity and Time Management",
-    "E-commerce",
-    "Social Media Marketing",
-    "Personal Branding",
-    "Business Consulting",
-    "Business Development",
-    "Human Resources",
-    "Negotiation",
-    "Communication Skills",
-    "Project Management",
-    "Business Analytics",
-    "Retail",
-    "Merchandising",
-    "Supply Chain Management",
-    "Real Estate",
-  ];
+    "Movies & Entertainment", "News", "Pet & Animals", "Gaming", "Career & Education", "Anime & Manga",
+    "Humor & Memes", "Family & Relationships", "Sports",
+    "Science & Learning", "DIY & Crafts", "Music & Podcasts", "Beauty & Fashion", "Health & Fitness", "Food & Cooking", "Business & Finance",
+    "Photography", "Travel & Gadgets", "Pop Culture", "Cars", "Motivation & Self-Help"
+  ]
 
   const handleChangePhotoClick = () => {
     document.getElementById("inputTag").click()
   }
+
+
 
   if (loading) {
     return (
@@ -239,6 +252,7 @@ function page() {
     <div>
       <Toaster />
       {/* popup 1 */}
+
       <div
         className={`${leave
           ? "fixed inset-0 w-screen z-50 bg-black/60 h-screen flex justify-center items-center backdrop-blur-md"
@@ -273,18 +287,19 @@ function page() {
       </div>
       {/* popup 2 */}
       <div
+        onClick={() => setBy(false)}
         className={`${by
-          ? "h-[80vh] sm:h-screen pn:max-sm:w-full w-full bg-[#cccccc33] z-50 flex fixed items-center justify-center inset-0 duration-100"
+          ? "h-screen pn:max-sm:w-full  w-full bg-[#cccccc33] z-50 flex fixed items-end justify-end inset-0 duration-100"
           : "h-0 w-0 duration-100 hidden"
           }`}
       >
         <div
           className={`${by
-            ? "h-[390px] p-6 dark:bg-[#273142] bg-[#fff] pn:max-sm:bottom-0 gap-2 flex-wrap w-[95%] sm:w-[550px] shadow-md sm:bg-white rounded-3xl flex duration-100"
+            ? "h-[390px] w-full p-6 dark:bg-[#273142] pn:max-sm:text-sm bg-[#fff] pn:max-sm:bottom-0 gap-2 flex-wrap sm:w-[550px] shadow-md sm:bg-white pn:max-sm:rounded-b-none rounded-3xl  flex duration-100"
             : "h-0 w-0 duration-100 text-[0px] hidden"
             }`}
         >
-          <div className="flex justify-between items-center px-2 w-full">
+          <div className="flex justify-between pn:max-sm:text-sm items-center px-2 w-full">
             <div className="font-semibold ">
               Select Community Category
             </div>
@@ -295,7 +310,7 @@ function page() {
               }}
             />
           </div>
-          <div className="overflow-auto no-scrollbar h-60 font-semibold bg-[#fff]  gap-2 flex-wrap w-[100%]  sm:bg-white dark:bg-[#273142] flex duration-100">
+          <div className="overflow-auto no-scrollbar h-60 font-semibold bg-[#fff] pn:max-sm:text-sm gap-2 flex-wrap w-[100%]  sm:bg-white dark:bg-[#273142] flex duration-100">
             {categories.map((c, i) => (
               <div
                 onClick={() => {
@@ -303,7 +318,7 @@ function page() {
                   setBy(false);
                 }}
                 key={i}
-                className="p-2 px-4 m-1 border border-[#979797] rounded-xl flex gap-2 hover:bg-[#4880FF] hover:text-[#fff]"
+                className="p-2 px-4 m-1 border border-[#979797] rounded-xl pn:max-sm:text-sm flex gap-2 hover:bg-[#4880FF] hover:text-[#fff]"
               >
                 {c}
               </div>
@@ -312,7 +327,7 @@ function page() {
         </div>
       </div>
       <div className={`${topics.isOpen ? "fixed inset-0 w-screen z-50 bg-[#cccccc33] h-screen flex justify-center items-center" : "hidden -z-50"}`}>
-        <div className="flex justify-center shadow-md items-center w-[90%] pp:w-[65%] sm:max-w-[500px] lg:w-[30%] p-3 rounded-xl dark:bg-[#273142] bg-white">
+        <div className="flex justify-center pn:max-sm:text-sm shadow-md items-center w-[90%] pp:w-[65%] sm:max-w-[500px] lg:w-[30%] p-3 rounded-xl dark:bg-[#273142] bg-white">
           <div className="w-full flex flex-col gap-2">
             <div className="text-xl text-center mt-2 font-semibold">Create Topics</div>
             <div className="flex flex-col gap-3 p-2">
@@ -368,13 +383,13 @@ function page() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 p-3 dark:bg-[#273142] bg-white w-full">
+      <div suppressHydrationWarning className="grid pn:max-sm:text-sm grid-cols-1 p-3 dark:bg-[#273142] bg-white w-full">
         <div className="flex justify-center sm:max-h-[80vh] sm:overflow-y-scroll sm:no-scrollbar w-full items-center ">
           <div className="sm:w-[85%] w-full md:w-[75%]">
             <div className="flex flex-col justify-center items-center">
               <label
                 htmlFor="inputTag"
-                className="w-[95px] relative overflow-hidden mb-2 dark:bg-[#323d4e] bg-[#ECECEE] items-center justify-center h-[90px] rounded-[30px] light:border-2 flex flex-col"
+                className="sm:w-[95px] w-[80px] h-[80px] relative overflow-hidden mb-2 dark:bg-[#323d4e] bg-[#ECECEE] items-center justify-center sm:h-[90px] rounded-[30px] light:border-2 flex flex-col"
               >
                 {selectImage != null ? <Image
                   src={selectImage ? selectImage : ""}
@@ -459,9 +474,7 @@ function page() {
               </div>
               <div className=" w-[100%] max-h-[900px] flex flex-col sm:items-center">
                 <div className=" rounded-2xl bg-white dark:bg-[#273142] pp:w-[95%] min-w-[250px]">
-                  {/* <div className="text-xl  font-semibold pb-3">
-                    Community Topics
-                  </div> */}
+
                   <div className="flex flex-col gap-2">
                     <div className="flex justify-between items-center">
                       <div className="">Topics Names</div>
@@ -504,7 +517,7 @@ function page() {
                       ))}
                     </div>
                   </div>
-                  <div className="my-6">
+                  {/* <div className="my-6">
                     <button
                       onClick={() => setTopics({ ...topics, isOpen: true })}
                       className="flex justify-center gap-2 items-center bg-[#E8F1FF] text-[#5570F1] p-2 px-5 rounded-xl"
@@ -514,14 +527,14 @@ function page() {
                       </div>
                       <div>Add Topic</div>
                     </button>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div className={`fixed flex justify-center  items-center ${leave ? "-z-50" : "z-50"} h-16 bg-white w-full dark:bg-[#273142] dark:border-t dark:border-[#3d4654] sm:hidden bottom-0 left-0`}>
+        <div className={`fixed flex justify-center pn:max-sm:text-sm items-center ${leave ? "-z-50" : "z-40"} h-16 bg-white w-full dark:bg-[#273142] dark:border-t dark:border-[#3d4654] sm:hidden bottom-0 left-0`}>
           <div className="flex justify-center gap-3 w-full px-3 items-center">
             <div onClick={() => setLeave(true)} className="w-full flex justify-center p-2 border border-[#979797] rounded-lg items-center">Discard</div>
             <div className="w-full flex justify-center p-2 bg-[#4880FF] rounded-lg text-white items-center" onClick={handleSubmit}>Save</div>
