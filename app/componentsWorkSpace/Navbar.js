@@ -33,7 +33,7 @@ function NavBar() {
   const MemoizedSettingsDark = useMemo(() => SettingsDark, [])
   const MemoizedCustomizationDark = useMemo(() => CustomizationDark, [])
   const MemoizedLogo = useMemo(() => Logo, [])
-  const { lsessionId } = getItemSessionStorage()
+  const sessionId = getItemSessionStorage()
   const [open, setOpen] = useState(false)
   const router = useRouter()
   const path = usePathname();
@@ -98,9 +98,9 @@ function NavBar() {
 
   const logout = () => {
     try {
-      deleteCookie(`excktn${lsessionId}`)
-      deleteCookie(`sessionId_${lsessionId}`)
-      deleteCookie(`frhktn${lsessionId}`)
+      deleteCookie(`excktn${sessionId}`)
+      deleteCookie(`sessionId_${sessionId}`)
+      deleteCookie(`frhktn${sessionId}`)
       setOpen(false)
       router.push("/login")
     } catch (error) {
