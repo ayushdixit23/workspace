@@ -25,7 +25,8 @@ const page = () => {
 		phone: "",
 		bio: ""
 	})
-	const sessionId = getItemSessionStorage()
+	const { lsessionId } = getItemSessionStorage()
+	// const sessionId = getItemSessionStorage()
 
 	const { data, isLoading } = useGetProfileQuery(
 		{ id: id },
@@ -99,9 +100,9 @@ const page = () => {
 
 	const resetCookies = async (data) => {
 		try {
-			deleteCookie(`excktn${sessionId}`);
-			deleteCookie(`sessionId_${sessionId}`);
-			deleteCookie(`frhktn${sessionId}`);
+			deleteCookie(`excktn${lsessionId}`);
+			deleteCookie(`sessionId_${lsessionId}`);
+			deleteCookie(`frhktn${lsessionId}`);
 			storeInSessionStorage(data?.sessionId)
 			setCookie(`excktn${data?.sessionId}`, data?.access_token, { secure: false })
 			setCookie(`frhktn${data?.sessionId}`, data?.refresh_token, { secure: false })
