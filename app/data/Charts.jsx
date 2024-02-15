@@ -41,11 +41,9 @@ const Charts = ({ data }) => {
 				<BarChart className='w-full relative -left-9 sm:-left-7 top-3' width={730} height={250} data={data}>
 					<XAxis dataKey="X" className='text-xs' />
 					<YAxis domain={calculateYAxisDomain(data)} allowDecimals={false} fill="#000000" className='text-xs' />
-					<Tooltip />
-
+					<Tooltip cursor={{ fill: '#171717' }} />
 					<Bar dataKey="members" fill="#1814fc" />
 					<Bar dataKey="visitors" fill="#a855f7" />
-					{/* a855f7 */}
 				</BarChart>
 			</ResponsiveContainer>
 		</div>

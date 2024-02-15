@@ -37,7 +37,7 @@ const Storedata = ({ getorderdata, sales }) => {
             <div>Last Week</div>
           </div>
         </div> */}
-        <div className="w-full relative -left-7 sm:-left-6 top-2">
+        <div className="w-full relative -left-10 pp:-left-8 sm:-left-6 top-2">
           {salesData && salesData.length > 0 ? <ChartsStore data={salesData} /> : <div className="h-[200px] w-full flex text-2xl font-semibold justify-center items-center">No Data To Show</div>}
         </div>
       </div>

@@ -2,6 +2,7 @@ import React from "react";
 import order from "../assets/image/order.png";
 import Image from "next/image";
 import { GoPlus } from "react-icons/go";
+import Link from "next/link";
 
 const NoOrder = () => {
   return (
@@ -24,16 +25,16 @@ const NoOrder = () => {
               Add products to your store and start selling to see orders here.
             </div>
             <div>
-              <button className="bg-[#3E7AD3] text-white p-2 px-4 rounded-xl flex justify-center items-center gap-1">
+              <Link href="/main/store" className="bg-[#3E7AD3] text-white p-2 px-4 rounded-xl flex justify-center items-center gap-1">
                 <div>
                   <GoPlus />
                 </div>
                 <div>Add Product</div>
-              </button>
+              </Link>
             </div>
           </div>
         </div>
-      </div>
+      </div >
     </>
   );
 };

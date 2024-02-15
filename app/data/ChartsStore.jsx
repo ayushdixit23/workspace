@@ -32,7 +32,7 @@ const ChartsStore = ({ data }) => {
 				<BarChart width={730} height={250} data={data}>
 					<XAxis dataKey="Dates" className='text-xs' />
 					<YAxis domain={calculateYAxisDomain(data)} className='text-xs' />
-					<Tooltip />
+					<Tooltip cursor={{ fill: '#171717' }} />
 					<Bar dataKey="Sales" fill="#5a6acf" />
 				</BarChart>
 			</ResponsiveContainer>

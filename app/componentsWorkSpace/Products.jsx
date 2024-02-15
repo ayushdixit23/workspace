@@ -1,5 +1,5 @@
 import React from "react";
-import { FaAngleDown } from "react-icons/fa";
+// import { FaAngleDown } from "react-icons/fa";
 
 const Products = ({ data }) => {
   return (
@@ -8,12 +8,12 @@ const Products = ({ data }) => {
         data?.length ? <div className="w-full sm:h-[220px]">
           <div className="flex justify-between w-full p-2 items-center">
             <div className="text-lg font-semibold">Top Products</div>
-            <div className="flex justify-center items-center gap-1 p-2 rounded-xl bg-[#FAFAFA]">
+            {/* <div className="flex justify-center items-center gap-1 p-2 rounded-xl bg-[#FAFAFA]">
               <div>This Month</div>
               <div>
                 <FaAngleDown />
               </div>
-            </div>
+            </div> */}
           </div>
 
           <div className="my-1">
