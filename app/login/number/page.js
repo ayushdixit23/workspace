@@ -182,10 +182,9 @@ function page() {
     }
     try {
       setLoading(true)
-      const encryptedPassword = encryptaes(password)
       const res = await emailLogin({
         email,
-        password: encryptedPassword
+        password
       })
       console.log(res.data)
       if (res.data.success) {
