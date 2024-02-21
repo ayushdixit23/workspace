@@ -144,7 +144,9 @@ const CreatePost = ({ id, comid, open, setOpen, refetch }) => {
 										{
 											post.video.map((d, i) => (
 												<div key={i} className='relative w-[100px] h-[100px]'>
-													<div className='w-[100px] border h-[100px] flex justify-center rounded-lg  items-center font-semibold text-xl'>Video</div>
+													<div className='w-[100px] border h-[100px] flex justify-center rounded-lg  items-center font-semibold text-xl'>
+														<video src={URL.createObjectURL(d)} className='w-full h-full object-cover'></video>
+													</div>
 													<div onClick={() => handleMediaRemove(i, "video")} className="absolute cursor-pointer top-0 right-0 p-1"><RxCross2 /></div>
 												</div>
 											))

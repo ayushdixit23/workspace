@@ -289,7 +289,7 @@ function page() {
       <div
         onClick={() => setBy(false)}
         className={`${by
-          ? "h-screen pn:max-sm:w-full  w-full bg-[#cccccc33] z-50 flex fixed items-end justify-end inset-0 duration-100"
+          ? "h-screen pn:max-sm:w-full bg-[#cccccc33] z-50 flex fixed w-screen justify-center items-center pn:max-sm:items-end pn:max-sm:justify-end  inset-0 duration-100"
           : "h-0 w-0 duration-100 hidden"
           }`}
       >

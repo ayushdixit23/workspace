@@ -22,7 +22,8 @@ import { getData } from "@/app/utilsHelper/Useful";
 import Image from "next/image";
 
 function page() {
-  const s = getCookie("edta");
+  const s = getCookie("comedta");
+  console.log(s)
   let data
   try {
     data = JSON.parse(s);
@@ -67,7 +68,7 @@ function page() {
     setSelectedImage(e.target.files[0]);
   };
   useEffect(() => {
-    setEditCommunity({ ...editCommunity, title: data?.c?.title, desc: data?.c?.desc, selectedCategory: data?.c?.category })
+    setEditCommunity({ ...editCommunity, title: data?.title || "", desc: data?.desc || "", selectedCategory: data?.category || "" })
     setSelectImage(data?.dps)
   }, [])
 
@@ -173,7 +174,7 @@ function page() {
   }, []);
 
   const clearCookies = () => {
-    deleteCookie("edta");
+    deleteCookie("comedta");
     deleteCookie("cmdyd");
   };
 
@@ -200,52 +201,6 @@ function page() {
   const handleChangePhotoClick = () => {
     document.getElementById("inputTag").click()
   }
-
-  // const categories = [
-  //   "Art",
-  //   "Design",
-  //   "Photography",
-  //   "Fashion",
-  //   "Music",
-  //   "Writing",
-  //   "Film and Video",
-  //   "Crafts",
-  //   "Cooking and Food",
-  //   "Gaming",
-  //   "Fitness and Wellness",
-  //   "Beauty",
-  //   "Technology",
-  //   "Travel",
-  //   "Education",
-  //   "Lifestyle",
-  //   "Parenting",
-  //   "Sports",
-  //   "DIY and Home Improvement",
-  //   "Business",
-  //   "Entrepreneurship",
-  //   "Startups",
-  //   "Marketing",
-  //   "Sales",
-  //   "Business Strategy",
-  //   "Finance and Investing",
-  //   "Leadership and Management",
-  //   "Productivity and Time Management",
-  //   "E-commerce",
-  //   "Social Media Marketing",
-  //   "Personal Branding",
-  //   "Business Consulting",
-  //   "Business Development",
-  //   "Human Resources",
-  //   "Negotiation",
-  //   "Communication Skills",
-  //   "Project Management",
-  //   "Business Analytics",
-  //   "Retail",
-  //   "Merchandising",
-  //   "Supply Chain Management",
-  //   "Real Estate",
-  // ];
-
 
   const categories = [
     "Movies & Entertainment", "News", "Pet & Animals", "Gaming", "Career & Education", "Anime & Manga",
@@ -305,13 +260,13 @@ function page() {
       <div
         onClick={() => setBy(false)}
         className={`${by
-          ? "h-screen pn:max-sm:w-full  w-full bg-[#cccccc33] z-50 flex fixed items-end justify-end inset-0 duration-100"
+          ? " pn:max-sm:w-full bg-[#cccccc33] z-50 flex fixed w-screen justify-center items-center pn:max-sm:items-end pn:max-sm:justify-end inset-0 duration-100"
           : "h-0 w-0 duration-100 hidden"
           }`}
       >
         <div
           className={`${by
-            ? "h-[390px] w-full p-6 dark:bg-[#273142] pn:max-sm:text-sm bg-[#fff] pn:max-sm:bottom-0 gap-2 flex-wrap sm:w-[550px] shadow-md sm:bg-white pn:max-sm:rounded-b-none rounded-3xl  flex duration-100"
+            ? "h-[390px] w-full p-6 dark:bg-[#273142] pn:max-sm:text-sm bg-[#fff]  pn:max-sm:bottom-0 gap-2 flex-wrap sm:w-[550px] shadow-md sm:bg-white pn:max-sm:rounded-b-none rounded-3xl  flex duration-100"
             : "h-0 w-0 duration-100 text-[0px] hidden"
             }`}
         >

@@ -38,11 +38,17 @@ const Postdata = ({ analyticsdata, state }) => {
                   <div className="flex justify-between mt-3 px-3 w-full items-center">
                     <div className="flex justify-center items-center gap-2">
                       <div>
-                        <img
+                        {d.post[0].type.startsWith("image") && <img
                           src={d?.dps}
                           className="h-12 w-12 cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
                           alt="image"
-                        />
+                        />}
+
+                        {d.post[0].type.startsWith("video") && <video
+                          src={d?.dps}
+                          className=" object-cover max-h-[50px] min-w-[50px] cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
+                          alt="video"
+                        />}
                       </div>
                       <div className="text-sm font-bold dark:text-white text-[#101828]">{d?.title.length <= 15 ? d?.title : `${d?.title.slice(0, 15)}...`}</div>
                     </div>
@@ -63,15 +69,15 @@ const Postdata = ({ analyticsdata, state }) => {
                       <div>{d?.sharescount}</div>
                       <div className="pn:max-pp:text-xs">Shares</div>
                     </div>
-                    <div>
+                    {/* <div>
                       <div className="bg-[#ecfdf3] p-1 px-2 flex justify-center items-center rounded-xl">
                         <div><BiUpArrowAlt className="text-[#12b76a]" /></div>
-                        {/* <div><BiDownArrowAlt /></div> */}
+
                         <div className="text-[#12b76a]">{`${Math.round(parseInt(d?.engrate))}%`}</div>
                       </div>
 
                       <div className="hidden">-5</div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               ))}
@@ -245,11 +251,12 @@ const Postdata = ({ analyticsdata, state }) => {
               <TableHeader className="dark:text-white dark:text-sm">
                 <TableRow>
                   <TableHead className="w-[180px]">Posts</TableHead>
-                  <TableHead>Date Uploaded</TableHead>
+                  <TableHead className="text-center">Title</TableHead>
                   <TableHead>Applauses</TableHead>
                   <TableHead>Comments</TableHead>
                   <TableHead>Shares</TableHead>
-                  <TableHead>Engagement Rate</TableHead>
+                  {/* <TableHead>Engagement Rate</TableHead> */}
+                  <TableHead>Date Uploaded</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -261,22 +268,34 @@ const Postdata = ({ analyticsdata, state }) => {
                       <TableCell className="font-medium w-[180px] text-left">
                         <div className="flex gap-2 p-1 items-center">
                           <div>
-                            <img
+
+                            {d.post[0].type.startsWith("image") && <img
                               src={d?.dps}
                               className="h-12 w-12 cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
                               alt="image"
-                            />
+                            />}
+
+                            {d.post[0].type.startsWith("video") && <video
+                              src={d?.dps}
+                              className=" object-cover max-h-[50px] min-w-[50px] cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
+                              alt="video"
+                            />}
+
+
                           </div>
-                          <div className="flex flex-col text-xs font-medium gap-1">
-                            {d?.title.length <= 15 ? d?.title : `${d?.title.slice(0, 15)}...`}
-                          </div>
+
                         </div>
                       </TableCell>
-                      <TableCell className="text-center w-[120px]">{formatISOStringToDMY(d?.createdAt)}</TableCell>
+                      <TableCell className="text-center">
+                        <div className="flex flex-col text-xs font-medium gap-1">
+                          {d?.title.length <= 15 ? d?.title : `${d?.title.slice(0, 15)}...`}
+                        </div>
+                      </TableCell>
                       <TableCell className="text-center">{d?.likes}</TableCell>
                       <TableCell className="text-center">{d?.comments?.length}</TableCell>
                       <TableCell className="text-center">{d?.sharescount}</TableCell>
-                      <TableCell className="text-center">{`${Math.round(parseInt(d?.engrate))}%`}</TableCell>
+                      {/* <TableCell className="text-center">{`${Math.round(parseInt(d?.engrate))}%`}</TableCell> */}
+                      <TableCell className="text-center w-[120px]">{formatISOStringToDMY(d?.createdAt)}</TableCell>
                     </TableRow>
                   ))
                 }

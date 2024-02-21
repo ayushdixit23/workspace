@@ -137,11 +137,12 @@ const page = () => {
 								<TableHeader>
 									<TableRow>
 										<TableHead className="w-[150px] text-left">Posts</TableHead>
-										<TableHead className="text-center">Date Uploaded</TableHead>
 										<TableHead className="text-center">Applauses</TableHead>
+										<TableHead className="text-center">Title</TableHead>
 										<TableHead className="text-center">Comments</TableHead>
 										<TableHead className="text-center">Shares</TableHead>
-										<TableHead className="text-center">Engagement Rate</TableHead>
+										<TableHead className="text-center">Date Uploaded</TableHead>
+										{/* <TableHead className="text-center">Engagement Rate</TableHead> */}
 									</TableRow>
 								</TableHeader>
 								<TableBody>
@@ -152,22 +153,32 @@ const page = () => {
 												<TableCell className="font-medium w-[150px] text-left">
 													<div className="flex gap-2 p-1 items-center">
 														<div>
-															<img
+															{d?.post.post[0].type.startsWith("image") && <img
 																src={d?.dps}
-																className="h-12 w-12 cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
+																className="object-cover max-h-[50px] min-w-[50px] cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
 																alt="image"
-															/>
+															/>}
+
+															{d?.post.post[0].type.startsWith("video") && <video
+																src={d?.dps}
+																className=" object-cover max-h-[50px] min-w-[50px] cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
+																alt="video"
+															/>}
+
 														</div>
-														<div className="flex flex-col text-xs font-medium gap-1">
-															{d?.post.title.length <= 15 ? d?.post.title : `${d?.post.title.slice(0, 15)}...`}
-														</div>
+
 													</div>
 												</TableCell>
-												<TableCell className="text-center">{formatISOStringToDMY(d?.post.createdAt)}</TableCell>
+												<TableCell className="text-center">
+													<div className="flex flex-col text-xs font-medium gap-1">
+														{d?.post.title.length <= 15 ? d?.post.title : `${d?.post.title.slice(0, 15)}...`}
+													</div>
+												</TableCell>
 												<TableCell className="text-center">{d?.post.likes}</TableCell>
 												<TableCell className="text-center">{d?.post.comments?.length}</TableCell>
 												<TableCell className="text-center">{d?.post.sharescount}</TableCell>
-												<TableCell className="text-center">{`${Math.round(parseInt(d?.post.engrate))}%`}</TableCell>
+												<TableCell className="text-center">{formatISOStringToDMY(d?.post.createdAt)}</TableCell>
+												{/* <TableCell className="text-center">{`${Math.round(parseInt(d?.post.engrate))}%`}</TableCell> */}
 											</TableRow>
 										))
 									}
@@ -190,11 +201,17 @@ const page = () => {
 									<div className="flex justify-between mt-3 px-3 w-full items-center">
 										<div className="flex justify-center items-center gap-2">
 											<div>
-												<img
+												{d?.post.post[0].type.startsWith("image") && <img
 													src={d?.dps}
-													className="h-12 w-12 cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
+													className="object-cover max-h-[50px] min-w-[50px] cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
 													alt="image"
-												/>
+												/>}
+
+												{d?.post.post[0].type.startsWith("video") && <video
+													src={d?.dps}
+													className=" object-cover max-h-[50px] min-w-[50px] cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
+													alt="video"
+												/>}
 											</div>
 											<div className="text-sm font-bold dark:text-white text-[#101828]">{d?.post.title.length <= 15 ? d?.post.title : `${d?.post.title.slice(0, 15)}...`}</div>
 										</div>
@@ -215,7 +232,7 @@ const page = () => {
 											<div>{d?.post.sharescount}</div>
 											<div className="pn:max-pp:text-xs">Shares</div>
 										</div>
-										<div>
+										{/* <div>
 											<div className="bg-[#ecfdf3] p-1 px-2 flex justify-center items-center rounded-xl">
 												<div><BiUpArrowAlt className="text-[#12b76a]" /></div>
 
@@ -223,7 +240,7 @@ const page = () => {
 											</div>
 
 											<div className="hidden">-5</div>
-										</div>
+										</div> */}
 									</div>
 								</div>
 							))}

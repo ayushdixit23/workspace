@@ -24,73 +24,6 @@ const Communitydata = ({ state, analyticsdata, setState }) => {
     <div className="max-h-[90%]">
       <div className="rounded-2xl dark:border-2 dark:border-[#313d4f] dark:text-white dark:bg-[#273142] bg-white">
         <div className="flex justify-between p-2">
-          {/* <div className="flex justify-bewteen sm:min-w-[150px] sm:justify-center pn:max-sm:order-2 p-[6px] rounded-2xl px-2 bg-[#FAFAFA] relative items-center gap-2">
-            <div className="flex gap-1 items-center ">
-              <div>
-                {state.dp ? (
-                  <img
-                    src={state.dp}
-                    className="max-w-[30px] rounded-lg min-h-[30px] min-w-[30px] max-h-[30px]"
-                    alt="image"
-                  />
-                ) : (
-                  <Image
-                    src={Empty}
-                    className="max-w-[30px] rounded-lg min-h-[30px] min-w-[30px] max-h-[30px]"
-                    alt="image"
-                  />
-                )}
-              </div>
-              <div className="text-xs font-semibold pn:max-sm:hidden">
-                {state.name ? state.name : "Community"}
-              </div>
-            </div>
-            <div onClick={() => setOpen(!open)} className="text-lg">
-              <FaAngleDown />
-            </div>
-            <div
-              className={`${open
-                ? "absolute pn:max-sm:min-w-[200px] text-black pn:max-sm:-left-32 max-h-[250px] z-20 rounded-2xl shadow-lg bg-white top-12 w-full overflow-y-scroll no-scrollbar"
-                : "hidden"
-                }`}
-            >
-              <div className="w-full">
-                {analyticsdata?.commerged?.map((d, i) => (
-                  <div
-                    key={i}
-                    onClick={() => {
-                      setState({
-                        dp: d?.image,
-                        name: d?.name,
-                        popularity: d?.popularity,
-                        stats: d?.stats,
-                        totalmembers: d?.totalmembers,
-                        visitors: d?.visitors,
-                        paidmember: d?.paidmember,
-                        id: d?.id,
-                        age: d?.agerange,
-                        location: d?.location
-                      });
-                      setOpen(false);
-                    }}
-                    className="flex justify-start p-2 gap-2 w-full items-center "
-                  >
-                    <div>
-                      <img
-                        src={d?.image}
-                        className="max-w-[30px] rounded-lg min-h-[30px] min-w-[30px] max-h-[30px]"
-                        alt="image"
-                      />
-                    </div>
-                    <div className="flex flex-col">
-                      <div className="text-xs">{d?.name}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div> */}
-
           <Select
             className="dark:text-white dark:bg-[#323b4e] dark:border-none "
             // defaultValue={state.name}
@@ -119,26 +52,6 @@ const Communitydata = ({ state, analyticsdata, setState }) => {
             <SelectTrigger className="w-[150px] dark:text-white dark:bg-[#323b4e] dark:border-none ">
               <SelectValue
                 placeholder={state.name}
-                // placeholder={
-                //   <div className="flex gap-2 items-center">
-                //     {state.dp ? (
-                //       <img
-                //         src={state.dp}
-                //         className="max-w-[30px] rounded-lg min-h-[30px] min-w-[30px] max-h-[30px]"
-                //         alt="image"
-                //       />
-                //     ) : (
-                //       <Image
-                //         src={Empty}
-                //         className="max-w-[30px] rounded-lg min-h-[30px] min-w-[30px] max-h-[30px]"
-                //         alt="image"
-                //       />
-                //     )}
-                //     <div className="text-xs font-semibold pn:max-sm:hidden">
-                //       {state.name ? state.name : "Community"}
-                //     </div>
-                //   </div>
-                // }
                 className="dark:text-white dark:bg-[#323b4e] dark:border-none "
               />
             </SelectTrigger>

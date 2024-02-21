@@ -11,6 +11,16 @@ function Communitybox({ data, id, index, handleDelete }) {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch()
   const [comDelete, setComDelete] = useState(false)
+  console.log(data)
+
+  const tosetCookie = {
+    dps: data.dps,
+    title: data?.c?.title,
+    category: data?.c?.category,
+    desc: data?.c?.desc,
+    topics: ""
+  }
+
   return (
     <>
       <div className={`${comDelete ? "fixed inset-0 w-screen z-50 bg-black/60 h-screen flex justify-center items-center backdrop-blur-md" : "hidden -z-50"}`}>
@@ -67,7 +77,8 @@ function Communitybox({ data, id, index, handleDelete }) {
             <div className={`${open ? "absolute top-5 z-50 -left-20 h-[120px] rounded-lg w-[100px] bg-white dark:bg-[#273142] dark:border dark:border-[#3d4654] shadow-lg" : "hidden"} `}>
               <div className="flex flex-col justify-start items-start gap-3 p-3">
                 <Link href={"/main/community/editCommunity"} onClick={() => {
-                  setCookie("edta", JSON.stringify(data))
+                  // setCookie("comedta", JSON.stringify(data))
+                  setCookie("comedta", tosetCookie)
                   setCookie("cmdyd", encryptaes(data?.c?._id))
                 }}>Edit</Link>
                 <button onClick={() => { setComDelete(true), setOpen(false), dispatch(LoadThis(true)) }}>Delete</button>
@@ -85,7 +96,8 @@ function Communitybox({ data, id, index, handleDelete }) {
               <div className={`${open ? "absolute top-5 z-50 -left-20 h-[120px] rounded-lg w-[100px] bg-white dark:bg-[#273142] shadow-lg" : "hidden"} `}>
                 <div className="flex flex-col justify-start items-start gap-3 p-3">
                   <Link href={"/main/community/editCommunity"} onClick={() => {
-                    setCookie("edta", JSON.stringify(data))
+                    // setCookie("comedta", JSON.stringify(data))
+                    setCookie("comedta", tosetCookie)
                     setCookie("cmdyd", encryptaes(data?.c?._id))
                   }}>Edit</Link>
                   <button onClick={() => { setComDelete(true); setOpen(false) }}>Delete</button>

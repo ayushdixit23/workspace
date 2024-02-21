@@ -19,6 +19,7 @@ import useTokenAndData from "@/app/utilsHelper/tokens";
 import toast, { Toaster } from "react-hot-toast";
 import { storeInSessionStorage } from "@/app/utilsHelper/Tokenwrap";
 import { setCookie } from 'cookies-next';
+import Cookies from "js-cookie";
 
 function page() {
   const [otp, setOtp] = useState("")
@@ -79,8 +80,10 @@ function page() {
     try {
       console.log(data.sessionId)
       storeInSessionStorage(data.sessionId)
-      setCookie(`excktn${data.sessionId}`, data.access_token, { secure: false })
-      setCookie(`frhktn${data.sessionId}`, data.refresh_token, { secure: false })
+      setCookie(`excktn${data.sessionId}`, data.access_token)
+      setCookie(`frhktn${data.sessionId}`, data.refresh_token)
+      Cookies.set(`excktn${data.sessionId}`, data.access_token)
+      Cookies.set(`frhktn${data.sessionId}`, data.refresh_token)
       toast.success("success");
       return true;
     } catch (e) {
@@ -185,13 +188,17 @@ function page() {
         password: encryptedPassword
       })
       console.log(res.data)
-      await waitkrnevalafunc(res.data);
-      dispatch(
-        changelaoding({
-          loading: true,
-          path: `/main/dashboard`,
-        })
-      );
+      if (res.data.success) {
+        await waitkrnevalafunc(res.data);
+        dispatch(
+          changelaoding({
+            loading: true,
+            path: `/main/dashboard`,
+          })
+        );
+      } else {
+        toast.error("Invalid Email or Password!")
+      }
       // router.push("/main/dashboard")
     } catch (error) {
       console.log(error)
