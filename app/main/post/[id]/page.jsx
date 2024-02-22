@@ -1,12 +1,11 @@
 "use client"
-import { useFetchPostsQuery } from '@/app/redux/apiroutes/community'
+import { useGetAllPostQuery } from '@/app/redux/apiroutes/community'
 import { formatISOStringToDMY, getData } from '@/app/utilsHelper/Useful'
 import { decryptaes } from '@/app/utilsHelper/security'
 import { usePathname } from 'next/navigation'
 import React, { useState } from 'react'
 import { GoPlus } from 'react-icons/go'
 import CreatePost from '../../community/CreatePost'
-import { BiUpArrowAlt } from 'react-icons/bi'
 import Loader from '@/app/data/Loader'
 import NoPost from '@/app/componentsWorkSpace/NoPost'
 import {
@@ -24,14 +23,20 @@ const page = () => {
 	const { id } = getData()
 	const comid = decryptaes(decomid)
 
-	const { data, refetch, isLoading } = useFetchPostsQuery({ id, comid }, { skip: !id || !comid })
+	// const { data, refetch, isLoading } = useFetchPostsQuery({ id, comid }, { skip: !id || !comid })
+	const { data, refetch, isLoading } = useGetAllPostQuery({ comid }, { skip: !comid })
 
+	// const mergedData = data?.posts?.map((d, i) => ({
+	// 	post: d,
+	// 	dps: data.content[i],
+	// 	engrate: data.eng[i]
+	// }))
 	const mergedData = data?.posts?.map((d, i) => ({
-		post: d,
-		dps: data.content[i],
-		engrate: data.eng[i]
+		post: d.post,
+		dps: d.postdp,
+		// engrate: data.eng[i]
 	}))
-
+	console.log(mergedData)
 	const [open, setOpen] = useState(false)
 
 	if (isLoading) {
@@ -137,12 +142,12 @@ const page = () => {
 								<TableHeader>
 									<TableRow>
 										<TableHead className="w-[150px] text-left">Posts</TableHead>
-										<TableHead className="text-center">Applauses</TableHead>
 										<TableHead className="text-center">Title</TableHead>
+										<TableHead className="text-center">Applauses</TableHead>
 										<TableHead className="text-center">Comments</TableHead>
 										<TableHead className="text-center">Shares</TableHead>
-										<TableHead className="text-center">Date Uploaded</TableHead>
 										{/* <TableHead className="text-center">Engagement Rate</TableHead> */}
+										<TableHead className="text-center">Date Uploaded</TableHead>
 									</TableRow>
 								</TableHeader>
 								<TableBody>
@@ -153,13 +158,13 @@ const page = () => {
 												<TableCell className="font-medium w-[150px] text-left">
 													<div className="flex gap-2 p-1 items-center">
 														<div>
-															{d?.post.post[0].type.startsWith("image") && <img
+															{d?.post.post[0]?.type.startsWith("image") && <img
 																src={d?.dps}
 																className="object-cover max-h-[50px] min-w-[50px] cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
 																alt="image"
 															/>}
 
-															{d?.post.post[0].type.startsWith("video") && <video
+															{d?.post.post.length > 0 && d?.post.post[0]?.type.startsWith("video") && <video
 																src={d?.dps}
 																className=" object-cover max-h-[50px] min-w-[50px] cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
 																alt="video"

@@ -120,17 +120,7 @@ function page() {
   const handleImageRemove = (indexToRemove) => {
     setSelectedImage(prevImages => prevImages.filter((_, i) => i !== indexToRemove));
   };
-  // const handleClick = useCallback(() => {
-  //   setChange("Physical Product");
-  //   setDrop(true);
-  //   setCall(false);
-  // }, []);
-  // const handle = useCallback(() => {
-  //   setChange("Digital product or service");
-  //   setDrop(true);
-  //   setCall(true);
-  // }, []);
-
+  
   const clearCookies = () => {
     deleteCookie("pivc")
     deleteCookie("clvss");

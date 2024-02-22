@@ -8,6 +8,9 @@ export const userLoginAndSettingApi = Api.injectEndpoints({
         method: "POST",
       }),
     }),
+    idlogin: builder.query({
+      query: ({ id }) => `/v1/fetchwithid/${id}`,
+    }),
     login: builder.mutation({
       query: ({ phone }) => ({
         url: `/v1/checkid`,
@@ -61,4 +64,5 @@ export const {
   useLoginWithQrMutation,
   useEmailLoginMutation,
   usePostProfileStoreMutation,
+  useIdloginQuery
 } = userLoginAndSettingApi;

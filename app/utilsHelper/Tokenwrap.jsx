@@ -43,11 +43,13 @@ const TokenDataWrapper = ({ children }) => {
       dispatch(changelaoding({ loading: false }));
       dispatch(sendData(data))
     }
-    if (!token && path != "/login") {
-      redirect("/login")
+
+    if (!token && (path !== "/login" && path !== "/aybdhw")) {
+      redirect("/login");
     }
-    if (token && path === "/login") {
-      redirect("/main/dashboard")
+
+    if (token && (path === "/login" || path === "/aybdhw")) {
+      redirect("/main/dashboard");
     }
   }, [isValid, data, dispatch]);
   return <>

@@ -137,22 +137,6 @@ function productinformation({ handleDelete, data, userid, collectionid, index })
             </div>
           </div>
         </div>
-
-        {/* <div className="w-full px-5 flex justify-end">
-        <div
-          className={`${mark
-            ? "hidden"
-            : "flex flex-col items-center justify-center vs:max-sm:bg-[#f9f9f9] bg-white py-4 px-2 rounded-2xl absolute "
-            }`}
-        >
-          <div>
-            <Link href={href} title="Edit" className=" text-blue-600 ">
-              Edit
-            </Link>
-          </div>
-
-        </div>
-      </div> */}
       </div>
     </>
 

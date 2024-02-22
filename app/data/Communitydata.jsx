@@ -75,7 +75,7 @@ const Communitydata = ({ state, analyticsdata, setState }) => {
                         />
                       </div>
                       <div className="flex flex-col">
-                        <div className="text-xs">{d?.name}</div>
+                        <div className="text-xs">{d?.name.length > 8 ? `${d?.name.slice(0, 8)}...` : d?.name}</div>
                       </div>
                     </div>
 

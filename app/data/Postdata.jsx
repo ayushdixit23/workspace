@@ -2,7 +2,6 @@ import NoPost from "@/app/componentsWorkSpace/NoPost";
 import { formatISOStringToDMY } from "@/app/utilsHelper/Useful";
 import Link from "next/link";
 import React from "react";
-import { BiUpArrowAlt } from "react-icons/bi"
 import { encryptaes } from "../utilsHelper/security";
 import {
   Table,
@@ -28,7 +27,7 @@ const Postdata = ({ analyticsdata, state }) => {
           <NoPost id={encryptaes(state.id)} setOpen={false} />
         ) : (
           <div className="overflow-y-scroll dark:text-white dark:border-2 dark:border-[#313d4f] dark:bg-[#273142] bg-white no-scrollbar max-h-[300px] ">
-            {analyticsdata?.postmerged
+            {analyticsdata?.postmerged?.filter((f) => f?.kind !== "poll")
               ?.filter((w) => w?.community?.title === state.name)
               ?.map((d, i, arr) => (
                 <div
@@ -38,13 +37,13 @@ const Postdata = ({ analyticsdata, state }) => {
                   <div className="flex justify-between mt-3 px-3 w-full items-center">
                     <div className="flex justify-center items-center gap-2">
                       <div>
-                        {d.post[0].type.startsWith("image") && <img
+                        {d?.post.length > 0 && d?.post[0].type.startsWith("image") && <img
                           src={d?.dps}
                           className="h-12 w-12 cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
                           alt="image"
                         />}
 
-                        {d.post[0].type.startsWith("video") && <video
+                        {d?.post.length > 0 && d?.post[0].type.startsWith("video") && <video
                           src={d?.dps}
                           className=" object-cover max-h-[50px] min-w-[50px] cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
                           alt="video"
@@ -172,7 +171,7 @@ const Postdata = ({ analyticsdata, state }) => {
       <Link href={`/main/post/${encryptaes(state.id)}`} className=" pn:max-sm:hidden">
         {!analyticsdata?.postmerged ||
           analyticsdata?.postmerged.length === 0 ||
-          analyticsdata?.postmerged.filter(
+          analyticsdata?.postmerged?.filter((f) => f?.kind !== "poll").filter(
             (d) => d?.community?.title === state.name
           ).length === 0 ? (
           <NoPost id={encryptaes(state.id)} setOpen={false} />
@@ -269,19 +268,17 @@ const Postdata = ({ analyticsdata, state }) => {
                         <div className="flex gap-2 p-1 items-center">
                           <div>
 
-                            {d.post[0].type.startsWith("image") && <img
+                            {d?.post.length > 0 && d?.post[0].type.startsWith("image") && <img
                               src={d?.dps}
                               className="h-12 w-12 cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
                               alt="image"
                             />}
 
-                            {d.post[0].type.startsWith("video") && <video
+                            {d?.post.length > 0 && d?.post[0].type.startsWith("video") && <video
                               src={d?.dps}
                               className=" object-cover max-h-[50px] min-w-[50px] cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
                               alt="video"
                             />}
-
-
                           </div>
 
                         </div>
