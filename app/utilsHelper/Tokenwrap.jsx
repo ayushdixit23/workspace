@@ -3,15 +3,14 @@ import React, { useEffect } from "react";
 import useTokenAndData from "./tokens";
 import { useDispatch } from "react-redux";
 import { changelaoding, sendData } from "../redux/slice/userData";
-import { getCookie, setCookie } from 'cookies-next';
+import { getCookie } from 'cookies-next';
 import { ThemeProvider } from "@/components/theme-provider";
 import { redirect, usePathname } from "next/navigation";
 
 export const storeInSessionStorage = (sessionId) => {
   try {
-    setCookie(`sessionId_${sessionId}`, sessionId, { secure: false })
+
     if (typeof window !== undefined) {
-      // localStorage.setItem(`sessionId${sessionId}`, sessionId)
       sessionStorage.setItem("sessionId", sessionId);
     }
   } catch (error) {

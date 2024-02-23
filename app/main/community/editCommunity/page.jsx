@@ -393,7 +393,8 @@ function page() {
         </div>
 
       </div> */}
-      <div className={`${topics.isOpen ? "fixed inset-0 w-screen z-50 bg-[#cccccc33] h-screen flex justify-center items-center" : "hidden -z-50"}`}>
+
+      {/* <div className={`${topics.isOpen ? "fixed inset-0 w-screen z-50 bg-[#cccccc33] h-screen flex justify-center items-center" : "hidden -z-50"}`}>
         <div className="flex justify-center shadow-md items-center w-[90%] pp:w-[65%] sm:max-w-[500px] lg:w-[30%] p-3 rounded-xl dark:bg-[#273142] bg-white">
           <div className="w-full flex flex-col gap-2">
             <div className="text-xl text-center mt-2 font-semibold">Create Topics</div>
@@ -449,7 +450,7 @@ function page() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* 
       <div className="overflow-auto overflow-x-hidden no-scrollbar h-full ">
@@ -747,7 +748,7 @@ function page() {
                       <div className="p-2 border-2 border-[#f1f1f1] dark:border-[#3d4654] rounded-xl">
                         Posts
                       </div>
-                      {topicdata
+                      {/* {topicdata
                         ?.filter(
                           (f) =>
                             f?.title.toLowerCase() != "posts" &&
@@ -784,17 +785,17 @@ function page() {
                               </div>
                             </div>
                           </div>
-                        ))}
+                        ))} */}
                     </div>
                   </div>
-                  <div className="my-6">
+                  {/* <div className="my-6">
                     <button className="flex justify-center gap-2 items-center bg-[#E8F1FF] text-[#5570F1] p-2 px-5 rounded-xl">
                       <div>
                         <FaPlus />
                       </div>
                       <div onClick={() => setTopics({ ...topics, isOpen: true })}>Add Topic</div>
                     </button>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
