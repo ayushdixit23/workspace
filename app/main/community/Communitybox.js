@@ -14,7 +14,7 @@ function Communitybox({ data, id, index, handleDelete }) {
   console.log(data)
 
   const tosetCookie = {
-    dps: data.dps,
+    dps: data.dps?.trim(),
     title: data?.c?.title,
     category: data?.c?.category,
     desc: data?.c?.desc,
@@ -48,7 +48,7 @@ function Communitybox({ data, id, index, handleDelete }) {
 
           <div className="flex items-center gap-2 sm:gap-4 px-3 w-64 sm:max-md:w-52">
             <img
-              src={data?.dps}
+              src={data?.dps?.trim()}
               alt="dp"
               height={100}
               width={100}

@@ -26,7 +26,7 @@ const Component = () => {
 
 	const f = async () => {
 
-		const res = await axios.get(`http://localhost:7190/api/v1/fetchwithid/${id}`)
+		const res = await axios.get(`https://work.grovyo.xyz/api/v1/fetchwithid/${id}`)
 		console.log(res.data)
 		if (res.data?.success) {
 			const a = await waitkrnevalafunc(res.data);
