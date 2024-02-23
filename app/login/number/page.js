@@ -78,7 +78,7 @@ function page() {
 
   const waitkrnevalafunc = async (data) => {
     try {
-      console.log(data.sessionId)
+
       storeInSessionStorage(data.sessionId)
       setCookie(`excktn${data.sessionId}`, data.access_token)
       setCookie(`frhktn${data.sessionId}`, data.refresh_token)
@@ -136,12 +136,11 @@ function page() {
         }
       );
     }
-
   }
 
   function onSignup() {
     if (number.length !== 10) {
-      toast.error("Please Enter 10 digit number")
+      return toast.error("Please Enter 10 digit number")
     }
     setLoading(true);
     onCaptchaVerify();
@@ -396,7 +395,16 @@ function page() {
         // Phone
         <div className="flex flex-col justify-between items-center">
           <div className="mb-5 flex gap-3 pn:max-sm:hidden justify-center items-center flex-col">
-            <div className="relative">
+
+
+            <div className="relative bg-white dark:border-4 dark:border-white dark:p-1 dark:rounded-lg">
+              {loadingqr &&
+                <div className="w-full bg-white opacity-50 absolute top-0 left-0 h-full flex justify-center items-center ">
+                  <div className="animate-spin">
+                    <RiLoader4Line className="text-3xl" />
+                  </div>
+                </div>
+              }
               <QRCodeSVG
                 style={{
                   width: "200px",
@@ -404,13 +412,6 @@ function page() {
                 }}
                 value={qrCodeValue}
               />
-              {loadingqr && (
-                <div className="w-[200px] bg-white opacity-50 absolute top-0 left-0 h-[200px] flex justify-center items-center ">
-                  <div className="animate-spin">
-                    <RiLoader4Line className="text-3xl" />
-                  </div>
-                </div>
-              )}
             </div>
 
             <div className="text-xl font-semibold">Sign in with QR code</div>
@@ -474,7 +475,7 @@ function page() {
           <div className={`${change === 1 ? "py-5 " : "hidden"} `}>
             <div
               onClick={onSignup}
-              //onClick={fetchid}
+              // onClick={fetchid}
               className="h-[50px] w-[300px] select-none cursor-pointer bg-black flex items-center justify-center rounded-2xl text-white "
             >
               {loading && <CgSpinner size={20} className="m-1 animate-spin" />}

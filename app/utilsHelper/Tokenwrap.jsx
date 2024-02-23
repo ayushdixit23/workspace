@@ -31,6 +31,32 @@ export const getItemSessionStorage = () => {
   }
 }
 
+
+// export const storeInSessionStorage = (sessionId) => {
+//   try {
+//     if (typeof window !== undefined) {
+//       localStorage.setItem(`sessionId`, sessionId)
+//       sessionStorage.setItem("sessionId", sessionId);
+//     }
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
+
+// export const getItemSessionStorage = () => {
+//   try {
+
+//     if (typeof window != undefined) {
+//       const lsessionId = sessionStorage.getItem("sessionId");
+//       let sessionId
+//       sessionId = localStorage.getItem(`sessionId`)
+//       return sessionId;
+//     }
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
+
 const TokenDataWrapper = ({ children }) => {
   const { isValid, data } = useTokenAndData();
   const sessionId = getItemSessionStorage()

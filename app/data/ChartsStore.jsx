@@ -11,10 +11,11 @@ import {
 } from 'recharts';
 
 const ChartsStore = ({ data }) => {
+	console.log(data, "daya")
 	const calculateYAxisDomain = (data) => {
 		const allValues = data.reduce((acc, entry) => {
 			const membersValue = parseFloat(entry.Sales);
-			// Check if the parsed values are valid numbers before including them
+
 			if (!isNaN(membersValue)) {
 				acc.push(membersValue);
 			}

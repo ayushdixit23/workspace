@@ -63,7 +63,7 @@ const Communitydata = ({ state, analyticsdata, setState }) => {
                       `${d?.id}`
                     }
                     key={i}
-                    className="flex justify-start p-2 gap-2 w-full items-center "
+                    className=" "
                   >
 
                     <div className="flex justify-center gap-2 items-center w-full">

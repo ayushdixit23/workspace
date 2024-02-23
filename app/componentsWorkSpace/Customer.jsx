@@ -20,11 +20,7 @@ const Customer = ({ data }) => {
               </div> */}
           </div>
           <div className="flex justify-center p-3 w-full items-center">
-            {/* <ResponsiveContainer width="100%" height={200}>
-                <PieChart width={200} height={200}>
-                  <Pie data={data} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={60} outerRadius={80} fill="#5a6acf" label />
-                </PieChart>
-              </ResponsiveContainer> */}
+            
             <ResponsiveContainer width="100%" height={220}>
               <PieChart width={200} height={220}>
                 <Pie
@@ -41,7 +37,7 @@ const Customer = ({ data }) => {
                     <Cell key={`cell-${entry.name}`} fill={colors[index % colors.length]} />
                   ))}
                 </Pie>
-                <Legend align="center" className="relative top-3 left-2" verticalAlign="bottom" layout="horizontal" iconSize={10} iconType="square" />
+                {/* <Legend align="center" className="relative top-3 left-2" verticalAlign="bottom" layout="horizontal" iconSize={10} iconType="square" /> */}
               </PieChart>
             </ResponsiveContainer>
           </div >
