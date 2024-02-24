@@ -69,7 +69,7 @@ function Communitybox({ data, id, index, handleDelete }) {
             {data?.c?.posts?.length}
           </div>
           <div className="vs:max-sm:hidden justify-center sm:max-md:w-36 flex w-36">
-            {data?.c?.members?.length}
+            {data?.c?.memberscount}
           </div>
 
           <div className="flex text-center sm:hidden relative mr-3 justify-around items-center">
