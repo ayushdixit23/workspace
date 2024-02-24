@@ -153,7 +153,7 @@ function Communitybox({ data, id, index, handleDelete }) {
                 Members
               </div>
               <div className="flex justify-between w-[100%] items-center">
-                <div className={`text-[20px]`}>   {data?.c?.members?.length}</div>
+                <div className={`text-[20px]`}> {data?.c?.memberscount} </div>
                 {/* <div>+00.0%</div> */}
               </div>
             </div>

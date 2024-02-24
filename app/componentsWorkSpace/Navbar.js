@@ -59,12 +59,6 @@ function NavBar() {
       lighticon: <MemoizedStoreLight className="sm:h-7 sm:w-7 h-8 w-8" />,
       darkicon: <MemoizedStoreDark className="sm:h-10 sm:w-10 h-8 w-8" />,
     },
-    // {
-    //   label: "Customization ",
-    //   path: "/main/customiz",
-    //   lighticon: <MemoizedStoreDark className="sm:h-7 sm:w-7 h-8 w-8" />,
-    // darkicon: <MemoizedDashIconDark className="sm:h-10 sm:w-10 h-8 w-8" />,
-    // },
     {
       label: "Earnings",
       path: "/main/earnings",
@@ -77,12 +71,12 @@ function NavBar() {
     //   lighticon: <MemoizedSettingsLight className="sm:h-7 sm:w-7 h-8 w-8" />,
     //   darkicon: <MemoizedSettingsDark className="sm:h-10 sm:w-10 h-8 w-8" />,
     // },
-    // {
-    //   label: "Customization",
-    //   path: "/main/customization",
-    //   lighticon: <MemoizedCustomizationLight className="sm:h-7 sm:w-7 h-8 w-8" />,
-    //   darkicon: <MemoizedCustomizationDark className="sm:h-10 sm:w-10 h-8 w-8" />
-    // },
+    {
+      label: "Customization",
+      path: "/main/customization",
+      lighticon: <MemoizedCustomizationLight className="sm:h-7 sm:w-7 h-8 w-8" />,
+      darkicon: <MemoizedCustomizationDark className="sm:h-10 sm:w-10 h-8 w-8" />
+    },
   ];
 
   const ChangeColor = (color) => {
@@ -141,60 +135,6 @@ function NavBar() {
         </div>
       </div>
 
-      {/* 
-      <div className="h-[100vh] dark:text-white dark:bg-[#273142] bg-white p-1 vs:max-sm:hidden ">
-        <div className="flex flex-col justify-between pt-10 h-[95vh]">
-          <div className="flex items-center gap-1 justify-center">
-            <MemoizedLogo />
-            <span className="text-[20px] font-bold vs:max-md:hidden  ">
-              Workspace
-            </span>
-          </div>
-          <nav>
-            <ul className="flex flex-col justify-between">
-              {navItems.map((item, index) => (
-                <li
-                  key={index}
-                  className={`flex items-center gap-2 duration-150  ${path === item.path ?"dark:bg-[#4880ff] dark:text-white bg-[#4880ff] text-white" : "hover:bg-gray-100 dark:hover:bg-gray-800"
-                    }`}
-                >
-                  <div
-                    className={` duraction-100 ${path === item.path
-                      ? "h-10 w-1 rounded-full dark:bg-white bg-black"
-                      : "h-0 w-0"
-                      }`}
-                  ></div>
-                  <div>
-                    <Link href={item.path} className="flex items-center">
-                      <div className="sm:max-md:my-4 dark:text-white sm:max-md:mx-2">
-                        {item.icon}
-                      </div>
-
-                      <div
-                        className={`p-4 vs:max-md:hidden  ${path === item.path ? "font-bold" : "font-medium"
-                          }`}
-                      >
-                        {item.label}
-                      </div>
-                    </Link>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </nav>
-          <div className="flex flex-col justify-center items-center relative -left-3">
-            <div className="flex gap-3 h-[60px] items-center">
-              <MemoizedSettingIcon className="w-2 h-2" />
-              <Link
-                href={"/main/settings"}
-                className="font-medium vs:max-md:hidden "
-              >
-                Settings
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div> */}
 
       <aside className={`${open ? "-z-30" : null} flex flex-col md:w-64 sm:w-[86px] h-screen px-4 pn:max-sm:hidden py-8 overflow-y-auto bg-white border-r rtl:border-r-0 rtl:border-l dark:bg-gray-900 dark:border-gray-700`}>
 

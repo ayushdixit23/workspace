@@ -17,11 +17,6 @@ function CustomNav() {
       path: "/custom/photo",
       icon: <Research className="sm:h-7 sm:w-7 h-8 w-8" />,
     },
-
-    // {
-    //   path: "/custom/customize",
-    //   icon: <Text className="sm:h-7 sm:w-7 h-8 w-8" />,
-    // },
     {
       path: "/custom/color",
       icon: <Research2 className="sm:h-7 sm:w-7 h-8 w-8" />,
@@ -52,8 +47,8 @@ function CustomNav() {
                 >
                   <div
                     className={` duraction-100 ${path === item.path
-                        ? "h-10 w-1 rounded-full bg-black"
-                        : "h-0 w-0"
+                      ? "h-10 w-1 rounded-full bg-black"
+                      : "h-0 w-0"
                       }`}
                   ></div>
                   <div>
@@ -98,8 +93,8 @@ function CustomNav() {
               >
                 <div
                   className={`duraction-100 ${path === item.path
-                      ? "h-1 w-10 rounded-full bg-black"
-                      : "h-0 w-0"
+                    ? "h-1 w-10 rounded-full bg-black"
+                    : "h-0 w-0"
                     }`}
                 ></div>
                 <div className="h-10 w-10 pt-2">
