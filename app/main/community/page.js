@@ -109,7 +109,7 @@ function page() {
               {comdata?.merged?.map((d, i, arr) => (
                 <div
                   key={i}
-                  className={``}
+
                 >
                   <Communitybox
                     data={d}

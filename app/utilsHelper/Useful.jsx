@@ -47,8 +47,8 @@ export const checkToken = async (token) => {
 export const getData = () => {
   const data = useSelector((state) => state.userData.data)
   const memoizedData = useMemo(() => {
-    const { id = null, fullname = null, username = null, dp = null, sessionId = null, } = data || {};
-    return { id, fullname, username, dp, sessionId };
+    const { id = null, fullname = null, username = null, dp = null, sessionId = null, memberships = null } = data || {};
+    return { id, fullname, username, dp, sessionId, memberships };
   }, [data]);
 
   return memoizedData;
@@ -63,3 +63,15 @@ export const getCookie = (req) => {
   const getCookies = req.cookies.get("sessionId")
   return getCookies
 }
+
+export const formatNumber = (number) => {
+  if (number >= 1000000000) {
+    return (number / 1000000000).toFixed(1) + 'B';
+  } else if (number >= 1000000) {
+    return (number / 1000000).toFixed(1) + 'M';
+  } else if (number >= 1000) {
+    return (number / 1000).toFixed(1) + 'k';
+  } else {
+    return number.toString();
+  }
+};

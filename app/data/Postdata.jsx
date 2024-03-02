@@ -1,5 +1,5 @@
 import NoPost from "@/app/componentsWorkSpace/NoPost";
-import { formatISOStringToDMY } from "@/app/utilsHelper/Useful";
+import { formatISOStringToDMY, formatNumber } from "@/app/utilsHelper/Useful";
 import Link from "next/link";
 import React from "react";
 import { encryptaes } from "../utilsHelper/security";
@@ -57,15 +57,15 @@ const Postdata = ({ analyticsdata, state }) => {
                   </div>
                   <div className="flex justify-evenly dark:text-white text-[#101828] mb-3 w-full items-center">
                     <div className="flex text-sm flex-col justify-center items-center">
-                      <div>{d?.likes}</div>
+                      <div>{formatNumber(d?.likes)}</div>
                       <div className="pn:max-pp:text-xs">Applauses</div>
                     </div>
                     <div className="flex text-sm flex-col justify-center items-center">
-                      <div>{d?.comments?.length}</div>
+                      <div>{formatNumber(d?.comments?.length)}</div>
                       <div className="pn:max-pp:text-xs">Comments</div>
                     </div>
                     <div className="flex text-sm flex-col justify-center items-center">
-                      <div>{d?.sharescount}</div>
+                      <div>{formatNumber(d?.sharescount)}</div>
                       <div className="pn:max-pp:text-xs">Shares</div>
                     </div>
                     {/* <div>
@@ -276,7 +276,7 @@ const Postdata = ({ analyticsdata, state }) => {
 
                             {d?.post.length > 0 && d?.post[0].type.startsWith("video") && <video
                               src={d?.dps}
-                              className=" object-cover max-h-[50px] min-w-[50px] cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
+                              className="object-cover max-h-[50px] min-w-[50px] w-[50px] h-[50px] cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
                               alt="video"
                             />}
                           </div>
@@ -288,9 +288,9 @@ const Postdata = ({ analyticsdata, state }) => {
                           {d?.title.length <= 15 ? d?.title : `${d?.title.slice(0, 15)}...`}
                         </div>
                       </TableCell>
-                      <TableCell className="text-center">{d?.likes}</TableCell>
-                      <TableCell className="text-center">{d?.comments?.length}</TableCell>
-                      <TableCell className="text-center">{d?.sharescount}</TableCell>
+                      <TableCell className="text-center">{formatNumber(d?.likes)}</TableCell>
+                      <TableCell className="text-center">{formatNumber(d?.comments?.length)}</TableCell>
+                      <TableCell className="text-center">{formatNumber(d?.sharescount)}</TableCell>
                       {/* <TableCell className="text-center">{`${Math.round(parseInt(d?.engrate))}%`}</TableCell> */}
                       <TableCell className="text-center w-[120px]">{formatISOStringToDMY(d?.createdAt)}</TableCell>
                     </TableRow>

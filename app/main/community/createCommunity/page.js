@@ -129,9 +129,12 @@ function page() {
         id,
         data: formDataToSend,
       });
+      console.log(response)
       if (response.data?.success) {
         toast.success("Community Created!");
         router.push("/main/community");
+      } else {
+        toast.error(response.data.message)
       }
       setLoading(false);
     } catch (error) {

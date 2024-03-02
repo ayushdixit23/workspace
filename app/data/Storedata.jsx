@@ -20,6 +20,7 @@ const Storedata = ({ getorderdata, sales }) => {
       Dates: formatISOStringToDMY(d.Dates)
     }
   })
+  console.log(getorderdata, "fromorder")
 
   return (
     <div className={`flex flex-col gap-4`}>
@@ -111,9 +112,9 @@ const Storedata = ({ getorderdata, sales }) => {
                 <TableRow>
                   <TableHead className="w-[150px]">Order ID</TableHead>
                   <TableHead>Product Name</TableHead>
-                  <TableHead>Price</TableHead>
-                  <TableHead>Total Order</TableHead>
-                  <TableHead>Total Amount</TableHead>
+                  {/* <TableHead>Price</TableHead> */}
+                  {/* <TableHead className="text-center">Total Order</TableHead> */}
+                  <TableHead className="text-center">Total Amount</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -127,7 +128,7 @@ const Storedata = ({ getorderdata, sales }) => {
                         <img
                           src={d?.image?.[0]}
                           alt="image"
-                          className="max-w-[50px]"
+                          className="max-w-[50px] w-full h-full rounded-xl object-cover"
                         />
                       </div>
                       <div className="flex text-sm flex-col">
@@ -139,9 +140,10 @@ const Storedata = ({ getorderdata, sales }) => {
                         {d?.productId?.length > 2 && <span>And more...</span>}
                       </div>
                     </div></TableCell>
-                    <TableCell className="text-center">&#8377; {d?.finalprice}</TableCell>
-                    <TableCell className="text-center"> {getorderdata?.allorders}</TableCell>
-                    <TableCell className="text-center"> &#8377; {d?.total}</TableCell>
+                    {/* <TableCell className="text-center">&#8377; {d?.finalprice}</TableCell> */}
+                    {/* <TableCell className="text-center"> {getorderdata?.allorders}</TableCell> */}
+                    {console.log(d.data)}
+                    <TableCell className="text-center"> &#8377; {(d?.data?.reduce((total, item) => total + item.price, 0))}</TableCell>
 
                   </TableRow>
                 ))
@@ -183,7 +185,7 @@ const Storedata = ({ getorderdata, sales }) => {
                           #{d?.orderId?.slice(0, 8)}
                         </div>
                         <div className="font-semibold text-sm pp:text-base">
-                          Total: ₹{d?.total}
+                          Total: ₹{(d?.data?.reduce((total, item) => total + item.price, 0))}
                         </div>
                       </div>
                     </div>

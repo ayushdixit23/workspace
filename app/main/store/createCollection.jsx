@@ -86,7 +86,7 @@ const CreateCollection = ({ col, setCol, image, refetch, refetchStore, loading, 
         setLoading(false)
         router.refresh()
       } else {
-        toast.error("Something Went Wrong!")
+        toast.error(result.data.message)
       }
       dispatch(LoadThis(false))
       setCheck(0)

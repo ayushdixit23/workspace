@@ -81,7 +81,7 @@ function page() {
         setLoading(false)
         router.push("/main/store");
         clearCookies();
-        toast.error("Something Went Wrong!")
+        toast.error(result.data.message)
       }
     } catch (error) {
       setLoading(false)

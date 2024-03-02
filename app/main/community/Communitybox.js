@@ -6,6 +6,7 @@ import { encryptaes } from "@/app/utilsHelper/security";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { LoadThis } from "@/app/redux/slice/userData";
+import { formatNumber } from "@/app/utilsHelper/Useful";
 
 function Communitybox({ data, id, index, handleDelete }) {
   const [open, setOpen] = useState(false);
@@ -137,7 +138,7 @@ function Communitybox({ data, id, index, handleDelete }) {
                 Total Posts
               </div>
               <div className="flex justify-between w-[100%] items-center">
-                <div className={`text-[20px]`}>   {data?.c?.posts?.length}</div>
+                <div className={`text-[20px]`}>{data?.c?.posts?.length}</div>
                 {/* <div>+00.0%</div> */}
               </div>
             </div>
@@ -153,7 +154,7 @@ function Communitybox({ data, id, index, handleDelete }) {
                 Members
               </div>
               <div className="flex justify-between w-[100%] items-center">
-                <div className={`text-[20px]`}> {data?.c?.memberscount} </div>
+                <div className={`text-[20px]`}> {formatNumber(data?.c?.memberscount)} </div>
                 {/* <div>+00.0%</div> */}
               </div>
             </div>

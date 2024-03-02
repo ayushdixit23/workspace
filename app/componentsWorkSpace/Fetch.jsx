@@ -99,7 +99,7 @@ const Fetch = ({ data }) => {
                         <Image src={Img} alt="image" className="max-w-[50px]" />
                       </div> */}
                       <div>
-                        <img src={d?.image?.[0]} alt="image" className="max-w-[50px]" />
+                        <img src={d?.image?.[0]} alt="image" className="max-w-[50px] w-full h-full object-cover rounded-xl " />
 
                       </div>
                       <div className="flex text-sm flex-col">
@@ -142,7 +142,8 @@ const Fetch = ({ data }) => {
                   >
                     <div className="flex justify-center items-center gap-2 pp:gap-4">
                       <div>
-                        <img src={d?.image?.[0]} alt="image" className="min-w-[50px] max-w-[100px]" />
+                        <img src={d?.image?.[0]} alt="image" className="min-w-[50px] w-full h-full object-cover rounded-xl 
+                        max-w-[100px]" />
 
                       </div>
                       <div className="flex flex-col">

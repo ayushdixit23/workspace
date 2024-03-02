@@ -19,7 +19,10 @@ const LocationCom = ({ data, state }) => {
 
           {location && location?.map((d, i) => (
             <div key={i} className="px-2 flex flex-col gap-1">
-              <div className="text-sm dark:text-white text-[#615E83]">{d?.state}</div>
+              <div className="flex justify-between items-center">
+                <div className="text-xs dark:text-white  text-[#615E83]">{d?.state?.toUpperCase()}</div>
+                <div>{d?.value}%</div>
+              </div>
 
               <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
                 <div

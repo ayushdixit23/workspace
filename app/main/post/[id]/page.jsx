@@ -1,10 +1,11 @@
 "use client"
 import { useGetAllPostQuery } from '@/app/redux/apiroutes/community'
-import { formatISOStringToDMY, getData } from '@/app/utilsHelper/Useful'
+import { formatISOStringToDMY, formatNumber, getData } from '@/app/utilsHelper/Useful'
 import { decryptaes } from '@/app/utilsHelper/security'
 import { usePathname } from 'next/navigation'
 import React, { useState } from 'react'
 import { GoPlus } from 'react-icons/go'
+import { BiUpArrowAlt } from 'react-icons/bi'
 import CreatePost from '../../community/CreatePost'
 import Loader from '@/app/data/Loader'
 import NoPost from '@/app/componentsWorkSpace/NoPost'
@@ -34,7 +35,7 @@ const page = () => {
 	const mergedData = data?.posts?.map((d, i) => ({
 		post: d.post,
 		dps: d.postdp,
-		// engrate: data.eng[i]
+		engrate: d.engrate
 	}))
 	console.log(mergedData)
 	const [open, setOpen] = useState(false)
@@ -146,8 +147,8 @@ const page = () => {
 										<TableHead className="text-center">Applauses</TableHead>
 										<TableHead className="text-center">Comments</TableHead>
 										<TableHead className="text-center">Shares</TableHead>
-										{/* <TableHead className="text-center">Engagement Rate</TableHead> */}
 										<TableHead className="text-center">Date Uploaded</TableHead>
+										<TableHead className="text-center">Engagement Rate</TableHead>
 									</TableRow>
 								</TableHeader>
 								<TableBody>
@@ -166,10 +167,9 @@ const page = () => {
 
 															{d?.post.post.length > 0 && d?.post.post[0]?.type.startsWith("video") && <video
 																src={d?.dps}
-																className=" object-cover max-h-[50px] min-w-[50px] cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
+																className=" object-cover max-h-[50px] min-w-[50px] w-[50px] h-[50px] cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
 																alt="video"
 															/>}
-
 														</div>
 
 													</div>
@@ -179,11 +179,12 @@ const page = () => {
 														{d?.post.title.length <= 15 ? d?.post.title : `${d?.post.title.slice(0, 15)}...`}
 													</div>
 												</TableCell>
-												<TableCell className="text-center">{d?.post.likes}</TableCell>
-												<TableCell className="text-center">{d?.post.comments?.length}</TableCell>
-												<TableCell className="text-center">{d?.post.sharescount}</TableCell>
+												<TableCell className="text-center">{formatNumber(d?.post.likes)}</TableCell>
+												<TableCell className="text-center">{formatNumber(d?.post.comments?.length)}</TableCell>
+												<TableCell className="text-center">{formatNumber(d?.post.sharescount)}</TableCell>
 												<TableCell className="text-center">{formatISOStringToDMY(d?.post.createdAt)}</TableCell>
-												{/* <TableCell className="text-center">{`${Math.round(parseInt(d?.post.engrate))}%`}</TableCell> */}
+
+												<TableCell className="text-center">{`${d?.engrate}%`}</TableCell>
 											</TableRow>
 										))
 									}
@@ -226,26 +227,26 @@ const page = () => {
 									</div>
 									<div className="flex justify-evenly dark:text-white text-[#101828] mb-3 w-full items-center">
 										<div className="flex text-sm flex-col justify-center items-center">
-											<div>{d?.post.likes}</div>
+											<div>{formatNumber(d?.post.likes)}</div>
 											<div className="pn:max-pp:text-xs">Applauses</div>
 										</div>
 										<div className="flex text-sm flex-col justify-center items-center">
-											<div>{d?.post.comments?.length}</div>
+											<div>{formatNumber(d?.post.comments?.length)}</div>
 											<div className="pn:max-pp:text-xs">Comments</div>
 										</div>
 										<div className="flex text-sm flex-col justify-center items-center">
-											<div>{d?.post.sharescount}</div>
+											<div>{formatNumber(d?.post.sharescount)}</div>
 											<div className="pn:max-pp:text-xs">Shares</div>
 										</div>
-										{/* <div>
+										<div>
 											<div className="bg-[#ecfdf3] p-1 px-2 flex justify-center items-center rounded-xl">
 												<div><BiUpArrowAlt className="text-[#12b76a]" /></div>
 
-												<div className="text-[#12b76a]">{Math.round(parseInt(d?.engrate))}%</div>
+												<div className="text-[#12b76a]">{`${d?.engrate}%`}</div>
 											</div>
 
 											<div className="hidden">-5</div>
-										</div> */}
+										</div>
 									</div>
 								</div>
 							))}
@@ -254,9 +255,6 @@ const page = () => {
 					}
 
 				</div>
-
-
-
 			</div>
 		</>
 	)

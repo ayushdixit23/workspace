@@ -14,7 +14,7 @@ export const paymentApi = Api.injectEndpoints({
 		}),
 		memfinalize: builder.mutation({
 			query: ({ id, orderid, data }) => ({
-				url: `/v1/memfinalize/${id}/${res.data?.order}`,
+				// url: `/v1/memfinalize/${id}/${res.data?.order}`,
 				url: `/v1/memfinalize/${id}/${orderid}`,
 				method: "POST",
 				body: data

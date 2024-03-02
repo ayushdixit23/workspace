@@ -1,18 +1,26 @@
 "use client"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { getData } from "../utilsHelper/Useful";
 import axios from "axios"
 import useRazorpay from "react-razorpay";
 import { useMemfinalizeMutation } from "../redux/apiroutes/payment";
+import CustomPackage from "../componentsWorkSpace/CustomPackage";
+import { useRouter } from "next/navigation";
 
 
 const Sample5 = () => {
 	const [monthprice, setMonthPrice] = useState(true);
 	const [Razorpay] = useRazorpay()
 	const { id, fullname } = getData()
+	const [popup, setPopup] = useState(true)
+	const [membership, setMembership] = useState({
+		free: "",
+		pro: "",
+		premium: ""
+	})
+	const router = useRouter()
 	const [membershipFinalise] = useMemfinalizeMutation()
-
 	const pricingData = [{
 		mainTitle: "",
 		price: "",
@@ -53,6 +61,7 @@ const Sample5 = () => {
 			month: "Free",
 			year: "Free",
 		},
+		mid: membership.free,
 		infoNote: "Basic features for up to 10 employees with everything you need.",
 		"Product Listings": "Up-to 5 Products",
 		"Analytics and Reports": "Basic analytics",
@@ -86,6 +95,7 @@ const Sample5 = () => {
 			month: `₹3499`,
 			year: `₹35700`,
 		},
+		mid: membership.premium,
 		infoNote:
 			"Advanced features and reporting better workflows and automation.",
 		"Product Listings": "10 products / collection",
@@ -123,6 +133,7 @@ const Sample5 = () => {
 			month: "Custom",
 			year: "Custom",
 		},
+		mid: membership.pro,
 		infoNote: "Personalised service and enterprise security for large teams.",
 		"Create Topics (free/paid)": "custom",
 		"Product Listings": "Custom",
@@ -150,17 +161,32 @@ const Sample5 = () => {
 	},
 	];
 
-	const buyMembership = async (data) => {
-		console.log(data)
+	const fetchmemberShip = async () => {
 		try {
-			const res = await axios.post(`http://localhost:7200/api/v1/membershipbuy/${id}/65671ded04b7d0d07ef0e794`, { amount: monthprice ? data.price.month : data.price.year })
+			const res = await axios.get("https://work.grovyo.xyz/api/v1/fetchmembership")
+			console.log(res.data.ids)
+			setMembership({
+				free: res.data.ids.free,
+				pro: res.data.ids.pro,
+				premium: res.data.ids.premium
+			})
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
+	const buyMembership = async (data) => {
+		console.log(data.mid)
+		try {
+			const res = await axios.post(`https://work.grovyo.xyz/api/v1/membershipbuy/${id}/${data.mid}`, { amount: monthprice ? data.price.month : data.price.year })
 			console.log(res.data)
+			const membershipId = res.data.memid
 			if (res.data.success) {
 				let options = {
 					"key": process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
 					"amount": monthprice ? data.price.month * 100 : data.price.year * 100,
 					"currency": "INR",
-					"name": `${fullname}`,
+					"name": "Grovyo",
 					"description": `Buying Membership of ${data.mainTitle}`,
 					"order_id": res?.data?.oid,
 					"handler": async function (response) {
@@ -169,6 +195,7 @@ const Sample5 = () => {
 							paymentMethod,
 							razorpay_order_id: response?.razorpay_order_id,
 							razorpay_payment_id: response?.razorpay_payment_id,
+							memid: membershipId,
 							razorpay_signature: response?.razorpay_signature,
 							status: true,
 						}
@@ -208,428 +235,445 @@ const Sample5 = () => {
 		}
 	}
 
-	return (
-		<div className="bg-[#1d212a] dark:bg-[#273142] min-h-[100vh] no-scrollbar flex items-center justify-center">
-			<div className="sm:mx-5 mx-2 pb-10">
-				<div className="py-8 lg:py-14 flex flex-col text-white items-center">
-					<span className="text-[#365CCE] text-base">Pricing</span>
-					<span className="font-semibold text-center text-4xl sm:text-5xl mt-3 mb-6">
-						Find your perfect plan
-					</span>
-					<span className="sm:text-xl text-white text-center text-lg font-light">
-						Simple, transparent pricing that grows with you. Try any plan free
-						for 30 days.
-					</span>
 
-					<div className="px-2 py-2 bg-[#F2F4F7] md:m-auto mt-5 md:mt-10 space-x-1 flex justify-center items-center rounded-lg">
-						<button
-							onClick={() => setMonthPrice(true)}
-							className={`py-2 px-2 md:px-1.5 sm:px-3.5 drop-shadow-md hover:bg-white text-[#667085] hover:text-black rounded-md
+	useEffect(() => {
+		fetchmemberShip()
+	}, [])
+
+	return (
+		<>
+			{/* {popup &&
+				<CustomPackage setPopup={setPopup} />
+			} */}
+			<div className="bg-[#1d212a] dark:bg-[#273142] min-h-[100vh] no-scrollbar flex items-center justify-center">
+				<div className="sm:mx-5 mx-2 pb-10">
+					<div className="py-8 lg:py-14 flex flex-col text-white items-center">
+						<span className="text-[#365CCE] text-base">Pricing</span>
+						<span className="font-semibold text-center text-4xl sm:text-5xl mt-3 mb-6">
+							Find your perfect plan
+						</span>
+						<span className="sm:text-xl text-white text-center text-lg font-light">
+							Simple, transparent pricing that grows with you. Try any plan free
+							for 30 days.
+						</span>
+
+						<div className="px-2 py-2 bg-[#F2F4F7] md:m-auto mt-5 md:mt-10 space-x-1 flex justify-center items-center rounded-lg">
+							<button
+								onClick={() => setMonthPrice(true)}
+								className={`py-2 px-2 md:px-1.5 sm:px-3.5 drop-shadow-md hover:bg-white text-[#667085] hover:text-black rounded-md
                 ${monthprice && "bg-white border-[#94a3b8] border text-black "}`}
-						>
-							Monthly billing
-						</button>
-						<button
-							onClick={() => setMonthPrice(false)}
-							className={`ml-1 py-2 px-2 md:px-1.5 sm:px-3.5 border-[#94a3b8] drop-shadow-md hover:bg-white text-[#667085]  hover:text-black rounded-md
+							>
+								Monthly billing
+							</button>
+							<button
+								onClick={() => setMonthPrice(false)}
+								className={`ml-1 py-2 px-2 md:px-1.5 sm:px-3.5 border-[#94a3b8] drop-shadow-md hover:bg-white text-[#667085]  hover:text-black rounded-md
                 ${!monthprice && "bg-white border-[#94a3b8] border text-black"}`}
-						>
-							Annual billing
-						</button>
+							>
+								Annual billing
+							</button>
+						</div>
+					</div>
+
+					<div className="md:max-w-[1280px] max-w-[500px] flex justify-center items-center w-full mx-auto dark:bg-[#1d212a] dark:text-white bg-white rounded-xl">
+						<table className="w-full text-start border-spacing-5 border-separate flex gap-4 flex-col md:flex-row pp:p-5 lg:p-0">
+							{pricingData.map((data, index) => (
+								<tbody
+									key={index}
+									className={
+										index === 0
+											? "hidden lg:block"
+											: "border-2 lg:border-none font-medium text-sm text-[#101828] dark:text-white mb-10 lg:mb-0 rounded-lg"
+									}
+								>
+									<tr>
+										<td>
+											<div className="font-semibold text-xl dark:text-white text-[#101828] h-7">
+												{data.mainTitle}
+												{data.popular && (
+													<span
+														className="text-sm font-medium text-[#365CCE] px-2.5 py-0.5 bg-[#F9F5FF] rounded-2xl ml-2"
+													>
+														Popular
+													</span>
+												)}
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td className="h-[50px] dark:text-white">
+											<div>
+												<span className="font-semibold dark:text-white text-5xl">
+													{monthprice ? data.price?.month : data.price?.year}
+												</span>
+												{data.price && (
+													<span className="text-[#475467] dark:text-white font-normal ml-1">
+														{monthprice ? "per month" : "per year"}
+													</span>
+												)}
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td className="h-[50px] dark:text-white lg:h-[70px] xl:h-[50px]">
+											<span className="text-[#475467] dark:text-white text-sm font-normal">
+												{data.infoNote}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										{index === 0 ? (
+											<td className="h-[50px]"></td>
+										) : (
+											<td>
+												<button
+													onClick={() => {
+														if (index !== 3) {
+															buyMembership(data)
+														} else {
+															router.push("/membership/custom")
+														}
+													}
+													}
+													className="w-full bg-[#365CCE] text-white dark:text-white rounded-lg py-3 font-semibold"
+												>
+													Get Started
+												</button>
+											</td>
+										)}
+									</tr>
+									{/* portion after first title */}
+									<tr>
+										<td
+											className="h-5 text-sm font-semibold  text-[#365CCE]"
+											colSpan={2}
+										>
+											{data.titleRow1}
+											<span className="lg:hidden text-left">
+												{pricingData[0]["titleRow1"]}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td
+											className={
+												index === 0
+													? "h-5"
+													: "h-6 text-right flex justify-between lg:justify-center flex-row-reverse"
+											}
+										>
+											<span className="font-medium text-sm text-[#101828] dark:text-white">
+												{data["Product Listings"]}
+											</span>
+											<span className="lg:hidden text-left">{pricingData[0]["Product Listings"]}</span>
+										</td>
+									</tr>
+
+									<tr>
+										<td
+											className={
+												index === 0
+													? "h-5"
+													: "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"
+											}
+										>
+											<span className="font-medium text-sm text-[#101828] dark:text-white">
+												{data["Platform  Fees"]}
+											</span>
+											<span className="lg:hidden text-left">{pricingData[0]["Platform  Fees"]}</span>
+										</td>
+									</tr>
+									<tr>
+										<td
+											className={
+												index === 0
+													? "h-5"
+													: "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"
+											}
+										>
+											<span className="font-medium text-sm text-[#101828] dark:text-white">
+												{data["Create Collections"]}
+											</span>
+											<span className="lg:hidden text-left">
+												{pricingData[0]["Create Collections"]}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td
+											className={
+												index === 0
+													? "h-5"
+													: "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"
+											}
+										>
+											<span className="font-medium text-sm text-[#101828] dark:text-white">
+												{data["Product Review Time"]}
+											</span>
+											<span className="lg:hidden text-left">
+												{pricingData[0]["Product Review Time"]}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td
+											className={
+												index === 0
+													? "h-5"
+													: "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"
+											}
+										>
+											<span className="font-medium text-sm text-[#101828] dark:text-white">
+												{data["Analytics and Reports"]}
+											</span>
+											<span className="lg:hidden text-left">
+												{pricingData[0]["Analytics and Reports"]}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td
+											className={
+												index === 0
+													? "h-5"
+													: "h-9 text-right flex justify-between lg:justify-center flex-row-reverse"
+											}
+										>
+											<span className="font-medium text-sm text-[#101828] dark:text-white">
+												{data["Discounts and Promotions"]}
+											</span>
+											<span className="lg:hidden text-left">
+												{pricingData[0]["Discounts and Promotions"]}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<hr />
+										</td>
+									</tr>
+									{/* portion after second title */}
+									<tr >
+										<td
+											colSpan={2}
+											className="h-5 text-sm font-semibold text-[#365CCE] whitespace-nowrap"
+										>
+											{data.titleRow5}
+											<span className="lg:hidden text-left">
+												{pricingData[0]["titleRow5"]}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td
+
+											className={
+												index === 0
+													? "h-5"
+													: "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"
+											}
+										>
+											<span className="font-medium text-sm text-[#101828] dark:text-white">{data["Create Community"]}</span>
+											<span className="lg:hidden text-left">
+												{pricingData[0]["Create Community"]}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td
+
+											className={
+												index === 0
+													? "h-5"
+													: "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"
+											}
+										>
+											<span className="font-medium text-sm text-[#101828] dark:text-white">{data["Create Topics (free/paid)"]}</span>
+											<span className="lg:hidden text-left">
+												{pricingData[0]["Create Topics (free/paid)"]}
+											</span>
+										</td>
+									</tr>
+
+									<tr>
+										<td
+
+											className={
+												index === 0
+													? "h-5"
+													: "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"
+											}
+										>
+											<span>{data["Platform Fees (only for paid topics)"]}</span>
+											<span className="lg:hidden text-left">
+												{pricingData[0]["Platform Fees (only for paid topics)"]}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td
+
+											className={
+												index === 0
+													? "h-5"
+													: "h-9 text-right flex justify-between lg:justify-center items-center flex-row-reverse"
+											}
+										>
+											<span>{data["Analytics and reports for Community"]}</span>
+											<span className="lg:hidden text-left h-full flex items-center justify-center">
+												{pricingData[0]["Analytics and reports for Community"]}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td
+											className={
+												index === 0
+													? "h-10"
+													: "h-10 text-right flex justify-between lg:justify-center flex-row-reverse"
+											}
+										>
+											<span>{data["Members Recognition"]}</span>
+											<span className="lg:hidden text-left">
+												{pricingData[0]["Members Recognition"]}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<hr />
+										</td>
+									</tr>
+									<tr>
+										<td colSpan={2} className="h-5 text-sm font-semibold text-[#365CCE] whitespace-nowrap">
+											{data.titleRow9}
+											<span className="lg:hidden text-left">
+												{pricingData[0]["titleRow9"]}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td className={index === 0 ? "h-5" : "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"}>
+											<span>{data["Deliveries"]}</span>
+											<span className="lg:hidden text-left">
+												{pricingData[0]["Deliveries"]}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td className={index === 0 ? "h-5" : "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"}>
+											<span>{data["Delivery Options"]}</span>
+											<span className="lg:hidden text-left">
+												{pricingData[0]["Delivery Options"]}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td className={index === 0 ? "h-5" : "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"}>
+											<span>{data["Shipping Discounts"]}</span>
+											<span className="lg:hidden text-left">
+												{pricingData[0]["Shipping Discounts"]}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td className={index === 0 ? "h-5" : "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"}>
+											<span>{data["Express Delivery"]}</span>
+											<span className="lg:hidden text-left">
+												{pricingData[0]["Express Delivery"]}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<hr />
+										</td>
+									</tr>
+									<tr>
+										<td colSpan={2} className="h-5 text-sm font-semibold text-[#365CCE] whitespace-nowrap">
+											{data.titleRow13}
+											<span className="lg:hidden text-left">
+												{pricingData[0]["titleRow13"]}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td className={index === 0 ? "h-5" : "h-9 text-right flex justify-between lg:justify-center flex-row-reverse"}>
+											<span>{data["Responsive Templates"]}</span>
+											<span className="lg:hidden text-left">
+												{pricingData[0]["Responsive Templates"]}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td className={index === 0 ? "h-5" : "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"}>
+											<span>{data["Animated intro"]}</span>
+											<span className="lg:hidden text-left">
+												{pricingData[0]["Animated intro"]}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<hr />
+										</td>
+									</tr>
+									<tr>
+										<td colSpan={2} className="h-5 text-sm font-semibold text-[#365CCE] whitespace-nowrap">
+											{data.titleRow17}
+											<span className="lg:hidden text-left">
+												{pricingData[0]["titleRow17"]}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td className={index === 0 ? "h-5" : "h-9 text-right flex justify-between lg:justify-center flex-row-reverse"}>
+											<span>{data["Quick Suggestion"]}</span>
+											<span className="lg:hidden text-left">
+												{pricingData[0]["Quick Suggestion"]}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td className={index === 0 ? "h-5" : "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"}>
+											<span>{data["Thumbnail Generator"]}</span>
+											<span className="lg:hidden text-left">
+												{pricingData[0]["Thumbnail Generator"]}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td className={index === 0 ? "h-5" : "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"}>
+											<span>{data["Description generator"]}</span>
+											<span className="lg:hidden text-left">
+												{pricingData[0]["Description generator"]}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td className={index === 0 ? "h-5" : "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"}>
+											<span>{data["Keyword Suggestions"]}</span>
+											<span className="lg:hidden text-left">
+												{pricingData[0]["Keyword Suggestions"]}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td className={index === 0 ? "h-5" : "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"}>
+											<span>{data["Contact Support"]}</span>
+											<span className="lg:hidden text-left">
+												{pricingData[0]["Contact Support"]}
+											</span>
+										</td>
+									</tr>
+
+								</tbody>
+							))}
+						</table>
 					</div>
 				</div>
-
-				<div className="md:max-w-[1280px] max-w-[500px] flex justify-center items-center w-full mx-auto dark:bg-[#1d212a] dark:text-white bg-white rounded-xl">
-					<table className="w-full text-start border-spacing-5 border-separate flex gap-4 flex-col md:flex-row pp:p-5 lg:p-0">
-						{pricingData.map((data, index) => (
-							<tbody
-								key={index}
-								className={
-									index === 0
-										? "hidden lg:block"
-										: "border-2 lg:border-none font-medium text-sm text-[#101828] dark:text-white mb-10 lg:mb-0 rounded-lg"
-								}
-							>
-								<tr>
-									<td>
-										<div className="font-semibold text-xl dark:text-white text-[#101828] h-7">
-											{data.mainTitle}
-											{data.popular && (
-												<span
-													className="text-sm font-medium text-[#365CCE] px-2.5 py-0.5 bg-[#F9F5FF] rounded-2xl ml-2"
-												>
-													Popular
-												</span>
-											)}
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td className="h-[50px] dark:text-white">
-										<div>
-											<span className="font-semibold dark:text-white text-5xl">
-												{monthprice ? data.price?.month : data.price?.year}
-											</span>
-											{data.price && (
-												<span className="text-[#475467] dark:text-white font-normal ml-1">
-													{monthprice ? "per month" : "per year"}
-												</span>
-											)}
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td className="h-[50px] dark:text-white lg:h-[70px] xl:h-[50px]">
-										<span className="text-[#475467] dark:text-white text-sm font-normal">
-											{data.infoNote}
-										</span>
-									</td>
-								</tr>
-								<tr>
-									{index === 0 ? (
-										<td className="h-[50px]"></td>
-									) : (
-										<td>
-											<button
-												onClick={() => buyMembership(data)}
-												className="w-full bg-[#365CCE] text-white dark:text-white rounded-lg py-3 font-semibold"
-											>
-												Get Started
-											</button>
-										</td>
-									)}
-								</tr>
-								{/* portion after first title */}
-								<tr>
-									<td
-										className="h-5 text-sm font-semibold  text-[#365CCE]"
-										colSpan={2}
-									>
-										{data.titleRow1}
-										<span className="lg:hidden text-left">
-											{pricingData[0]["titleRow1"]}
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td
-										className={
-											index === 0
-												? "h-5"
-												: "h-6 text-right flex justify-between lg:justify-center flex-row-reverse"
-										}
-									>
-										<span className="font-medium text-sm text-[#101828] dark:text-white">
-											{data["Product Listings"]}
-										</span>
-										<span className="lg:hidden text-left">{pricingData[0]["Product Listings"]}</span>
-									</td>
-								</tr>
-
-								<tr>
-									<td
-										className={
-											index === 0
-												? "h-5"
-												: "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"
-										}
-									>
-										<span className="font-medium text-sm text-[#101828] dark:text-white">
-											{data["Platform  Fees"]}
-										</span>
-										<span className="lg:hidden text-left">{pricingData[0]["Platform  Fees"]}</span>
-									</td>
-								</tr>
-								<tr>
-									<td
-										className={
-											index === 0
-												? "h-5"
-												: "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"
-										}
-									>
-										<span className="font-medium text-sm text-[#101828] dark:text-white">
-											{data["Create Collections"]}
-										</span>
-										<span className="lg:hidden text-left">
-											{pricingData[0]["Create Collections"]}
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td
-										className={
-											index === 0
-												? "h-5"
-												: "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"
-										}
-									>
-										<span className="font-medium text-sm text-[#101828] dark:text-white">
-											{data["Product Review Time"]}
-										</span>
-										<span className="lg:hidden text-left">
-											{pricingData[0]["Product Review Time"]}
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td
-										className={
-											index === 0
-												? "h-5"
-												: "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"
-										}
-									>
-										<span className="font-medium text-sm text-[#101828] dark:text-white">
-											{data["Analytics and Reports"]}
-										</span>
-										<span className="lg:hidden text-left">
-											{pricingData[0]["Analytics and Reports"]}
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td
-										className={
-											index === 0
-												? "h-5"
-												: "h-9 text-right flex justify-between lg:justify-center flex-row-reverse"
-										}
-									>
-										<span className="font-medium text-sm text-[#101828] dark:text-white">
-											{data["Discounts and Promotions"]}
-										</span>
-										<span className="lg:hidden text-left">
-											{pricingData[0]["Discounts and Promotions"]}
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<hr />
-									</td>
-								</tr>
-								{/* portion after second title */}
-								<tr >
-									<td
-										colSpan={2}
-										className="h-5 text-sm font-semibold text-[#365CCE] whitespace-nowrap"
-									>
-										{data.titleRow5}
-										<span className="lg:hidden text-left">
-											{pricingData[0]["titleRow5"]}
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td
-
-										className={
-											index === 0
-												? "h-5"
-												: "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"
-										}
-									>
-										<span className="font-medium text-sm text-[#101828] dark:text-white">{data["Create Community"]}</span>
-										<span className="lg:hidden text-left">
-											{pricingData[0]["Create Community"]}
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td
-
-										className={
-											index === 0
-												? "h-5"
-												: "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"
-										}
-									>
-										<span className="font-medium text-sm text-[#101828] dark:text-white">{data["Create Topics (free/paid)"]}</span>
-										<span className="lg:hidden text-left">
-											{pricingData[0]["Create Topics (free/paid)"]}
-										</span>
-									</td>
-								</tr>
-
-								<tr>
-									<td
-
-										className={
-											index === 0
-												? "h-5"
-												: "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"
-										}
-									>
-										<span>{data["Platform Fees (only for paid topics)"]}</span>
-										<span className="lg:hidden text-left">
-											{pricingData[0]["Platform Fees (only for paid topics)"]}
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td
-
-										className={
-											index === 0
-												? "h-5"
-												: "h-9 text-right flex justify-between lg:justify-center items-center flex-row-reverse"
-										}
-									>
-										<span>{data["Analytics and reports for Community"]}</span>
-										<span className="lg:hidden text-left h-full flex items-center justify-center">
-											{pricingData[0]["Analytics and reports for Community"]}
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td
-										className={
-											index === 0
-												? "h-10"
-												: "h-10 text-right flex justify-between lg:justify-center flex-row-reverse"
-										}
-									>
-										<span>{data["Members Recognition"]}</span>
-										<span className="lg:hidden text-left">
-											{pricingData[0]["Members Recognition"]}
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<hr />
-									</td>
-								</tr>
-								<tr>
-									<td colSpan={2} className="h-5 text-sm font-semibold text-[#365CCE] whitespace-nowrap">
-										{data.titleRow9}
-										<span className="lg:hidden text-left">
-											{pricingData[0]["titleRow9"]}
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td className={index === 0 ? "h-5" : "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"}>
-										<span>{data["Deliveries"]}</span>
-										<span className="lg:hidden text-left">
-											{pricingData[0]["Deliveries"]}
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td className={index === 0 ? "h-5" : "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"}>
-										<span>{data["Delivery Options"]}</span>
-										<span className="lg:hidden text-left">
-											{pricingData[0]["Delivery Options"]}
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td className={index === 0 ? "h-5" : "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"}>
-										<span>{data["Shipping Discounts"]}</span>
-										<span className="lg:hidden text-left">
-											{pricingData[0]["Shipping Discounts"]}
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td className={index === 0 ? "h-5" : "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"}>
-										<span>{data["Express Delivery"]}</span>
-										<span className="lg:hidden text-left">
-											{pricingData[0]["Express Delivery"]}
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<hr />
-									</td>
-								</tr>
-								<tr>
-									<td colSpan={2} className="h-5 text-sm font-semibold text-[#365CCE] whitespace-nowrap">
-										{data.titleRow13}
-										<span className="lg:hidden text-left">
-											{pricingData[0]["titleRow13"]}
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td className={index === 0 ? "h-5" : "h-9 text-right flex justify-between lg:justify-center flex-row-reverse"}>
-										<span>{data["Responsive Templates"]}</span>
-										<span className="lg:hidden text-left">
-											{pricingData[0]["Responsive Templates"]}
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td className={index === 0 ? "h-5" : "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"}>
-										<span>{data["Animated intro"]}</span>
-										<span className="lg:hidden text-left">
-											{pricingData[0]["Animated intro"]}
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<hr />
-									</td>
-								</tr>
-								<tr>
-									<td colSpan={2} className="h-5 text-sm font-semibold text-[#365CCE] whitespace-nowrap">
-										{data.titleRow17}
-										<span className="lg:hidden text-left">
-											{pricingData[0]["titleRow17"]}
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td className={index === 0 ? "h-5" : "h-9 text-right flex justify-between lg:justify-center flex-row-reverse"}>
-										<span>{data["Quick Suggestion"]}</span>
-										<span className="lg:hidden text-left">
-											{pricingData[0]["Quick Suggestion"]}
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td className={index === 0 ? "h-5" : "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"}>
-										<span>{data["Thumbnail Generator"]}</span>
-										<span className="lg:hidden text-left">
-											{pricingData[0]["Thumbnail Generator"]}
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td className={index === 0 ? "h-5" : "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"}>
-										<span>{data["Description generator"]}</span>
-										<span className="lg:hidden text-left">
-											{pricingData[0]["Description generator"]}
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td className={index === 0 ? "h-5" : "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"}>
-										<span>{data["Keyword Suggestions"]}</span>
-										<span className="lg:hidden text-left">
-											{pricingData[0]["Keyword Suggestions"]}
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td className={index === 0 ? "h-5" : "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"}>
-										<span>{data["Contact Support"]}</span>
-										<span className="lg:hidden text-left">
-											{pricingData[0]["Contact Support"]}
-										</span>
-									</td>
-								</tr>
-
-							</tbody>
-						))}
-					</table>
-				</div>
 			</div>
-		</div>
+		</>
 	);
 };
 

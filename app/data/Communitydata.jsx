@@ -1,6 +1,4 @@
-import Image from "next/image";
 import React from "react";
-import Empty from "../assets/image/iconContainer.png";
 import Postdata from "./Postdata";
 import {
   Select,
@@ -19,6 +17,8 @@ const Communitydata = ({ state, analyticsdata, setState }) => {
     X: d.X,
     visitors: Number(d.Y2)
   }))
+
+  console.log(analyticsdata)
 
   return (
     <div className="max-h-[90%]">
@@ -75,7 +75,7 @@ const Communitydata = ({ state, analyticsdata, setState }) => {
                         />
                       </div>
                       <div className="flex flex-col">
-                        <div className="text-xs">{d?.name.length > 8 ? `${d?.name.slice(0, 8)}...` : d?.name}</div>
+                        <div className="text-xs">{d?.name?.length > 8 ? `${d?.name?.slice(0, 8)}...` : d?.name}</div>
                       </div>
                     </div>
 
@@ -109,9 +109,10 @@ const Communitydata = ({ state, analyticsdata, setState }) => {
 
         <div className="w-full p-2 h-full z-0">
 
+          {communityData && communityData.length > 0 && communityData <= 6 && <div className="h-[200px] w-full flex text-2xl font-semibold justify-center items-center">Data will be processed and will be displayed after 7 days.</div>}
 
-          {communityData && communityData?.length > 0 ?
-            <Charts data={communityData} /> : <div className="h-[200px] w-full flex text-2xl font-semibold justify-center items-center">No Data To Show</div>
+          {communityData && communityData?.length > 6 &&
+            < Charts data={communityData} />
           }
         </div>
       </div >

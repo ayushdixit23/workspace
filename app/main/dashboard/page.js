@@ -47,6 +47,8 @@ function Dashboard() {
 		id: "",
 		age: ""
 	})
+
+	console.log(getorderdata, "order")
 	useEffect(() => {
 		if (
 			analyticsdata?.commerged[0]?.image &&
@@ -82,7 +84,7 @@ function Dashboard() {
 			<div className="grid grid-cols-1 w-full">
 				<div className="grid sm:grid-cols-12 grid-cols-1 gap-3 h-full">
 					<div className="md:col-span-8 sm:col-span-7 flex flex-col w-full max-h-[85vh] ">
-						<div className="flex sm:sticky px-1 sm:top-0 text-sm mb-2 items-center gap-3">
+						<div className="flex pn:max-sm:mt-2 sm:sticky px-1 sm:top-0 text-sm mb-2 items-center gap-3">
 							<div
 								onClick={() => setChange("community")}
 								className={`cursor-pointer ${change === "community" ? "bg-white dark:bg-[#323d4e] font-semibold" : "dark:border-[#323d4e] border "} p-[6px] rounded-xl px-4`}
@@ -103,7 +105,7 @@ function Dashboard() {
 								<div
 									className={`w-full ${change == "community" ? null : "hidden"
 										} bg-white dark:bg-[#323d4e] rounded-xl justify-center items-center flex flex-col h-full min-h-[500px]
-                `}
+	`}
 								>
 									<div className="flex flex-col gap-3 justify-center h-full items-center">
 										<div>
@@ -161,8 +163,8 @@ function Dashboard() {
 							<div className="sm:max-h-[250px] bg-white dark:bg-[#273142] pn:max-sm:mt-4 rounded-xl dark:text-white light:bg-white sm:overflow-y-scroll z-20 sm:no-scrollbar">
 								<div className="rounded-xl dark:text-white w-full light:bg-white">
 									{/* <div className={`${comchange == 0 ? null : "hidden"}`}>
-										<DontHave />
-									</div> */}
+							<DontHave />
+						</div> */}
 									<div className={`${comchange == 1 ? null : "hidden"}`}>
 										<Member state={state} data={analyticsdata?.commerged?.length} />
 
@@ -185,10 +187,10 @@ function Dashboard() {
 										<Image src={p3} alt="p1" />
 									</div>
 									<div>
-										<div className="font-medium">Earings</div>
+										<div className="font-medium">Earnings</div>
 										<div className="flex gap-1 text-xs  items-center">
-											<div className="text-base font-medium">0</div>
-											<div className="text-green-700">+0.00%</div>
+											<div className="text-base font-medium">{getorderdata?.earnings}</div>
+											{/* <div className="text-green-700">+0.00%</div> */}
 										</div>
 									</div>
 								</div>
@@ -202,7 +204,7 @@ function Dashboard() {
 											<div className="text-base font-medium">
 												{getorderdata?.customers}
 											</div>
-											<div className="text-green-700">+0.00%</div>
+											{/* <div className="text-green-700">+0.00%</div> */}
 										</div>
 									</div>
 								</div>
@@ -217,7 +219,7 @@ function Dashboard() {
 												<div className="text-base font-medium">
 													{getorderdata?.allorders}
 												</div>
-												<div className="text-green-700">+0.00%</div>
+												{/* <div className="text-green-700">+0.00%</div> */}
 											</div>
 										</div>
 										<div>
@@ -226,7 +228,7 @@ function Dashboard() {
 												<div className="text-base font-medium">
 													{getorderdata?.pendingOrders?.length}
 												</div>
-												<div className="text-green-700">+0.00%</div>
+												{/* <div className="text-green-700">+0.00%</div> */}
 											</div>
 										</div>
 										<div>
@@ -235,7 +237,7 @@ function Dashboard() {
 												<div className="text-base font-medium">
 													{getorderdata?.completedOrders?.length}
 												</div>
-												<div className="text-green-700">+0.00%</div>
+												{/* <div className="text-green-700">+0.00%</div> */}
 											</div>
 										</div>
 									</div>
@@ -249,27 +251,27 @@ function Dashboard() {
 								>
 									Top Products
 								</div>
-								<div
-									onClick={() => setProchange(2)}
-									className={`rounded-xl p-1 px-3 cursor-pointer ${prochange == 2 ? "bg-white dark:bg-[#3276ea]  font-semibold shadow-def" : "dark:bg-[#323d4e] dark:border-2 dark:border-[#323d4e] "}`}
+								{/* <div
+						onClick={() => setProchange(2)}
+						className={`rounded-xl p-1 px-3 cursor-pointer ${prochange == 2 ? "bg-white dark:bg-[#3276ea]  font-semibold shadow-def" : "dark:bg-[#323d4e] dark:border-2 dark:border-[#323d4e] "}`}
 
-								>
-									Customer
-								</div>
-								<div
-									onClick={() => setProchange(3)}
-									className={`rounded-xl p-1 px-3 cursor-pointer ${prochange == 3 ? "bg-white dark:bg-[#3276ea]  font-semibold shadow-def" : "dark:bg-[#323d4e] dark:border-2 dark:border-[#323d4e] "}`}
+					>
+						Customer
+					</div> */}
+								{/* <div
+						onClick={() => setProchange(3)}
+						className={`rounded-xl p-1 px-3 cursor-pointer ${prochange == 3 ? "bg-white dark:bg-[#3276ea]  font-semibold shadow-def" : "dark:bg-[#323d4e] dark:border-2 dark:border-[#323d4e] "}`}
 
-								>
-									Location
-								</div>
+					>
+						Location
+					</div> */}
 							</div>
 							<div className="sm:max-h-[300px] overflow-y-scroll rounded-xl light:bg-white no-scrollbar">
 								{/* <div className="sm:max-h-[400px] min-w-full overflow-scroll no-scrollbar bg-white rounded-xl"> */}
 								{prochange == 0 && <DontHave />}
 								{prochange == 1 && <Products data={analyticsdata?.promerged} />}
-								{prochange == 2 && <Customer data={analyticsdata?.pieChart} />}
-								{prochange == 3 && <LocationStore data={analyticsdata?.storeLocation} />}
+								{/* {prochange == 2 && <Customer data={analyticsdata?.pieChart} />} */}
+								{/* {prochange == 3 && <LocationStore data={analyticsdata?.storeLocation} />} */}
 							</div>
 						</div>
 					</div>
@@ -280,3 +282,4 @@ function Dashboard() {
 }
 
 export default Dashboard;
+
