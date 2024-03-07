@@ -5,8 +5,9 @@ import { getData } from "../utilsHelper/Useful";
 import axios from "axios"
 import useRazorpay from "react-razorpay";
 import { useMemfinalizeMutation } from "../redux/apiroutes/payment";
-import CustomPackage from "../componentsWorkSpace/CustomPackage";
 import { useRouter } from "next/navigation";
+import { getItemSessionStorage } from "../utilsHelper/Tokenwrap";
+// import Cookies from "js-cookie";
 
 
 const Sample5 = () => {
@@ -14,6 +15,7 @@ const Sample5 = () => {
 	const [Razorpay] = useRazorpay()
 	const { id, fullname } = getData()
 	const [popup, setPopup] = useState(true)
+	const sessionId = getItemSessionStorage()
 	const [membership, setMembership] = useState({
 		free: "",
 		pro: "",
@@ -47,16 +49,15 @@ const Sample5 = () => {
 		"Express Delivery": "Express Delivery",
 		titleRow13: "Prosite",
 		"Responsive Templates": "Responsive Templates",
-		"Quick Suggestion": "Quick Suggestion",
-		titleRow17: "AI Support",
-		"Thumbnail Generator": "Thumbnail Generator",
-		"Description generator": "Description generator",
-		"Keyword Suggestions": "Keyword Suggestions",
-		"Contact Support": "Contact Support"
+		// "Quick Suggestion": "Quick Suggestion",
+		// titleRow17: "AI Support",
+		// "Thumbnail Generator": "Thumbnail Generator",
+		// "Description generator": "Description generator",
+		// "Keyword Suggestions": "Keyword Suggestions",
+		// "Contact Support": "Contact Support"
 	},
 	{
 		mainTitle: "Basic",
-		popular: true,
 		price: {
 			month: "Free",
 			year: "Free",
@@ -83,14 +84,15 @@ const Sample5 = () => {
 		"Express Delivery": "Not available",
 		"Responsive Templates": "Limited selection of templates",
 		"Animated intro": "Not available",
-		"Quick Suggestion": "Limited selection of templates",
-		"Thumbnail Generator": "Not available",
-		"Description generator": "Not available",
-		"Keyword Suggestions": "Not available",
-		"Contact Support": "Basic Support"
+		// "Quick Suggestion": "Limited selection of templates",
+		// "Thumbnail Generator": "Not available",
+		// "Description generator": "Not available",
+		// "Keyword Suggestions": "Not available",
+		// "Contact Support": "Basic Support"
 	},
 	{
 		mainTitle: "Professional",
+		popular: true,
 		price: {
 			month: `₹3499`,
 			year: `₹35700`,
@@ -121,11 +123,11 @@ const Sample5 = () => {
 		"Animated intro": "Access to premium intro",
 		"Express Delivery": "Priority and express delivery options",
 		"Responsive Templates": "Access to premium responsive templates",
-		"Quick Suggestion": "Access to premium responsive templates",
-		"Thumbnail Generator": <FaCheckCircle />,
-		"Description generator": <FaCheckCircle />,
-		"Keyword Suggestions": <FaCheckCircle />,
-		"Contact Support": "24 hrs Contact Support"
+		// "Quick Suggestion": "Access to premium responsive templates",
+		// "Thumbnail Generator": <FaCheckCircle />,
+		// "Description generator": <FaCheckCircle />,
+		// "Keyword Suggestions": <FaCheckCircle />,
+		// "Contact Support": "24 hrs Contact Support"
 	},
 	{
 		mainTitle: "Custom",
@@ -153,11 +155,11 @@ const Sample5 = () => {
 		"Express Delivery": "Custom",
 		"Responsive Templates": "Custom",
 		"Animated intro": "Custom",
-		"Quick Suggestion": "Custom",
-		"Thumbnail Generator": "Custom",
-		"Description generator": "Custom",
-		"Keyword Suggestions": "Custom",
-		"Contact Support": "Custom"
+		// "Quick Suggestion": "Custom",
+		// "Thumbnail Generator": "Custom",
+		// "Description generator": "Custom",
+		// "Keyword Suggestions": "Custom",
+		// "Contact Support": "Custom"
 	},
 	];
 
@@ -178,13 +180,13 @@ const Sample5 = () => {
 	const buyMembership = async (data) => {
 		console.log(data.mid)
 		try {
-			const res = await axios.post(`https://work.grovyo.xyz/api/v1/membershipbuy/${id}/${data.mid}`, { amount: monthprice ? data.price.month : data.price.year })
+			const res = await axios.post(`https://work.grovyo.xyz/api/v1/membershipbuy/${id}/${data.mid}`, { amount: data.price.month })
 			console.log(res.data)
 			const membershipId = res.data.memid
 			if (res.data.success) {
 				let options = {
 					"key": process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-					"amount": monthprice ? data.price.month * 100 : data.price.year * 100,
+					"amount": data.price.month * 100,
 					"currency": "INR",
 					"name": "Grovyo",
 					"description": `Buying Membership of ${data.mainTitle}`,
@@ -199,11 +201,23 @@ const Sample5 = () => {
 							razorpay_signature: response?.razorpay_signature,
 							status: true,
 						}
-						await membershipFinalise({
+						const resp = await membershipFinalise({
 							id,
 							orderid: res.data?.order,
 							data
 						})
+
+						if (resp.data.success) {
+							// Cookies.remove(`excktn${sessionId}`)
+							// Cookies.remove(`frhktn${sessionId}`)
+							// Cookies.set(`excktn${data.sessionId}`, data.access_token)
+							// Cookies.set(`frhktn${data.sessionId}`, data.refresh_token)
+
+							localStorage.removeItem(`excktn${sessionId}`)
+							localStorage.removeItem(`frhktn${sessionId}`)
+							localStorage.setItem(`excktn${data.sessionId}`, data.access_token)
+							localStorage.setItem(`frhktn${data.sessionId}`, data.refresh_token)
+						}
 					},
 					prefill: {
 						email: res?.data?.email || '',
@@ -257,7 +271,7 @@ const Sample5 = () => {
 							for 30 days.
 						</span>
 
-						<div className="px-2 py-2 bg-[#F2F4F7] md:m-auto mt-5 md:mt-10 space-x-1 flex justify-center items-center rounded-lg">
+						{/* <div className="px-2 py-2 bg-[#F2F4F7] md:m-auto mt-5 md:mt-10 space-x-1 flex justify-center items-center rounded-lg">
 							<button
 								onClick={() => setMonthPrice(true)}
 								className={`py-2 px-2 md:px-1.5 sm:px-3.5 drop-shadow-md hover:bg-white text-[#667085] hover:text-black rounded-md
@@ -272,7 +286,7 @@ const Sample5 = () => {
 							>
 								Annual billing
 							</button>
-						</div>
+						</div> */}
 					</div>
 
 					<div className="md:max-w-[1280px] max-w-[500px] flex justify-center items-center w-full mx-auto dark:bg-[#1d212a] dark:text-white bg-white rounded-xl">
@@ -288,7 +302,7 @@ const Sample5 = () => {
 								>
 									<tr>
 										<td>
-											<div className="font-semibold text-xl dark:text-white text-[#101828] h-7">
+											<div className="font-semibold flex items-center text-xl dark:text-white text-[#101828] h-7">
 												{data.mainTitle}
 												{data.popular && (
 													<span
@@ -322,7 +336,7 @@ const Sample5 = () => {
 										</td>
 									</tr>
 									<tr>
-										{index === 0 ? (
+										{index === 0 || index === 1 ? (
 											<td className="h-[50px]"></td>
 										) : (
 											<td>

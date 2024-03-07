@@ -11,7 +11,7 @@ import {
 } from 'recharts';
 
 const ChartsStore = ({ data }) => {
-	console.log(data, "daya")
+	
 	const calculateYAxisDomain = (data) => {
 		const allValues = data.reduce((acc, entry) => {
 			const membersValue = parseFloat(entry.Sales);

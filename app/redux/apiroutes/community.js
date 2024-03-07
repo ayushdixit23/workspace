@@ -15,8 +15,8 @@ export const communityApi = Api.injectEndpoints({
       query: ({ comid }) => `/v1/getallposts/${comid}`,
     }),
     createTopic: builder.mutation({
-      query: ({ id, data }) => ({
-        url: `/v1/createtopic/${id}`,
+      query: ({ id, comid, data }) => ({
+        url: `/v1/createtopic/${id}/${comid}`,
         method: "POST",
         body: data,
       }),
@@ -67,6 +67,15 @@ export const communityApi = Api.injectEndpoints({
     }),
     fetchPosts: builder.query({
       query: ({ id, comid }) => `/getallposts/${comid}/${id}`
+    }),
+    fetchCommunity: builder.query({
+      query: ({ id }) => `/v1/fetchCommunityStats/${id}`
+    }),
+    monetization: builder.mutation({
+      query: ({ id, comid }) => ({
+        url: `/v1/monetization/${id}/${comid}`,
+        method: "POST",
+      })
     })
   }),
 });
@@ -84,5 +93,7 @@ export const {
   useCreatePostMutation,
   useDeleteCommunityMutation,
   useGetAllPostQuery,
-  useFetchPostsQuery
+  useFetchPostsQuery,
+  useFetchCommunityQuery,
+  useMonetizationMutation
 } = communityApi;

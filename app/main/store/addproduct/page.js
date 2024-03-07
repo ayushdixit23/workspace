@@ -8,8 +8,8 @@ import { getData } from "@/app/utilsHelper/Useful";
 import { AiOutlineLoading3Quarters, AiOutlinePlus } from "react-icons/ai";
 import { RxCross2 } from "react-icons/rx";
 import toast, { Toaster } from "react-hot-toast";
-import { deleteCookie, getCookie } from "cookies-next";
 import { IoChevronDownSharp, IoChevronUpSharp } from "react-icons/io5";
+import Cookies from "js-cookie";
 
 function page() {
   const router = useRouter();
@@ -36,7 +36,7 @@ function page() {
   const [finalimages, setFinalimages] = useState([]);
   const [AddProduct] = useAddProductMutation();
   const { id, fullname } = getData()
-  const hoja = getCookie("clvss");
+  const hoja = Cookies.get("clvss")
   const [loading, setLoading] = useState(false)
   const cid = hoja ? decryptaes(hoja) : null;
   const handleImageChange = (e) => {
@@ -52,6 +52,14 @@ function page() {
   };
 
   const handleSubmit = async (e) => {
+    if (product.price < product.discountedprice) {
+      toast.error("Discounted Price Should Be Less Than Selling Price")
+      return
+    }
+    if (!product.desc || !product.name || !product.price || !product.discountedprice || finalimages.length === 0) {
+      toast.error("Please fill in all the required product details.")
+      return
+    }
     e.preventDefault();
     setLoading(true)
     const formDataToSend = new FormData();
@@ -90,7 +98,8 @@ function page() {
   };
 
   const clearCookies = () => {
-    deleteCookie("clvss");
+
+    Cookies.remove("clvss")
   };
 
   const handleImageRemove = (indexToRemove) => {
@@ -190,7 +199,7 @@ function page() {
 
       {/**main */}
       <div className=" w-full h-full">
-        <div className="sm:grid sm:grid-cols-2 w-full sm:justify-center pn:max-sm:gap-4 pt-1">
+        <div className="sm:grid sm:grid-cols-2 pn:max-sm:mb-[64px] w-full sm:justify-center pn:max-sm:gap-4 pt-1">
           <div className="w-[100%] flex flex-col sm:px-5 sm:items-center">
             <div className="pn:max-pp:px-2 w-full pp:max-sm:px-10 min-w-[250px]">
               <div className="bg-white dark:bg-[#273142] p-4 w-full rounded-2xl">
@@ -267,7 +276,7 @@ function page() {
             </div>
           </div>
           {/* left */}
-          <div className="w-[100%]  flex flex-col sm:items-center">
+          <div className="w-[100%] pn:max-sm:mt-3 flex flex-col sm:items-center">
             <div className="pn:max-pp:px-2 pp:max-sm:px-10 sm:w-[90%] min-w-[250px]">
               <div className="bg-white dark:bg-[#273142] p-4 rounded-2xl ">
                 <div className="font-semibold text-[20px] pt-1">Price</div>

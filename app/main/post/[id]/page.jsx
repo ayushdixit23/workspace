@@ -35,7 +35,8 @@ const page = () => {
 	const mergedData = data?.posts?.map((d, i) => ({
 		post: d.post,
 		dps: d.postdp,
-		engrate: d.engrate
+		engrate: d.engrate,
+		video: d?.video
 	}))
 	console.log(mergedData)
 	const [open, setOpen] = useState(false)
@@ -159,17 +160,21 @@ const page = () => {
 												<TableCell className="font-medium w-[150px] text-left">
 													<div className="flex gap-2 p-1 items-center">
 														<div>
-															{d?.post.post[0]?.type.startsWith("image") && <img
+															{d?.video ? <video
 																src={d?.dps}
-																className="object-cover max-h-[50px] min-w-[50px] cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
+																className=" object-cover max-h-[50px] min-w-[50px] w-[50px] h-[50px] cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
+																alt="video"
+															/> : <img
+																src={d?.dps}
+																className="object-cover h-[50px] w-[50px] cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
 																alt="image"
 															/>}
-
+															{/* 
 															{d?.post.post.length > 0 && d?.post.post[0]?.type.startsWith("video") && <video
 																src={d?.dps}
 																className=" object-cover max-h-[50px] min-w-[50px] w-[50px] h-[50px] cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
 																alt="video"
-															/>}
+															/>} */}
 														</div>
 
 													</div>
@@ -207,17 +212,17 @@ const page = () => {
 									<div className="flex justify-between mt-3 px-3 w-full items-center">
 										<div className="flex justify-center items-center gap-2">
 											<div>
-												{d?.post.post[0].type.startsWith("image") && <img
+												<img
 													src={d?.dps}
-													className="object-cover max-h-[50px] min-w-[50px] cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
+													className="object-cover h-[50px] w-[50px] cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
 													alt="image"
-												/>}
-
+												/>
+												{/* 
 												{d?.post.post[0].type.startsWith("video") && <video
 													src={d?.dps}
 													className=" object-cover max-h-[50px] min-w-[50px] cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
 													alt="video"
-												/>}
+												/>} */}
 											</div>
 											<div className="text-sm font-bold dark:text-white text-[#101828]">{d?.post.title.length <= 15 ? d?.post.title : `${d?.post.title.slice(0, 15)}...`}</div>
 										</div>

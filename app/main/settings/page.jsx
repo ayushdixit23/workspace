@@ -3,7 +3,7 @@ import Loader from '@/app/data/Loader'
 import { useGetProfileQuery, usePostProfileMutation } from '@/app/redux/apiroutes/userLoginAndSetting'
 import { getItemSessionStorage, storeInSessionStorage } from '@/app/utilsHelper/Tokenwrap'
 import { getData } from '@/app/utilsHelper/Useful'
-import { deleteCookie, setCookie } from 'cookies-next'
+// import Cookies from 'js-cookie'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
@@ -100,12 +100,22 @@ const page = () => {
 
 	const resetCookies = async (data) => {
 		try {
-			deleteCookie(`excktn${sessionId}`);
-			deleteCookie(`sessionId_${sessionId}`);
-			deleteCookie(`frhktn${sessionId}`);
+
+			// Cookies.remove(`excktn${sessionId}`)
+			// Cookies.remove(`frhktn${sessionId}`)
+
+			localStorage.removeItem(`excktn${sessionId}`)
+			localStorage.removeItem(`frhktn${sessionId}`)
+
+			// Cookies.set(`excktn${data?.sessionId}`, data?.access_token, { secure: false })
+			// Cookies.set(`frhktn${data?.sessionId}`, data?.refresh_token, { secure: false })
+
+
+			localStorage.setItem(`excktn${data.sessionId}`, data.access_token)
+			localStorage.setItem(`frhktn${data.sessionId}`, data.refresh_token)
+
 			storeInSessionStorage(data?.sessionId)
-			setCookie(`excktn${data?.sessionId}`, data?.access_token, { secure: false })
-			setCookie(`frhktn${data?.sessionId}`, data?.refresh_token, { secure: false })
+
 		} catch (e) {
 			console.log(e);
 		}

@@ -1,11 +1,10 @@
 "use client"
 import { useRouter, useSearchParams } from "next/navigation"
 import React, { useEffect } from "react"
-import { setCookie } from "cookies-next"
 import { storeInSessionStorage } from "../utilsHelper/Tokenwrap"
 import axios from "axios"
 import toast from "react-hot-toast"
-
+import Cookies from "js-cookie"
 
 const Component = () => {
 	const queryParams = useSearchParams()
@@ -15,8 +14,8 @@ const Component = () => {
 	const waitkrnevalafunc = async (data) => {
 		try {
 			storeInSessionStorage(data.sessionId)
-			setCookie(`excktn${data.sessionId}`, data.access_token)
-			setCookie(`frhktn${data.sessionId}`, data.refresh_token)
+			Cookies.set(`excktn${data.sessionId}`, data.access_token)
+			Cookies.set(`frhktn${data.sessionId}`, data.refresh_token)
 
 			return true;
 		} catch (e) {

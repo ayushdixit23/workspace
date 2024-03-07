@@ -18,10 +18,8 @@ const Communitydata = ({ state, analyticsdata, setState }) => {
     visitors: Number(d.Y2)
   }))
 
-  console.log(analyticsdata)
-
   return (
-    <div className="max-h-[90%]">
+    <div className="h-full ">
       <div className="rounded-2xl dark:border-2 dark:border-[#313d4f] dark:text-white dark:bg-[#273142] bg-white">
         <div className="flex justify-between p-2">
           <Select
@@ -109,11 +107,25 @@ const Communitydata = ({ state, analyticsdata, setState }) => {
 
         <div className="w-full p-2 h-full z-0">
 
-          {communityData && communityData.length > 0 && communityData <= 6 && <div className="h-[200px] w-full flex text-2xl font-semibold justify-center items-center">Data will be processed and will be displayed after 7 days.</div>}
+          {communityData.length === 0 && <div className="h-[250px] w-full flex text-2xl font-semibold justify-center items-center">No Data To Show</div>}
 
-          {communityData && communityData?.length > 6 &&
-            < Charts data={communityData} />
+          {/* {communityData && communityData.length > 0 && communityData <= 6 && <div className="min-h-full w-full flex text-2xl font-semibold justify-center items-center">Data will be processed and will be displayed after 7 days.</div>} */}
+
+          {communityData && communityData.length > 0 && communityData.length <= 6 && (
+            <div className="h-[250px] w-full flex text-2xl font-semibold justify-center items-center">
+              Data will be processed and will be displayed after 7 days.
+            </div>
+          )}
+
+          {communityData && communityData.length > 6 &&
+            <Charts data={communityData} />
           }
+
+          {/* {communityData && communityData.length > 0 && communityData < 6 && <div className="h-full w-full flex text-2xl font-semibold justify-center items-center">Data will be processed and will be displayed after 7 days.</div>}
+
+          {communityData && communityData.length > 6 &&
+            < Charts data={communityData} />
+          } */}
         </div>
       </div >
 

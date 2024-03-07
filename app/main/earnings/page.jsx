@@ -14,12 +14,18 @@ import { useAddBankMutation, useGetEarningStatsQuery } from "@/app/redux/apirout
 import Loader from "@/app/data/Loader";
 import { getData } from "@/app/utilsHelper/Useful";
 import toast, { Toaster } from "react-hot-toast";
+import { useFetchCommunityQuery, useMonetizationMutation } from "@/app/redux/apiroutes/community";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const page = () => {
   const { id } = getData()
   const { data, isLoading, refetch } = useGetEarningStatsQuery({ id }, { skip: !id })
   const [addBank] = useAddBankMutation()
+  const { data: comData } = useFetchCommunityQuery({ id }, { skip: !id })
+  const [monetisation] = useMonetizationMutation()
   const [open, setOpen] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [bank, setBank] = useState({
     bankname: "",
     branchname: "",
@@ -27,12 +33,45 @@ const page = () => {
     IFSCcode: "",
   })
 
+  const [state, setState] = useState({
+    id: "", name: "", dp: "", members: ""
+  })
+
+  const sendRequestForMontenziation = async (id, comid) => {
+    try {
+      setLoading(true)
+      const res = await monetisation({ id, comid })
+      if (res.data.success) {
+        toast.success("Request Sent For Community Montenziation!")
+      }
+      setLoading(false)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    if (comData?.communities.length)
+      setState({
+        id: comData?.communities[0].id,
+        name: comData?.communities[0].name,
+        dps: comData?.communities[0].dps,
+        members: comData?.communities[0]?.members
+      })
+
+  }, [comData])
+
+
   const handleBankDetails = async (e) => {
+
     e.preventDefault()
     if (!bank.IFSCcode || !bank.accountno || !bank.bankname || !bank.branchname) {
       toast.error("Please Enter All Details")
       return
     }
+    setLoading(true)
     try {
       const data = {
         bankname: bank.bankname,
@@ -46,9 +85,12 @@ const page = () => {
       })
       await refetch()
       setOpen(false)
+      setLoading(false)
       toast.success("Bank Details Saved!")
     } catch (error) {
       console.log(error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -65,6 +107,18 @@ const page = () => {
     }
     console.log(data?.earningStats.bank)
   }, [data])
+
+  if (loading) {
+    return (
+      <>
+        <div className="fixed inset-0 w-screen z-50 bg-black/60 h-screen flex justify-center items-center backdrop-blur-md">
+          <div className="animate-spin">
+            <AiOutlineLoading3Quarters className="text-2xl text-white" />
+          </div>
+        </div>
+      </>
+    );
+  }
 
   if (isLoading) {
     return <Loader />
@@ -118,7 +172,7 @@ const page = () => {
         </div>
       </div>
       <div className="grid grid-cols-1 w-full">
-        <div className="flex justify-between py-2 my-3 px-5 bg-white dark:bg-[#273142] rounded-2xl items-center">
+        {/* <div className="flex justify-between py-2 my-3 px-5 bg-white dark:bg-[#273142] rounded-2xl items-center">
           <div className="flex flex-col gap-2 justify-center">
             <div className="text-[#0066FF] sm:leading-snug sm:max-w-[80%] px-3 font-semibold text-xl sm:text-[26px]">
               "Empower Your Community: Unlock Ads and Stores for Earning
@@ -140,7 +194,7 @@ const page = () => {
               className="md:max-w-[500px] max-w-[300px] max-h-[180px]"
             />
           </div>
-        </div>
+        </div> */}
         <div className="grid w-full grid-cols-1">
           <div className="grid w-full gap-4 grid-cols-1">
             <div className="grid w-full grid-cols-2 sm:grid-cols-3 gap-4">
@@ -182,13 +236,73 @@ const page = () => {
                 </div>
               </div>
             </div>
-            <div className="w-full sm:bg-white dark:bg-[#273142] rounded-xl p-3">
-              <div className="text-[#666666] dark:text-white pn:max-sm:text-center font-medium">
-                You haven't met the criteria to apply for monetisation tool
-                access.
+            <div className="w-full sm:bg-white mb-[60px] sm:mb-0 dark:bg-[#273142] rounded-xl p-3">
+              <div className="flex sm:flex-row flex-col justify-between items-center">
+                <div className="text-[#666666] dark:text-white pn:max-sm:text-center font-medium">
+                  You haven't met the criteria to apply for monetisation tool
+                  access.
+                </div>
+                <div className="">
+                  <Select
+                    className="dark:text-white dark:bg-[#323b4e] dark:border-none "
+                    // defaultValue={state.name}
+
+                    onValueChange={(selectedValue) => {
+                      const selectedData = comData?.communities.find(
+                        (item) => item.id === selectedValue
+                      );
+                      if (selectedData) {
+                        setState({
+                          id: selectedData.id,
+                          dp: selectedData.dps,
+                          name: selectedData.name,
+                          members: selectedData.members
+                        });
+                      }
+                    }}
+
+                  >
+                    <SelectTrigger className="w-[150px] dark:text-white dark:bg-[#323b4e] dark:border-none ">
+                      <SelectValue
+                        placeholder={state.name}
+                        className="dark:text-white dark:bg-[#323b4e] dark:border-none "
+                      />
+                    </SelectTrigger>
+                    <SelectContent className="dark:text-white dark:bg-[#323b4e] dark:border-none ">
+                      <SelectGroup className="max-h-[200px] gap-1 w-full flex flex-col justify-center items-center">
+                        {comData?.communities?.map((d, i) => (
+                          <SelectItem
+                            value={
+                              `${d?.id}`
+                            }
+                            key={i}
+                            className=" "
+                          >
+
+                            <div className="flex justify-center gap-2 items-center w-full">
+                              {/* <div>
+                                <img
+                                  src={d?.dp}
+                                  className="max-w-[30px] rounded-lg min-h-[30px] min-w-[30px] max-h-[30px]"
+                                  alt="image"
+                                />
+                              </div> */}
+                              <div className="flex flex-col">
+                                <div className="text-xs">{d?.name?.length > 8 ? `${d?.name?.slice(0, 8)}...` : d?.name}</div>
+                              </div>
+                            </div>
+
+                          </SelectItem>
+                        ))}
+
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+
+                </div>
               </div>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 my-3 justify-center items-center">
-                <div className="flex flex-col gap-3 bg-white dark:bg-[#273142] dark:border-[#3d4654] dark:border shadow-sm py-4 px-3 rounded-xl sm:max-w-[450px]">
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 my-3 ">
+                {/* <div className="flex flex-col gap-3 bg-white dark:bg-[#273142] dark:border-[#3d4654] dark:border shadow-sm py-4 px-3 rounded-xl sm:max-w-[450px]">
                   <div className="flex gap-2 items-center">
                     <div>
                       <Image src={order} className="max-w-[80px]" alt="image" />
@@ -202,22 +316,22 @@ const page = () => {
                       </div>
                     </div>
                   </div>
-                  {/* <div className="flex text-sm flex-col gap-3">
+                  <div className="flex text-sm flex-col gap-3">
                     <div className="px-2 flex flex-col gap-1">
                       <div className="flex justify-between items-center">
-                        <div className=" text-[#615E83]">Members</div>
+                        <div className=" dark:text-white text-[#615E83]">Members</div>
                         <div>10</div>
                       </div>
                       <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
                         <div
-                          style={{ width: "70%" }}
+                          style={{ width: `${(state.members / 10) * 100}%` }}
                           className="absolute top-0 left-0 rounded-r-xl z-10 bg-[#5A6ACF] h-full "
                         ></div>
                       </div>
                     </div>
                     <div className="px-2 flex flex-col gap-1">
                       <div className="flex justify-between items-center">
-                        <div className=" text-[#615E83]">Engagament Rate</div>
+                        <div className=" dark:text-white text-[#615E83]">Engagament Rate</div>
                         <div className="">10 %</div>
                       </div>
                       <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
@@ -227,8 +341,11 @@ const page = () => {
                         ></div>
                       </div>
                     </div>
-                  </div> */}
-                </div>
+                  </div>
+                  {state.members >= 10 && <div className="flex justify-end items-center">
+                    <button className="bg-[#2D9AFF] text-white p-2 px-5 text-sm rounded-lg">Apply Now</button>
+                  </div>}
+                </div> */}
                 <div className="flex flex-col gap-3 bg-white dark:bg-[#273142] dark:border-[#3d4654] dark:border shadow-sm py-4 px-3 rounded-xl sm:max-w-[450px]">
                   <div className="flex gap-2 items-center">
                     <div>
@@ -243,22 +360,22 @@ const page = () => {
                       </div>
                     </div>
                   </div>
-                  {/* <div className="flex text-sm flex-col gap-3">
+                  <div className="flex text-sm flex-col gap-3">
                     <div className="px-2 flex flex-col gap-1">
                       <div className="flex justify-between items-center">
-                        <div className=" text-[#615E83]">Members</div>
+                        <div className=" dark:text-white text-[#615E83]">Members</div>
                         <div>100</div>
                       </div>
                       <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
                         <div
-                          style={{ width: "45%" }}
+                          style={{ width: `${(state.members / 100) * 100}%` }}
                           className="absolute top-0 left-0 rounded-r-xl z-10 bg-[#5A6ACF] h-full "
                         ></div>
                       </div>
                     </div>
                     <div className="px-2 flex flex-col gap-1">
                       <div className="flex justify-between items-center">
-                        <div className=" text-[#615E83]">Engagament Rate</div>
+                        <div className=" dark:text-white text-[#615E83]">Engagament Rate</div>
                         <div className="">10 %</div>
                       </div>
                       <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
@@ -268,7 +385,10 @@ const page = () => {
                         ></div>
                       </div>
                     </div>
-                  </div> */}
+                    {state.members >= 100 && <div className="flex justify-end items-center">
+                      <div className="text-green-400">Hurray! Now You Can Create Paid Topics.</div>
+                    </div>}
+                  </div>
                 </div>
                 <div className="flex flex-col gap-3 bg-white dark:bg-[#273142] dark:border-[#3d4654] dark:border shadow-sm py-4 px-3 rounded-xl sm:max-w-[450px]">
                   <div className="flex gap-2 items-center">
@@ -284,22 +404,22 @@ const page = () => {
                       </div>
                     </div>
                   </div>
-                  {/* <div className="flex text-sm flex-col gap-3">
+                  <div className="flex text-sm flex-col gap-3">
                     <div className="px-2 flex flex-col gap-1">
                       <div className="flex justify-between items-center">
-                        <div className=" text-[#615E83]">Members</div>
+                        <div className=" dark:text-white text-[#615E83]">Members</div>
                         <div>1000</div>
                       </div>
                       <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
                         <div
-                          style={{ width: "60%" }}
+                          style={{ width: `${(state.members / 1000) * 100}%` }}
                           className="absolute top-0 left-0 rounded-r-xl z-10 bg-[#5A6ACF] h-full "
                         ></div>
                       </div>
                     </div>
                     <div className="px-2 flex flex-col gap-1">
                       <div className="flex justify-between items-center">
-                        <div className=" text-[#615E83]">Engagament Rate</div>
+                        <div className=" dark:text-white text-[#615E83]">Engagament Rate</div>
                         <div className="">10 %</div>
                       </div>
                       <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
@@ -309,7 +429,10 @@ const page = () => {
                         ></div>
                       </div>
                     </div>
-                  </div> */}
+                    {state.members >= 1000 && <div className="flex justify-end items-center">
+                      <button onClick={() => sendRequestForMontenziation(id, state.id)} className="bg-[#2D9AFF] text-white p-2 px-5 text-sm rounded-lg">Apply for Monetization</button>
+                    </div>}
+                  </div>
                 </div>
               </div>
               <div></div>

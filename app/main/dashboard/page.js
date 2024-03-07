@@ -48,7 +48,6 @@ function Dashboard() {
 		age: ""
 	})
 
-	console.log(getorderdata, "order")
 	useEffect(() => {
 		if (
 			analyticsdata?.commerged[0]?.image &&
@@ -76,14 +75,13 @@ function Dashboard() {
 	if (isLoading || loading) {
 		return <Loader />;
 	}
-
-	console.log(state)
 	return (
 		<div>
 			{/* <Toaster /> */}
-			<div className="grid grid-cols-1 w-full">
+			<div className="grid grid-cols-1 w-full h-full">
 				<div className="grid sm:grid-cols-12 grid-cols-1 gap-3 h-full">
-					<div className="md:col-span-8 sm:col-span-7 flex flex-col w-full max-h-[85vh] ">
+					<div className="md:col-span-8 sm:col-span-7 flex flex-col h-full
+					 w-full md:max-h-[83vh] ">
 						<div className="flex pn:max-sm:mt-2 sm:sticky px-1 sm:top-0 text-sm mb-2 items-center gap-3">
 							<div
 								onClick={() => setChange("community")}
@@ -100,7 +98,7 @@ function Dashboard() {
 						</div>
 
 
-						<div className="overflow-y-scroll no-scrollbar max-h-full ">
+						<div className="overflow-y-scroll no-scrollbar">
 							{analyticsdata?.commerged?.length == 0 ? (
 								<div
 									className={`w-full ${change == "community" ? null : "hidden"
@@ -136,10 +134,10 @@ function Dashboard() {
 							{change == "store" && <Storedata sales={analyticsdata?.sales} getorderdata={getorderdata} />}
 						</div>
 					</div>
-					<div className="md:col-span-4 sm:col-span-5 max-h-[570px] sticky top-2 w-full sm:rounded-xl dark:bg-[#273142] dark:border-2 dark:border-[#323d4e] sm:bg-white p-[6px]">
-						<div className={`h-full ${change == "community" ? null : "hidden"}`}>
+					<div className="md:col-span-4 sm:col-span-5 h-full sm:mb-0 mb-[64px] sm:max-h-[570px] sticky top-2 w-full sm:rounded-xl dark:bg-[#273142] dark:border-2 dark:border-[#323d4e] sm:bg-white  p-[6px]">
+						<div className={`h-full flex flex-col  ${change == "community" ? null : "hidden"}`}>
 							<MemorizedPopularity state={state} />
-							<div className="flex text-sm justify-between light:bg-white py-2 rounded-xl my-2 flex-wrap flex-grow  items-center gap-2">
+							<div className="flex text-sm justify-between light:bg-white py-2 rounded-xl my-1 flex-wrap flex-grow  items-center gap-2">
 								<div
 									onClick={() => setComchange(1)}
 									className={`rounded-xl p-1  px-3 sm:px-5 cursor-pointer ${comchange == 1 ? "bg-white dark:bg-[#3276ea] font-semibold shadow-def" : "dark:bg-[#323d4e] dark:border-2 dark:border-[#323d4e] "}`}
@@ -160,7 +158,7 @@ function Dashboard() {
 									Location
 								</div>
 							</div>
-							<div className="sm:max-h-[250px] bg-white dark:bg-[#273142] pn:max-sm:mt-4 rounded-xl dark:text-white light:bg-white sm:overflow-y-scroll z-20 sm:no-scrollbar">
+							<div className=" h-full bg-white dark:bg-[#273142]  pn:max-sm:mt-4 rounded-xl dark:text-white light:bg-white sm:overflow-y-scroll z-20 sm:no-scrollbar">
 								<div className="rounded-xl dark:text-white w-full light:bg-white">
 									{/* <div className={`${comchange == 0 ? null : "hidden"}`}>
 							<DontHave />
@@ -180,7 +178,7 @@ function Dashboard() {
 							</div>
 
 						</div>
-						<div className={`dark:bg-[#273142] bg-white max-h-[90vh] ${change == "store" ? null : "hidden"}`}>
+						<div className={`dark:bg-[#273142] flex flex-col bg-white ${change == "store" ? null : "hidden"}`}>
 							<div className="grid grid-cols-2  w-full items-center gap-2">
 								<div className="flex flex-col light:bg-white p-3 rounded-xl gap-2 border dark:border-[#3d4654] light:border-[#f1f1f1] w-full">
 									<div>
@@ -243,7 +241,7 @@ function Dashboard() {
 									</div>
 								</div>
 							</div>
-							<div className="flex justify-between text-sm light:bg-white pn:max-sm:rounded-xl text-[12px] my-2 py-2 items-center gap-2">
+							<div className="flex justify-between text-sm light:bg-white pn:max-sm:rounded-xl text-[12px] my-1 py-2 items-center gap-2">
 								<div
 									onClick={() => setProchange(1)}
 									className={`rounded-xl p-1 px-3 cursor-pointer ${prochange == 1 ? "bg-white dark:bg-[#3276ea]  font-semibold shadow-def" : "dark:bg-[#323d4e] dark:border-2 dark:border-[#323d4e] "}`}

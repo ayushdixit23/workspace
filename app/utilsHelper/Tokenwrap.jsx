@@ -1,11 +1,12 @@
 "use client"
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import useTokenAndData from "./tokens";
 import { useDispatch } from "react-redux";
 import { changelaoding, sendData } from "../redux/slice/userData";
-import { getCookie } from 'cookies-next';
 import { ThemeProvider } from "@/components/theme-provider";
 import { redirect, usePathname } from "next/navigation";
+import Cookies from "js-cookie";
+import Loader from "../data/Loader";
 
 export const storeInSessionStorage = (sessionId) => {
   try {
@@ -61,22 +62,24 @@ const TokenDataWrapper = ({ children }) => {
   const sessionId = getItemSessionStorage()
   const dispatch = useDispatch();
   const path = usePathname()
-  const token = getCookie(`frhktn${sessionId}`)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     if (isValid) {
       dispatch(changelaoding({ loading: false }));
       dispatch(sendData(data))
+      setLoading(false)
     }
-
+    const token = localStorage.getItem(`frhktn${sessionId}`)
     if (!token && (path !== "/login" && path !== "/aybdhw")) {
       redirect("/login");
     }
-
     if (token && (path === "/login" || path === "/aybdhw")) {
       redirect("/main/dashboard");
     }
-  }, [isValid, data, dispatch]);
+    setLoading(false)
+
+  }, [isValid, data, sessionId, dispatch]);
   return <>
     <ThemeProvider
       attribute="class"
@@ -84,7 +87,9 @@ const TokenDataWrapper = ({ children }) => {
       enableSystem
       disableTransitionOnChange
     >
-      {children}
+      {/* <Loader /> */}
+      {loading ? <Loader /> : <>{children}</>}
+
     </ThemeProvider>
   </>;
 };

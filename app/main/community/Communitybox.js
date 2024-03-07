@@ -1,5 +1,5 @@
 "use client";
-import { setCookie } from "cookies-next";
+
 import React, { useState } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { encryptaes } from "@/app/utilsHelper/security";
@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { LoadThis } from "@/app/redux/slice/userData";
 import { formatNumber } from "@/app/utilsHelper/Useful";
+import Cookies from "js-cookie";
 
 function Communitybox({ data, id, index, handleDelete }) {
   const [open, setOpen] = useState(false);
@@ -19,18 +20,19 @@ function Communitybox({ data, id, index, handleDelete }) {
     title: data?.c?.title,
     category: data?.c?.category,
     desc: data?.c?.desc,
-    topics: ""
+    topics: "",
+    memberscount: data?.c?.memberscount
   }
 
   return (
     <>
       <div className={`${comDelete ? "fixed inset-0 w-screen z-50 bg-black/60 h-screen flex justify-center items-center backdrop-blur-md" : "hidden -z-50"}`}>
-        <div className="flex justify-center items-center w-[90%] pp:w-[65%] sm:max-w-[500px] lg:w-[30%] p-3 rounded-xl h-[250px] bg-white">
+        <div className="flex justify-center items-center w-[90%] pp:w-[65%] sm:max-w-[500px] dark:text-white lg:w-[30%] p-3 rounded-xl h-[250px] dark:bg-[#273142] bg-white">
           <div className="flex flex-col flex-grow gap-3 justify-center items-center w-full">
             <div className="text-2xl font-semibold">Are You Sure?</div>
-            <div className="text-center text-[#667085]">Do you really want to Delete this Community? This process cannot be undone.</div>
+            <div className="text-center dark:text-white text-[#667085]">Do you really want to Delete this Community? This process cannot be undone.</div>
             <div className="flex justify-center w-full gap-3 items-center">
-              <button onClick={() => { setComDelete(false), dispatch(LoadThis(false)) }} className="w-full border-2 p-2 px-5 rounded-xl">Cancel</button>
+              <button onClick={() => { setComDelete(false), dispatch(LoadThis(false)) }} className="w-full border-2 dark:border-white p-2 px-5 rounded-xl">Cancel</button>
               <button onClick={() => { handleDelete({ dat: data, id: data?.c?._id, index: index }), setComDelete(false), dispatch(LoadThis(false)) }} className="w-full bg-[#f44336] text-white p-2 px-5 rounded-xl">Delete</button>
             </div>
           </div>
@@ -79,8 +81,9 @@ function Communitybox({ data, id, index, handleDelete }) {
               <div className="flex flex-col justify-start items-start gap-3 p-3">
                 <Link href={"/main/community/editCommunity"} onClick={() => {
                   // setCookie("comedta", JSON.stringify(data))
-                  setCookie("comedta", tosetCookie)
-                  setCookie("cmdyd", encryptaes(data?.c?._id))
+                  Cookies.set("comedta", JSON.stringify(tosetCookie))
+                  Cookies.set("cmdyd", encryptaes(data?.c?._id))
+
                 }}>Edit</Link>
                 <button onClick={() => { setComDelete(true), setOpen(false), dispatch(LoadThis(true)) }}>Delete</button>
                 <Link href={`/main/post/${encryptaes(data?.c?._id)}`}>Posts</Link>
@@ -98,8 +101,8 @@ function Communitybox({ data, id, index, handleDelete }) {
                 <div className="flex flex-col justify-start items-start gap-3 p-3">
                   <Link href={"/main/community/editCommunity"} onClick={() => {
                     // setCookie("comedta", JSON.stringify(data))
-                    setCookie("comedta", tosetCookie)
-                    setCookie("cmdyd", encryptaes(data?.c?._id))
+                    Cookies.set("comedta", JSON.stringify(tosetCookie))
+                    Cookies.set("cmdyd", encryptaes(data?.c?._id))
                   }}>Edit</Link>
                   <button onClick={() => { setComDelete(true); setOpen(false) }}>Delete</button>
                   <Link href={`/main/post/${encryptaes(data?.c?._id)}`}>Posts</Link>

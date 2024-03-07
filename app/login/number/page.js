@@ -18,8 +18,7 @@ import { useLoginWithQrMutation } from "@/app/redux/apiroutes/userLoginAndSettin
 import useTokenAndData from "@/app/utilsHelper/tokens";
 import toast, { Toaster } from "react-hot-toast";
 import { storeInSessionStorage } from "@/app/utilsHelper/Tokenwrap";
-import { setCookie } from 'cookies-next';
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
 
 function page() {
   const [otp, setOtp] = useState("")
@@ -76,18 +75,31 @@ function page() {
     setSeconds(30);
   };
 
+  // const waitkrnevalafunc = async (data) => {
+  //   try {
+  //     storeInSessionStorage(data.sessionId)
+  //     setCookie(`excktn${data.sessionId}`, data.access_token)
+  //     setCookie(`frhktn${data.sessionId}`, data.refresh_token)
+  //     // toast.success("success");
+  //     return true;
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
   const waitkrnevalafunc = async (data) => {
     try {
-
-      storeInSessionStorage(data.sessionId)
-      setCookie(`excktn${data.sessionId}`, data.access_token)
-      setCookie(`frhktn${data.sessionId}`, data.refresh_token)
-      Cookies.set(`excktn${data.sessionId}`, data.access_token)
-      Cookies.set(`frhktn${data.sessionId}`, data.refresh_token)
-      toast.success("success");
+      if (localStorage.length > 20) {
+        localStorage.clear()
+      }
+      storeInSessionStorage(data.sessionId);
+      // Cookies.set(`excktn${data.sessionId}`, data.access_token)
+      // Cookies.set(`frhktn${data.sessionId}`, data.refresh_token)
+      localStorage.setItem(`excktn${data.sessionId}`, data.access_token)
+      localStorage.setItem(`frhktn${data.sessionId}`, data.refresh_token)
       return true;
     } catch (e) {
-      console.log(e);
+      console.error("Error during login:", e);
+      return false;
     }
   };
 
@@ -102,12 +114,14 @@ function page() {
       if (result.data?.success) {
         const a = await waitkrnevalafunc(result.data);
         if (a === true) {
+          toast.success("Login successful");
           dispatch(
             changelaoding({
               loading: true,
               path: `/main/dashboard`,
             })
           );
+          router.push("/main/dashboard")
           setLoading(false);
         }
         setLoading(false);
@@ -152,7 +166,7 @@ function page() {
         window.confirmationResult = confirmationResult;
         setLoading(false);
         setShowOTP(true);
-        toast.success("Successfully!");
+        toast.success("Otp Sent Successfully!");
       })
       .catch((error) => {
         console.log(error);
@@ -187,7 +201,11 @@ function page() {
       })
       console.log(res.data)
       if (res.data.success) {
-        await waitkrnevalafunc(res.data);
+        const a = await waitkrnevalafunc(res.data);
+        if (a === true) {
+          toast.success("Login successful");
+          router.push("/main/dashboard")
+        }
         dispatch(
           changelaoding({
             loading: true,
@@ -463,19 +481,26 @@ function page() {
               } `}
           >
             <div className="text-sm pb-3 px-1 dark:text-white font-semibold text-[#424856]">Enter Your Phone Number</div>
-            <div className="bg-[#f7f7f7] flex items-center dark:border-[#8f9bba] overflow-hidden dark:bg-[#323d4e] border w-[300px] justify-center rounded-2xl">
+            {/* <div className="bg-[#f7f7f7] flex items-center dark:border-[#8f9bba] overflow-hidden dark:bg-[#323d4e] border w-[300px] justify-center rounded-2xl">
               <div className="border-r-2 dark:border-[#8f9bba] sm:-ml-3 p-1 sm:pr-2 "> +91</div>
               <input value={number}
                 id="send-otp"
                 onChange={(e) => setNumber(e.target.value)} type="tel"
                 className=" p-2 outline-none rounded-xl dark:bg-[#323d4e] bg-[#f7f7f7]" />
 
+            </div> */}
+            <div className="flex justify-center dark:bg-[#323d4e] rounded-xl  bg-[#f7f7f7] items-center">
+              <div className="p-2 border-r-2 pl-2 pr-2  dark:border-[#5a6277] ">+91</div>
+              <input value={number}
+                id="send-otp"
+                onChange={(e) => setNumber(e.target.value)} type="tel"
+                className=" p-2 outline-none rounded-xl dark:bg-[#323d4e] bg-[#f7f7f7]" />
             </div>
           </div>
           <div className={`${change === 1 ? "py-5 " : "hidden"} `}>
             <div
-              onClick={onSignup}
-              // onClick={fetchid}
+              // onClick={onSignup}
+              onClick={fetchid}
               className="h-[50px] w-[300px] select-none cursor-pointer bg-black flex items-center justify-center rounded-2xl text-white "
             >
               {loading && <CgSpinner size={20} className="m-1 animate-spin" />}

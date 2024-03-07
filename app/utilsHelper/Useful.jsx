@@ -15,15 +15,6 @@ export const formatISOStringToDMY = (dateString) => {
   return formattedDate;
 };
 
-export const fetchData = async () => {
-  axios
-    .post(`${API}/getprositefull`, { username: "@testaryansh" })
-    .then((res) => {
-      setNewData([res.data.prosite]);
-    })
-    .catch((E) => console.log(E));
-};
-
 export const checkToken = async (token) => {
   try {
     const decodedToken = jwt.decode(token, { complete: true });
@@ -57,11 +48,6 @@ export const getData = () => {
 export const getLoading = () => {
   const isLoading = useSelector((state) => state.userData.isLoading);
   return isLoading
-}
-
-export const getCookie = (req) => {
-  const getCookies = req.cookies.get("sessionId")
-  return getCookies
 }
 
 export const formatNumber = (number) => {

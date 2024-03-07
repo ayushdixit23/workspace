@@ -20,7 +20,6 @@ const Storedata = ({ getorderdata, sales }) => {
       Dates: formatISOStringToDMY(d.Dates)
     }
   })
-  console.log(getorderdata, "fromorder")
 
   return (
     <div className={`flex flex-col gap-4`}>
@@ -39,7 +38,7 @@ const Storedata = ({ getorderdata, sales }) => {
           </div>
         </div> */}
         <div className="w-full relative -left-10 pp:-left-8 sm:-left-6 top-2">
-          {salesData && salesData.length > 0 ? <ChartsStore data={salesData} /> : <div className="h-[200px] w-full flex text-2xl font-semibold justify-center items-center">No Data To Show</div>}
+          {salesData && salesData.length > 0 ? <ChartsStore data={salesData} /> : <div className="h-[200px] w-full flex text-2xl text-center font-semibold justify-center items-center">No Data To Show</div>}
         </div>
       </div>
 

@@ -8,7 +8,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FaCamera, FaChevronDown, FaPlus } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
-import { getCookie, deleteCookie } from "cookies-next"
 import { decryptaes } from "@/app/utilsHelper/security";
 import { Toaster, toast } from "react-hot-toast";
 import {
@@ -20,19 +19,18 @@ import {
 } from "@/app/redux/apiroutes/community";
 import { getData } from "@/app/utilsHelper/Useful";
 import Image from "next/image";
+import Cookies from "js-cookie";
 
 function page() {
-  const s = getCookie("comedta");
-  console.log(s)
+  const s = Cookies.get("comedta")
   let data
   try {
     data = JSON.parse(s);
-    console.log(data);
   } catch (error) {
     console.error('Error parsing JSON:', error);
   }
   const { id } = getData()
-  const comidCookie = getCookie("cmdyd");
+  const comidCookie = Cookies.get("cmdyd")
   const comid = comidCookie ? decryptaes(comidCookie) : null;
 
   const [editCommunity, setEditCommunity] = useState({
@@ -40,6 +38,7 @@ function page() {
     desc: "",
     selectedCategory: ""
   })
+  const [membercount, setMembercount] = useState("")
   const [topics, setTopics] = useState({
     isOpen: false,
     topicTitle: "",
@@ -70,6 +69,7 @@ function page() {
   useEffect(() => {
     setEditCommunity({ ...editCommunity, title: data?.title || "", desc: data?.desc || "", selectedCategory: data?.category || "" })
     setSelectImage(data?.dps)
+    setMembercount(data?.memberscount)
   }, [])
 
   useEffect(() => {
@@ -109,10 +109,10 @@ function page() {
           message: topics.message,
           type: topics.type,
           price: topics.price,
-          comid: comid,
         };
         const res = await createTopicByMutation({
           id,
+          comid,
           data,
         });
         console.log(res.data.topic);
@@ -147,7 +147,6 @@ function page() {
         data: formDataToSend,
       });
 
-      console.log(res.data);
       if (res.data.success) {
         toast.success("Changes Saved!");
         router.refresh()
@@ -174,8 +173,9 @@ function page() {
   }, []);
 
   const clearCookies = () => {
-    deleteCookie("comedta");
-    deleteCookie("cmdyd");
+    Cookies.remove("comedta")
+    Cookies.remove("cmdyd")
+
   };
 
   const deleteTopic = async (tId) => {
@@ -394,7 +394,7 @@ function page() {
 
       </div> */}
 
-      {/* <div className={`${topics.isOpen ? "fixed inset-0 w-screen z-50 bg-[#cccccc33] h-screen flex justify-center items-center" : "hidden -z-50"}`}>
+      <div className={`${topics.isOpen ? "fixed inset-0 w-screen z-50 bg-[#cccccc33] h-screen flex justify-center items-center" : "hidden -z-50"}`}>
         <div className="flex justify-center shadow-md items-center w-[90%] pp:w-[65%] sm:max-w-[500px] lg:w-[30%] p-3 rounded-xl dark:bg-[#273142] bg-white">
           <div className="w-full flex flex-col gap-2">
             <div className="text-xl text-center mt-2 font-semibold">Create Topics</div>
@@ -428,13 +428,13 @@ function page() {
                     onChange={(e) => setTopics({ ...topics, price: e.target.value })} type="number" className=" bg-transparent outline-none w-full" placeholder="Price" />
                   <div className="flex p-1.5 px-3 relative group text-sm rounded-xl dark:bg-[#273142] bg-white gap-2 justify-center items-center">
                     <div>Monthly</div>
-                    <div><FaChevronDown /></div>
-                    <div className="absolute top-8 hidden left-0 shadow-md group-hover:block rounded-xl cursor-pointer dark:bg-[#273142] bg-white w-full">
+                    {/* <div><FaChevronDown /></div> */}
+                    {/* <div className="absolute top-8 hidden left-0 shadow-md group-hover:block rounded-xl cursor-pointer dark:bg-[#273142] bg-white w-full">
                       <div className="flex flex-col justify-center items-center">
                         <div className="p-2 px-3 font-medium">Monthly</div>
                         <div className="p-2 px-3 font-medium">Yearly</div>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>}
@@ -450,7 +450,7 @@ function page() {
             </div>
           </div>
         </div>
-      </div> */}
+      </div>
 
       {/* 
       <div className="overflow-auto overflow-x-hidden no-scrollbar h-full ">
@@ -748,7 +748,7 @@ function page() {
                       <div className="p-2 border-2 border-[#f1f1f1] dark:border-[#3d4654] rounded-xl">
                         Posts
                       </div>
-                      {/* {topicdata
+                      {topicdata
                         ?.filter(
                           (f) =>
                             f?.title.toLowerCase() != "posts" &&
@@ -785,17 +785,19 @@ function page() {
                               </div>
                             </div>
                           </div>
-                        ))} */}
+                        ))}
                     </div>
                   </div>
-                  {/* <div className="my-6">
-                    <button className="flex justify-center gap-2 items-center bg-[#E8F1FF] text-[#5570F1] p-2 px-5 rounded-xl">
-                      <div>
-                        <FaPlus />
-                      </div>
-                      <div onClick={() => setTopics({ ...topics, isOpen: true })}>Add Topic</div>
-                    </button>
-                  </div> */}
+                  {membercount
+                    //  >= 150 
+                    && <div className="my-6">
+                      <button onClick={() => setTopics({ ...topics, isOpen: true })} className="flex justify-center gap-2 items-center bg-[#E8F1FF] text-[#5570F1] p-2 px-5 rounded-xl">
+                        <div>
+                          <FaPlus />
+                        </div>
+                        <div >Add Topic</div>
+                      </button>
+                    </div>}
                 </div>
               </div>
             </div>

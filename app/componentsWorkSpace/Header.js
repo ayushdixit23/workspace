@@ -21,9 +21,12 @@ function Header() {
     setPic(dp)
   }, [fullname])
 
+
   return (
 
     <>
+
+
       <div className={`flex dark:bg-[#273142] items-center py-3 sm:rounded-3xl bg-white justify-between px-6 ${pathname == "/main/community" ? "sm:mx-4" : ""} w-full vs:max-sm:px-4`}>
         <div className="sm:hidden">
           <MemoizedWorkspaceIcon />

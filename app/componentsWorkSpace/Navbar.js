@@ -10,7 +10,6 @@ import Logo from "../assets/icons/Logo";
 import EarningLight from "../assets/icons/MonetizationLight";
 import { MdOutlineLogout } from "react-icons/md";
 import { getItemSessionStorage } from "../utilsHelper/Tokenwrap";
-import { deleteCookie } from "cookies-next";
 import CustomizationDark from "../assets/icons/CustomizationDark";
 import CommunityDark from "../assets/icons/CommunityDark";
 import DashboardDark from "../assets/icons/DashboardDark";
@@ -18,6 +17,10 @@ import EarningDark from "../assets/icons/MonetizationDark";
 import SettingsDark from "../assets/icons/SettingsDark";
 import StoreDark from "../assets/icons/StoreDark";
 import { useTheme } from "next-themes";
+// import Cookies from "js-cookie";
+import { FaCrown } from "react-icons/fa";
+import MembershipPopup from "./MembershipPopup";
+import { useDispatch } from "react-redux";
 
 function NavBar() {
   const MemoizedDashIconLight = useMemo(() => DashboardLight, [])
@@ -33,6 +36,9 @@ function NavBar() {
   const MemoizedSettingsDark = useMemo(() => SettingsDark, [])
   const MemoizedCustomizationDark = useMemo(() => CustomizationDark, [])
   const MemoizedLogo = useMemo(() => Logo, [])
+  // const [pop, setPop] = useState(true)
+  const dispatch = useDispatch()
+  const [pop, setPop] = useState(false)
   const sessionId = getItemSessionStorage()
   const [open, setOpen] = useState(false)
   const router = useRouter()
@@ -92,9 +98,11 @@ function NavBar() {
 
   const logout = () => {
     try {
-      deleteCookie(`excktn${sessionId}`)
-      deleteCookie(`sessionId_${sessionId}`)
-      deleteCookie(`frhktn${sessionId}`)
+      // Cookies.remove(`excktn${sessionId}`)
+      // Cookies.remove(`frhktn${sessionId}`)
+
+      localStorage.removeItem(`excktn${sessionId}`)
+      localStorage.removeItem(`frhktn${sessionId}`)
       setOpen(false)
       router.push("/login")
     } catch (error) {
@@ -120,6 +128,12 @@ function NavBar() {
   return (
     <div>
       {/*sidebar*/}
+
+      {pop &&
+        <div className="fixed inset-0 flex justify-center items-center bg-black/60 backdrop-blur-md z-50 w-screen min-h-screen">
+          <MembershipPopup setPop={setPop} />
+        </div>
+      }
 
       <div className={`${open ? "fixed inset-0 w-screen z-50 bg-black/60 h-screen flex justify-center items-center backdrop-blur-md" : "hidden -z-50"}`}>
         <div className="flex justify-center items-center w-[90%] pp:w-[65%] sm:max-w-[500px] lg:w-[30%] p-3 rounded-xl h-[230px] dark:bg-[#273142] bg-white">
@@ -260,6 +274,10 @@ function NavBar() {
               <span className=" sm:max-md:hidden sm:max-md:text-sm font-medium">Earnings</span>
             </Link >
 
+            {/* <Link onClick={() => ChangeColor("settings")} className={`flex ${open ? "-z-30" : null} ${location == "settings" ? "dark:bg-[#4880ff] dark:text-white bg-[#4880ff] text-white" : "hover:bg-gray-100 dark:hover:bg-gray-800"} items-center px-4 py-2 gap-2 mt-5 rounded-md dark:text-gray-400 `} href="/main/settings" >
+              <FaCrown />
+              <span className=" sm:max-md:hidden sm:max-md:text-sm font-medium">Premium</span>
+            </Link > */}
             <Link onClick={() => ChangeColor("settings")} className={`flex ${open ? "-z-30" : null} ${location == "settings" ? "dark:bg-[#4880ff] dark:text-white bg-[#4880ff] text-white" : "hover:bg-gray-100 dark:hover:bg-gray-800"} items-center px-4 py-2 gap-2 mt-5 rounded-md dark:text-gray-400 `} href="/main/settings" >
 
               {
@@ -281,6 +299,27 @@ function NavBar() {
               }
               <span className=" sm:max-md:hidden sm:max-md:text-sm font-medium">Settings</span>
             </Link >
+            {/* <div className={`flex dark:text-gray-400 text-lg font-semibold dark:hover:text-white text-center text-white  items-center px-4 py-2 gap-2 mt-5 rounded-md  `}>
+              Premium
+            </div> */}
+            <div class="relative left-4 mt-5 inline-flex group">
+              <div className="absolute transition-all duration-500 opacity-50 -inset-1 bg-gradient-to-r from-[#44BCFF] rounded-xl blur-sm group-hover:opacity-100 group-hover:-inset-1 group-hover:duration-200 animate-tilt">
+              </div>
+              <button onClick={() => setPop(true)} href="#" title="Get quote now" className="relative inline-flex items-center gap-3 text-sm justify-center px-4 py-3 font-bold text-white transition-all duration-200 bg-gray-900 font-pj rounded-xl focus:outline-none" role="button">
+                <FaCrown />
+                Premium
+              </button>
+
+              {/* <div
+                className="absolute transitiona-all duration-500 opacity-70 -inset-px bg-gradient-to-r from-[#44BCFF] rounded-xl blur-sm group-hover:opacity-100 group-hover:-inset-1 group-hover:duration-200 animate-tilt">
+              </div>
+              <a href="#" title="Get quote now"
+                className="relative inline-flex items-center gap-3 text-sm justify-center px-4 py-3 font-bold text-white transition-all duration-200 bg-gray-900 font-pj rounded-xl focus:outline-none "
+                role="button">
+                <FaCrown />
+                Premium
+              </a> */}
+            </div>
           </nav >
 
           <button onClick={() => setOpen(true)} className="flex items-center px-4">
@@ -292,7 +331,7 @@ function NavBar() {
       </aside >
 
       {/*Tabbar*/}
-      < div className="h-14 sm:hidden bottom-0 dark:text-white border-t-2 dark:border-[#3d4654] dark:bg-[#1b2431] z-50 border-[#f5f5f5] bg-white fixed w-[100%] " >
+      < div className="h-14 sm:hidden bottom-0 dark:text-white border-t-2 dark:border-[#3d4654] dark:bg-[#1b2431] pn:max-sm:z-40 z-20 border-[#f5f5f5] bg-white fixed w-[100%] " >
         <nav className="z-20">
           <ul className="flex justify-between px-4">
             {navItems.map((item, index) => (

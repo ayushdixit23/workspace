@@ -243,7 +243,7 @@ function page() {
   if (loading) {
     return (
       <>
-        <div className="fixed inset-0 w-screen z-50 bg-black/60 h-screen flex justify-center items-center backdrop-blur-md">
+        <div className="fixed inset-0 w-screen z-50 bg-black/60 backdrop-blur-md h-screen flex justify-center items-center ">
           <div className="animate-spin">
             <AiOutlineLoading3Quarters className="text-2xl text-white" />
           </div>

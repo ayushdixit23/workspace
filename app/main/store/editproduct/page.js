@@ -2,7 +2,6 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { deleteCookie, getCookie } from "cookies-next"
 import { decryptaes } from "@/app/utilsHelper/security";
 import {
   useGetSingleProductQuery,
@@ -13,6 +12,7 @@ import { AiOutlineLoading3Quarters, AiOutlinePlus } from "react-icons/ai";
 import { RxCross2 } from "react-icons/rx";
 import toast, { Toaster } from "react-hot-toast";
 import { IoChevronDownSharp, IoChevronUpSharp } from "react-icons/io5";
+import Cookies from "js-cookie";
 
 function page() {
   const router = useRouter();
@@ -39,9 +39,9 @@ function page() {
   const [loading, setLoading] = useState(false)
   const [type, setType] = useState("");
   const { id } = getData()
-  const a = getCookie("pivc");
+  const a = Cookies.get("pivc")
   const pid = a ? decryptaes(a) : null;
-  const b = getCookie("clvss");
+  const b = Cookies.get("clvss")
   const cid = b ? decryptaes(b) : null;
   const {
     data: getProduct,
@@ -80,6 +80,14 @@ function page() {
   };
 
   const handleSubmit = async (e) => {
+    if (product.price < product.discountedprice) {
+      toast.error("Discounted Price Should Be Less Than Selling Price")
+      return
+    }
+    if (!product.desc || !product.name || !product.price || !product.discountedprice || selectedImage.length === 0) {
+      toast.error("Please fill in all the required product details.")
+      return
+    }
     setLoading(true)
     e.preventDefault();
     try {
@@ -120,10 +128,10 @@ function page() {
   const handleImageRemove = (indexToRemove) => {
     setSelectedImage(prevImages => prevImages.filter((_, i) => i !== indexToRemove));
   };
-  
+
   const clearCookies = () => {
-    deleteCookie("pivc")
-    deleteCookie("clvss");
+    Cookies.remove("pivc")
+    Cookies.remove("clvss")
   };
 
   useEffect(() => {

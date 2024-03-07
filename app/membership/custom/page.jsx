@@ -16,6 +16,8 @@ import analytics from "../../assets/image/analytics.png"
 import { getData } from '@/app/utilsHelper/Useful'
 import axios from 'axios'
 import useRazorpay from 'react-razorpay'
+import Cookies from 'js-cookie'
+import { getItemSessionStorage } from '@/app/utilsHelper/Tokenwrap'
 
 const page = () => {
 	const [bill, setBill] = useState([])
@@ -24,6 +26,7 @@ const page = () => {
 	const [finalAmount, setFinalAmount] = useState(0)
 	const { id, fullname } = getData()
 	const [Razorpay] = useRazorpay()
+	const sessionId = getItemSessionStorage()
 	const addtoBill = (item, price, image) => {
 		try {
 			const existingItemIndex = bill.findIndex(billItem => billItem.item === item);
@@ -91,6 +94,16 @@ const page = () => {
 						}
 						const resp = await axios.post(`http://localhost:7190/api/v1/customMembership/${id}/${res.data?.order}`, data)
 						console.log(resp.data)
+						if (resp.data.success) {
+							// Cookies.remove(`excktn${sessionId}`)
+							// Cookies.remove(`frhktn${sessionId}`)
+							// Cookies.set(`excktn${data.sessionId}`, data.access_token)
+							// Cookies.set(`frhktn${data.sessionId}`, data.refresh_token)
+							localStorage.removeItem(`excktn${sessionId}`)
+							localStorage.removeItem(`frhktn${sessionId}`)
+							localStorage.setItem(`excktn${data.sessionId}`, data.access_token)
+							localStorage.setItem(`frhktn${data.sessionId}`, data.refresh_token)
+						}
 					},
 					prefill: {
 						email: res?.data?.email || '',

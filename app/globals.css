@@ -99,3 +99,14 @@
 .opt-container input {
   @apply !mr-0 m-3 rounded-[12px] h-14 py-4 px-2 dark:border-[#3d4654] outline-none border;
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}

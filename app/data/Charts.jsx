@@ -3,7 +3,6 @@ import React from 'react';
 import {
 	Bar,
 	BarChart,
-	Legend,
 	ResponsiveContainer,
 	Tooltip,
 	XAxis,
@@ -12,6 +11,7 @@ import {
 
 
 const Charts = ({ data }) => {
+	const reversedData = data.reverse()
 	const calculateYAxisDomain = (data) => {
 		const allValues = data.reduce((acc, entry) => {
 			const membersValue = parseFloat(entry.members);
@@ -38,9 +38,9 @@ const Charts = ({ data }) => {
 	return (
 		<div>
 			<ResponsiveContainer width="100%" height={300}>
-				<BarChart className='w-full relative -left-9 sm:-left-7 top-3' width={730} height={250} data={data}>
+				<BarChart className='w-full relative -left-9 sm:-left-7 top-3' width={730} height={250} data={reversedData}>
 					<XAxis dataKey="X" className='text-xs' />
-					<YAxis domain={calculateYAxisDomain(data)} allowDecimals={false} fill="#000000" className='text-xs' />
+					<YAxis domain={calculateYAxisDomain(reversedData)} allowDecimals={false} fill="#000000" className='text-xs' />
 					<Tooltip cursor={{ fill: '#171717' }} />
 					<Bar dataKey="members" fill="#1814fc" />
 					<Bar dataKey="visitors" fill="#a855f7" />

@@ -37,17 +37,17 @@ const Postdata = ({ analyticsdata, state }) => {
                   <div className="flex justify-between mt-3 px-3 w-full items-center">
                     <div className="flex justify-center items-center gap-2">
                       <div>
-                        {d?.post.length > 0 && d?.post[0].type.startsWith("image") && <img
+
+                        {d?.video ? <video
                           src={d?.dps}
-                          className="h-12 w-12 cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
+                          className=" object-cover h-[50px] w-[50px] cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
+                          alt="video"
+                        /> : <img
+                          src={d?.dps}
+                          className="h-12 w-12 object-cover cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
                           alt="image"
                         />}
-
-                        {d?.post.length > 0 && d?.post[0].type.startsWith("video") && <video
-                          src={d?.dps}
-                          className=" object-cover max-h-[50px] min-w-[50px] cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
-                          alt="video"
-                        />}
+                        {console.log(d?.video, d?.dps)}
                       </div>
                       <div className="text-sm font-bold dark:text-white text-[#101828]">{d?.title.length <= 15 ? d?.title : `${d?.title.slice(0, 15)}...`}</div>
                     </div>
@@ -268,16 +268,14 @@ const Postdata = ({ analyticsdata, state }) => {
                         <div className="flex gap-2 p-1 items-center">
                           <div>
 
-                            {d?.post.length > 0 && d?.post[0].type.startsWith("image") && <img
+                            {d?.video ? <video
                               src={d?.dps}
-                              className="h-12 w-12 cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
-                              alt="image"
-                            />}
-
-                            {d?.post.length > 0 && d?.post[0].type.startsWith("video") && <video
-                              src={d?.dps}
-                              className="object-cover max-h-[50px] min-w-[50px] w-[50px] h-[50px] cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
+                              className=" object-cover h-[50px] w-[50px] cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
                               alt="video"
+                            /> : <img
+                              src={d?.dps}
+                              className="h-12 w-12 object-cover cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
+                              alt="image"
                             />}
                           </div>
 

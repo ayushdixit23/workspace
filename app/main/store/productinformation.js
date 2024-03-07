@@ -4,7 +4,7 @@ import Link from "next/link";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { formatISOStringToDMY } from "../../utilsHelper/Useful"
 import { encryptaes } from "@/app/utilsHelper/security";
-import { setCookie } from "cookies-next";
+import Cookies from "js-cookie";
 
 function productinformation({ handleDelete, data, userid, collectionid, index }) {
   const [open, setOpen] = useState()
@@ -14,7 +14,7 @@ function productinformation({ handleDelete, data, userid, collectionid, index })
         <div className="flex justify-center items-center w-[90%] pp:w-[65%] sm:max-w-[500px] lg:w-[30%] p-3 rounded-xl h-[250px] bg-white dark:bg-[#273142]">
           <div className="flex flex-col flex-grow gap-3 justify-center items-center w-full">
             <div className="text-2xl font-semibold">Are You Sure?</div>
-            <div className="text-center text-[#667085]">
+            <div className="text-center dark:text-white text-[#667085]">
               Do you really want to Delete this Product? This process cannot
               be undone.
             </div>
@@ -126,9 +126,9 @@ function productinformation({ handleDelete, data, userid, collectionid, index })
             className="flex gap-2 items-center justify-end  md:w-36"
           >
             <Link href={"/main/store/editproduct"} className="cursor-pointer" onClick={() => {
+              Cookies.set("pivc", encryptaes(data?._id))
+              Cookies.set("clvss", encryptaes(collectionid))
 
-              setCookie("pivc", encryptaes(data?._id));
-              setCookie("clvss", encryptaes(collectionid));
             }} title="Edit">
               <MdEdit size={20} />
             </Link>
