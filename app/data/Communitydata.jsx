@@ -15,7 +15,8 @@ const Communitydata = ({ state, analyticsdata, setState }) => {
   const communityData = state.stats && state?.stats?.map((d) => ({
     members: Number(d.Y1),
     X: d.X,
-    visitors: Number(d.Y2)
+    visitors: Number(d.Y2),
+    unjoined: Number(d.Y3)
   }))
 
   return (

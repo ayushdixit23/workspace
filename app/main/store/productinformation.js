@@ -117,7 +117,8 @@ function productinformation({ handleDelete, data, userid, collectionid, index })
         </div> */}
           <div className="vs:max-sm:hidden sm:max-md:w-24  sm:max-md:justify-start w-36 flex justify-center ">
             <div className="space-y-4">
-              <div className="vs:max-sm:hidden">{formatISOStringToDMY(data?.createdAt)}</div>
+              <div className="vs:max-sm:hidden">{data?.isverified}</div>
+              {/* <div className="vs:max-sm:hidden">{formatISOStringToDMY(data?.createdAt)}</div> */}
             </div>
           </div>
 

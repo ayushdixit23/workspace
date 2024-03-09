@@ -364,11 +364,11 @@ const page = () => {
                     <div className="px-2 flex flex-col gap-1">
                       <div className="flex justify-between items-center">
                         <div className=" dark:text-white text-[#615E83]">Members</div>
-                        <div>100</div>
+                        <div>{state.members}/150</div>
                       </div>
                       <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
                         <div
-                          style={{ width: `${(state.members / 100) * 100}%` }}
+                          style={{ width: `${(state.members / 150) * 100}%` }}
                           className="absolute top-0 left-0 rounded-r-xl z-10 bg-[#5A6ACF] h-full "
                         ></div>
                       </div>
@@ -385,7 +385,7 @@ const page = () => {
                         ></div>
                       </div>
                     </div>
-                    {state.members >= 100 && <div className="flex justify-end items-center">
+                    {state.members >= 150 && <div className="flex justify-end items-center">
                       <div className="text-green-400">Hurray! Now You Can Create Paid Topics.</div>
                     </div>}
                   </div>
@@ -408,7 +408,7 @@ const page = () => {
                     <div className="px-2 flex flex-col gap-1">
                       <div className="flex justify-between items-center">
                         <div className=" dark:text-white text-[#615E83]">Members</div>
-                        <div>1000</div>
+                        <div>{state.members}/1000</div>
                       </div>
                       <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
                         <div

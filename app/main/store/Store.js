@@ -355,7 +355,7 @@ export default function Store() {
 														Status
 													</div>
 													<div className="w-36 sm:max-md:w-24 flex justify-center font-medium ">
-														Added
+														Verification
 													</div>
 													<div className="w-36 sm:max-md:w-24 flex justify-center font-medium ">
 														Actions

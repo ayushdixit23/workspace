@@ -1,5 +1,5 @@
 "use client"
-import { useGetAllPostQuery } from '@/app/redux/apiroutes/community'
+import { useDeleteCommunityMutation, useDeletePostsMutation, useGetAllPostQuery } from '@/app/redux/apiroutes/community'
 import { formatISOStringToDMY, formatNumber, getData } from '@/app/utilsHelper/Useful'
 import { decryptaes } from '@/app/utilsHelper/security'
 import { usePathname } from 'next/navigation'
@@ -9,37 +9,62 @@ import { BiUpArrowAlt } from 'react-icons/bi'
 import CreatePost from '../../community/CreatePost'
 import Loader from '@/app/data/Loader'
 import NoPost from '@/app/componentsWorkSpace/NoPost'
-import {
-	Table,
-	TableBody,
-	TableCell,
-	TableHead,
-	TableHeader,
-	TableRow,
-} from "@/components/ui/table"
+import { useDispatch } from 'react-redux'
+import PostsWeb from '@/app/componentsWorkSpace/PostsWeb'
+import toast from 'react-hot-toast'
+import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 
 const page = () => {
 	const path = usePathname()
 	const decomid = path.split("/").pop()
 	const { id } = getData()
 	const comid = decryptaes(decomid)
-
+	const [loading, setLoading] = useState(false)
+	const [postid, setPostid] = useState(null)
+	const dispatch = useDispatch()
 	// const { data, refetch, isLoading } = useFetchPostsQuery({ id, comid }, { skip: !id || !comid })
 	const { data, refetch, isLoading } = useGetAllPostQuery({ comid }, { skip: !comid })
+	const [deletePost] = useDeletePostsMutation()
 
-	// const mergedData = data?.posts?.map((d, i) => ({
-	// 	post: d,
-	// 	dps: data.content[i],
-	// 	engrate: data.eng[i]
-	// }))
+	const postDeletion = async () => {
+		try {
+			setLoading(true)
+			const res = await deletePost({
+				id, comid, postid
+			})
+			console.log(res.data)
+			if (res.data.success) {
+				setLoading(false)
+				toast.success("Post Deleted!")
+				await refetch()
+			}
+		} catch (error) {
+			console.log(error)
+		} finally {
+			setLoading(false)
+		}
+	}
+
 	const mergedData = data?.posts?.map((d, i) => ({
 		post: d.post,
 		dps: d.postdp,
 		engrate: d.engrate,
 		video: d?.video
 	}))
-	console.log(mergedData)
 	const [open, setOpen] = useState(false)
+
+
+	if (loading) {
+		return (
+			<>
+				<div className="fixed inset-0 w-screen z-50 bg-black/60 backdrop-blur-md h-screen flex justify-center items-center ">
+					<div className="animate-spin">
+						<AiOutlineLoading3Quarters className="text-2xl text-white" />
+					</div>
+				</div>
+			</>
+		);
+	}
 
 	if (isLoading) {
 		return <Loader />
@@ -47,11 +72,13 @@ const page = () => {
 
 	return (
 		<>
+
+
 			{
 				open && <CreatePost id={id} comid={comid} open={open} setOpen={setOpen} refetch={refetch} />
 			}
 
-			<div className={`${open ? "pn:max-sm:hidden" : null}`}>
+			<div className={`${open ? "pn:max-sm:hidden h-full min-h-[60vh]" : null}`}>
 				<div className="flex px-4 py-2 justify-between dark:text-white items-center">
 					<div className=" p-2 text-[22px] text-[#202224] dark:text-white sm:font-semibold  ">
 						Posts
@@ -67,134 +94,45 @@ const page = () => {
 
 				{/* web */}
 
-				<div className='pn:max-sm:hidden'>
+				<div className='pn:max-sm:hidden h-full min-h-[60vh] '>
 					{
-						mergedData?.length > 0 ? <div className="bg-white dark:bg-[#273142] rounded-xl sm:p-2 w-full">
-							{/* <table className="w-full sm:max-lg:min-w-[750px] rounded-xl border-collapse">
-								<thead>
-									<tr className="bg-gray-50">
-										<th
-											colSpan="2"
-											className="text-left text-xs leading-4 py-2 px-3 font-medium uppercase tracking-wider"
-										>
+						mergedData?.length > 0 ? <div className="bg-white dark:bg-[#273142] overflow-auto no-scrollbar rounded-xl h-full sm:p-2 w-full">
+
+							<table className="w-full text-sm text-left rtl:text-right min-w-[1200px]  text-gray-500 dark:text-gray-400">
+								<thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+									<tr>
+										<th scope="col" className="px-6 py-3">
 											Posts
 										</th>
-										<th className="text-center text-xs leading-4 py-2 px-3 font-medium uppercase tracking-wider">
-											Date Uploaded
-										</th>
-										<th className="text-center text-xs leading-4 py-2 px-3 font-medium uppercase tracking-wider">
+										<th scope="col" className="text-center px-6 py-3">
 											Applauses
 										</th>
-										<th className="text-center text-xs leading-4 py-2 px-3 font-medium uppercase tracking-wider">
+										<th scope="col" className="text-center px-6 py-3">
 											Comments
 										</th>
-										<th className="text-center text-xs leading-4 py-2 px-3 font-medium uppercase tracking-wider">
+										<th scope="col" className="text-center px-6 py-3">
 											Shares
 										</th>
-										<th className="text-center text-xs leading-4 py-2 px-3 font-medium uppercase tracking-wider">
+										<th scope="col" className="text-center px-6 py-3">
+											Date Uploaded
+										</th>
+										<th scope="col" className="text-center px-6 py-3">
 											Engagement Rate
+										</th>
+										<th scope="col" className="text-center px-6 py-3">
+											Actions
 										</th>
 									</tr>
 								</thead>
-								<tbody className="gap-10">
-									{
-										mergedData?.map((d, i) => (
-											<tr key={i}>
-												<td
-													colSpan="2"
-													className="text-left text-sm py-2 leading-5 font-medium text-gray-900 col-span-3"
-												>
-													<div className="flex gap-2 p-1 items-center">
-														<div>
-															<img
-																src={d?.dps}
-																className="h-12 w-12 cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
-																alt="image"
-															/>
-														</div>
-														<div className="flex flex-col text-xs font-medium gap-1">
-															{d?.post.title.length <= 15 ? d?.post.title : `${d?.post.title.slice(0, 15)}...`}
-														</div>
-													</div>
-												</td>
-												<td className="text-xs leading-5 py-2 px-3 text-center">
-													{formatISOStringToDMY(d?.post.createdAt)}
-												</td>
-												<td className="text-sm leading-5 py-2 px-3 text-center">
-													{d?.post.likes}
-												</td>
-												<td className="text-sm leading-5 py-2 px-3 text-center">
-													{d?.post.comments?.length}
-												</td>
-												<td className="text-sm leading-5 py-2 px-3 text-center">
-													{d?.post.sharescount}
-												</td>
-												<td className="text-sm leading-5 py-2 px-3 text-center">
-													{Math.round(parseInt(d?.engrate))}%
+								<tbody>
+									{mergedData?.map((d, i) => (
 
-												</td>
-											</tr>
-										))
-									}
-
+										<PostsWeb key={i} setPostid={setPostid} d={d} dispatch={dispatch} postDeletion={postDeletion} />
+									))}
 								</tbody>
-							</table> */}
+							</table>
 
-							<Table>
-								<TableHeader>
-									<TableRow>
-										<TableHead className="w-[150px] text-left">Posts</TableHead>
-										<TableHead className="text-center">Title</TableHead>
-										<TableHead className="text-center">Applauses</TableHead>
-										<TableHead className="text-center">Comments</TableHead>
-										<TableHead className="text-center">Shares</TableHead>
-										<TableHead className="text-center">Date Uploaded</TableHead>
-										<TableHead className="text-center">Engagement Rate</TableHead>
-									</TableRow>
-								</TableHeader>
-								<TableBody>
-									{
-										mergedData?.map((d, i) => (
 
-											<TableRow key={i}>
-												<TableCell className="font-medium w-[150px] text-left">
-													<div className="flex gap-2 p-1 items-center">
-														<div>
-															{d?.video ? <video
-																src={d?.dps}
-																className=" object-cover max-h-[50px] min-w-[50px] w-[50px] h-[50px] cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
-																alt="video"
-															/> : <img
-																src={d?.dps}
-																className="object-cover h-[50px] w-[50px] cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
-																alt="image"
-															/>}
-															{/* 
-															{d?.post.post.length > 0 && d?.post.post[0]?.type.startsWith("video") && <video
-																src={d?.dps}
-																className=" object-cover max-h-[50px] min-w-[50px] w-[50px] h-[50px] cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
-																alt="video"
-															/>} */}
-														</div>
-
-													</div>
-												</TableCell>
-												<TableCell className="text-center">
-													<div className="flex flex-col text-xs font-medium gap-1">
-														{d?.post.title.length <= 15 ? d?.post.title : `${d?.post.title.slice(0, 15)}...`}
-													</div>
-												</TableCell>
-												<TableCell className="text-center">{formatNumber(d?.post.likes)}</TableCell>
-												<TableCell className="text-center">{formatNumber(d?.post.comments?.length)}</TableCell>
-												<TableCell className="text-center">{formatNumber(d?.post.sharescount)}</TableCell>
-												<TableCell className="text-center">{formatISOStringToDMY(d?.post.createdAt)}</TableCell>
-
-												<TableCell className="text-center">{`${d?.engrate}%`}</TableCell>
-											</TableRow>
-										))
-									}
-								</TableBody>
-							</Table>
 						</div>
 							: <NoPost setOpen={setOpen} />
 					}
@@ -204,63 +142,16 @@ const page = () => {
 				<div className='sm:hidden'>
 					{
 						mergedData?.length > 0 ? <div className="dark:bg-[#273142] dark:text-white bg-white">
+
 							{mergedData?.map((d, i) => (
-								<div
-									key={i}
-									className={`light:border-b light:border-[#eaecf0] px-2 flex flex-col justify-center items-center gap-4 w-full`}
-								>
-									<div className="flex justify-between mt-3 px-3 w-full items-center">
-										<div className="flex justify-center items-center gap-2">
-											<div>
-												<img
-													src={d?.dps}
-													className="object-cover h-[50px] w-[50px] cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
-													alt="image"
-												/>
-												{/* 
-												{d?.post.post[0].type.startsWith("video") && <video
-													src={d?.dps}
-													className=" object-cover max-h-[50px] min-w-[50px] cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
-													alt="video"
-												/>} */}
-											</div>
-											<div className="text-sm font-bold dark:text-white text-[#101828]">{d?.post.title.length <= 15 ? d?.post.title : `${d?.post.title.slice(0, 15)}...`}</div>
-										</div>
-										<div className="text-[#667085] dark:text-white text-sm">
-											{formatISOStringToDMY(d?.post.createdAt)}
-										</div>
-									</div>
-									<div className="flex justify-evenly dark:text-white text-[#101828] mb-3 w-full items-center">
-										<div className="flex text-sm flex-col justify-center items-center">
-											<div>{formatNumber(d?.post.likes)}</div>
-											<div className="pn:max-pp:text-xs">Applauses</div>
-										</div>
-										<div className="flex text-sm flex-col justify-center items-center">
-											<div>{formatNumber(d?.post.comments?.length)}</div>
-											<div className="pn:max-pp:text-xs">Comments</div>
-										</div>
-										<div className="flex text-sm flex-col justify-center items-center">
-											<div>{formatNumber(d?.post.sharescount)}</div>
-											<div className="pn:max-pp:text-xs">Shares</div>
-										</div>
-										<div>
-											<div className="bg-[#ecfdf3] p-1 px-2 flex justify-center items-center rounded-xl">
-												<div><BiUpArrowAlt className="text-[#12b76a]" /></div>
-
-												<div className="text-[#12b76a]">{`${d?.engrate}%`}</div>
-											</div>
-
-											<div className="hidden">-5</div>
-										</div>
-									</div>
-								</div>
+								<PostsWeb key={i} setPostid={setPostid} d={d} dispatch={dispatch} postDeletion={postDeletion} />
 							))}
 						</div> :
 							<NoPost setOpen={setOpen} />
 					}
 
 				</div>
-			</div>
+			</div >
 		</>
 	)
 }

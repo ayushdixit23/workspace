@@ -20,7 +20,7 @@ export default function MainLayout({ children }) {
         <div className="w-full dark:bg-[#1b2431]  overflow-y-scroll no-scrollbar 
           h-screen bg-[#F8F9FC] sm:p-4">
           <div className="bg-[#fafafa] dark:bg-[#1b2431] w-full h-full pn:max-sm:z-30 rounded-t-[34px]">
-            <div className="sm:hidden sticky top-0 left-0 w-full h-[10%] z-30">
+            <div className={`sm:hidden sticky top-0 left-0 w-full h-[10%] ${isLoading ? "z-20" : "z-30"} `}>
               <MemorizedHeader />
             </div>
             <div className={`${path === "/main/community" ? "pn:max-sm:bg-white" : null} flex flex-col  h-full bg-[#F8F9FC] dark:bg-[#1b2431]  rounded-t-[26px] gap-4`}>
