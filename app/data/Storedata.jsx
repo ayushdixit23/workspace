@@ -127,16 +127,16 @@ const Storedata = ({ getorderdata, sales }) => {
                         <img
                           src={d?.image?.[0]}
                           alt="image"
-                          className="max-w-[50px] w-full h-full rounded-xl object-cover"
+                          className="w-[50px] h-[50px] rounded-xl object-cover"
                         />
                       </div>
-                      <div className="flex text-sm flex-col">
+                      <div className="flex text-sm text-left mb-[1px] flex-col">
                         {d?.productId?.map((product, index) => (
                           <div key={index}>
-                            {index < 2 ? product?.name : null}
+                            {index < 1 ? product?.name : null}
                           </div>
                         ))}
-                        {d?.productId?.length > 2 && <span>And more...</span>}
+                        {d?.productId?.length > 1 && <span className="text-xs">And more...</span>}
                       </div>
                     </div></TableCell>
                     {/* <TableCell className="text-center">&#8377; {d?.finalprice}</TableCell> */}
@@ -168,17 +168,17 @@ const Storedata = ({ getorderdata, sales }) => {
                         <img
                           src={d?.image?.[0]}
                           alt="image"
-                          className="min-w-[50px] max-w-[100px]"
+                          className="w-[60px] h-[60px] rounded-xl object-cover"
                         />
                       </div>
                       <div className="flex flex-col">
                         <div className="flex text-sm flex-col">
                           {d?.productId?.map((product, index) => (
                             <div key={index}>
-                              {index < 2 ? product?.name : null}
+                              {index < 1 ? product?.name : null}
                             </div>
                           ))}
-                          {d?.productId?.length > 2 && <span>And more...</span>}
+                          {d?.productId?.length > 1 && <span>And more...</span>}
                         </div>
                         <div className="text-[#667085] text-sm">
                           #{d?.orderId?.slice(0, 8)}

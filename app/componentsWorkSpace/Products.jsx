@@ -51,7 +51,7 @@ const Products = ({ data }) => {
                         <div>
                           <img
                             src={d?.dps}
-                            className="min-w-[35px] rounded-xl min-h-[35px] max-w-[45px] max-h-[45px]"
+                            className="w-[45px] rounded-xl object-cover h-[45px] "
                             alt="image"
                           />
                         </div>
@@ -61,7 +61,7 @@ const Products = ({ data }) => {
                         </div>
                       </div>
                     </td>
-                    <td className=" text-sm text-[#3276E8] font-medium leading-5 py-2 px-3 text-center">
+                    <td className="min-w-[60px] text-sm text-[#3276E8] font-medium leading-5 py-2 px-3 text-center">
                       ₹ {d?.price}
                     </td>
                     <td className=" text-sm leading-5 py-2 px-3 text-center">

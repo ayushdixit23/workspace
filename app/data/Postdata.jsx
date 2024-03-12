@@ -47,7 +47,7 @@ const Postdata = ({ analyticsdata, state }) => {
                           className="h-12 w-12 object-cover cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
                           alt="image"
                         />}
-                        {console.log(d?.video, d?.dps)}
+
                       </div>
                       <div className="text-sm font-bold dark:text-white text-[#101828]">{d?.title.length <= 15 ? d?.title : `${d?.title.slice(0, 15)}...`}</div>
                     </div>

@@ -1,7 +1,8 @@
 "use client"
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import { MdOutlineNotifications } from "react-icons/md";
+// import { MdOutlineNotifications } from "react-icons/md";
+import { CiCircleInfo } from "react-icons/ci"
 import e1 from "../../assets/image/e1.png";
 import e2 from "../../assets/image/e2.png";
 import Cl from "../../assets/image/Cl.png";
@@ -34,7 +35,7 @@ const page = () => {
   })
 
   const [state, setState] = useState({
-    id: "", name: "", dp: "", members: ""
+    id: "", name: "", dp: "", members: "", topics: ""
   })
 
   const sendRequestForMontenziation = async (id, comid) => {
@@ -57,6 +58,7 @@ const page = () => {
       setState({
         id: comData?.communities[0].id,
         name: comData?.communities[0].name,
+        topics: comData?.communities[0].topics,
         dps: comData?.communities[0].dps,
         members: comData?.communities[0]?.members
       })
@@ -254,6 +256,7 @@ const page = () => {
                       if (selectedData) {
                         setState({
                           id: selectedData.id,
+                          topics: selectedData.topics,
                           dp: selectedData.dps,
                           name: selectedData.name,
                           members: selectedData.members
@@ -346,51 +349,74 @@ const page = () => {
                     <button className="bg-[#2D9AFF] text-white p-2 px-5 text-sm rounded-lg">Apply Now</button>
                   </div>}
                 </div> */}
-                <div className="flex flex-col gap-3 bg-white dark:bg-[#273142] dark:border-[#3d4654] dark:border shadow-sm py-4 px-3 rounded-xl sm:max-w-[450px]">
-                  <div className="flex gap-2 items-center">
-                    <div>
-                      <Image src={Cl} className="max-w-[80px]" alt="image" />
+                {
+                  state.members > 150 && state.topics > 1 ?
+                    // state.members > 150 && state.topics > 3 ?
+                    <div className="p-4  bg-white dark:bg-[#273142] dark:border-[#3d4654] dark:border rounded-xl">
+                      <div className="flex flex-col">
+                        <div className="text-sm ">Paid Topics</div>
+                        <div className="text-2xl mt-4 font-semibold dark:text-white">
+                          ₹ 2000
+
+                        </div>
+                        <div className="flex mt-4 mb-2 gap-3 flex-col">
+                          <div className="text-[#9CA3AF] font-bold">Top 3 Topic Sold</div>
+                          <div className="flex gap-2 text-sm mb-2 flex-col">
+                            <div>Esports : ₹5000</div>
+                            <div>Gaming :  ₹4000</div>
+                            <div>Food :  ₹3000</div>
+                          </div>
+                        </div>
+
+                      </div>
+
                     </div>
-                    <div className="flex flex-col gap-1">
-                      <div className="text-xl font-semibold">Paid Topics</div>
-                      <div className="text-sm text-[#444444] dark:text-white">
-                        "Create a paid topic and earn monthly income from your
-                        members. Your followers pay for exclusive access, and
-                        you generate extra revenue."
+
+                    : < div className="flex flex-col gap-3 bg-white dark:bg-[#273142] dark:border-[#3d4654] dark:border shadow-sm py-4 px-3 rounded-xl sm:max-w-[450px]">
+                      <div className="flex gap-2 items-center">
+                        <div>
+                          <Image src={Cl} className="max-w-[80px]" alt="image" />
+                        </div>
+                        <div className="flex flex-col gap-1">
+                          <div className="text-xl font-semibold">Paid Topics</div>
+                          <div className="text-sm text-[#444444] dark:text-white">
+                            "Create a paid topic and earn monthly income from your
+                            members. Your followers pay for exclusive access, and
+                            you generate extra revenue."
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                  <div className="flex text-sm flex-col gap-3">
-                    <div className="px-2 flex flex-col gap-1">
-                      <div className="flex justify-between items-center">
-                        <div className=" dark:text-white text-[#615E83]">Members</div>
-                        <div>{state.members}/150</div>
+                      <div className="flex text-sm flex-col gap-3">
+                        <div className="px-2 flex flex-col gap-1">
+                          <div className="flex justify-between items-center">
+                            <div className=" dark:text-white text-[#615E83]">Members</div>
+                            <div>{state.members}/150</div>
+                          </div>
+                          <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
+                            <div
+                              style={{ width: `${(state.members / 150) * 100}%` }}
+                              className="absolute top-0 left-0 rounded-r-xl z-10 bg-[#5A6ACF] h-full "
+                            ></div>
+                          </div>
+                        </div>
+                        <div className="px-2 flex flex-col gap-1">
+                          <div className="flex justify-between items-center">
+                            <div className=" dark:text-white text-[#615E83]">Engagament Rate</div>
+                            <div className="">10 %</div>
+                          </div>
+                          <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
+                            <div
+                              style={{ width: "70%" }}
+                              className="absolute top-0 left-0 rounded-r-xl z-10 bg-[#5A6ACF] h-full "
+                            ></div>
+                          </div>
+                        </div>
+                        {state.members >= 150 && <div className="flex justify-end items-center">
+                          <div className="text-green-400">Hurray! Now You Can Create Paid Topics.</div>
+                        </div>}
                       </div>
-                      <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
-                        <div
-                          style={{ width: `${(state.members / 150) * 100}%` }}
-                          className="absolute top-0 left-0 rounded-r-xl z-10 bg-[#5A6ACF] h-full "
-                        ></div>
-                      </div>
-                    </div>
-                    <div className="px-2 flex flex-col gap-1">
-                      <div className="flex justify-between items-center">
-                        <div className=" dark:text-white text-[#615E83]">Engagament Rate</div>
-                        <div className="">10 %</div>
-                      </div>
-                      <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
-                        <div
-                          style={{ width: "70%" }}
-                          className="absolute top-0 left-0 rounded-r-xl z-10 bg-[#5A6ACF] h-full "
-                        ></div>
-                      </div>
-                    </div>
-                    {state.members >= 150 && <div className="flex justify-end items-center">
-                      <div className="text-green-400">Hurray! Now You Can Create Paid Topics.</div>
                     </div>}
-                  </div>
-                </div>
-                <div className="flex flex-col gap-3 bg-white dark:bg-[#273142] dark:border-[#3d4654] dark:border shadow-sm py-4 px-3 rounded-xl sm:max-w-[450px]">
+                {state.members < 1000 ? <div className="flex flex-col gap-3 bg-white dark:bg-[#273142] dark:border-[#3d4654] dark:border shadow-sm py-4 px-3 rounded-xl sm:max-w-[450px]">
                   <div className="flex gap-2 items-center">
                     <div>
                       <Image src={ads} className="max-w-[80px]" alt="image" />
@@ -433,13 +459,37 @@ const page = () => {
                       <button onClick={() => sendRequestForMontenziation(id, state.id)} className="bg-[#2D9AFF] text-white p-2 px-5 text-sm rounded-lg">Apply for Monetization</button>
                     </div>}
                   </div>
-                </div>
+                </div> :
+                  <div className="p-4  bg-white dark:bg-[#273142] dark:border-[#3d4654] dark:border rounded-xl">
+                    <div className="flex flex-col">
+                      <div className="text-sm ">Ad revenue</div>
+                      <div className="text-2xl mt-4 font-semibold dark:text-white">
+                        ₹ 20,000
+
+                      </div>
+
+                      <div className="flex mt-4 gap-2 mb-2 text-sm flex-col">
+                        <div>Impressions : ₹5000</div>
+                        <div>CPM (Cost Per Mille) :  ₹4000</div>
+                        <div>CPC (Cost Per Click :  ₹3000)</div>
+                      </div>
+
+
+                      <div className="bg-white h-[1px] mt-2 w-full"></div>
+                      <div className="flex gap-2 mt-3">
+                        <CiCircleInfo className="mt-1" />
+                        <div className="text-sm font-bold text-[#0284FE] ">90% The percentage of ad revenue that  creator will receive.</div>
+                      </div>
+                    </div>
+
+                  </div>
+                }
               </div>
-              <div></div>
+
             </div>
           </div>
         </div>
-      </div>
+      </div >
     </>
   );
 };

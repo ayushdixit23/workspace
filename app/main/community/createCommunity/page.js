@@ -24,7 +24,8 @@ function page() {
   const [createCommunity, setCreateCommunity] = useState({
     title: "",
     desc: "",
-    selectedCategory: "Select a Category"
+    selectedCategory: "Select a Category",
+    type: "Public"
   })
   const [topics, setTopics] = useState({
     isOpen: false,
@@ -119,6 +120,7 @@ function page() {
     appendFormData(formDataToSend, "title", createCommunity.title);
     appendFormData(formDataToSend, "category", createCommunity.selectedCategory);
     appendFormData(formDataToSend, "desc", createCommunity.desc);
+    appendFormData(formDataToSend, "type", createCommunity.type);
     if (Array.isArray(topicId) && topicId.length > 0) {
       topicId.forEach((id, i) => {
         appendFormData(formDataToSend, `iddata[${i}]`, id);
@@ -477,7 +479,13 @@ function page() {
               </div>
               <div className=" w-[100%] max-h-[900px] flex flex-col sm:items-center">
                 <div className=" rounded-2xl bg-white dark:bg-[#273142] pp:w-[95%] min-w-[250px]">
-
+                  <div className="mb-4 flex flex-col gap-1">
+                    <div className="text-[#606060] dark:text-[#fff] font-medium">Select type of your Community</div>
+                    <div className="flex gap-3 items-center">
+                      <div onClick={() => setCreateCommunity({ ...createCommunity, type: "Public" })} className={`p-2 px-4 ${createCommunity.type === "Public" ? "bg-blue-600 text-white" : "text-black bg-white border-2 "} rounded-xl text-sm  font-semibold `}>Public</div>
+                      <div onClick={() => setCreateCommunity({ ...createCommunity, type: "Private" })} className={`p-2 px-4 ${createCommunity.type === "Private" ? "bg-blue-600 text-white" : "text-black bg-white border-2 "} rounded-xl text-sm  font-semibold `}>Private</div>
+                    </div>
+                  </div>
                   <div className="flex flex-col gap-2">
                     <div className="flex justify-between items-center">
                       <div className="">Topics Names</div>

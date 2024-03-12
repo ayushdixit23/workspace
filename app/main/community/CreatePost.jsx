@@ -1,12 +1,12 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaToggleOn } from 'react-icons/fa'
 import { MdAdd, MdArrowBack } from 'react-icons/md'
 import { RxCross2 } from 'react-icons/rx'
 import { SlArrowRight } from "react-icons/sl"
 import { GrUploadOption } from "react-icons/gr";
-import Image from 'next/image'
-import { useCreatePostMutation } from '@/app/redux/apiroutes/community'
+// import Image from 'next/image'
+import { useCreatePostMutation, useEditPostsMutation } from '@/app/redux/apiroutes/community'
 import toast, { Toaster } from 'react-hot-toast'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 
@@ -19,8 +19,14 @@ const CreatePost = ({ id, comid, open, setOpen, refetch }) => {
 		video: [],
 		sampletags: ""
 	})
+	const posturl = "https://dt46iilh1kepb.cloudfront.net/"
+	const [postid, setPostid] = useState("")
 	const [loading, setLoading] = useState(false)
+	const [editData, setEditData] = useState(null)
+	const [edit, setEdit] = useState(false)
 	const [postAnything] = useCreatePostMutation()
+	const [editpost] = useEditPostsMutation()
+
 	const savePost = async () => {
 		if (!post.title || !post.image) {
 			toast.error("Enter required details")
@@ -66,13 +72,18 @@ const CreatePost = ({ id, comid, open, setOpen, refetch }) => {
 			const combinedMedia = [...prevPost.image, ...prevPost.video, ...newMedia];
 			const media = combinedMedia.slice(0, maxSlots);
 
+			const existingVideos = prevPost.video.filter((video) => typeof video === 'string' && video.startsWith(posturl));
+			const existingImages = prevPost.image.filter((image) => typeof image === 'string' && image.startsWith(posturl));
+
+
 			return {
 				...prevPost,
-				image: media.filter((file) => file.type.startsWith('image/')),
-				video: media.filter((file) => file.type.startsWith('video/')),
+				image: [...existingImages, ...media.filter((file) => file.type && file.type.startsWith('image/')).map((file) => file)],
+				video: [...existingVideos, ...media.filter((file) => file.type && file.type.startsWith('video/')).map((file) => file)],
 			};
 		});
-	}
+	};
+
 
 	const handleTagsRemove = (indexToRemove) => {
 		setPost({ ...post, tags: [...post.tags.filter((_, i) => i !== indexToRemove)] })
@@ -81,6 +92,84 @@ const CreatePost = ({ id, comid, open, setOpen, refetch }) => {
 	const handleMediaRemove = (indexToRemove, media) => {
 		setPost({ ...post, [media]: [...post[media].filter((_, i) => i !== indexToRemove)] })
 	};
+
+
+	const editPosts = async () => {
+		if (!post.title || !post.image) {
+			toast.error("Enter required details")
+			return
+		}
+		try {
+			setLoading(true)
+			const data = new FormData()
+			data.append("title", post.title)
+			data.append("desc", post.desc)
+			data.append("tags", post.tags)
+			post.image.forEach((d) => {
+				data.append("image", d)
+			})
+			post.video.forEach((d) => {
+				data.append("video", d)
+			})
+			const res = await editpost({
+				id,
+				postid,
+				data
+			})
+			if (res.data.success) {
+				toast.success("Changes Saved!")
+			}
+			await refetch()
+			setOpen(false)
+			setLoading(false)
+		} catch (error) {
+			console.log(error)
+			setLoading(false)
+		} finally {
+			setLoading(false)
+		}
+	}
+
+	console.log(editData?.tags)
+
+	const saveOrEditPost = async () => {
+		if (edit) {
+			editPosts()
+		} else {
+			await savePost()
+		}
+	}
+
+	useEffect(() => {
+		const a = sessionStorage.getItem("postdata")
+		const b = JSON.parse(a)
+		if (b) {
+			setEditData(b)
+		}
+	}, [])
+
+
+	useEffect(() => {
+		if (editData) {
+			setEdit(true)
+			setPostid(editData.id)
+			setPost({
+				...post,
+				title: editData.title,
+				tags: editData.tags[0] ? editData.tags[0].split(",") : [],
+				desc: editData.desc,
+				video: editData.post
+					.filter((d) => d?.type?.startsWith("video/"))
+					.map((d) => posturl + d.content),
+
+				image: editData.post
+					.filter((d) => d?.type?.startsWith("image/"))
+					.map((d) => posturl + d.content),
+			});
+		}
+	}, [editData])
+
+	console.log(editData?.tags)
 
 	if (loading) {
 		return (
@@ -101,7 +190,7 @@ const CreatePost = ({ id, comid, open, setOpen, refetch }) => {
 				<div className="flex flex-col justify-center shadow-md items-center p-3 sm:rounded-xl w-full sm:max-w-[90%] md:max-w-[80%] dark:bg-[#273142] bg-white">
 					<div className='flex justify-between w-full items-center p-2'>
 						<div className='flex justify-center items-center gap-4'>
-							<div onClick={() => setOpen(false)} className='cursor-pointer'>
+							<div onClick={() => { setOpen(false), sessionStorage.removeItem("postdata") }} className='cursor-pointer'>
 								<div><MdArrowBack className='text-2xl text-[#A5BEFE]' /></div>
 							</div>
 							<div className='flex flex-col'>
@@ -110,8 +199,8 @@ const CreatePost = ({ id, comid, open, setOpen, refetch }) => {
 							</div>
 						</div>
 						<div className='flex justify-center items-center gap-4'>
-							<div className='font-medium p-2 pn:max-pp:hidden px-7 rounded-lg'>Preview</div>
-							<div onClick={savePost} className='bg-[#4880FF] cursor-pointer font-medium text-white p-2 px-4 pp:px-7 rounded-lg'>Publish</div>
+							{/* <div className='font-medium p-2 pn:max-pp:hidden px-7 rounded-lg'>Preview</div> */}
+							<div onClick={saveOrEditPost} className='bg-[#4880FF] cursor-pointer font-medium text-white p-2 px-4 pp:px-7 rounded-lg'>Publish</div>
 						</div>
 					</div>
 					<div className='grid sm:grid-cols-2 w-full gap-5 p-3'>
@@ -136,7 +225,8 @@ const CreatePost = ({ id, comid, open, setOpen, refetch }) => {
 									<div className='flex items-center flex-wrap gap-2'>
 										{post.image.map((d, i) => (
 											<div key={i} className='relative w-[100px] h-[100px]'>
-												< Image src={URL.createObjectURL(d)} width={100} height={100} alt="image" className="rounded-lg w-[100px] h-[100px]" />
+												<img src={typeof d === "string" ? d : URL.createObjectURL(d)} width={100} height={100} alt="image" className="rounded-lg w-[100px] h-[100px]" />
+
 												<div onClick={() => handleMediaRemove(i, "image")} className="absolute cursor-pointer top-0 right-0 p-1"><RxCross2 /></div>
 											</div>
 										))}
@@ -144,8 +234,8 @@ const CreatePost = ({ id, comid, open, setOpen, refetch }) => {
 										{
 											post.video.map((d, i) => (
 												<div key={i} className='relative w-[100px] h-[100px]'>
-													<div className='w-[100px] border h-[100px] flex justify-center rounded-lg  items-center font-semibold text-xl'>
-														<video src={URL.createObjectURL(d)} className='w-full h-full object-cover'></video>
+													<div className='w-[100px] border h-[100px] overflow-hidden flex justify-center rounded-lg  items-center font-semibold text-xl'>
+														<video src={typeof d === "string" ? d : URL.createObjectURL(d)} className='w-full h-full object-cover'></video>
 													</div>
 													<div onClick={() => handleMediaRemove(i, "video")} className="absolute cursor-pointer top-0 right-0 p-1"><RxCross2 /></div>
 												</div>
@@ -189,7 +279,7 @@ const CreatePost = ({ id, comid, open, setOpen, refetch }) => {
 									</button>
 								</div>
 								<div className='flex items-center pt-2 flex-wrap gap-2'>
-									{post.tags.map((d, g) => (
+									{post.tags.length > 0 && post.tags.map((d, g) => (
 										<div key={g} className='bg-[#FDF8F1] flex justify-center items-center gap-2 text-[#E7A034] p-1 rounded-full px-4'>
 											<div>{d}</div>
 											<div onClick={() => handleTagsRemove(g)}><RxCross2 /></div>
@@ -197,15 +287,15 @@ const CreatePost = ({ id, comid, open, setOpen, refetch }) => {
 									))}
 								</div>
 							</div>
-							<div className='flex items-center gap-1'>
+							{/* <div className='flex items-center gap-1'>
 								<div className='text-2xl'><FaToggleOn /></div>
 								<div>Allow people to comment</div>
-							</div>
-							<div className='h-1 w-full border-t mt-2 border-black'></div>
+							</div> */}
+							{/* <div className='h-1 w-full border-t mt-2 border-black'></div>
 							<div className='flex justify-between items-center'>
 								<div className='text-lg font-medium'>Advanced options</div>
 								<div><SlArrowRight /></div>
-							</div>
+							</div> */}
 						</div>
 					</div>
 				</div >

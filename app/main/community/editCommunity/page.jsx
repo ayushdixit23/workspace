@@ -36,7 +36,8 @@ function page() {
   const [editCommunity, setEditCommunity] = useState({
     title: "",
     desc: "",
-    selectedCategory: ""
+    selectedCategory: "",
+    type: "Public",
   })
   const [membercount, setMembercount] = useState("")
   const [topics, setTopics] = useState({
@@ -139,6 +140,7 @@ function page() {
     formDataToSend.append("title", editCommunity.title);
     formDataToSend.append("category", editCommunity.selectedCategory);
     formDataToSend.append("desc", editCommunity.desc);
+    formDataToSend.append("type", editCommunity.type);
     try {
 
       const res = await updatecom({
@@ -735,7 +737,13 @@ function page() {
               </div>
               <div className=" w-[100%] max-h-[900px] flex flex-col sm:items-center">
                 <div className=" rounded-2xl dark:bg-[#273142] bg-white w-[95%] min-w-[250px]">
-
+                  <div className="mb-4 flex flex-col gap-1">
+                    <div className="text-[#606060] dark:text-[#fff] font-medium">Select type of your Community</div>
+                    <div className="flex gap-3 items-center">
+                      <div onClick={() => setEditCommunity({ ...editCommunity, type: "Public" })} className={`p-2 px-4 ${editCommunity.type === "Public" ? "bg-blue-600 text-white" : "text-black bg-white border-2 "} rounded-xl text-sm  font-semibold `}>Public</div>
+                      <div onClick={() => setEditCommunity({ ...editCommunity, type: "Private" })} className={`p-2 px-4 ${editCommunity.type === "Private" ? "bg-blue-600 text-white" : "text-black bg-white border-2 "} rounded-xl text-sm  font-semibold `}>Private</div>
+                    </div>
+                  </div>
                   <div className="flex flex-col gap-2">
                     <div className="flex justify-between items-center">
                       <div className="">Topics Names</div>

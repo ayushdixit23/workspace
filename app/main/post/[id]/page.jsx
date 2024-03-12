@@ -19,10 +19,10 @@ const page = () => {
 	const decomid = path.split("/").pop()
 	const { id } = getData()
 	const comid = decryptaes(decomid)
+	const [open, setOpen] = useState(false)
 	const [loading, setLoading] = useState(false)
 	const [postid, setPostid] = useState(null)
 	const dispatch = useDispatch()
-	// const { data, refetch, isLoading } = useFetchPostsQuery({ id, comid }, { skip: !id || !comid })
 	const { data, refetch, isLoading } = useGetAllPostQuery({ comid }, { skip: !comid })
 	const [deletePost] = useDeletePostsMutation()
 
@@ -51,8 +51,6 @@ const page = () => {
 		engrate: d.engrate,
 		video: d?.video
 	}))
-	const [open, setOpen] = useState(false)
-
 
 	if (loading) {
 		return (
@@ -84,7 +82,7 @@ const page = () => {
 						Posts
 					</div>
 					<div
-						onClick={() => setOpen(true)}
+						onClick={() => { sessionStorage.removeItem("postdata"); setOpen(true) }}
 						className="py-2 vs:max-pp:text-[12px] flex justify-center items-center gap-1 border dark:bg-[#3d4654] dark:text-white light:border-[#f1f1f1] px-2.5 sm:px-5 font-medium bg-white text-black rounded-xl"
 					>
 						Create Posts
@@ -127,7 +125,7 @@ const page = () => {
 								<tbody>
 									{mergedData?.map((d, i) => (
 
-										<PostsWeb key={i} setPostid={setPostid} d={d} dispatch={dispatch} postDeletion={postDeletion} />
+										<PostsWeb open={open} setOpen={setOpen} key={i} setPostid={setPostid} d={d} dispatch={dispatch} postDeletion={postDeletion} />
 									))}
 								</tbody>
 							</table>
@@ -144,7 +142,7 @@ const page = () => {
 						mergedData?.length > 0 ? <div className="dark:bg-[#273142] dark:text-white bg-white">
 
 							{mergedData?.map((d, i) => (
-								<PostsWeb key={i} setPostid={setPostid} d={d} dispatch={dispatch} postDeletion={postDeletion} />
+								<PostsWeb key={i} open={open} setOpen={setOpen} setPostid={setPostid} d={d} dispatch={dispatch} postDeletion={postDeletion} />
 							))}
 						</div> :
 							<NoPost setOpen={setOpen} />

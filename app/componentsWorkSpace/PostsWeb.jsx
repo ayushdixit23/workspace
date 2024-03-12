@@ -5,18 +5,26 @@ import Link from 'next/link'
 import { LoadThis } from '@/app/redux/slice/userData'
 import { BiUpArrowAlt } from 'react-icons/bi'
 
-const PostsWeb = ({ d, setPostid, dispatch, postDeletion }) => {
+const PostsWeb = ({ d, setPostid, setOpen, open, dispatch, postDeletion }) => {
 	const [showing, setShowing] = useState(false)
 	const [pop, setPop] = useState(false)
 	const handlePostId = (id) => {
 		try {
-			dispatch(LoadThis(true))
 			setShowing(false)
+			dispatch(LoadThis(true))
 			setPop(true)
 			setPostid(id)
 		} catch (error) {
 			console.log(error)
 		}
+	}
+
+	const dataToSave = {
+		id: d?.post?._id,
+		title: d?.post.title,
+		desc: d?.post.desc,
+		tags: d?.post.tags,
+		post: d?.post.post,
 	}
 	return (
 		<>
@@ -72,8 +80,12 @@ const PostsWeb = ({ d, setPostid, dispatch, postDeletion }) => {
 							<BsThreeDotsVertical onClick={() => setShowing(!showing)} />
 							<div className={`${showing ? "absolute top-5 z-50 -left-20 h-[80px] rounded-lg w-[100px] bg-white dark:bg-[#273142] dark:border dark:border-[#3d4654] shadow-lg" : "hidden"} `}>
 								<div className="flex flex-col justify-start items-start gap-3 p-3">
-									<Link href={"/main/community/editCommunity"}>Edit</Link>
-									<button onClick={() => handlePostId(d?.post?._id)}>Delete</button>
+									<div onClick={() => {
+										setShowing(false)
+										sessionStorage.setItem("postdata", JSON.stringify(dataToSave))
+										setOpen(true)
+									}}>Edit</div>
+									<button onClick={() => { setShowing(false); handlePostId(d?.post?._id) }}>Delete</button>
 								</div>
 							</div>
 						</div>
