@@ -1,6 +1,5 @@
 "use client"
 import { useEffect, useState } from "react";
-import { FaCheckCircle } from "react-icons/fa";
 import { getData } from "../utilsHelper/Useful";
 import axios from "axios"
 import useRazorpay from "react-razorpay";
@@ -22,6 +21,7 @@ const Sample5 = () => {
 		premium: ""
 	})
 	const router = useRouter()
+
 	const [membershipFinalise] = useMemfinalizeMutation()
 	const pricingData = [{
 		mainTitle: "",
@@ -29,6 +29,8 @@ const Sample5 = () => {
 		infoNote: "",
 		"Product Listings": "Product Listings",
 		"Platform  Fees": "Platform  Fees",
+		titleBadge: "Badge",
+		Badges: "Badge",
 		"Create Collections": "Create Collections",
 		"Product Review Time": "Product Review Time",
 		"Create Community": "Create Community",
@@ -42,13 +44,19 @@ const Sample5 = () => {
 		titleRow5: "Community",
 		"Members Recognition": "Members Recognition",
 		titleRow9: "Deliveries",
-		Deliveries: "Deliveries",
-		"Delivery Options": "Delivery Options",
+		"Deliveries (all over the city)": "Deliveries (all over the city)",
+		"Delivery Options (all over the country)": "Delivery Options (all over the country)",
 		"Shipping Discounts": "Shipping Discounts",
-		"Animated intro": "Animated intro",
 		"Express Delivery": "Express Delivery",
+		"Animated intro": "Animated",
 		titleRow13: "Prosite",
 		"Responsive Templates": "Responsive Templates",
+		"Images": "Illustration",
+		"Backgrounds": "Backgrounds",
+		"Fonts": "Fonts",
+		"Uploads": "Upload Images",
+		"Templates": "Templates",
+		"Color Palettes": "Color Palettes"
 		// "Quick Suggestion": "Quick Suggestion",
 		// titleRow17: "AI Support",
 		// "Thumbnail Generator": "Thumbnail Generator",
@@ -66,24 +74,30 @@ const Sample5 = () => {
 		infoNote: "Basic features for up to 10 employees with everything you need.",
 		"Product Listings": "Up-to 5 Products",
 		"Analytics and Reports": "Basic analytics",
+		"Badges": "Not Available",
 		"Platform  Fees": "10% per transaction",
 		"Create Collections": "1",
-		"Product Review Time": "6 Hrs",
-
-		"Create Topics (free/paid)": "2",
+		"Product Review Time": "24 Hrs",
+		"Create Topics (free/paid)": "Upto 2 topics",
 		"Discounts and Promotions": "Not available",
 		"Platform Fees (only for paid topics)": "10% per transaction",
-		"Create Community": "2",
+		"Create Community": "Upto 2 communities",
 		"Analytics and reports for Community":
 			"Basic analytics",
 		"Export Reports": true,
 		"Members Recognition": "Not available",
-		Deliveries: "Free 10 Deliveries for free ",
-		"Delivery Options": "Basic Delivery option",
+		"Deliveries (all over the city)": "10 Deliveries for free ",
+		"Delivery Options (all over the country)": "Upto 5 deliveries",
 		"Shipping Discounts": "Not available",
 		"Express Delivery": "Not available",
 		"Responsive Templates": "Limited selection of templates",
 		"Animated intro": "Not available",
+		"Images": "access upto 70+ illustration",
+		"Backgrounds": "access upto 100+ backgrounds",
+		"Fonts": "access upto 10+ free fonts",
+		"Uploads": "Upload upto 10 images",
+		"Templates": "access upto 5 templates",
+		"Color Palettes": "access upto 10+ styles palettes"
 		// "Quick Suggestion": "Limited selection of templates",
 		// "Thumbnail Generator": "Not available",
 		// "Description generator": "Not available",
@@ -98,29 +112,31 @@ const Sample5 = () => {
 			year: `₹35700`,
 		},
 		mid: membership.premium,
+		"Badges": "Available",
 		infoNote:
 			"Advanced features and reporting better workflows and automation.",
-		"Product Listings": "10 products / collection",
+		"Product Listings": "Upto 10 products (one time)",
 		"Platform  Fees": "1% per transaaction",
-		"Create Collections": "5",
-		"Create Topics (free/paid)": "5",
+		"Create Collections": "Upto 3 collections (one time)",
+		"Create Topics (free/paid)": "Upto 5 topics (one time)",
 		"Product Review Time": "1 hrs ",
 		"Discounts and Promotions": "Create and manage discounts and promotions",
-		"Create Community": "5",
+		"Create Community": "Upto 5 communities (one time)",
 		"Analytics and Reports": "Advanced analytics",
 		"Platform Fees (only for paid topics)": "1% per transaction",
-		"Analytics and reports for Community":
-			"Advanced analytics"
-		// <div>Custom</div>
-		// <div>Custom</div>
-		// <div>Custom</div>
-		,
+		"Analytics and reports for Community": "Advanced analytics",
+		"Images": "access upto 5k+ illustration",
+		"Backgrounds": "access upto 1k+ backgrounds",
+		"Fonts": "access upto 100+ fonts",
+		"Uploads": "Upload upto 50 images",
+		"Templates": "access upto 15 templates",
+		"Color Palettes": "access upto 100+ styles palettes",
 		"Export Reports": true,
 		"Members Recognition": "Recognition and badges for premium members",
-		Deliveries: "1000 deliveries",
-		"Delivery Options": "Expanded delivery options",
+		"Deliveries (all over the city)": "400 deliveries",
+		"Delivery Options (all over the country)": "Upto 100 deliveries",
 		"Shipping Discounts": "Exclusive shipping discounts",
-		"Animated intro": "Access to premium intro",
+		"Animated intro": "Access to premium only",
 		"Express Delivery": "Priority and express delivery options",
 		"Responsive Templates": "Access to premium responsive templates",
 		// "Quick Suggestion": "Access to premium responsive templates",
@@ -136,6 +152,7 @@ const Sample5 = () => {
 			year: "Custom",
 		},
 		mid: membership.pro,
+		"Badges": "Available",
 		infoNote: "Personalised service and enterprise security for large teams.",
 		"Create Topics (free/paid)": "custom",
 		"Product Listings": "Custom",
@@ -149,11 +166,23 @@ const Sample5 = () => {
 		"Create Community": "custom",
 		"Export Reports": true,
 		"Members Recognition": "Custom",
-		Deliveries: "Custom",
-		"Delivery Options": "Custom",
+		"Deliveries (all over the city)": "Custom",
+		"Delivery Options (all over the country)": "Custom",
 		"Shipping Discounts": "Custom",
 		"Express Delivery": "Custom",
+		"Images": "Illustration",
+		"Backgrounds": "Backgrounds",
+		"Fonts": "Fonts",
+		"Uploads": "Upload Images",
+		"Templates": "Templates",
+		"Color Palettes": "Color Palettes",
 		"Responsive Templates": "Custom",
+		"Images": "access upto 5k+ illustration",
+		"Backgrounds": "access upto 1k+ backgrounds",
+		"Fonts": "access upto 100+ fonts",
+		"Uploads": "Upload upto 50 images",
+		"Templates": "access upto 15 templates",
+		"Color Palettes": "access upto 100+ styles palettes",
 		"Animated intro": "Custom",
 		// "Quick Suggestion": "Custom",
 		// "Thumbnail Generator": "Custom",
@@ -256,9 +285,7 @@ const Sample5 = () => {
 
 	return (
 		<>
-			{/* {popup &&
-				<CustomPackage setPopup={setPopup} />
-			} */}
+
 			<div className="bg-[#1d212a] dark:bg-[#273142] min-h-[100vh] no-scrollbar flex items-center justify-center">
 				<div className="sm:mx-5 mx-2 pb-10">
 					<div className="py-8 lg:py-14 flex flex-col text-white items-center">
@@ -267,7 +294,7 @@ const Sample5 = () => {
 							Find your perfect plan
 						</span>
 						<span className="sm:text-xl text-white text-center text-lg font-light">
-							Simple, transparent pricing that grows with you. Try any plan free
+							Simple, transparent pricing that grows with you. Try any plan
 							for 30 days.
 						</span>
 
@@ -362,6 +389,32 @@ const Sample5 = () => {
 											className="h-5 text-sm font-semibold  text-[#365CCE]"
 											colSpan={2}
 										>
+											{data.titleBadge}
+											<span className="lg:hidden text-left">
+												{pricingData[0]["titleBadge"]}
+											</span>
+										</td>
+									</tr>
+
+									<tr>
+										<td
+											className={
+												index === 0
+													? "h-5"
+													: "h-6 text-right md:text-center flex justify-between lg:justify-center flex-row-reverse"
+											}
+										>
+											<span className="font-medium text-sm text-[#101828] dark:text-white">
+												{data["Badges"]}
+											</span>
+											<span className="lg:hidden text-left">{pricingData[0]["Badges"]}</span>
+										</td>
+									</tr>
+									<tr>
+										<td
+											className="h-5 text-sm font-semibold  text-[#365CCE]"
+											colSpan={2}
+										>
 											{data.titleRow1}
 											<span className="lg:hidden text-left">
 												{pricingData[0]["titleRow1"]}
@@ -373,7 +426,7 @@ const Sample5 = () => {
 											className={
 												index === 0
 													? "h-5"
-													: "h-6 text-right flex justify-between lg:justify-center flex-row-reverse"
+													: "h-6 text-right md:text-center flex justify-between lg:justify-center flex-row-reverse"
 											}
 										>
 											<span className="font-medium text-sm text-[#101828] dark:text-white">
@@ -388,7 +441,7 @@ const Sample5 = () => {
 											className={
 												index === 0
 													? "h-5"
-													: "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"
+													: "h-7 text-right md:text-center flex justify-between lg:justify-center flex-row-reverse"
 											}
 										>
 											<span className="font-medium text-sm text-[#101828] dark:text-white">
@@ -402,7 +455,7 @@ const Sample5 = () => {
 											className={
 												index === 0
 													? "h-5"
-													: "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"
+													: "h-7 text-right md:text-center flex justify-between lg:justify-center flex-row-reverse"
 											}
 										>
 											<span className="font-medium text-sm text-[#101828] dark:text-white">
@@ -418,7 +471,7 @@ const Sample5 = () => {
 											className={
 												index === 0
 													? "h-5"
-													: "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"
+													: "h-7 text-right md:text-center flex justify-between lg:justify-center flex-row-reverse"
 											}
 										>
 											<span className="font-medium text-sm text-[#101828] dark:text-white">
@@ -434,7 +487,7 @@ const Sample5 = () => {
 											className={
 												index === 0
 													? "h-5"
-													: "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"
+													: "h-7 text-right md:text-center flex justify-between lg:justify-center flex-row-reverse"
 											}
 										>
 											<span className="font-medium text-sm text-[#101828] dark:text-white">
@@ -450,7 +503,7 @@ const Sample5 = () => {
 											className={
 												index === 0
 													? "h-5"
-													: "h-9 text-right flex justify-between lg:justify-center flex-row-reverse"
+													: "h-9 text-right md:text-center flex justify-between lg:justify-center flex-row-reverse"
 											}
 										>
 											<span className="font-medium text-sm text-[#101828] dark:text-white">
@@ -484,7 +537,7 @@ const Sample5 = () => {
 											className={
 												index === 0
 													? "h-5"
-													: "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"
+													: "h-7 text-right md:text-center flex justify-between lg:justify-center flex-row-reverse"
 											}
 										>
 											<span className="font-medium text-sm text-[#101828] dark:text-white">{data["Create Community"]}</span>
@@ -499,7 +552,7 @@ const Sample5 = () => {
 											className={
 												index === 0
 													? "h-5"
-													: "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"
+													: "h-7 text-right md:text-center flex justify-between lg:justify-center flex-row-reverse"
 											}
 										>
 											<span className="font-medium text-sm text-[#101828] dark:text-white">{data["Create Topics (free/paid)"]}</span>
@@ -515,7 +568,7 @@ const Sample5 = () => {
 											className={
 												index === 0
 													? "h-5"
-													: "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"
+													: "h-7 text-right md:text-center flex justify-between lg:justify-center flex-row-reverse"
 											}
 										>
 											<span>{data["Platform Fees (only for paid topics)"]}</span>
@@ -530,7 +583,7 @@ const Sample5 = () => {
 											className={
 												index === 0
 													? "h-5"
-													: "h-9 text-right flex justify-between lg:justify-center items-center flex-row-reverse"
+													: "h-9 text-right md:text-center flex justify-between lg:justify-center items-center flex-row-reverse"
 											}
 										>
 											<span>{data["Analytics and reports for Community"]}</span>
@@ -539,12 +592,12 @@ const Sample5 = () => {
 											</span>
 										</td>
 									</tr>
-									<tr>
+									{/* <tr>
 										<td
 											className={
 												index === 0
 													? "h-10"
-													: "h-10 text-right flex justify-between lg:justify-center flex-row-reverse"
+													: "h-10 text-right md:text-center flex justify-between lg:justify-center flex-row-reverse"
 											}
 										>
 											<span>{data["Members Recognition"]}</span>
@@ -552,7 +605,7 @@ const Sample5 = () => {
 												{pricingData[0]["Members Recognition"]}
 											</span>
 										</td>
-									</tr>
+									</tr> */}
 									<tr>
 										<td>
 											<hr />
@@ -567,23 +620,23 @@ const Sample5 = () => {
 										</td>
 									</tr>
 									<tr>
-										<td className={index === 0 ? "h-5" : "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"}>
-											<span>{data["Deliveries"]}</span>
+										<td className={index === 0 ? "h-5" : "h-12 text-right md:text-center flex justify-between lg:justify-center flex-row-reverse"}>
+											<span>{data["Deliveries (all over the city)"]}</span>
 											<span className="lg:hidden text-left">
-												{pricingData[0]["Deliveries"]}
+												{pricingData[0]["Deliveries (all over the city)"]}
 											</span>
 										</td>
 									</tr>
 									<tr>
-										<td className={index === 0 ? "h-5" : "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"}>
-											<span>{data["Delivery Options"]}</span>
+										<td className={index === 0 ? "h-5" : "h-12 text-right md:text-center flex justify-between lg:justify-center flex-row-reverse"}>
+											<span>{data["Delivery Options (all over the country)"]}</span>
 											<span className="lg:hidden text-left">
-												{pricingData[0]["Delivery Options"]}
+												{pricingData[0]["Delivery Options (all over the country)"]}
 											</span>
 										</td>
 									</tr>
-									<tr>
-										<td className={index === 0 ? "h-5" : "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"}>
+									{/* <tr>
+										<td className={index === 0 ? "h-5" : "h-7 text-right md:text-center flex justify-between lg:justify-center flex-row-reverse"}>
 											<span>{data["Shipping Discounts"]}</span>
 											<span className="lg:hidden text-left">
 												{pricingData[0]["Shipping Discounts"]}
@@ -591,13 +644,13 @@ const Sample5 = () => {
 										</td>
 									</tr>
 									<tr>
-										<td className={index === 0 ? "h-5" : "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"}>
+										<td className={index === 0 ? "h-5" : "h-7 text-right md:text-center flex justify-between lg:justify-center flex-row-reverse"}>
 											<span>{data["Express Delivery"]}</span>
 											<span className="lg:hidden text-left">
 												{pricingData[0]["Express Delivery"]}
 											</span>
 										</td>
-									</tr>
+									</tr> */}
 									<tr>
 										<td>
 											<hr />
@@ -612,7 +665,7 @@ const Sample5 = () => {
 										</td>
 									</tr>
 									<tr>
-										<td className={index === 0 ? "h-5" : "h-9 text-right flex justify-between lg:justify-center flex-row-reverse"}>
+										<td className={index === 0 ? "h-7" : "h-7 text-right md:text-center flex justify-between lg:justify-center flex-row-reverse"}>
 											<span>{data["Responsive Templates"]}</span>
 											<span className="lg:hidden text-left">
 												{pricingData[0]["Responsive Templates"]}
@@ -620,19 +673,60 @@ const Sample5 = () => {
 										</td>
 									</tr>
 									<tr>
-										<td className={index === 0 ? "h-5" : "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"}>
+										<td className={index === 0 ? "h-7" : "h-7 text-right md:text-center flex justify-between lg:justify-center flex-row-reverse"}>
+											<span>{data["Images"]}</span>
+											<span className="lg:hidden text-left">
+												{pricingData[0]["Images"]}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td className={index === 0 ? "h-7" : "h-7 text-right md:text-center flex justify-between lg:justify-center flex-row-reverse"}>
+											<span>{data["Backgrounds"]}</span>
+											<span className="lg:hidden text-left">
+												{pricingData[0]["Backgrounds"]}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td className={index === 0 ? "h-7" : "h-7 text-right md:text-center flex justify-between lg:justify-center flex-row-reverse"}>
+											<span>{data["Fonts"]}</span>
+											<span className="lg:hidden text-left">
+												{pricingData[0]["Fonts"]}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td className={index === 0 ? "h-7" : "h-7 text-right md:text-center flex justify-between lg:justify-center flex-row-reverse"}>
+											<span>{data["Uploads"]}</span>
+											<span className="lg:hidden text-left">
+												{pricingData[0]["Uploads"]}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td className={index === 0 ? "h-7" : "h-7 text-right md:text-center flex justify-between lg:justify-center flex-row-reverse"}>
+											<span>{data["Templates"]}</span>
+											<span className="lg:hidden text-left">
+												{pricingData[0]["Templates"]}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td className={index === 0 ? "h-7" : "h-7 text-right md:text-center flex justify-between lg:justify-center flex-row-reverse"}>
 											<span>{data["Animated intro"]}</span>
 											<span className="lg:hidden text-left">
 												{pricingData[0]["Animated intro"]}
 											</span>
 										</td>
 									</tr>
+
 									<tr>
 										<td>
 											<hr />
 										</td>
 									</tr>
-									<tr>
+									{/* <tr>
 										<td colSpan={2} className="h-5 text-sm font-semibold text-[#365CCE] whitespace-nowrap">
 											{data.titleRow17}
 											<span className="lg:hidden text-left">
@@ -641,7 +735,7 @@ const Sample5 = () => {
 										</td>
 									</tr>
 									<tr>
-										<td className={index === 0 ? "h-5" : "h-9 text-right flex justify-between lg:justify-center flex-row-reverse"}>
+										<td className={index === 0 ? "h-5" : "h-9 text-right md:text-center flex justify-between lg:justify-center flex-row-reverse"}>
 											<span>{data["Quick Suggestion"]}</span>
 											<span className="lg:hidden text-left">
 												{pricingData[0]["Quick Suggestion"]}
@@ -649,7 +743,7 @@ const Sample5 = () => {
 										</td>
 									</tr>
 									<tr>
-										<td className={index === 0 ? "h-5" : "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"}>
+										<td className={index === 0 ? "h-5" : "h-7 text-right md:text-center flex justify-between lg:justify-center flex-row-reverse"}>
 											<span>{data["Thumbnail Generator"]}</span>
 											<span className="lg:hidden text-left">
 												{pricingData[0]["Thumbnail Generator"]}
@@ -657,7 +751,7 @@ const Sample5 = () => {
 										</td>
 									</tr>
 									<tr>
-										<td className={index === 0 ? "h-5" : "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"}>
+										<td className={index === 0 ? "h-5" : "h-7 text-right md:text-center flex justify-between lg:justify-center flex-row-reverse"}>
 											<span>{data["Description generator"]}</span>
 											<span className="lg:hidden text-left">
 												{pricingData[0]["Description generator"]}
@@ -665,7 +759,7 @@ const Sample5 = () => {
 										</td>
 									</tr>
 									<tr>
-										<td className={index === 0 ? "h-5" : "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"}>
+										<td className={index === 0 ? "h-5" : "h-7 text-right md:text-center flex justify-between lg:justify-center flex-row-reverse"}>
 											<span>{data["Keyword Suggestions"]}</span>
 											<span className="lg:hidden text-left">
 												{pricingData[0]["Keyword Suggestions"]}
@@ -673,13 +767,13 @@ const Sample5 = () => {
 										</td>
 									</tr>
 									<tr>
-										<td className={index === 0 ? "h-5" : "h-7 text-right flex justify-between lg:justify-center flex-row-reverse"}>
+										<td className={index === 0 ? "h-5" : "h-7 text-right md:text-center flex justify-between lg:justify-center flex-row-reverse"}>
 											<span>{data["Contact Support"]}</span>
 											<span className="lg:hidden text-left">
 												{pricingData[0]["Contact Support"]}
 											</span>
 										</td>
-									</tr>
+									</tr> */}
 
 								</tbody>
 							))}

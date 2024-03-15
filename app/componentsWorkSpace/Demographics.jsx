@@ -1,11 +1,13 @@
 import React from "react";
 import MemorizedDontHave from "./DontHave";
+import BlurredComponent from "./Blur";
 
-const Demographics = ({ demo, data, member, ages }) => {
+const Demographics = ({ demo, data, member, ages, memberships }) => {
 
   return (
     <>
-      {data > 0 ? < div className="p-3 border text-sm dark:border-[#3d4654] dark:text-white rounded-xl">
+      {data > 0 ? < div className="p-3 border relative text-sm dark:border-[#3d4654] dark:text-white rounded-xl">
+        {memberships === "Free" && <BlurredComponent />}
         <div className="flex justify-between items-center text-sm">
           <div>Statistics</div>
           <div>Total:</div>

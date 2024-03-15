@@ -23,14 +23,16 @@ import toast from "react-hot-toast";
 import { LoadThis } from "@/app/redux/slice/userData";
 import { useSearchParams, useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import { FaCrown } from "react-icons/fa";
+import MembershipPopup from "@/app/componentsWorkSpace/MembershipPopup";
+import { useGetFetchOrderQuery } from "@/app/redux/apiroutes/userLoginAndSetting";
 
 export default function Store() {
 	const [data, setData] = useState([]);
-	const { id } = getData()
+	const { id, memberships } = getData()
 	const dispatch = useDispatch();
 	// const [check, setCheck] = useState(2);
 	const [check, setCheck] = useState(null);
-	const [storeVerified, setStoreVerified] = useState(null)
 	const params = useSearchParams()
 	const queryForCreation = params.get("q")
 	const router = useRouter()
@@ -41,6 +43,10 @@ export default function Store() {
 		d3: null,
 	});
 	const [productdeletemutate] = useDeleteProductMutation();
+	const { data: getorderdata } = useGetFetchOrderQuery(
+		{ id: id },
+		{ skip: !id }
+	);
 	const { data: productdata, isLoading, refetch } = useGetProductQuery(
 		{ id: id },
 		{ skip: !id, refetchOnMountOrArgChange: true, }
@@ -51,7 +57,7 @@ export default function Store() {
 			skip: !id
 		}
 	);
-
+	const [pop, setPop] = useState(false)
 	//const [deleteMutation] = useRemoveCollectionMutation();
 	const [showImage, setShowImage] = useState(null);
 	const [image, setImage] = useState(null);
@@ -161,6 +167,13 @@ export default function Store() {
 	}
 	return (
 		<>
+
+			{pop &&
+				<div className='fixed inset-0 z-50 w-screen flex justify-center items-center bg-black/50 sm:h-screen'>
+					<MembershipPopup setPop={setPop} />
+				</div>
+			}
+
 			{queryForCreation == "collection" && checkstore.isverified && check == 1 && (
 				<CreateCollection
 					setCheck={setCheck}
@@ -216,13 +229,16 @@ export default function Store() {
 									Product
 								</div>
 
-								<Link href={`/main/store?q=${checkstore?.q}`}
+								{memberships === "Free" && productdata?.collections?.length >= 1 ? <div onClick={() => setPop(true)} className="py-2 flex justify-center items-center dark:bg-[#323d4e] dark:text-white gap-1 border light:border-[#f1f1f1] vs:max-pp:text-[12px] px-2.5 sm:px-5 font-medium bg-white text-black rounded-xl">
+									{checkstore?.exist ? "Create Collection" : "Create Store"}
+									<FaCrown />
+								</div> : <Link href={`/main/store?q=${checkstore?.q}`}
 									onClick={createCheck}
 									className="py-2 flex justify-center items-center dark:bg-[#323d4e] dark:text-white gap-1 border light:border-[#f1f1f1] vs:max-pp:text-[12px] px-2.5 sm:px-5 font-medium bg-white text-black rounded-xl"
 								>
 									{checkstore?.exist ? "Create Collection" : "Create Store"}
 									<GoPlus />
-								</Link>
+								</Link>}
 							</div>
 
 							<div className="p-1 px-2 w-full  grid grid-cols-1">
@@ -236,8 +252,8 @@ export default function Store() {
 											<div className="flex flex-col gap-1">
 												<div className="font-medium">Earings</div>
 												<div className="flex gap-1 text-xs  items-center">
-													<div className="text-base font-medium">0</div>
-													<div className="text-green-700">+0.00%</div>
+													<div className="text-base font-medium">{getorderdata?.earnings}</div>
+													{/* <div className="text-green-700">+0.00%</div> */}
 												</div>
 											</div>
 										</div>
@@ -248,8 +264,8 @@ export default function Store() {
 											<div className="flex flex-col gap-1">
 												<div className="font-medium">Customers</div>
 												<div className="flex gap-1 text-xs  items-center">
-													<div className="text-base font-medium">0</div>
-													<div className="text-green-700">+0.00%</div>
+													<div className="text-base font-medium">{getorderdata?.customers}</div>
+													{/* <div className="text-green-700">+0.00%</div> */}
 												</div>
 											</div>
 										</div>
@@ -261,22 +277,22 @@ export default function Store() {
 												<div className="flex flex-col gap-1">
 													<div className="font-medium">All Orders</div>
 													<div className="flex gap-1 text-xs  items-center">
-														<div className="text-base font-medium">0</div>
-														<div className="text-green-700">+0.00%</div>
+														<div className="text-base font-medium">{getorderdata?.allorders}</div>
+														{/* <div className="text-green-700">+0.00%</div> */}
 													</div>
 												</div>
 												<div className="flex flex-col gap-1">
 													<div className="font-medium">Pending</div>
 													<div className="flex gap-1 text-xs  items-center">
-														<div className="text-base font-medium">0</div>
-														<div className="text-green-700">+0.00%</div>
+														<div className="text-base font-medium">{getorderdata?.pendingOrders?.length}</div>
+														{/* <div className="text-green-700">+0.00%</div> */}
 													</div>
 												</div>
 												<div className="flex flex-col gap-1">
 													<div className="font-medium">Completed</div>
 													<div className="flex gap-1 text-xs  items-center">
-														<div className="text-base font-medium">0</div>
-														<div className="text-green-700">+0.00%</div>
+														<div className="text-base font-medium">{getorderdata?.completedOrders?.length}</div>
+														{/* <div className="text-green-700">+0.00%</div> */}
 													</div>
 												</div>
 											</div>
@@ -291,8 +307,8 @@ export default function Store() {
 											<div>
 												<div className="font-medium">Earings</div>
 												<div className="flex gap-1 text-xs  items-center">
-													<div className="text-base font-medium">0</div>
-													<div className="text-green-700">+0.00%</div>
+													<div className="text-base font-medium">{getorderdata?.earnings}</div>
+													{/* <div className="text-green-700">+0.00%</div> */}
 												</div>
 											</div>
 										</div>
@@ -303,8 +319,8 @@ export default function Store() {
 											<div>
 												<div className="font-medium">Customers</div>
 												<div className="flex gap-1 text-xs  items-center">
-													<div className="text-base font-medium">0</div>
-													<div className="text-green-700">+0.00%</div>
+													<div className="text-base font-medium">{getorderdata?.customers}</div>
+													{/* <div className="text-green-700">+0.00%</div> */}
 												</div>
 											</div>
 										</div>
@@ -316,22 +332,22 @@ export default function Store() {
 												<div>
 													<div className="font-medium">All Orders</div>
 													<div className="flex gap-1 text-xs  items-center">
-														<div className="text-base font-medium">0</div>
-														<div className="text-green-700">+0.00%</div>
+														<div className="text-base font-medium">{getorderdata?.allorders}</div>
+														{/* <div className="text-green-700">+0.00%</div> */}
 													</div>
 												</div>
 												<div>
 													<div className="font-medium">Pending</div>
 													<div className="flex gap-1 text-xs  items-center">
-														<div className="text-base font-medium">0</div>
-														<div className="text-green-700">+0.00%</div>
+														<div className="text-base font-medium">{getorderdata?.pendingOrders?.length}</div>
+														{/* <div className="text-green-700">+0.00%</div> */}
 													</div>
 												</div>
 												<div>
 													<div className="font-medium">Completed</div>
 													<div className="flex gap-1 text-xs  items-center">
-														<div className="text-base font-medium">0</div>
-														<div className="text-green-700">+0.00%</div>
+														<div className="text-base font-medium">{getorderdata?.completedOrders?.length}</div>
+														{/* <div className="text-green-700">+0.00%</div> */}
 													</div>
 												</div>
 											</div>
@@ -371,7 +387,15 @@ export default function Store() {
 															<div
 																className="flex cursor-pointer justify-center items-center gap-2"
 															>
-																<Link href={"/main/store/addproduct"}
+																{memberships === "Free" && d.products?.length >= 5 ? <div
+																	onClick={() => {
+																		setPop(true)
+																	}}
+																	className="bg-[#5570F1] flex justify-center items-center gap-2 text-white p-1.5 px-3 text-xs sm:text-base sm:px-6 font-semibold rounded-xl"
+																>
+																	Add Product
+																	<FaCrown />
+																</div> : <Link href={"/main/store/addproduct"}
 																	onClick={() => {
 
 																		Cookies.set("clvss", encryptaes(d._id))
@@ -379,7 +403,7 @@ export default function Store() {
 																	className="bg-[#5570F1] text-white p-1.5 px-3 text-xs sm:text-base sm:px-6 font-semibold rounded-xl"
 																>
 																	Add Product
-																</Link>
+																</Link>}
 															</div>
 														</div>
 														<div className="mt-1">

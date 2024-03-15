@@ -9,81 +9,99 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import Charts from "./Charts"
+import { formatDate } from "../utilsHelper/Useful";
 
 const Communitydata = ({ state, analyticsdata, setState }) => {
 
   const communityData = state.stats && state?.stats?.map((d) => ({
-    members: Number(d.Y1),
-    X: d.X,
-    visitors: Number(d.Y2),
-    unjoined: Number(d.Y3)
+    members: d.Y1 ? Number(d.Y1) : 0,
+    X: d.X ? formatDate(d.X) : d.X,
+    visitors: d.Y2 ? Number(d.Y2) : 0,
+    leave: d.Y3 ? Number(d.Y3) : 0
   }))
 
   return (
     <div className="h-full ">
       <div className="rounded-2xl dark:border-2 dark:border-[#313d4f] dark:text-white dark:bg-[#273142] bg-white">
-        <div className="flex justify-between p-2">
-          <Select
-            className="dark:text-white dark:bg-[#323b4e] dark:border-none "
-            // defaultValue={state.name}
+        <div className="flex h-14 justify-between rounded-2xl p-2">
+          <div className=" overflow-hidden w-[150px] ring-[1px] ring-[#d1d1d1] rounded-xl">
+            <Select
+              style={{
+                borderRadius: "20px"
+              }}
+              className="dark:text-white rounded-2xl dark:bg-[#323b4e] border-none "
+              onValueChange={(selectedValue) => {
+                const selectedData = analyticsdata?.commerged?.find(
+                  (item) => item.id === selectedValue
+                );
+                if (selectedData) {
+                  setState({
+                    dp: selectedData.image,
+                    name: selectedData.name,
+                    popularity: selectedData.popularity,
+                    stats: selectedData.stats,
+                    totalmembers: selectedData.totalmembers,
+                    visitors: selectedData.visitors,
+                    paidmember: selectedData.paidmember,
+                    id: selectedData.id,
+                    age: selectedData.agerange,
+                    location: selectedData.location
+                  });
+                }
+              }}
 
-            onValueChange={(selectedValue) => {
-              const selectedData = analyticsdata?.commerged?.find(
-                (item) => item.id === selectedValue
-              );
-              if (selectedData) {
-                setState({
-                  dp: selectedData.image,
-                  name: selectedData.name,
-                  popularity: selectedData.popularity,
-                  stats: selectedData.stats,
-                  totalmembers: selectedData.totalmembers,
-                  visitors: selectedData.visitors,
-                  paidmember: selectedData.paidmember,
-                  id: selectedData.id,
-                  age: selectedData.agerange,
-                  location: selectedData.location
-                });
-              }
-            }}
-
-          >
-            <SelectTrigger className="w-[150px] dark:text-white dark:bg-[#323b4e] dark:border-none ">
-              <SelectValue
-                placeholder={state.name}
-                className="dark:text-white dark:bg-[#323b4e] dark:border-none "
-              />
-            </SelectTrigger>
-            <SelectContent className="dark:text-white dark:bg-[#323b4e] dark:border-none ">
-              <SelectGroup className="max-h-[200px] gap-1 w-full flex flex-col justify-center items-center">
-                {analyticsdata?.commerged?.map((d, i) => (
-                  <SelectItem
-                    value={
-                      `${d?.id}`
-                    }
-                    key={i}
-                    className=" "
-                  >
-
+            >
+              <SelectTrigger className="w-[150px] dark:text-white dark:bg-[#323b4e] dark:border-none ">
+                <SelectValue
+                  // placeholder={state.name}
+                  placeholder={
                     <div className="flex justify-center gap-2 items-center w-full">
                       <div>
                         <img
-                          src={d?.image}
+                          src={state.dp}
                           className="max-w-[30px] rounded-lg min-h-[30px] min-w-[30px] max-h-[30px]"
                           alt="image"
                         />
                       </div>
                       <div className="flex flex-col">
-                        <div className="text-xs">{d?.name?.length > 8 ? `${d?.name?.slice(0, 8)}...` : d?.name}</div>
+                        <div className="text-xs">{state?.name?.length > 8 ? `${state?.name?.slice(0, 8)}...` : state?.name}</div>
                       </div>
                     </div>
+                  }
+                  className="dark:text-white dark:bg-[#323b4e] dark:border-none "
+                />
+              </SelectTrigger>
+              <SelectContent className="dark:text-white dark:bg-[#323b4e] dark:border-none ">
+                <SelectGroup className="max-h-[200px] gap-1 w-full flex flex-col justify-center items-center">
+                  {analyticsdata?.commerged?.map((d, i) => (
+                    <SelectItem
+                      value={
+                        `${d?.id}`
+                      }
+                      key={i}
+                      className=" "
+                    >
 
-                  </SelectItem>
-                ))}
+                      <div className="flex justify-center gap-2 items-center w-full">
+                        <div>
+                          <img
+                            src={d?.image}
+                            className="max-w-[30px] rounded-lg min-h-[30px] min-w-[30px] max-h-[30px]"
+                            alt="image"
+                          />
+                        </div>
+                        <div className="flex flex-col">
+                          <div className="text-xs">{d?.name?.length > 8 ? `${d?.name?.slice(0, 8)}...` : d?.name}</div>
+                        </div>
+                      </div>
 
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+                    </SelectItem>
+                  ))}
+
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
 
           {/* <div className="flex pn:max-sm:hidden justify-center items-center gap-1">
             <div className="text-xl">

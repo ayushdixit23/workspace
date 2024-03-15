@@ -140,7 +140,7 @@ const MembershipPopup = ({ setPop }) => {
 										Free 10 Deliveries
 									</p>
 									<p className="text-[#717F87] text-[14px] leading-[24px] font-medium">
-										Limited selection of templates
+										Access upto 5 templates
 									</p>
 
 								</div>
@@ -188,16 +188,16 @@ const MembershipPopup = ({ setPop }) => {
 							<div className="pt-[25px] px-[25px] pb-[35px]">
 								<div className='flex flex-col gap-3'>
 									<p className="text-[#717F87] text-[14px] leading-[24px] font-medium">
-										Create Up-to 5 Products
+										Create Up-to 10 Products
 									</p>
 									<p className="text-[#717F87] text-[14px] leading-[24px] font-medium">
-										Create Up-to 2 Communities
+										Create Up-to 5 Communities
 									</p>
 									<p className="text-[#717F87] text-[14px] leading-[24px] font-medium">
-										Free 10 Deliveries
+										Free 400 Deliveries
 									</p>
 									<p className="text-[#717F87] text-[14px] leading-[24px] font-medium">
-										Limited selection of templates
+										Access upto 15 templates
 									</p>
 
 								</div>
@@ -242,20 +242,18 @@ const MembershipPopup = ({ setPop }) => {
 							<div className="pt-[25px] px-[25px] pb-[35px]">
 								<div className='flex flex-col gap-3'>
 									<p className="text-[#717F87] text-[14px] leading-[24px] font-medium">
-										Create Up-to 5 Products
+										Create Custom Number of Products
 									</p>
 									<p className="text-[#717F87] text-[14px] leading-[24px] font-medium">
-										Create Up-to 2 Communities
+										Create Custom Number of Communities
 									</p>
 									<p className="text-[#717F87] text-[14px] leading-[24px] font-medium">
-										Free 10 Deliveries
+										Free Custom No of Deliveries
 									</p>
 									<p className="text-[#717F87] text-[14px] leading-[24px] font-medium">
-										Limited selection of templates
+										Limited Custom selection templates
 									</p>
-
 								</div>
-
 								<div className="mt-[25px]">
 									<button onClick={() => router.push("/membership/custom")} className="bg-[#006EF5] rounded-[5px] py-[15px] px-[25px] text-[#fff] text-[14px] leading-[17px] font-semibold">Upgrade +</button>
 								</div>

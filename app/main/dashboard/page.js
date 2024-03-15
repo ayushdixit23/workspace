@@ -20,13 +20,14 @@ import { useGetAnalyticsQuery } from "@/app/redux/apiroutes/community";
 import { useGetFetchOrderQuery } from "@/app/redux/apiroutes/userLoginAndSetting";
 import { getData } from "@/app/utilsHelper/Useful";
 import Link from "next/link";
+import BlurredComponent from "@/app/componentsWorkSpace/Blur";
 
 function Dashboard() {
 	const [change, setChange] = useState("community");
 	const [comchange, setComchange] = useState(1);
 	const [prochange, setProchange] = useState("1");
 	const [loading, setLoading] = useState(true);
-	const { id } = getData()
+	const { id, memberships } = getData()
 	const { data: analyticsdata, isLoading } = useGetAnalyticsQuery(
 		{ id: id },
 		{ skip: !id }
@@ -134,7 +135,7 @@ function Dashboard() {
 							{change == "store" && <Storedata sales={analyticsdata?.sales} getorderdata={getorderdata} />}
 						</div>
 					</div>
-					<div className="md:col-span-4 sm:col-span-5 h-full sm:mb-0 mb-[64px] sm:max-h-[570px] sticky top-2 w-full sm:rounded-xl dark:bg-[#273142] dark:border-2 dark:border-[#323d4e] sm:bg-white  p-[6px]">
+					<div className="md:col-span-4 sm:col-span-5 h-full sm:mb-0 mb-[64px] sm:max-h-[570px] xl:max-h-full sticky top-2 w-full sm:rounded-xl dark:bg-[#273142] dark:border-2 dark:border-[#323d4e] sm:bg-white  p-[6px]">
 						<div className={`h-full flex flex-col  ${change == "community" ? null : "hidden"}`}>
 							<MemorizedPopularity state={state} />
 							<div className="flex text-sm justify-between light:bg-white py-2 rounded-xl my-1 flex-wrap flex-grow  items-center gap-2">
@@ -164,15 +165,15 @@ function Dashboard() {
 							<DontHave />
 						</div> */}
 									<div className={`${comchange == 1 ? null : "hidden"}`}>
-										<Member state={state} data={analyticsdata?.commerged?.length} />
+										<Member state={state} memberships={memberships} data={analyticsdata?.commerged?.length} />
 
 									</div>
 								</div>
 								<div className={`${comchange == 2 ? null : "hidden"}`}>
-									<Demographics demo={analyticsdata?.demo} member={state.totalmembers} ages={state.age} data={analyticsdata?.commerged.length} />
+									<Demographics demo={analyticsdata?.demo} memberships={memberships} member={state.totalmembers} ages={state.age} data={analyticsdata?.commerged.length} />
 								</div>
 								<div className={`${comchange == 3 ? null : "hidden"}`}>
-									<LocationCom data={analyticsdata?.commerged?.length} state={state} />
+									<LocationCom data={analyticsdata?.commerged?.length} memberships={memberships} state={state} />
 								</div>
 
 							</div>

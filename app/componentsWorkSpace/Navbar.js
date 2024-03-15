@@ -302,7 +302,7 @@ function NavBar() {
             {/* <div className={`flex dark:text-gray-400 text-lg font-semibold dark:hover:text-white text-center text-white  items-center px-4 py-2 gap-2 mt-5 rounded-md  `}>
               Premium
             </div> */}
-            <div class="relative left-4 mt-5 inline-flex group">
+            {/* <div class="relative left-4 mt-5 inline-flex group">
               <div className="absolute transition-all duration-500 opacity-50 -inset-1 bg-gradient-to-r from-[#44BCFF] rounded-xl blur-sm group-hover:opacity-100 group-hover:-inset-1 group-hover:duration-200 animate-tilt">
               </div>
               <button onClick={() => setPop(true)} href="#" title="Get quote now" className="relative inline-flex items-center gap-3 text-sm justify-center px-4 py-3 font-bold text-white transition-all duration-200 bg-gray-900 font-pj rounded-xl focus:outline-none" role="button">
@@ -310,16 +310,8 @@ function NavBar() {
                 Premium
               </button>
 
-              {/* <div
-                className="absolute transitiona-all duration-500 opacity-70 -inset-px bg-gradient-to-r from-[#44BCFF] rounded-xl blur-sm group-hover:opacity-100 group-hover:-inset-1 group-hover:duration-200 animate-tilt">
-              </div>
-              <a href="#" title="Get quote now"
-                className="relative inline-flex items-center gap-3 text-sm justify-center px-4 py-3 font-bold text-white transition-all duration-200 bg-gray-900 font-pj rounded-xl focus:outline-none "
-                role="button">
-                <FaCrown />
-                Premium
-              </a> */}
-            </div>
+             
+            </div> */}
           </nav >
 
           <button onClick={() => setOpen(true)} className="flex items-center px-4">

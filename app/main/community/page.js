@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Communitybox from "./Communitybox";
 import Link from "next/link";
 import {
@@ -10,9 +10,11 @@ import { getData } from "@/app/utilsHelper/Useful";
 import { GoPlus } from "react-icons/go";
 import toast, { Toaster } from "react-hot-toast";
 import NoCommunity from "@/app/data/NoCommunity";
+import { FaCrown } from "react-icons/fa";
+import MembershipPopup from "@/app/componentsWorkSpace/MembershipPopup";
 
 function page() {
-  const { id } = getData()
+  const { id, memberships } = getData()
   const {
     data: comdata, refetch,
     isLoading,
@@ -20,6 +22,7 @@ function page() {
     { id: id },
     { skip: !id, refetchOnMountOrArgChange: true }
   );
+  const [pop, setPop] = useState(false)
   const [deletecom] = useDeleteCommunityMutation();
   const handleDelete = async ({ dat, id, index }) => {
     try {
@@ -67,7 +70,11 @@ function page() {
   }
   return (
     <>
-
+      {pop &&
+        <div className='fixed inset-0 z-50 w-screen flex justify-center items-center bg-black/50 sm:h-screen'>
+          <MembershipPopup setPop={setPop} />
+        </div>
+      }
       {/* <Post /> */}
       <div>
         <Toaster />
@@ -76,13 +83,20 @@ function page() {
             <div className=" p-2 text-[22px] text-[#202224] dark:text-white sm:font-semibold  ">
               Community
             </div>
-            <Link
-              href="/main/community/createCommunity"
-              className="py-2 vs:max-pp:text-[12px] flex justify-center items-center gap-1 border light:border-[#f1f1f1] px-2.5 sm:px-5 font-medium bg-white text-black rounded-xl dark:bg-[#323d4e] dark:text-white"
-            >
-              Create community
-              <GoPlus />
-            </Link>
+            {
+              comdata?.merged?.length >= 2 && memberships === "Free" ?
+                <div onClick={() => setPop(true)} className="py-2 vs:max-pp:text-[12px] flex justify-center items-center gap-1 border light:border-[#f1f1f1] px-2.5 sm:px-5 font-medium bg-white text-black rounded-xl dark:bg-[#323d4e] dark:text-white">
+                  Create community
+                  <FaCrown />
+                </div> : <Link
+                  href="/main/community/createCommunity"
+                  className="py-2 vs:max-pp:text-[12px] flex justify-center items-center gap-1 border light:border-[#f1f1f1] px-2.5 sm:px-5 font-medium bg-white text-black rounded-xl dark:bg-[#323d4e] dark:text-white"
+                >
+                  Create community
+                  <GoPlus />
+                </Link>
+            }
+
           </div>
           {comdata?.merged?.length > 0 ? < div className="sm:px-5  w-full sm:min-h-[65vh] text-[#202224]">
             <div className="flex w-full py-4 bg-[#F1F4F9] dark:text-white dark:bg-[#273142] rounded-xl px-4 justify-between vs:max-sm:hidden mt-4">

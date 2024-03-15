@@ -1,4 +1,5 @@
 "use client"
+import { ModeToggle } from '@/app/componentsWorkSpace/ModeToggle'
 import Loader from '@/app/data/Loader'
 import { useGetProfileQuery, usePostProfileMutation } from '@/app/redux/apiroutes/userLoginAndSetting'
 import { getItemSessionStorage, storeInSessionStorage } from '@/app/utilsHelper/Tokenwrap'
@@ -60,15 +61,6 @@ const page = () => {
 		const stringDate = formatDatetime(profile.date)
 		try {
 			setLoading2(true)
-			// const data = {
-			// 	name: profile.fullname,
-			// 	phone: profile.phone,
-			// 	email: profile.email,
-			// 	username: profile.username,
-			// 	image: profile.image,
-			// 	date: stringDate,
-			// 	bio: profile.bio
-			// };
 			const data = new FormData()
 			data.append("name", profile.fullname)
 			data.append("phone", profile.phone)
@@ -144,18 +136,6 @@ const page = () => {
 		})
 	}
 
-	// const handleChangePhotoClick = () => {
-	// 	console.log(document);
-	// 	const fileInput = document.getElementById("maryona");
-	// 	console.log(fileInput)
-
-	// 	if (fileInput) {
-	// 		fileInput.click();
-	// 	} else {
-	// 		console.error("Element with ID 'image' not found");
-	// 	}
-	// };
-
 	const isProfileChanged = () => {
 		return (
 			profile.fullname !== data?.data?.name ||
@@ -194,8 +174,14 @@ const page = () => {
 		<>
 			<Toaster />
 			<div className='md:h-[83vh] flex flex-1 flex-col dark:bg-[#273142] bg-white'>
-				<div>
-					<div className='pt-4 pb-2 border-b dark:border-[#3d4654] px-7 font-medium text-[#4880FF]'>Edit Profile</div>
+				<div className='flex justify-between border-b px-4 sm:px-7  dark:border-[#3d4654] items-center w-full'>
+					<div className='pt-4 pb-2  w-full font-medium text-[#4880FF]'>Edit Profile</div>
+
+					<div className="flex pt-4 pb-2  justify-center  
+           items-center">
+
+						<ModeToggle />
+					</div>
 				</div>
 				<div className='flex justify-center items-center w-full'>
 
@@ -266,7 +252,7 @@ const page = () => {
 							</div>
 							<div className='w-full flex flex-col gap-1 sm:max-w-[450px]'>
 								<div className='w-full text-sm'>Bio</div>
-								<input type="text" onChange={(e) => setProfile({ ...profile, bio: e.target.value })} value={profile.bio} className='w-full outline-none rounded-xl placeholder:text-sm  placeholder:text-[#718EBF] p-1.5 px-3 dark:bg-[#323d4e] dark:border-none border' placeholder='Enter Your Bio' />
+								<textarea type="text" onChange={(e) => setProfile({ ...profile, bio: e.target.value })} value={profile.bio} className='w-full outline-none rounded-xl placeholder:text-sm min-h-[50px] max-h-[200px] placeholder:text-[#718EBF] p-1.5 px-3 dark:bg-[#323d4e] dark:border-none border' placeholder='Enter Your Bio' />
 							</div>
 						</div>
 					</div>

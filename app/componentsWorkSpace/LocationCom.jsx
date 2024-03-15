@@ -1,11 +1,13 @@
 import React from "react";
 import MemorizedDontHave from "./DontHave";
+import BlurredComponent from "./Blur";
 
-const LocationCom = ({ data, state }) => {
+const LocationCom = ({ data, state, memberships }) => {
   const { location } = state
   return (
     <>
-      {data > 0 ? <div className="dark:text-white text-sm">
+      {data > 0 ? <div className="dark:text-white relative text-sm">
+        {memberships === "Free" && <BlurredComponent />}
         <div className="flex justify-between mt-3 px-1 items-center">
           <div className="text-lg font-semibold pb-1">Top Location</div>
           {/* <div className="flex justify-center text-sm p-[5px] rounded-xl gap-1 border px-3 items-center">

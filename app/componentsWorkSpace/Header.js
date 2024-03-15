@@ -7,12 +7,14 @@ import Image from "next/image";
 import { getData } from "../utilsHelper/Useful"
 import { FaCrown } from "react-icons/fa";;
 import { ModeToggle } from "./ModeToggle";
+import MembershipPopup from "./MembershipPopup";
 
 function Header() {
   const [prof, setProf] = useState(true);
   const [pic, setPic] = useState();
   const [name, setName] = useState()
   const pathname = usePathname()
+  const [pop, setPop] = useState(false)
   const { dp, fullname, memberships } = getData()
   const MemoizedWorkspaceIcon = useMemo(() => Workspaceicon, []);
   // const MemoizedNotify = useMemo(() => Notify, [])
@@ -26,8 +28,13 @@ function Header() {
 
     <>
 
+      {pop &&
+        <div className='fixed inset-0 z-50 w-screen flex justify-center items-center bg-black/50 sm:h-screen'>
+          <MembershipPopup setPop={setPop} />
+        </div>
+      }
 
-      <div className={`flex dark:bg-[#273142] items-center py-3 sm:rounded-3xl bg-white justify-between px-6 ${pathname == "/main/community" ? "sm:mx-4" : ""} w-full vs:max-sm:px-4`}>
+      <div className={`flex dark:bg-[#273142] items-center py-3 sm:rounded-xl bg-white justify-between px-6 ${pathname == "/main/community" ? "sm:mx-4" : ""} w-full vs:max-sm:px-4`}>
         <div className="sm:hidden">
           <MemoizedWorkspaceIcon />
         </div>
@@ -60,13 +67,22 @@ function Header() {
             </div>
 
           }
-
+          {/* 
           <div className="flex justify-center
            items-center">
-            {/* <MemoizedNotify /> */}
-            <ModeToggle />
-          </div>
 
+            <ModeToggle />
+          </div> */}
+          {memberships === "Free" && <div class="relative group">
+            <div className="absolute transition-all duration-500 opacity-50 -inset-1 bg-gradient-to-r from-[#44BCFF] rounded-xl blur-sm group-hover:opacity-100 group-hover:-inset-1 group-hover:duration-200 animate-tilt">
+            </div>
+            <button onClick={() => setPop(true)} href="#" title="Get quote now" className="relative inline-flex items-center gap-3 text-sm justify-center px-4 py-3 font-bold text-white transition-all duration-200 bg-gray-900 font-pj rounded-xl focus:outline-none" role="button">
+              <FaCrown />
+              Premium
+            </button>
+
+
+          </div>}
 
           <div>
 

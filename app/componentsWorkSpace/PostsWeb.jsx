@@ -50,13 +50,13 @@ const PostsWeb = ({ d, setPostid, setOpen, open, dispatch, postDeletion }) => {
 							{d?.video ? (
 								<video
 									src={d?.dps}
-									className="object-cover max-h-[50px] min-w-[50px] w-[50px] h-[50px] cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white"
+									className="object-contain bg-black max-h-[50px] min-w-[50px] w-[50px] h-[50px] cursor-pointer flex justify-center items-center rounded-md ring-1 ring-white"
 									alt="video"
 								/>
 							) : (
 								<img
 									src={d?.dps}
-									className="object-cover h-[50px] w-[50px] cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white"
+									className="object-contain bg-black h-[50px] w-[50px] cursor-pointer flex justify-center items-center rounded-md ring-1 ring-white"
 									alt="image"
 								/>
 							)}
@@ -100,17 +100,19 @@ const PostsWeb = ({ d, setPostid, setOpen, open, dispatch, postDeletion }) => {
 				<div className="flex justify-between mt-3 px-3 w-full items-center">
 					<div className="flex justify-center items-center gap-2">
 						<div>
-							<img
-								src={d?.dps}
-								className="object-cover h-[50px] w-[50px] cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
-								alt="image"
-							/>
-							{/* 
-										{d?.post.post[0].type.startsWith("video") && <video
-											src={d?.dps}
-											className=" object-cover max-h-[50px] min-w-[50px] cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white "
-											alt="video"
-										/>} */}
+							{d?.video ? (
+								<video
+									src={d?.dps}
+									className="object-contain bg-black h-[50px] w-[50px] cursor-pointer flex justify-center items-center rounded-md ring-1 ring-white "
+									alt="video"
+								/>
+							) : (
+								<img
+									src={d?.dps}
+									className="object-contain bg-black h-[50px] w-[50px] cursor-pointer flex justify-center items-center rounded-md ring-1 ring-white "
+									alt="image"
+								/>
+							)}
 						</div>
 						<div className="text-sm font-bold dark:text-white text-[#101828]">{d?.post.title.length <= 15 ? d?.post.title : `${d?.post.title.slice(0, 15)}...`}</div>
 					</div>

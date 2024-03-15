@@ -25,12 +25,12 @@ function page() {
     title: "",
     desc: "",
     selectedCategory: "Select a Category",
-    type: "Public"
+    type: "public"
   })
   const [topics, setTopics] = useState({
     isOpen: false,
     topicTitle: "",
-    type: "Free",
+    type: "free",
     message: "",
     price: "",
     topicidForEdit: null
@@ -354,11 +354,11 @@ function page() {
                 <div className="text-xl font-medium">Paid</div>
                 <div>
                   {
-                    topics.type === "Free" ? <LiaToggleOffSolid onClick={() => setTopics({ ...topics, type: "Paid" })} className="text-3xl dark:text-white text-[#282828] cursor-pointer" /> : <LiaToggleOnSolid onClick={() => setTopics({ ...topics, type: "Free", price: "" })} className="text-3xl text-[#16dbcc] cursor-pointer" />
+                    topics.type === "free" ? <LiaToggleOffSolid onClick={() => setTopics({ ...topics, type: "paid" })} className="text-3xl dark:text-white text-[#282828] cursor-pointer" /> : <LiaToggleOnSolid onClick={() => setTopics({ ...topics, type: "free", price: "" })} className="text-3xl text-[#16dbcc] cursor-pointer" />
                   }
                 </div>
               </div>
-              {topics.type === "Paid" && <div className="flex flex-col w-full gap-1">
+              {topics.type === "paid" && <div className="flex flex-col w-full gap-1">
                 <div>Price</div>
                 <div className="w-full flex justify-center p-1.5 px-3 bg-[#F4F7FE] dark:bg-[#323d4e] rounded-xl items-center">
                   <input value={topics.price}
@@ -482,8 +482,8 @@ function page() {
                   <div className="mb-4 flex flex-col gap-1">
                     <div className="text-[#606060] dark:text-[#fff] font-medium">Select type of your Community</div>
                     <div className="flex gap-3 items-center">
-                      <div onClick={() => setCreateCommunity({ ...createCommunity, type: "Public" })} className={`p-2 px-4 ${createCommunity.type === "Public" ? "bg-blue-600 text-white" : "text-black bg-white border-2 "} rounded-xl text-sm  font-semibold `}>Public</div>
-                      <div onClick={() => setCreateCommunity({ ...createCommunity, type: "Private" })} className={`p-2 px-4 ${createCommunity.type === "Private" ? "bg-blue-600 text-white" : "text-black bg-white border-2 "} rounded-xl text-sm  font-semibold `}>Private</div>
+                      <div onClick={() => setCreateCommunity({ ...createCommunity, type: "public" })} className={`p-2 px-4 ${createCommunity.type === "public" ? "bg-blue-600 text-white" : "text-black bg-white border-2 "} rounded-xl text-sm  font-semibold `}>Public</div>
+                      <div onClick={() => setCreateCommunity({ ...createCommunity, type: "private" })} className={`p-2 px-4 ${createCommunity.type === "private" ? "bg-blue-600 text-white" : "text-black bg-white border-2 "} rounded-xl text-sm  font-semibold `}>Private</div>
                     </div>
                   </div>
                   <div className="flex flex-col gap-2">

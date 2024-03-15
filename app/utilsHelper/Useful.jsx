@@ -15,6 +15,14 @@ export const formatISOStringToDMY = (dateString) => {
   return formattedDate;
 };
 
+export function formatDate(dateString) {
+  const [day, month, year] = dateString.split('/');
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const monthName = months[parseInt(month, 10) - 1];
+  return `${monthName} ${parseInt(day, 10)}, ${year}`;
+}
+
+
 export const checkToken = async (token) => {
   try {
     const decodedToken = jwt.decode(token, { complete: true });

@@ -18,9 +18,14 @@ import toast, { Toaster } from "react-hot-toast";
 import { useFetchCommunityQuery, useMonetizationMutation } from "@/app/redux/apiroutes/community";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import Cookies from "js-cookie";
+import { encryptaes } from "@/app/utilsHelper/security";
+import { useRouter } from "next/navigation";
+import Selected from "@/app/componentsWorkSpace/Selected";
 
 const page = () => {
   const { id } = getData()
+  const router = useRouter()
   const { data, isLoading, refetch } = useGetEarningStatsQuery({ id }, { skip: !id })
   const [addBank] = useAddBankMutation()
   const { data: comData } = useFetchCommunityQuery({ id }, { skip: !id })
@@ -33,9 +38,15 @@ const page = () => {
     accountno: "",
     IFSCcode: "",
   })
-
-  const [state, setState] = useState({
-    id: "", name: "", dp: "", members: "", topics: ""
+  const [count, setCount] = useState({
+    post: 0,
+    com: 0
+  })
+  const [state1, setState1] = useState({
+    id: "", name: "", dp: "", members: "", topics: "", engagementrate: "", category: "", desc: "", topic: [], ismonetized: false
+  })
+  const [state2, setState2] = useState({
+    id: "", name: "", dp: "", members: "", topics: "", engagementrate: "", category: "", desc: "", topic: [], ismonetized: false
   })
 
   const sendRequestForMontenziation = async (id, comid) => {
@@ -54,14 +65,37 @@ const page = () => {
   }
 
   useEffect(() => {
-    if (comData?.communities.length)
-      setState({
+    if (comData?.communities.length > 0) {
+
+      setCount({
+        com: comData?.communities.length,
+        post: comData?.communities[0].post,
+      })
+      setState1({
         id: comData?.communities[0].id,
         name: comData?.communities[0].name,
         topics: comData?.communities[0].topics,
-        dps: comData?.communities[0].dps,
-        members: comData?.communities[0]?.members
+        dp: comData?.communities[0].dps,
+        members: comData?.communities[0]?.members,
+        engagementrate: comData?.communities[0].engagementrate,
+        category: comData?.communities[0].category,
+        desc: comData?.communities[0].desc,
+        topic: comData?.communities[0].topic,
+        ismonetized: comData?.communities[0].ismonetized
       })
+      setState2({
+        id: comData?.communities[0].id,
+        name: comData?.communities[0].name,
+        topics: comData?.communities[0].topics,
+        dp: comData?.communities[0].dps,
+        members: comData?.communities[0]?.members,
+        engagementrate: comData?.communities[0].engagementrate,
+        category: comData?.communities[0].category,
+        desc: comData?.communities[0].desc,
+        topic: comData?.communities[0].topic,
+        ismonetized: comData?.communities[0].ismonetized
+      })
+    }
 
   }, [comData])
 
@@ -96,6 +130,16 @@ const page = () => {
     }
   }
 
+  const tosetCookie = {
+    dps: state1.dp?.trim(),
+    title: state1?.name,
+    category: state1?.category,
+    desc: state1?.desc,
+    topics: "",
+    memberscount: state1?.members
+  }
+
+
   useEffect(() => {
     // const { bankname = "", branchname = "", accountno = "", IFSCcode = "" } = data?.earningStats.bank
     if (data?.earningStats.bank.bankname && data?.earningStats.bank.branchname && data?.earningStats.bank.accountno && data?.earningStats.bank.IFSCcode) {
@@ -125,6 +169,7 @@ const page = () => {
   if (isLoading) {
     return <Loader />
   }
+
   return (
     <>
       <Toaster />
@@ -244,234 +289,224 @@ const page = () => {
                   You haven't met the criteria to apply for monetisation tool
                   access.
                 </div>
-                <div className="">
-                  <Select
-                    className="dark:text-white dark:bg-[#323b4e] dark:border-none "
-                    // defaultValue={state.name}
-
-                    onValueChange={(selectedValue) => {
-                      const selectedData = comData?.communities.find(
-                        (item) => item.id === selectedValue
-                      );
-                      if (selectedData) {
-                        setState({
-                          id: selectedData.id,
-                          topics: selectedData.topics,
-                          dp: selectedData.dps,
-                          name: selectedData.name,
-                          members: selectedData.members
-                        });
-                      }
-                    }}
-
-                  >
-                    <SelectTrigger className="w-[150px] dark:text-white dark:bg-[#323b4e] dark:border-none ">
-                      <SelectValue
-                        placeholder={state.name}
-                        className="dark:text-white dark:bg-[#323b4e] dark:border-none "
-                      />
-                    </SelectTrigger>
-                    <SelectContent className="dark:text-white dark:bg-[#323b4e] dark:border-none ">
-                      <SelectGroup className="max-h-[200px] gap-1 w-full flex flex-col justify-center items-center">
-                        {comData?.communities?.map((d, i) => (
-                          <SelectItem
-                            value={
-                              `${d?.id}`
-                            }
-                            key={i}
-                            className=" "
-                          >
-
-                            <div className="flex justify-center gap-2 items-center w-full">
-                              {/* <div>
-                                <img
-                                  src={d?.dp}
-                                  className="max-w-[30px] rounded-lg min-h-[30px] min-w-[30px] max-h-[30px]"
-                                  alt="image"
-                                />
-                              </div> */}
-                              <div className="flex flex-col">
-                                <div className="text-xs">{d?.name?.length > 8 ? `${d?.name?.slice(0, 8)}...` : d?.name}</div>
-                              </div>
-                            </div>
-
-                          </SelectItem>
-                        ))}
-
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-
-                </div>
               </div>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 my-3 ">
-                {/* <div className="flex flex-col gap-3 bg-white dark:bg-[#273142] dark:border-[#3d4654] dark:border shadow-sm py-4 px-3 rounded-xl sm:max-w-[450px]">
-                  <div className="flex gap-2 items-center">
+                <div className="flex flex-col gap-3 bg-white dark:bg-[#273142] dark:border-[#3d4654] dark:border shadow-sm py-4 px-3 rounded-xl sm:max-w-[450px]">
+                  {/* <div className="flex gap-2 items-center">
                     <div>
                       <Image src={order} className="max-w-[80px]" alt="image" />
                     </div>
                     <div className="flex flex-col gap-1">
                       <div className="text-xl font-semibold">Store</div>
                       <div className="text-sm text-[#444444] dark:text-white">
-                        "Make shopping fun! Help your viewers find and buy cool
-                        stuff while they watch your videos. Connect your store
-                        to share products with your friends."
+                        To be eligible for creating a store or uploading products, users must first establish a community presence by creating and contributing at least one post in the community."
                       </div>
                     </div>
+                  </div> */}
+                  {/* <div className="flex text-sm flex-col gap-3">
+                    {count.com < 1 || count.post < 1 ? <div className="flex text-sm flex-col gap-3">
+                      <div className="px-2 flex flex-col gap-1">
+                        <div className="flex justify-between items-center">
+                          <div className=" dark:text-white text-[#615E83]">Community</div>
+                          <div>{count.com}/1</div>
+                        </div>
+                        <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
+                          <div
+                            style={{ width: `${(count.com / 1) * 100}%` }}
+                            className="absolute top-0 left-0 rounded-r-xl z-10 bg-[#40CAB0] h-full "
+                          ></div>
+                        </div>
+                      </div>
+                      <div className="px-2 flex flex-col gap-1">
+                        <div className="flex justify-between items-center">
+                          <div className=" dark:text-white text-[#615E83]">Post</div>
+                          <div className="">1</div>
+                        </div>
+                        <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
+                          <div
+                            style={{ width: `${(count.post / 1) * 100}%` }}
+                            className="absolute top-0 left-0 rounded-r-xl z-10 bg-[#40CAB0] h-full "
+                          ></div>
+                        </div>
+                      </div>
+                    </div>
+                      :
+                      <div className="flex justify-center items-center mt-4">
+                        <button onClick={() => {
+                          router.push("/main/store")
+                        }} className="bg-[#2D9AFF] text-white p-2 text-center font-semibold px-5 text-sm rounded-lg">Get Ready !!
+                          <br />to Create your Store</button>
+                      </div>
+                    }
+                  </div> */}
+                  <div className="flex items-center gap-2">
+                    <div><Image src={order} alt="image" className="w-[60px] h-[60px] object-cover rounded-xl" /></div>
+                    <div className="text-lg font-semibold">Sell Products</div>
                   </div>
-                  <div className="flex text-sm flex-col gap-3">
-                    <div className="px-2 flex flex-col gap-1">
-                      <div className="flex justify-between items-center">
-                        <div className=" dark:text-white text-[#615E83]">Members</div>
-                        <div>10</div>
-                      </div>
-                      <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
-                        <div
-                          style={{ width: `${(state.members / 10) * 100}%` }}
-                          className="absolute top-0 left-0 rounded-r-xl z-10 bg-[#5A6ACF] h-full "
-                        ></div>
-                      </div>
-                    </div>
-                    <div className="px-2 flex flex-col gap-1">
-                      <div className="flex justify-between items-center">
-                        <div className=" dark:text-white text-[#615E83]">Engagament Rate</div>
-                        <div className="">10 %</div>
-                      </div>
-                      <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
-                        <div
-                          style={{ width: "40%" }}
-                          className="absolute top-0 left-0 rounded-r-xl z-10 bg-[#5A6ACF] h-full "
-                        ></div>
-                      </div>
-                    </div>
-                  </div>
-                  {state.members >= 10 && <div className="flex justify-end items-center">
-                    <button className="bg-[#2D9AFF] text-white p-2 px-5 text-sm rounded-lg">Apply Now</button>
-                  </div>}
-                </div> */}
-                {
-                  state.members > 150 && state.topics > 1 ?
-                    // state.members > 150 && state.topics > 3 ?
-                    <div className="p-4  bg-white dark:bg-[#273142] dark:border-[#3d4654] dark:border rounded-xl">
-                      <div className="flex flex-col">
-                        <div className="text-sm ">Paid Topics</div>
-                        <div className="text-2xl mt-4 font-semibold dark:text-white">
-                          ₹ 2000
-
-                        </div>
-                        <div className="flex mt-4 mb-2 gap-3 flex-col">
-                          <div className="text-[#9CA3AF] font-bold">Top 3 Topic Sold</div>
-                          <div className="flex gap-2 text-sm mb-2 flex-col">
-                            <div>Esports : ₹5000</div>
-                            <div>Gaming :  ₹4000</div>
-                            <div>Food :  ₹3000</div>
-                          </div>
-                        </div>
-
-                      </div>
-
-                    </div>
-
-                    : < div className="flex flex-col gap-3 bg-white dark:bg-[#273142] dark:border-[#3d4654] dark:border shadow-sm py-4 px-3 rounded-xl sm:max-w-[450px]">
-                      <div className="flex gap-2 items-center">
-                        <div>
-                          <Image src={Cl} className="max-w-[80px]" alt="image" />
-                        </div>
-                        <div className="flex flex-col gap-1">
-                          <div className="text-xl font-semibold">Paid Topics</div>
-                          <div className="text-sm text-[#444444] dark:text-white">
-                            "Create a paid topic and earn monthly income from your
-                            members. Your followers pay for exclusive access, and
-                            you generate extra revenue."
-                          </div>
-                        </div>
-                      </div>
-                      <div className="flex text-sm flex-col gap-3">
-                        <div className="px-2 flex flex-col gap-1">
-                          <div className="flex justify-between items-center">
-                            <div className=" dark:text-white text-[#615E83]">Members</div>
-                            <div>{state.members}/150</div>
-                          </div>
-                          <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
-                            <div
-                              style={{ width: `${(state.members / 150) * 100}%` }}
-                              className="absolute top-0 left-0 rounded-r-xl z-10 bg-[#5A6ACF] h-full "
-                            ></div>
-                          </div>
-                        </div>
-                        <div className="px-2 flex flex-col gap-1">
-                          <div className="flex justify-between items-center">
-                            <div className=" dark:text-white text-[#615E83]">Engagament Rate</div>
-                            <div className="">10 %</div>
-                          </div>
-                          <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
-                            <div
-                              style={{ width: "70%" }}
-                              className="absolute top-0 left-0 rounded-r-xl z-10 bg-[#5A6ACF] h-full "
-                            ></div>
-                          </div>
-                        </div>
-                        {state.members >= 150 && <div className="flex justify-end items-center">
-                          <div className="text-green-400">Hurray! Now You Can Create Paid Topics.</div>
-                        </div>}
-                      </div>
+                  {(count.com < 1 || count.post < 1 || !comData.store) &&
+                    <div className="text-sm">
+                      To be eligible for creating a store or uploading products, users must first establish a community presence by creating and contributing at least one post in the community."
                     </div>}
-                {state.members < 1000 ? <div className="flex flex-col gap-3 bg-white dark:bg-[#273142] dark:border-[#3d4654] dark:border shadow-sm py-4 px-3 rounded-xl sm:max-w-[450px]">
-                  <div className="flex gap-2 items-center">
+
+                  <div className="flex text-sm flex-col gap-3">
+                    {
+                      comData?.store && count.com > 1 && count.post > 1 ? <>
+                        <div className="bg-[#f1f1f1] rounded-lg dark:bg-[#3d4654]">
+                          <div className="flex flex-col py-2 text-[14px] font-semibold gap-1 justify-center items-center">
+                            <div>Total Earnings</div>
+                            <div>₹0.00</div>
+                          </div>
+                        </div>
+
+                        <div className="text-sm">
+                          <div className="flex justify-between items-center">
+                            <div>Product Name</div>
+                            <div>sales</div>
+                          </div>
+                          <div className="flex mt-1 justify-between items-center">
+                            <div>Product Name</div>
+                            <div>sales</div>
+                          </div>
+                        </div>
+
+                      </> :
+
+                        <> {
+                          count.com < 1 || count.post < 1 ? <div className="flex text-sm flex-col gap-3">
+                            <div className="px-2 flex flex-col gap-1">
+                              <div className="flex justify-between items-center">
+                                <div className=" dark:text-white text-[#615E83]">Community</div>
+                                <div>{count.com}/1</div>
+                              </div>
+                              <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
+                                <div
+                                  style={{ width: `${(count.com / 1) * 100}%` }}
+                                  className="absolute top-0 left-0 rounded-r-xl z-10 bg-[#40CAB0] h-full "
+                                ></div>
+                              </div>
+                            </div>
+                            <div className="px-2 flex flex-col gap-1">
+                              <div className="flex justify-between items-center">
+                                <div className=" dark:text-white text-[#615E83]">Post</div>
+                                <div className="">1</div>
+                              </div>
+                              <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
+                                <div
+                                  style={{ width: `${(count.post / 1) * 100}%` }}
+                                  className="absolute top-0 left-0 rounded-r-xl z-10 bg-[#40CAB0] h-full "
+                                ></div>
+                              </div>
+                            </div>
+                          </div>
+                            :
+                            <div className="flex justify-center items-center mt-4">
+                              <button onClick={() => {
+                                router.push("/main/store")
+                              }} className="bg-[#2D9AFF] text-white p-2 text-center font-semibold px-5 text-sm rounded-lg">Get Ready !!
+                                <br />to Create your Store</button>
+                            </div>
+                        }</>
+                    }
+
+                  </div>
+                </div>
+                <div className="flex flex-col gap-3 bg-white dark:bg-[#273142] dark:border-[#3d4654] dark:border shadow-sm py-4 px-3 rounded-xl sm:max-w-[450px]">
+
+                  <div className="flex justify-between items-center">
+                    <div className="flex items-center gap-2">
+                      <div><Image src={Cl} alt="image" className="w-[60px] h-[60px] object-cover rounded-xl" /></div>
+                      <div className="text-lg font-semibold">Topics</div>
+                    </div>
                     <div>
-                      <Image src={ads} className="max-w-[80px]" alt="image" />
-                    </div>
-                    <div className="flex flex-col gap-1">
-                      <div className="text-xl font-semibold">Ads</div>
-                      <div className="text-sm text-[#444444] dark:text-white">
-                        "Make money with ads on your community posts! Earn from
-                        ads that appear before, during, and after your videos on
-                        the watch page."
-                      </div>
+                      <Selected setState={setState1} state={state1} data={comData?.communities} />
                     </div>
                   </div>
+                  {(state1.members < 150 || state1.engagementrate < 10 || state1.topics < 3) && < div className="text-sm">
+                    To create a topic, meet criteria: 150 members, 10% engagement.
+                  </div>
+                  }
                   <div className="flex text-sm flex-col gap-3">
-                    <div className="px-2 flex flex-col gap-1">
-                      <div className="flex justify-between items-center">
-                        <div className=" dark:text-white text-[#615E83]">Members</div>
-                        <div>{state.members}/1000</div>
+
+                    {state1.members >= 150 && state1.engagementrate >= 10 && state1.topics > 2 ? <>
+                      <div className="bg-[#f1f1f1] rounded-lg dark:bg-[#3d4654]">
+                        <div className="flex flex-col py-2 text-[14px] font-semibold gap-1 justify-center items-center">
+                          <div>Total Earnings</div>
+                          <div>₹0.00</div>
+                        </div>
                       </div>
-                      <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
-                        <div
-                          style={{ width: `${(state.members / 1000) * 100}%` }}
-                          className="absolute top-0 left-0 rounded-r-xl z-10 bg-[#5A6ACF] h-full "
-                        ></div>
+
+                      <div className="text-sm">
+                        <div className="flex justify-between items-center">
+                          <div>Topics</div>
+                          <div>Members</div>
+                          <div>Earnings</div>
+                        </div>
+                        <div className="flex mt-1 justify-between items-center">
+                          <div>Product Name</div>
+                          <div></div>
+                          <div>sales</div>
+                        </div>
                       </div>
-                    </div>
-                    <div className="px-2 flex flex-col gap-1">
-                      <div className="flex justify-between items-center">
-                        <div className=" dark:text-white text-[#615E83]">Engagament Rate</div>
-                        <div className="">10 %</div>
-                      </div>
-                      <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
-                        <div
-                          style={{ width: "50%" }}
-                          className="absolute top-0 left-0 rounded-r-xl z-10 bg-[#5A6ACF] h-full "
-                        ></div>
-                      </div>
-                    </div>
-                    {state.members >= 1000 && <div className="flex justify-end items-center">
-                      <button onClick={() => sendRequestForMontenziation(id, state.id)} className="bg-[#2D9AFF] text-white p-2 px-5 text-sm rounded-lg">Apply for Monetization</button>
-                    </div>}
+                    </>
+                      :
+                      <>
+                        {
+
+                          (state1.engagementrate < 10 || state1.members < 150)
+                          && <div className="flex text-sm flex-col gap-3">
+                            <div className="px-2 flex flex-col gap-1">
+                              <div className="flex justify-between items-center">
+                                <div className=" dark:text-white text-[#615E83]">Members</div>
+                                <div>{state1.members}/150</div>
+                              </div>
+                              <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
+                                <div
+                                  style={{ width: `${(state1.members / 150) * 100}%` }}
+                                  className="absolute top-0 left-0 rounded-r-xl z-10 bg-[#40CAB0] h-full "
+                                ></div>
+                              </div>
+                            </div>
+                            <div className="px-2 flex flex-col gap-1">
+                              <div className="flex justify-between items-center">
+                                <div className=" dark:text-white text-[#615E83]">Engagament Rate</div>
+                                <div className="">{state1.engagementrate} %</div>
+                              </div>
+                              <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
+                                <div
+                                  style={{ width: `${((state1.engagementrate) / 10) * 100}%` }}
+                                  className="absolute top-0 left-0 rounded-r-xl z-10 bg-[#40CAB0] h-full "
+                                ></div>
+                              </div>
+                            </div>
+                          </div>
+                        }
+                        {state1.members >= 150 && state1.engagementrate >= 10 && < div className="flex justify-center mt-5 items-center">
+                          <div className="text-green-400">
+                            {state1.topics < 3 && <button onClick={() => {
+                              Cookies.set("comedta", JSON.stringify(tosetCookie))
+                              Cookies.set("cmdyd", encryptaes(state1.id))
+                              router.push("/main/community/editCommunity?topics=true")
+                            }} className="bg-[#2D9AFF] text-white p-2 text-center font-semibold px-5 text-sm rounded-lg">Get Ready !!
+                              <br />to Create your first Topic</button>}
+                          </div>
+                        </div>}
+                      </>
+                    }
                   </div>
-                </div> :
+                </div>
+
+                {state2.members >= 1000 && state2.engagementrate >= 10 ?
                   <div className="p-4  bg-white dark:bg-[#273142] dark:border-[#3d4654] dark:border rounded-xl">
                     <div className="flex flex-col">
-                      <div className="text-sm ">Ad revenue</div>
+                      <div className="text-sm flex justify-between items-center">
+                        <div>Ad revenue</div>
+                        <div>
+                          <Selected setState={setState2} state={state2} data={comData?.communities} />
+                        </div>
+                      </div>
                       <div className="text-2xl mt-4 font-semibold dark:text-white">
                         ₹ 20,000
 
-                      </div>
-
-                      <div className="flex mt-4 gap-2 mb-2 text-sm flex-col">
-                        <div>Impressions : ₹5000</div>
-                        <div>CPM (Cost Per Mille) :  ₹4000</div>
-                        <div>CPC (Cost Per Click :  ₹3000)</div>
                       </div>
 
 
@@ -481,6 +516,71 @@ const page = () => {
                         <div className="text-sm font-bold text-[#0284FE] ">90% The percentage of ad revenue that  creator will receive.</div>
                       </div>
                     </div>
+
+                  </div> :
+                  <div className="flex flex-col gap-3 bg-white dark:bg-[#273142] dark:border-[#3d4654] dark:border shadow-sm py-4 px-3 rounded-xl sm:max-w-[450px]">
+
+                    <div className="flex justify-between items-center">
+                      <div className="flex items-center gap-2">
+                        <div><Image src={ads} alt="image" className="w-[60px] h-[60px] object-cover rounded-xl" /></div>
+                        <div className="text-lg font-semibold">Ads Revenue</div>
+                      </div>
+                      <div>
+                        <Selected setState={setState2} state={state2} data={comData?.communities} />
+                      </div>
+                    </div>
+                    {(state2.members < 1000 || state2.engagementrate < 10 || state2.ismonetized === false) && < div className="text-sm">
+                      "Make money with ads on your community posts! Earn from ads that appear before, during, and after your videos on the watch page."
+                    </div>}
+
+                    {(state2.members > 1000 && state2.engagementrate > 10 && state2.ismonetized) ? <>
+                      <div className="bg-[#f1f1f1] rounded-lg dark:bg-[#3d4654]">
+                        <div className="flex flex-col py-2 text-[14px] font-semibold gap-1 justify-center items-center">
+                          <div>Total Earnings</div>
+                          <div>₹0.00</div>
+                        </div>
+                      </div>
+
+                      <div className="flex mt-4 gap-2 mb-2 text-sm flex-col">
+                        <div>Impressions : ₹5000</div>
+                        <div>CPM (Cost Per Mille) :  ₹4000</div>
+                        <div>CPC (Cost Per Click :  ₹3000)</div>
+                      </div>
+                    </>
+                      :
+                      <div className="flex text-sm flex-col gap-3">
+                        {(state2.members < 1000 && state2.engagementrate < 10) && <>
+                          <div className="px-2 flex flex-col gap-1">
+                            <div className="flex justify-between items-center">
+                              <div className=" dark:text-white text-[#615E83]">Members</div>
+                              <div>{state2.members}/1000</div>
+                            </div>
+                            <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
+                              <div
+                                style={{ width: `${(state2.members / 1000) * 100}%` }}
+                                className="absolute top-0 left-0 rounded-r-xl z-10 bg-[#40CAB0] h-full "
+                              ></div>
+                            </div>
+                          </div>
+                          <div className="px-2 flex flex-col gap-1">
+                            <div className="flex justify-between items-center">
+                              <div className=" dark:text-white text-[#615E83]">Engagament Rate</div>
+                              <div className="">{state2.engagementrate} %</div>
+                            </div>
+                            <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
+                              <div
+                                style={{ width: `${((state2.engagementrate) / 10) * 100}%` }}
+                                className="absolute top-0 left-0 rounded-r-xl z-10 bg-[#40CAB0] h-full "
+                              ></div>
+                            </div>
+                          </div>
+                        </>}
+
+                        {state2.members >= 1000 && state2.engagementrate >= 10 && <div className="flex justify-end items-center">
+                          <button onClick={() => sendRequestForMontenziation(id, state2.id)} className="bg-[#2D9AFF] text-white p-2 px-5 text-sm rounded-lg">Apply for Monetization</button>
+                        </div>}
+                      </div>
+                    }
 
                   </div>
                 }
