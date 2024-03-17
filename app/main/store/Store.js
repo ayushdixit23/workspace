@@ -252,7 +252,7 @@ export default function Store() {
 											<div className="flex flex-col gap-1">
 												<div className="font-medium">Earings</div>
 												<div className="flex gap-1 text-xs  items-center">
-													<div className="text-base font-medium">{getorderdata?.earnings}</div>
+													<div className="text-base font-medium">₹{getorderdata?.earnings}</div>
 													{/* <div className="text-green-700">+0.00%</div> */}
 												</div>
 											</div>
@@ -307,7 +307,7 @@ export default function Store() {
 											<div>
 												<div className="font-medium">Earings</div>
 												<div className="flex gap-1 text-xs  items-center">
-													<div className="text-base font-medium">{getorderdata?.earnings}</div>
+													<div className="text-base font-medium">₹{getorderdata?.earnings}</div>
 													{/* <div className="text-green-700">+0.00%</div> */}
 												</div>
 											</div>

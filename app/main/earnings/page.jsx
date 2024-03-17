@@ -43,7 +43,7 @@ const page = () => {
     com: 0
   })
   const [state1, setState1] = useState({
-    id: "", name: "", dp: "", members: "", topics: "", engagementrate: "", category: "", desc: "", topic: [], ismonetized: false
+    id: "", name: "", dp: "", members: "", topics: "", engagementrate: "", category: "", desc: "", topic: [], ismonetized: false, earnings: ""
   })
   const [state2, setState2] = useState({
     id: "", name: "", dp: "", members: "", topics: "", engagementrate: "", category: "", desc: "", topic: [], ismonetized: false
@@ -81,7 +81,8 @@ const page = () => {
         category: comData?.communities[0].category,
         desc: comData?.communities[0].desc,
         topic: comData?.communities[0].topic,
-        ismonetized: comData?.communities[0].ismonetized
+        ismonetized: comData?.communities[0].ismonetized,
+        earnings: comData?.communities[0].topic.reduce((total, item) => total + (item.earnings || 0), 0)
       })
       setState2({
         id: comData?.communities[0].id,
@@ -354,19 +355,22 @@ const page = () => {
                         <div className="bg-[#f1f1f1] rounded-lg dark:bg-[#3d4654]">
                           <div className="flex flex-col py-2 text-[14px] font-semibold gap-1 justify-center items-center">
                             <div>Total Earnings</div>
-                            <div>₹0.00</div>
+                            <div>₹{data?.earningStats?.storeearning}</div>
                           </div>
                         </div>
 
                         <div className="text-sm">
                           <div className="flex justify-between items-center">
                             <div>Product Name</div>
-                            <div>sales</div>
+                            <div>sales(by quantity.)</div>
                           </div>
-                          <div className="flex mt-1 justify-between items-center">
-                            <div>Product Name</div>
-                            <div>sales</div>
-                          </div>
+                          {data?.earningStats?.final.map((d) => (
+                            < div className="flex mt-2 justify-between items-center">
+                              <div>{d?.name}</div>
+                              <div>{d?.itemsold}</div>
+                            </div>
+                          ))}
+
                         </div>
 
                       </> :
@@ -388,7 +392,7 @@ const page = () => {
                             <div className="px-2 flex flex-col gap-1">
                               <div className="flex justify-between items-center">
                                 <div className=" dark:text-white text-[#615E83]">Post</div>
-                                <div className="">1</div>
+                                <div className="">{count.post}/1</div>
                               </div>
                               <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
                                 <div
@@ -427,27 +431,33 @@ const page = () => {
                   }
                   <div className="flex text-sm flex-col gap-3">
 
-                    {state1.members >= 150 && state1.engagementrate >= 10 && state1.topics > 2 ? <>
-                      <div className="bg-[#f1f1f1] rounded-lg dark:bg-[#3d4654]">
-                        <div className="flex flex-col py-2 text-[14px] font-semibold gap-1 justify-center items-center">
-                          <div>Total Earnings</div>
-                          <div>₹0.00</div>
+                    {state1.members >= 150 || state1.engagementrate >= 10 || state1.topics > 2 ?
+                      <>
+                        <div className="bg-[#f1f1f1] rounded-lg dark:bg-[#3d4654]">
+                          <div className="flex flex-col py-2 text-[14px] font-semibold gap-1 justify-center items-center">
+                            <div>Total Earnings</div>
+                            <div>₹{state1.earnings}</div>
+                          </div>
                         </div>
-                      </div>
 
-                      <div className="text-sm">
-                        <div className="flex justify-between items-center">
-                          <div>Topics</div>
-                          <div>Members</div>
-                          <div>Earnings</div>
+                        <div className="text-sm">
+                          <div className="flex justify-between items-center">
+                            <div>Topics</div>
+                            <div>Members</div>
+                            <div>Earnings</div>
+                          </div>
+                          {
+                            state1.topic.map((d, i) => (
+                              <div className="flex mt-1 justify-between items-center">
+                                <div>{d?.title}</div>
+                                <div>{d?.members}</div>
+                                <div>{d?.earnings}</div>
+                              </div>
+                            ))
+                          }
                         </div>
-                        <div className="flex mt-1 justify-between items-center">
-                          <div>Product Name</div>
-                          <div></div>
-                          <div>sales</div>
-                        </div>
-                      </div>
-                    </>
+
+                      </>
                       :
                       <>
                         {
@@ -468,7 +478,7 @@ const page = () => {
                             </div>
                             <div className="px-2 flex flex-col gap-1">
                               <div className="flex justify-between items-center">
-                                <div className=" dark:text-white text-[#615E83]">Engagament Rate</div>
+                                <div className=" dark:text-white text-[#615E83]">Popularity Rate</div>
                                 <div className="">{state1.engagementrate} %</div>
                               </div>
                               <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
@@ -495,7 +505,7 @@ const page = () => {
                   </div>
                 </div>
 
-                {state2.members >= 1000 && state2.engagementrate >= 10 ?
+                {/* {state2.members >= 1000 && state2.engagementrate >= 10 ?
                   <div className="p-4  bg-white dark:bg-[#273142] dark:border-[#3d4654] dark:border rounded-xl">
                     <div className="flex flex-col">
                       <div className="text-sm flex justify-between items-center">
@@ -506,7 +516,6 @@ const page = () => {
                       </div>
                       <div className="text-2xl mt-4 font-semibold dark:text-white">
                         ₹ 20,000
-
                       </div>
 
 
@@ -517,73 +526,73 @@ const page = () => {
                       </div>
                     </div>
 
-                  </div> :
-                  <div className="flex flex-col gap-3 bg-white dark:bg-[#273142] dark:border-[#3d4654] dark:border shadow-sm py-4 px-3 rounded-xl sm:max-w-[450px]">
+                  </div> : */}
+                <div className="flex flex-col gap-3 bg-white dark:bg-[#273142] dark:border-[#3d4654] dark:border shadow-sm py-4 px-3 rounded-xl sm:max-w-[450px]">
 
-                    <div className="flex justify-between items-center">
-                      <div className="flex items-center gap-2">
-                        <div><Image src={ads} alt="image" className="w-[60px] h-[60px] object-cover rounded-xl" /></div>
-                        <div className="text-lg font-semibold">Ads Revenue</div>
-                      </div>
-                      <div>
-                        <Selected setState={setState2} state={state2} data={comData?.communities} />
+                  <div className="flex justify-between items-center">
+                    <div className="flex items-center gap-2">
+                      <div><Image src={ads} alt="image" className="w-[60px] h-[60px] object-cover rounded-xl" /></div>
+                      <div className="text-lg font-semibold">Ads Revenue</div>
+                    </div>
+                    <div>
+                      <Selected setState={setState2} state={state2} data={comData?.communities} />
+                    </div>
+                  </div>
+                  {(state2.members < 1000 || state2.engagementrate < 10 || state2.ismonetized === false) && < div className="text-sm">
+                    "Make money with ads on your community posts! Earn from ads that appear before, during, and after your videos on the watch page."
+                  </div>}
+
+                  {(state2.members > 1000 && state2.engagementrate > 10 && state2.ismonetized) ? <>
+                    <div className="bg-[#f1f1f1] rounded-lg dark:bg-[#3d4654]">
+                      <div className="flex flex-col py-2 text-[14px] font-semibold gap-1 justify-center items-center">
+                        <div>Total Earnings</div>
+                        <div>₹{data?.earningStats?.adsearning}</div>
                       </div>
                     </div>
-                    {(state2.members < 1000 || state2.engagementrate < 10 || state2.ismonetized === false) && < div className="text-sm">
-                      "Make money with ads on your community posts! Earn from ads that appear before, during, and after your videos on the watch page."
-                    </div>}
 
-                    {(state2.members > 1000 && state2.engagementrate > 10 && state2.ismonetized) ? <>
-                      <div className="bg-[#f1f1f1] rounded-lg dark:bg-[#3d4654]">
-                        <div className="flex flex-col py-2 text-[14px] font-semibold gap-1 justify-center items-center">
-                          <div>Total Earnings</div>
-                          <div>₹0.00</div>
+                    {/* <div className="flex mt-4 gap-2 mb-2 text-sm flex-col">
+                      <div>Impressions : ₹5000</div>
+                      <div>CPM (Cost Per Mille) :  ₹4000</div>
+                      <div>CPC (Cost Per Click :  ₹3000)</div>
+                    </div> */}
+                  </>
+                    :
+                    <div className="flex text-sm flex-col gap-3">
+                      {(state2.members < 1000 && state2.engagementrate < 10) && <>
+                        <div className="px-2 flex flex-col gap-1">
+                          <div className="flex justify-between items-center">
+                            <div className=" dark:text-white text-[#615E83]">Members</div>
+                            <div>{state2.members}/1000</div>
+                          </div>
+                          <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
+                            <div
+                              style={{ width: `${(state2.members / 1000) * 100}%` }}
+                              className="absolute top-0 left-0 rounded-r-xl z-10 bg-[#40CAB0] h-full "
+                            ></div>
+                          </div>
                         </div>
-                      </div>
-
-                      <div className="flex mt-4 gap-2 mb-2 text-sm flex-col">
-                        <div>Impressions : ₹5000</div>
-                        <div>CPM (Cost Per Mille) :  ₹4000</div>
-                        <div>CPC (Cost Per Click :  ₹3000)</div>
-                      </div>
-                    </>
-                      :
-                      <div className="flex text-sm flex-col gap-3">
-                        {(state2.members < 1000 && state2.engagementrate < 10) && <>
-                          <div className="px-2 flex flex-col gap-1">
-                            <div className="flex justify-between items-center">
-                              <div className=" dark:text-white text-[#615E83]">Members</div>
-                              <div>{state2.members}/1000</div>
-                            </div>
-                            <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
-                              <div
-                                style={{ width: `${(state2.members / 1000) * 100}%` }}
-                                className="absolute top-0 left-0 rounded-r-xl z-10 bg-[#40CAB0] h-full "
-                              ></div>
-                            </div>
+                        <div className="px-2 flex flex-col gap-1">
+                          <div className="flex justify-between items-center">
+                            <div className=" dark:text-white text-[#615E83]">Popularity Rate</div>
+                            <div className="">{state2.engagementrate} %</div>
                           </div>
-                          <div className="px-2 flex flex-col gap-1">
-                            <div className="flex justify-between items-center">
-                              <div className=" dark:text-white text-[#615E83]">Engagament Rate</div>
-                              <div className="">{state2.engagementrate} %</div>
-                            </div>
-                            <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
-                              <div
-                                style={{ width: `${((state2.engagementrate) / 10) * 100}%` }}
-                                className="absolute top-0 left-0 rounded-r-xl z-10 bg-[#40CAB0] h-full "
-                              ></div>
-                            </div>
+                          <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
+                            <div
+                              style={{ width: `${((state2.engagementrate) / 10) * 100}%` }}
+                              className="absolute top-0 left-0 rounded-r-xl z-10 bg-[#40CAB0] h-full "
+                            ></div>
                           </div>
-                        </>}
+                        </div>
+                      </>}
 
-                        {state2.members >= 1000 && state2.engagementrate >= 10 && <div className="flex justify-end items-center">
-                          <button onClick={() => sendRequestForMontenziation(id, state2.id)} className="bg-[#2D9AFF] text-white p-2 px-5 text-sm rounded-lg">Apply for Monetization</button>
-                        </div>}
-                      </div>
-                    }
+                      {state2.members >= 1000 && state2.engagementrate >= 10 && <div className="flex justify-end items-center">
+                        <button onClick={() => sendRequestForMontenziation(id, state2.id)} className="bg-[#2D9AFF] text-white p-2 px-5 text-sm rounded-lg">Apply for Monetization</button>
+                      </div>}
+                    </div>
+                  }
 
-                  </div>
-                }
+                </div>
+                {/* } */}
               </div>
 
             </div>

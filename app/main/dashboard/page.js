@@ -20,7 +20,7 @@ import { useGetAnalyticsQuery } from "@/app/redux/apiroutes/community";
 import { useGetFetchOrderQuery } from "@/app/redux/apiroutes/userLoginAndSetting";
 import { getData } from "@/app/utilsHelper/Useful";
 import Link from "next/link";
-import BlurredComponent from "@/app/componentsWorkSpace/Blur";
+// import BlurredComponent from "@/app/componentsWorkSpace/Blur";
 
 function Dashboard() {
 	const [change, setChange] = useState("community");
@@ -169,10 +169,10 @@ function Dashboard() {
 
 									</div>
 								</div>
-								<div className={`${comchange == 2 ? null : "hidden"}`}>
+								<div className={` ${comchange == 2 ? "h-full" : "hidden"}`}>
 									<Demographics demo={analyticsdata?.demo} memberships={memberships} member={state.totalmembers} ages={state.age} data={analyticsdata?.commerged.length} />
 								</div>
-								<div className={`${comchange == 3 ? null : "hidden"}`}>
+								<div className={` ${comchange == 3 ? `${memberships === "Free" ? "h-full" : "max-h-[200px]"}` : "hidden"}`}>
 									<LocationCom data={analyticsdata?.commerged?.length} memberships={memberships} state={state} />
 								</div>
 
@@ -188,7 +188,7 @@ function Dashboard() {
 									<div>
 										<div className="font-medium">Earnings</div>
 										<div className="flex gap-1 text-xs  items-center">
-											<div className="text-base font-medium">{getorderdata?.earnings}</div>
+											<div className="text-base font-medium">₹{getorderdata?.earnings}</div>
 											{/* <div className="text-green-700">+0.00%</div> */}
 										</div>
 									</div>
@@ -276,7 +276,7 @@ function Dashboard() {
 					</div>
 				</div>
 			</div>
-		</div>
+		</div >
 	);
 }
 

@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { getData } from "../utilsHelper/Useful"
 import { FaCrown } from "react-icons/fa";;
-import { ModeToggle } from "./ModeToggle";
+// import { ModeToggle } from "./ModeToggle";
 import MembershipPopup from "./MembershipPopup";
 
 function Header() {

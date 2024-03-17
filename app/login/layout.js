@@ -5,6 +5,7 @@ import w2 from "../assets/image/w2.png"
 import w3 from "../assets/image/w3.png"
 import Image from "next/image";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 const Number = dynamic(() => import('./number/page'), { ssr: false })
 
 export default function LoginLayout({ children }) {
@@ -60,6 +61,17 @@ export default function LoginLayout({ children }) {
       </div>
       <div className="w-[50%] h-[100%] flex justify-center items-center pn:max-sm:w-[100%] pn:max-sm:h-[100%]">
         <Number />
+      </div>
+      <div className="flex fixed bottom-7 right-4 flex-wrap justify-end items-center w-full dark:text-white text-[#414141] gap-4 text-[12px] select-none">
+        <Link href={"../terms"}>T&C</Link>
+        <Link href={"../privacy"}>Privacy</Link>
+        <Link href={"../contact"}>Contact Us</Link>
+        <Link href={"/about"}>About</Link>
+        <Link href={"/requestdata"}>Request Data</Link>
+        <Link href={"/deleterequest"}>Delete Request</Link>
+        <Link href={"../shipping"}>Shipping</Link>
+        <Link href={"../cancellation"}>Cancellation</Link>
+        <Link href={"../return"}>Return Policy</Link>
       </div>
     </div >
   );

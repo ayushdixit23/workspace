@@ -35,7 +35,6 @@ function productinformation({ handleDelete, data, userid, collectionid, index })
           {/** */}
           <div className="flex gap-3 w-64 sm:max-md:w-52 items-center">
             <img
-
               src={data?.dp}
               alt="url"
               height={140}
@@ -65,6 +64,7 @@ function productinformation({ handleDelete, data, userid, collectionid, index })
             </div>
           </div>
           {/*web */}
+         
           <>
             <div className="vs:max-sm:hidden sm:max-md:w-24  sm:max-md:justify-start w-36 flex justify-center ">
               <div className="space-y-4">
@@ -84,13 +84,13 @@ function productinformation({ handleDelete, data, userid, collectionid, index })
             </div>
             <div className="vs:max-sm:hidden sm:max-md:w-24 sm:max-md:justify-start w-36 flex justify-center ">
               <div className="space-y-4">
-                <div className="vs:max-sm:hidden">{data?.quantity <= 0 ? "Out Of Stock" : "In Stock"}</div>
+                <div className="vs:max-sm:hidden">{data?.isverified === "in review" ? "pending" : <>{data?.quantity <= 0 ? "Out Of Stock" : "In Stock"}</>} </div>
               </div>
             </div>
 
           </>
 
-          {/* <div className=" justify-center items-center    sm:max-md:pr-10 space-x-1 w-36 mt-2 flex-col flex vs:max-sm:hidden">
+          {/* <div className=" justify-center items-center  sm:max-md:pr-10 space-x-1 w-36 mt-2 flex-col flex vs:max-sm:hidden">
           <div
             onClick={() => {
               setChange(!change);

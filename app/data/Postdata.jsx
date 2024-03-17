@@ -293,8 +293,8 @@ const Postdata = ({ analyticsdata, state }) => {
                       <TableCell className="text-center">{formatNumber(d?.likes)}</TableCell>
                       <TableCell className="text-center">{formatNumber(d?.comments?.length)}</TableCell>
                       <TableCell className="text-center">{formatNumber(d?.sharescount)}</TableCell>
-                      <TableCell className="text-center  h-full flex justify-center items-center">
-                        <div className="bg-[#ecfdf3] p-1 px-2 h-full flex justify-center items-center rounded-xl">
+                      <TableCell className="flex justify-center mt-5 items-center">
+                        <div className="flex justify-center items-center">
                           <div><BiUpArrowAlt className="text-[#12b76a]" /></div>
 
                           <div className="text-[#12b76a]">{`${Math.round(parseInt(d?.engrate))}%`}</div>

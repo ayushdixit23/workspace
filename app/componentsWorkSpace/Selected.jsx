@@ -23,7 +23,8 @@ const Selected = ({ state, setState, data }) => {
 							category: selectedData.category,
 							desc: selectedData.desc,
 							topic: selectedData.topic || [],
-							ismonetized: selectedData.ismonetized
+							ismonetized: selectedData.ismonetized,
+							earnings: selectedData.topic.reduce((total, item) => total + (item.earnings || 0), 0)
 						});
 					}
 				}}

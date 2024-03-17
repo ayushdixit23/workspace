@@ -118,7 +118,7 @@ const page = () => {
 		setProfile({
 			...profile,
 			fullname: data?.data?.name,
-			phone: data?.data?.phone,
+			phone: data?.data?.phone == "91" ? "" : data?.data?.phone,
 			email: data?.data?.email,
 			username: data?.data?.username,
 			image: data?.data.image,
@@ -135,6 +135,8 @@ const page = () => {
 			image: file
 		})
 	}
+
+	console.log(data?.data?.phone)
 
 	const isProfileChanged = () => {
 		return (
@@ -248,7 +250,10 @@ const page = () => {
 							</div>
 							<div className='w-full flex flex-col gap-1 sm:max-w-[450px]'>
 								<div className='w-full text-sm'>Mobile Number</div>
-								<input type="tel" onChange={(e) => setProfile({ ...profile, phone: e.target.value })} value={profile.phone} className='w-full outline-none rounded-xl placeholder:text-sm  placeholder:text-[#718EBF] p-1.5 px-3 dark:bg-[#323d4e] dark:border-none border' placeholder=' ' />
+								<div className='flex items-center w-full rounded-xl overflow-hidden dark:bg-[#323d4e] dark:border-none border'>
+									<div className='border-r-2 p-2 border-[#3d4654] flex justify-center items-center'>+91</div>
+									<input type="tel" onChange={(e) => setProfile({ ...profile, phone: e.target.value })} value={profile.phone} className='w-full outline-none placeholder:text-sm dark:bg-[#323d4e] placeholder:text-[#718EBF] p-1.5 px-3 ' placeholder=' ' />
+								</div>
 							</div>
 							<div className='w-full flex flex-col gap-1 sm:max-w-[450px]'>
 								<div className='w-full text-sm'>Bio</div>

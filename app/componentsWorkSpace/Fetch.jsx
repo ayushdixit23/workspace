@@ -79,7 +79,7 @@ const Fetch = ({ data }) => {
             <TableHeader className="bg-slate-100 dark:bg-[#323d4e]">
               <TableRow>
                 <TableHead className="w-[150px]">Order ID</TableHead>
-                <TableHead className="text-center">Product</TableHead>
+                <TableHead className="text-left">Product</TableHead>
                 <TableHead className="text-center">Date</TableHead>
                 <TableHead className="text-center">Total</TableHead>
                 <TableHead className="text-center">Customer</TableHead>
@@ -99,16 +99,17 @@ const Fetch = ({ data }) => {
                         <Image src={Img} alt="image" className="max-w-[50px]" />
                       </div> */}
                       <div>
-                        <img src={d?.image?.[0]} alt="image" className="max-w-[50px] w-full h-full object-cover rounded-xl " />
+                        <img src={d?.image} alt="image" className=" object-contain bg-black w-[60px] h-[60px] rounded-xl " />
 
                       </div>
                       <div className="flex text-sm flex-col">
-                        {d?.productId?.map((product, index) => (
+                        {/* {d?.productId?.map((product, index) => (
                           <div key={index}>
                             {index < 2 ? product?.name : null}
                           </div>
                         ))}
-                        {d?.productId?.length > 2 && <span>And more...</span>}
+                        {d?.productId?.length > 2 && <span>And more...</span>} */}
+                        {d?.productId.name}
                       </div>
                     </div>
                   </TableCell>
@@ -116,7 +117,7 @@ const Fetch = ({ data }) => {
                     {formatISOStringToDMY(d?.createdAt)}
                   </TableCell>
                   <TableCell className="text-center">
-                    ${d?.finalprice}
+                    &#8377; {d?.total}
                   </TableCell>
                   <TableCell className="text-center"> {d?.buyerId?.fullname}</TableCell>
                   <TableCell className="text-center"> {d?.paymentMode}</TableCell>
@@ -142,25 +143,26 @@ const Fetch = ({ data }) => {
                   >
                     <div className="flex justify-center items-center gap-2 pp:gap-4">
                       <div>
-                        <img src={d?.image?.[0]} alt="image" className="min-w-[50px] w-full h-full object-cover rounded-xl 
+                        <img src={d?.image} alt="image" className="object-contain bg-black w-[60px] h-[60px] rounded-xl 
                         max-w-[100px]" />
 
                       </div>
                       <div className="flex flex-col">
                         <div className="flex text-sm flex-col">
-                          {d?.productId?.map((product, index) => (
+                          {/* {d?.productId?.map((product, index) => (
                             <div key={index}>
                               {index < 2 ? product?.name : null}
                             </div>
-                          ))}
-                          {d?.productId?.length > 2 && <span>And more...</span>}
+                          ))} */}
+                          {/* {d?.productId?.length > 2 && <span>And more...</span>} */}
+                          {d?.productId.name}
                         </div>
 
                         <div className="text-[#667085] text-sm">
                           #{d?.orderId?.slice(0, 8)}
                         </div>
                         <div className="font-semibold text-sm pp:text-base">
-                          Total: ₹{d?.finalprice}
+                          Total: ₹{d?.total}
                         </div>
                       </div>
                     </div>

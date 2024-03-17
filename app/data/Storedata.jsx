@@ -1,6 +1,6 @@
 import React from "react";
 import NoOrder from "../componentsWorkSpace/NoOrder";
-import { formatISOStringToDMY } from "../utilsHelper/Useful";
+import { formatDate, formatISOStringToDMY } from "../utilsHelper/Useful";
 import ChartsStore from "./ChartsStore";
 import Link from "next/link";
 import {
@@ -17,9 +17,12 @@ const Storedata = ({ getorderdata, sales }) => {
   const salesData = sales && sales.map((d) => {
     return {
       Sales: d.Sales,
-      Dates: formatISOStringToDMY(d.Dates)
+      Dates: formatDate(d.Dates)
     }
   })
+
+  console.log(
+    sales, "sales")
 
   return (
     <div className={`flex flex-col gap-4`}>
@@ -104,15 +107,13 @@ const Storedata = ({ getorderdata, sales }) => {
               </tbody>
             </table>
           </div> */}
-
           <div className="pn:max-sm:hidden max-w-full min-w-[700px] overflow-scroll no-scrollbar dark:bg-[#273142] bg-white sm:px-3">
             <Table>
               <TableHeader className="dark:text-[#cfcfcf]">
                 <TableRow>
                   <TableHead className="w-[150px]">Order ID</TableHead>
                   <TableHead>Product Name</TableHead>
-                  {/* <TableHead>Price</TableHead> */}
-                  {/* <TableHead className="text-center">Total Order</TableHead> */}
+                  <TableHead>Quantity</TableHead>
                   <TableHead className="text-center">Total Amount</TableHead>
                 </TableRow>
               </TableHeader>
@@ -125,24 +126,25 @@ const Storedata = ({ getorderdata, sales }) => {
                     <TableCell className="text-center"> <div className="flex items-center gap-2">
                       <div>
                         <img
-                          src={d?.image?.[0]}
+                          src={d?.image}
                           alt="image"
                           className="w-[50px] h-[50px] rounded-xl object-cover"
                         />
                       </div>
                       <div className="flex text-sm text-left mb-[1px] flex-col">
-                        {d?.productId?.map((product, index) => (
+                        {/* {d?.productId?.map((product, index) => (
                           <div key={index}>
                             {index < 1 ? product?.name : null}
                           </div>
-                        ))}
-                        {d?.productId?.length > 1 && <span className="text-xs">And more...</span>}
+                        ))} */}
+                        <div>{d?.productId.name}</div>
+
+                        {/* {d?.productId?.length > 1 && <span className="text-xs">And more...</span>} */}
                       </div>
                     </div></TableCell>
-                    {/* <TableCell className="text-center">&#8377; {d?.finalprice}</TableCell> */}
-                    {/* <TableCell className="text-center"> {getorderdata?.allorders}</TableCell> */}
-                    {console.log(d.data)}
-                    <TableCell className="text-center"> &#8377; {(d?.data?.reduce((total, item) => total + item.price, 0))}</TableCell>
+                    <TableHead>{d?.quantity}</TableHead>
+
+                    <TableCell className="text-center"> &#8377; {d?.total}</TableCell>
 
                   </TableRow>
                 ))
@@ -166,25 +168,26 @@ const Storedata = ({ getorderdata, sales }) => {
                     <div className="flex justify-center items-center gap-2 pp:gap-4">
                       <div>
                         <img
-                          src={d?.image?.[0]}
+                          src={d?.image}
                           alt="image"
                           className="w-[60px] h-[60px] rounded-xl object-cover"
                         />
                       </div>
                       <div className="flex flex-col">
                         <div className="flex text-sm flex-col">
-                          {d?.productId?.map((product, index) => (
+                          {/* {d?.productId?.map((product, index) => (
                             <div key={index}>
                               {index < 1 ? product?.name : null}
                             </div>
                           ))}
-                          {d?.productId?.length > 1 && <span>And more...</span>}
+                          {d?.productId?.length > 1 && <span>And more...</span>} */}
+                          {d?.productId?.name}
                         </div>
                         <div className="text-[#667085] text-sm">
                           #{d?.orderId?.slice(0, 8)}
                         </div>
                         <div className="font-semibold text-sm pp:text-base">
-                          Total: ₹{(d?.data?.reduce((total, item) => total + item.price, 0))}
+                          Total: ₹{(d?.total)}
                         </div>
                       </div>
                     </div>

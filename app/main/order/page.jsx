@@ -89,7 +89,7 @@ const page = () => {
                     <div className="text-base font-medium">
                       {getorderdata?.allorders}
                     </div>
-                    <div className="text-green-700">+0.00%</div>
+                    {/* <div className="text-green-700">+0.00%</div> */}
                   </div>
                 </div>
               </div>
@@ -100,8 +100,8 @@ const page = () => {
                 <div className="flex flex-col gap-1">
                   <div className="font-medium">Total Balance</div>
                   <div className="flex gap-1 text-xs  items-center">
-                    <div className="text-base font-medium">0</div>
-                    <div className="text-green-700">+0.00%</div>
+                    <div className="text-base font-medium">{getorderdata?.earnings}</div>
+                    {/* <div className="text-green-700">+0.00%</div> */}
                   </div>
                 </div>
               </div>
@@ -116,7 +116,7 @@ const page = () => {
                       <div className="text-base font-medium">
                         {getorderdata?.cancelled?.length}
                       </div>
-                      <div className="text-green-700">+0.00%</div>
+                      {/* <div className="text-green-700">+0.00%</div> */}
                     </div>
                   </div>
                   <div className="flex flex-col gap-1">
@@ -125,7 +125,7 @@ const page = () => {
                       <div className="text-base font-medium">
                         {getorderdata?.returned?.length}
                       </div>
-                      <div className="text-green-700">+0.00%</div>
+                      {/* <div className="text-green-700">+0.00%</div> */}
                     </div>
                   </div>
                   <div className="flex flex-col gap-1">
@@ -134,7 +134,7 @@ const page = () => {
                       <div className="text-base font-medium">
                         {getorderdata?.damaged?.length}
                       </div>
-                      <div className="text-green-700">+0.00%</div>
+                      {/* <div className="text-green-700">+0.00%</div> */}
                     </div>
                   </div>
                 </div>
@@ -152,7 +152,7 @@ const page = () => {
                     <div className="text-base font-medium">
                       {getorderdata?.allorders}
                     </div>
-                    <div className="text-green-700">+0.00%</div>
+                    {/* <div className="text-green-700">+0.00%</div> */}
                   </div>
                 </div>
               </div>
@@ -163,8 +163,8 @@ const page = () => {
                 <div>
                   <div className="font-medium">Total Balance</div>
                   <div className="flex gap-1 text-xs  items-center">
-                    <div className="text-base font-medium">0</div>
-                    <div className="text-green-700">+0.00%</div>
+                    <div className="text-base font-medium">{getorderdata?.earnings}</div>
+                    {/* <div className="text-green-700">+0.00%</div> */}
                   </div>
                 </div>
               </div>
@@ -179,7 +179,7 @@ const page = () => {
                       <div className="text-base font-medium">
                         {getorderdata?.cancelled?.length}
                       </div>
-                      <div className="text-green-700">+0.00%</div>
+                      {/* <div className="text-green-700">+0.00%</div> */}
                     </div>
                   </div>
                   <div>
@@ -188,7 +188,7 @@ const page = () => {
                       <div className="text-base font-medium">
                         {getorderdata?.returned?.length}
                       </div>
-                      <div className="text-green-700">+0.00%</div>
+                      {/* <div className="text-green-700">+0.00%</div> */}
                     </div>
                   </div>
                   <div>
@@ -197,22 +197,24 @@ const page = () => {
                       <div className="text-base font-medium">
                         {getorderdata?.damaged?.length}
                       </div>
-                      <div className="text-green-700">+0.00%</div>
+                      {/* <div className="text-green-700">+0.00%</div> */}
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <Fetch data={postperData} />
-            {getorderdata?.mergedOrder?.length > postPerPage && <Pagination
-              postPerPage={postPerPage}
-              setCurrentPage={setCurrentPage}
-              currentPage={currentPage}
-              firstIndex={firstIndex}
-              lastindex={lastindex}
-              length={getorderdata?.mergedOrder.length}
-            />
-            }
+            <div className="pn:max-sm:mb-[64px]">
+              {getorderdata?.mergedOrder?.length > postPerPage && <Pagination
+                postPerPage={postPerPage}
+                setCurrentPage={setCurrentPage}
+                currentPage={currentPage}
+                firstIndex={firstIndex}
+                lastindex={lastindex}
+                length={getorderdata?.mergedOrder.length}
+              />
+              }
+            </div>
           </div>
         </div>
       </div>

@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import MembershipPopup from './MembershipPopup';
+import { FaCrown } from 'react-icons/fa';
 
 const BlurredComponent = ({ width, height }) => {
 	const [pop, setPop] = useState(false)
@@ -12,7 +13,14 @@ const BlurredComponent = ({ width, height }) => {
 				</div>
 			}
 
-			<div onClick={() => { setPop(true) }} className="absolute h-full max-w-[100%] max-h-[100%] z-40 w-full inset-0 bg-[#ffffffde] border-8 border-black filter blur-md transform scale-110"></div>
+			<div onClick={() => setPop(true)} className=" h-[100%]  flex justify-center items-center z-40 w-full">
+				<div className='w-full h-full flex flex-col justify-center items-center'>
+					<div className="font-semibold">
+						Buy Membership to Unlock this section
+					</div>
+					<FaCrown className='text-2xl' />
+				</div>
+			</div>
 
 		</>
 	);

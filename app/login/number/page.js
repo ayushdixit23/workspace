@@ -18,6 +18,7 @@ import { useLoginWithQrMutation } from "@/app/redux/apiroutes/userLoginAndSettin
 import useTokenAndData from "@/app/utilsHelper/tokens";
 import toast, { Toaster } from "react-hot-toast";
 import { storeInSessionStorage } from "@/app/utilsHelper/Tokenwrap";
+import Link from "next/link";
 // import Cookies from "js-cookie";
 
 function page() {
@@ -349,139 +350,140 @@ function page() {
       <Toaster toastOptions={{ duration: 4000 }} />
 
       <div id="recaptcha-container"></div>
-      {showOTP ? (
-        // OTP
-        <div className="items-center flex flex-col justify-between">
-          <div className="font-bold  pn:max-sm:text-[30px] text-[25px] dark:text-white text-[#313C58] ">
-            Verification
-          </div>
-          <div className="flex flex-col py-2 justify-center items-center">
-            <div className="text-[#96A0AD] text-[15px] pn:max-sm:text-[12px] ">
-              We’re sending an SMS to phone number
+      {
+        showOTP ? (
+          // OTP
+          <div className="items-center flex flex-col justify-between">
+            <div className="font-bold  pn:max-sm:text-[30px] text-[25px] dark:text-white text-[#313C58] ">
+              Verification
             </div>
-            <div className="text-[#96A0AD] pn:max-sm:text-[12px] text-[15px] ">
-              <span className="text-[#0075FF]">{number}</span> Wrong Number ?
+            <div className="flex flex-col py-2 justify-center items-center">
+              <div className="text-[#96A0AD] text-[15px] pn:max-sm:text-[12px] ">
+                We’re sending an SMS to phone number
+              </div>
+              <div className="text-[#96A0AD] pn:max-sm:text-[12px] text-[15px] ">
+                <span className="text-[#0075FF]">{number}</span> Wrong Number ?
+              </div>
             </div>
-          </div>
 
-          <div ref={otpInputRef}>
-            <DynamicOtpInput
-              value={otp}
-              onChange={handleOtpChange}
-              OTPLength={6}
-              otpType="number"
-              // ref={otpInputRef}
-              disabled={false}
-              autoFocus
-              className="opt-container sm:mt-3"
-            ></DynamicOtpInput>
-          </div>
-          <div className="text-black font-semibold flex text-[15px] pt-6">
-            <div className="text-center">
-              {come === 1 ? (
-                <div className="space-x-4 flex ">
-                  <div className="text-[#3e3e3e]">
-                    Don't receive code ?{" "}
-                    <button
-                      className={` text-blue-600 rounded ${isActive ? "" : ""
-                        } `}
-                      onClick={toggleTimer}
-                    >
-                      Request Again
-                    </button>
+            <div ref={otpInputRef}>
+              <DynamicOtpInput
+                value={otp}
+                onChange={handleOtpChange}
+                OTPLength={6}
+                otpType="number"
+                // ref={otpInputRef}
+                disabled={false}
+                autoFocus
+                className="opt-container sm:mt-3"
+              ></DynamicOtpInput>
+            </div>
+            <div className="text-black font-semibold flex text-[15px] pt-6">
+              <div className="text-center">
+                {come === 1 ? (
+                  <div className="space-x-4 flex ">
+                    <div className="text-[#3e3e3e]">
+                      Don't receive code ?{" "}
+                      <button
+                        className={` text-blue-600 rounded ${isActive ? "" : ""
+                          } `}
+                        onClick={toggleTimer}
+                      >
+                        Request Again
+                      </button>
+                    </div>
                   </div>
+                ) : (
+                  <h1
+                    className={`${come === 1 ? "hidden" : "text-[16px] font-normal dark:text-white text-[#3e3e3e]"
+                      } `}
+                  >
+                    Resend: <span className="font-semibold">00:{seconds}</span>
+                  </h1>
+                )}
+              </div>
+            </div>
+            <div
+              onClick={onOTPVerify}
+              className="h-[50px] w-[250px] select-none cursor-pointer bg-black mt-8 flex items-center justify-center rounded-2xl text-white"
+            >
+              {loading && <CgSpinner size={20} className="m-1 animate-spin" />}
+              <span className={`${loading ? "hidden" : ""} `}>Continue</span>
+            </div>
+          </div>
+        ) : (
+          // Phone
+          <div className="flex flex-col justify-between items-center">
+            <div className="mb-5 flex gap-3 pn:max-sm:hidden justify-center items-center flex-col">
+
+
+              <div className="relative bg-white dark:border-4 dark:border-white dark:p-1 dark:rounded-lg">
+                {loadingqr &&
+                  <div className="w-full bg-white opacity-50 absolute top-0 left-0 h-full flex justify-center items-center ">
+                    <div className="animate-spin">
+                      <RiLoader4Line className="text-3xl" />
+                    </div>
+                  </div>
+                }
+                <QRCodeSVG
+                  style={{
+                    width: "200px",
+                    height: "200px",
+                  }}
+                  value={qrCodeValue}
+                />
+              </div>
+
+              <div className="text-xl font-semibold">Sign in with QR code</div>
+              <div className="flex flex-col gap-3 justify-center items-center">
+                <div className="max-w-[70%] text-sm text-[#9095A0] text-center">
+                  Use your phone camera to scan this code to log in instanly
                 </div>
-              ) : (
-                <h1
-                  className={`${come === 1 ? "hidden" : "text-[16px] font-normal dark:text-white text-[#3e3e3e]"
-                    } `}
+              </div>
+            </div>
+
+            <div className="flex pn:max-sm:hidden items-center justify-center w-full">
+              <hr className="flex-grow border-t text-[#9095A0] border-[#9095A0] " />
+              <span className="px-3 font-medium text-[#9095A0] dark:bg-[#273142] bg-white ">
+                or Sign in with
+              </span>
+              <hr className="flex-grow border-t text-[#9095A0] border-[#9095A0]" />
+            </div>
+
+            {/* switcher */}
+
+            <div className="grid grid-cols-1 w-full md:w-[90%]">
+              <div className=" w-full flex rounded-xl dark:text-white select-none text-[14px]">
+                <div
+                  onClick={() => {
+                    setChange(1);
+                  }}
+                  className={`m-1 flex justify-center items-center h-8 w-full z-10 ${change === 1 ? 'font-bold border-b-2 border-blue-600' : 'cursor-pointer'
+                    }`}
                 >
-                  Resend: <span className="font-semibold">00:{seconds}</span>
-                </h1>
-              )}
-            </div>
-          </div>
-          <div
-            onClick={onOTPVerify}
-            className="h-[50px] w-[250px] select-none cursor-pointer bg-black mt-8 flex items-center justify-center rounded-2xl text-white"
-          >
-            {loading && <CgSpinner size={20} className="m-1 animate-spin" />}
-            <span className={`${loading ? "hidden" : ""} `}>Continue</span>
-          </div>
-        </div>
-      ) : (
-        // Phone
-        <div className="flex flex-col justify-between items-center">
-          <div className="mb-5 flex gap-3 pn:max-sm:hidden justify-center items-center flex-col">
-
-
-            <div className="relative bg-white dark:border-4 dark:border-white dark:p-1 dark:rounded-lg">
-              {loadingqr &&
-                <div className="w-full bg-white opacity-50 absolute top-0 left-0 h-full flex justify-center items-center ">
-                  <div className="animate-spin">
-                    <RiLoader4Line className="text-3xl" />
-                  </div>
+                  Phone no.
                 </div>
-              }
-              <QRCodeSVG
-                style={{
-                  width: "200px",
-                  height: "200px",
-                }}
-                value={qrCodeValue}
-              />
-            </div>
-
-            <div className="text-xl font-semibold">Sign in with QR code</div>
-            <div className="flex flex-col gap-3 justify-center items-center">
-              <div className="max-w-[70%] text-sm text-[#9095A0] text-center">
-                Use your phone camera to scan this code to log in instanly
+                <div
+                  onClick={() => {
+                    setChange(2);
+                  }}
+                  className={`m-1 flex justify-center items-center h-8 w-full z-10 ${change === 2 ? 'font-bold border-b-2 border-blue-600' : 'cursor-pointer'
+                    }`}
+                >
+                  Email
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="flex pn:max-sm:hidden items-center justify-center w-full">
-            <hr className="flex-grow border-t text-[#9095A0] border-[#9095A0] " />
-            <span className="px-3 font-medium text-[#9095A0] dark:bg-[#273142] bg-white ">
-              or Sign in with
-            </span>
-            <hr className="flex-grow border-t text-[#9095A0] border-[#9095A0]" />
-          </div>
-
-          {/* switcher */}
-
-          <div className="grid grid-cols-1 w-full md:w-[90%]">
-            <div className=" w-full flex rounded-xl dark:text-white select-none text-[14px]">
-              <div
-                onClick={() => {
-                  setChange(1);
-                }}
-                className={`m-1 flex justify-center items-center h-8 w-full z-10 ${change === 1 ? 'font-bold border-b-2 border-blue-600' : 'cursor-pointer'
-                  }`}
-              >
-                Phone no.
-              </div>
-              <div
-                onClick={() => {
-                  setChange(2);
-                }}
-                className={`m-1 flex justify-center items-center h-8 w-full z-10 ${change === 2 ? 'font-bold border-b-2 border-blue-600' : 'cursor-pointer'
-                  }`}
-              >
-                Email
-              </div>
-            </div>
-          </div>
-
-          {/* phone */}
-          <div
-            className={`${change === 1
-              ? "flex justify-start flex-col items-start  py-4"
-              : "hidden"
-              } `}
-          >
-            <div className="text-sm pb-3 px-1 dark:text-white font-semibold text-[#424856]">Enter Your Phone Number</div>
-            {/* <div className="bg-[#f7f7f7] flex items-center dark:border-[#8f9bba] overflow-hidden dark:bg-[#323d4e] border w-[300px] justify-center rounded-2xl">
+            {/* phone */}
+            <div
+              className={`${change === 1
+                ? "flex justify-start flex-col items-start  py-4"
+                : "hidden"
+                } `}
+            >
+              <div className="text-sm pb-3 px-1 dark:text-white font-semibold text-[#424856]">Enter Your Phone Number</div>
+              {/* <div className="bg-[#f7f7f7] flex items-center dark:border-[#8f9bba] overflow-hidden dark:bg-[#323d4e] border w-[300px] justify-center rounded-2xl">
               <div className="border-r-2 dark:border-[#8f9bba] sm:-ml-3 p-1 sm:pr-2 "> +91</div>
               <input value={number}
                 id="send-otp"
@@ -489,63 +491,63 @@ function page() {
                 className=" p-2 outline-none rounded-xl dark:bg-[#323d4e] bg-[#f7f7f7]" />
 
             </div> */}
-            <div className="flex justify-center dark:bg-[#323d4e] rounded-xl  bg-[#f7f7f7] items-center">
-              <div className="p-2 border-r-2 pl-2 pr-2  dark:border-[#5a6277] ">+91</div>
-              <input value={number}
-                id="send-otp"
-                onChange={(e) => setNumber(e.target.value)} type="tel"
-                className=" p-2 outline-none rounded-xl dark:bg-[#323d4e] bg-[#f7f7f7]" />
-            </div>
-          </div>
-          <div className={`${change === 1 ? "py-5 " : "hidden"} `}>
-            <div
-              // onClick={onSignup}
-              onClick={fetchid}
-              className="h-[50px] w-[300px] select-none cursor-pointer bg-black flex items-center justify-center rounded-2xl text-white "
-            >
-              {loading && <CgSpinner size={20} className="m-1 animate-spin" />}
-              <span className={`${loading ? "hidden" : ""} `}>Send Otp</span>
-            </div>
-          </div>
-          {/* email */}
-          <div className={`${change === 2 ? "" : "hidden"} `}>
-            <div>
-              <div className="text-black dark:text-[#fff] pn:max-sm:text-[15px] text-[15px] py-2">
-                Email
+              <div className="flex justify-center dark:bg-[#323d4e] rounded-xl  bg-[#f7f7f7] items-center">
+                <div className="p-2 border-r-2 pl-2 pr-2  dark:border-[#5a6277] ">+91</div>
+                <input value={number}
+                  id="send-otp"
+                  onChange={(e) => setNumber(e.target.value)} type="tel"
+                  className=" p-2 outline-none rounded-xl dark:bg-[#323d4e] bg-[#f7f7f7]" />
               </div>
-
-              <input
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="py-3 w-[300px] dark:bg-[#3d4654] dark:border-[#8f9bba] dark:border bg-[#f7f7f7] rounded-2xl px-4 "
-                placeholder="Enter your email"
-              />
             </div>
-            <div>
-              <div className="text-black dark:text-[#fff] pn:max-sm:text-[15px] text-[15px] py-2">
-                Password
-              </div>
-
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="py-3 w-[300px]  bg-[#f7f7f7] dark:bg-[#3d4654] dark:border-[#8f9bba] dark:border rounded-2xl px-4 "
-                placeholder="Enter your Password"
-              />
-            </div>
-            <div className="py-5 ">
+            <div className={`${change === 1 ? "py-5 " : "hidden"} `}>
               <div
-                onClick={handleEmailLogin}
-                className="py-3 w-[300px] select-none cursor-pointer bg-black  flex items-center justify-center rounded-2xl text-white "
+                onClick={onSignup}
+                // onClick={fetchid}
+                className="h-[50px] w-[300px] select-none cursor-pointer bg-black flex items-center justify-center rounded-2xl text-white "
               >
                 {loading && <CgSpinner size={20} className="m-1 animate-spin" />}
-                <span className={`${loading ? "hidden" : ""} `}>Continue</span>
+                <span className={`${loading ? "hidden" : ""} `}>Send Otp</span>
+              </div>
+            </div>
+            {/* email */}
+            <div className={`${change === 2 ? "" : "hidden"} `}>
+              <div>
+                <div className="text-black dark:text-[#fff] pn:max-sm:text-[15px] text-[15px] py-2">
+                  Email
+                </div>
+
+                <input
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="py-3 w-[300px] dark:bg-[#3d4654] dark:border-[#8f9bba] dark:border bg-[#f7f7f7] rounded-2xl px-4 "
+                  placeholder="Enter your email"
+                />
+              </div>
+              <div>
+                <div className="text-black dark:text-[#fff] pn:max-sm:text-[15px] text-[15px] py-2">
+                  Password
+                </div>
+
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="py-3 w-[300px]  bg-[#f7f7f7] dark:bg-[#3d4654] dark:border-[#8f9bba] dark:border rounded-2xl px-4 "
+                  placeholder="Enter your Password"
+                />
+              </div>
+              <div className="py-5 ">
+                <div
+                  onClick={handleEmailLogin}
+                  className="py-3 w-[300px] select-none cursor-pointer bg-black  flex items-center justify-center rounded-2xl text-white "
+                >
+                  {loading && <CgSpinner size={20} className="m-1 animate-spin" />}
+                  <span className={`${loading ? "hidden" : ""} `}>Continue</span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      )
+        )
       }
     </div >
   );

@@ -136,10 +136,13 @@ function NavBar() {
       }
 
       <div className={`${open ? "fixed inset-0 w-screen z-50 bg-black/60 h-screen flex justify-center items-center backdrop-blur-md" : "hidden -z-50"}`}>
-        <div className="flex justify-center items-center w-[90%] pp:w-[65%] sm:max-w-[500px] lg:w-[30%] p-3 rounded-xl h-[230px] dark:bg-[#273142] bg-white">
-          <div className="flex flex-col flex-grow gap-3 justify-center items-center w-full">
-            <div className="text-2xl font-semibold">Are You Sure?</div>
-            <div className="text-center dark:text-white text-[#667085]">Are you sure you want to log out?</div>
+        <div className="flex justify-center items-center w-[90%] pp:w-[65%] sm:max-w-[500px] lg:w-[30%] rounded-xl p-4 dark:bg-[#273142] bg-white">
+          <div className="flex flex-col flex-grow gap-8 mt-2 justify-center items-center w-full">
+            <div className="flex flex-col gap-1 justify-center items-center">
+              <div className="text-2xl font-semibold">Are You Sure?</div>
+              <div className="text-center dark:text-white text-[#667085]">Are you sure you want to log out?</div>
+            </div>
+
             <div className="flex justify-center w-full gap-3 items-center">
               <button onClick={() => setOpen(false)} className="w-full dark:border-[#3d4654] border-2 p-2 px-5 rounded-xl">Cancel</button>
               <button onClick={logout} className="w-full bg-[#f44336] text-white p-2 px-5 rounded-xl">Log Out</button>

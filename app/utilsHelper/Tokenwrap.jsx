@@ -64,6 +64,7 @@ const TokenDataWrapper = ({ children }) => {
   const path = usePathname()
   const [loading, setLoading] = useState(true)
 
+  const exactpath = ["/login", "/aybdhw", "/contact", "/cancellation", "/deleterequest", "/privacy", "/requestdata", "/return", "/shipping", "/terms"]
   useEffect(() => {
     if (isValid) {
       dispatch(changelaoding({ loading: false }));
@@ -71,7 +72,7 @@ const TokenDataWrapper = ({ children }) => {
       setLoading(false)
     }
     const token = localStorage.getItem(`frhktn${sessionId}`)
-    if (!token && (path !== "/login" && path !== "/aybdhw")) {
+    if (!token && !exactpath.includes(path)) {
       redirect("/login");
     }
     if (token && (path === "/login" || path === "/aybdhw")) {

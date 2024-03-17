@@ -11,7 +11,8 @@ import {
 } from 'recharts';
 
 const ChartsStore = ({ data }) => {
-	
+	const reversedData = data.reverse()
+
 	const calculateYAxisDomain = (data) => {
 		const allValues = data.reduce((acc, entry) => {
 			const membersValue = parseFloat(entry.Sales);
@@ -23,16 +24,14 @@ const ChartsStore = ({ data }) => {
 		}, []);
 
 		const highestValue = Math.max(...allValues);
-		console.log(highestValue);
-
 		return [0, highestValue * 2];
 	};
 	return (
 		<div>
 			<ResponsiveContainer width="100%" height={300}>
-				<BarChart width={730} height={250} data={data}>
+				<BarChart width={730} height={250} data={reversedData}>
 					<XAxis dataKey="Dates" className='text-xs' />
-					<YAxis domain={calculateYAxisDomain(data)} className='text-xs' />
+					<YAxis domain={calculateYAxisDomain(reversedData)} className='text-xs' />
 					<Tooltip cursor={{ fill: '#171717' }} />
 					<Bar dataKey="Sales" fill="#5a6acf" />
 				</BarChart>
