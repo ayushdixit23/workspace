@@ -63,7 +63,10 @@ const page = () => {
 			if (finalAmount === 0) {
 				return
 			}
-			const res = await axios.post(`https://work.grovyo.xyz/api/v1/membershipbuy/${id}/${mid}`, { amount: `₹${finalAmount}` })
+			const res = await axios.post(`https://work.grovyo.xyz/api/v1/membershipbuy/${id}/${mid}`,
+				{ amount: `₹1` }
+				// { amount: `₹${finalAmount}` }
+			)
 
 			const membershipId = res.data.memid
 			if (res.data.success) {
@@ -95,10 +98,7 @@ const page = () => {
 						const resp = await axios.post(`http://localhost:7190/api/v1/customMembership/${id}/${res.data?.order}`, data)
 						console.log(resp.data)
 						if (resp.data.success) {
-							// Cookies.remove(`excktn${sessionId}`)
-							// Cookies.remove(`frhktn${sessionId}`)
-							// Cookies.set(`excktn${data.sessionId}`, data.access_token)
-							// Cookies.set(`frhktn${data.sessionId}`, data.refresh_token)
+
 							localStorage.removeItem(`excktn${sessionId}`)
 							localStorage.removeItem(`frhktn${sessionId}`)
 							localStorage.setItem(`excktn${data.sessionId}`, data.access_token)
@@ -123,11 +123,7 @@ const page = () => {
 						status: false,
 					}
 					console.log(response)
-					// await membershipFinalise({
-					// 	id,
-					// 	orderid: res.data?.order,
-					// 	data
-					// })
+
 				})
 				rpay.open();
 			}
@@ -136,8 +132,6 @@ const page = () => {
 		}
 	}
 
-	console.log(bill)
-
 	const addQuantityToBill = (item, amount, price, minValue, maxValue) => {
 		setBill((prev) => {
 			const existingItemIndex = prev.findIndex(
@@ -145,17 +139,17 @@ const page = () => {
 			);
 
 			if (existingItemIndex !== -1) {
-				// If the item already exists in the bill, update the quantity and price
+
 				const updatedBill = [...prev];
 				const newQuantity = Math.max(
 					minValue,
 					Math.min(updatedBill[existingItemIndex].quantity + amount, maxValue)
-				); // Ensure quantity is within the range
+				);
 
-				// Calculate the new price, ensuring it's within certain limits
+
 				const newPrice = Math.max(
-					price * newQuantity, // minPrice
-					Math.min(price * newQuantity, price * maxValue) // maxPrice
+					price * newQuantity,
+					Math.min(price * newQuantity, price * maxValue)
 				);
 
 				// Ensure the new price is not NaN
@@ -165,7 +159,7 @@ const page = () => {
 				}
 
 				updatedBill[existingItemIndex].quantity = newQuantity;
-				updatedBill[existingItemIndex].price = newPrice; // Update total price
+				updatedBill[existingItemIndex].price = newPrice;
 
 				return updatedBill;
 			} else {

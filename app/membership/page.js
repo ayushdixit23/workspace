@@ -107,9 +107,13 @@ const Sample5 = () => {
 	{
 		mainTitle: "Professional",
 		popular: true,
+		// price: {
+		// 	month: `₹3499`,
+		// 	year: `₹35700`,
+		// },
 		price: {
-			month: `₹3499`,
-			year: `₹35700`,
+			month: `₹1`,
+			year: `₹1`,
 		},
 		mid: membership.premium,
 		"Badges": "Available",
@@ -151,7 +155,8 @@ const Sample5 = () => {
 			month: "Custom",
 			year: "Custom",
 		},
-		mid: membership.pro,
+		// mid: membership.pro,
+		mid: "65e078e33b1ddb512b94dfd5",
 		"Badges": "Available",
 		infoNote: "Personalised service and enterprise security for large teams.",
 		"Create Topics (free/paid)": "custom",

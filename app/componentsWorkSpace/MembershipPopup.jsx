@@ -16,7 +16,10 @@ const MembershipPopup = ({ setPop }) => {
 	const [membershipFinalise] = useMemfinalizeMutation()
 	const buyMembership = async () => {
 		try {
-			const res = await axios.post(`https://work.grovyo.xyz/api/v1/membershipbuy/${id}/65671e6004b7d0d07ef0e798`, { amount: `₹3499` })
+			const res = await axios.post(`https://work.grovyo.xyz/api/v1/membershipbuy/${id}/65671e6004b7d0d07ef0e798`,
+				{ amount: `₹1` }
+				// { amount: `₹3499` }
+			)
 			console.log(res.data)
 			const membershipId = res.data.memid
 			if (res.data.success) {
