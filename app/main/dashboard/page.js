@@ -188,7 +188,7 @@ function Dashboard() {
 									<div>
 										<div className="font-medium">Earnings</div>
 										<div className="flex gap-1 text-xs  items-center">
-											<div className="text-base font-medium">₹{getorderdata?.earnings}</div>
+											<div className="text-base font-medium">₹{getorderdata?.earnings.toFixed(2)}</div>
 											{/* <div className="text-green-700">+0.00%</div> */}
 										</div>
 									</div>

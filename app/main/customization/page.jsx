@@ -13,7 +13,7 @@ const page = () => {
 	return (
 		// <>
 		// 	<div className='h-[80vh] text-3xl flex justify-center font-semibold items-center bg-white dark:bg-[#273142]'>
-		// 		<a target='_blank' href={`http://192.168.29.225:3000/lwozxip?id=${encodeURIComponent(id)}&temp=4`} className='underline'>Customize Your Prosite</a>
+		// 		<a target='_blank' href={`https://prosite.grovyo.com/lwozxip?id=${encodeURIComponent(id)}&temp=4`} className='underline'>Customize Your Prosite</a>
 		// 		{/* <a target='_blank' href={`http://192.168.29.219:3000/lwozxip?id=${id}`} className='underline'>Customize Your Prosite</a> */}
 		// 	</div >
 		// </>
@@ -37,7 +37,7 @@ const page = () => {
 
 									<div className="p-2 flex justify-between items-center px-2">
 										<div className='font-semibold'>Text</div>
-										<a target='_blank' href={`http://192.168.29.225:3000/lwozxip?id=${encodeURIComponent(id)}&temp=1`} className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+										<a target='_blank' href={`https://prosite.grovyo.com/lwozxip?id=${encodeURIComponent(id)}&temp=1`} className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
 											Use
 										</a>
 									</div>
@@ -48,7 +48,7 @@ const page = () => {
 
 									<div className="p-2 flex justify-between px-2 items-center">
 										<div className='font-semibold'>Text</div>
-										<a target='_blank' href={`http://192.168.29.225:3000/lwozxip?id=${encodeURIComponent(id)}&temp=2`} className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+										<a target='_blank' href={`https://prosite.grovyo.com/lwozxip?id=${encodeURIComponent(id)}&temp=2`} className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
 											Use
 
 										</a>
@@ -59,7 +59,7 @@ const page = () => {
 
 									<div className="p-2 flex justify-between px-2 items-center">
 										<div className='font-semibold'>Text</div>
-										<a target='_blank' href={`http://192.168.29.225:3000/lwozxip?id=${encodeURIComponent(id)}&temp=3`} className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+										<a target='_blank' href={`https://prosite.grovyo.com/lwozxip?id=${encodeURIComponent(id)}&temp=3`} className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
 											Use
 
 										</a>
@@ -70,7 +70,7 @@ const page = () => {
 
 									<div className="p-2 flex justify-between px-2 items-center">
 										<div className='font-semibold'>Text</div>
-										<a target='_blank' href={`http://192.168.29.225:3000/lwozxip?id=${encodeURIComponent(id)}&temp=4`} className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+										<a target='_blank' href={`https://prosite.grovyo.com/lwozxip?id=${encodeURIComponent(id)}&temp=4`} className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
 											Use
 
 										</a>
@@ -81,7 +81,7 @@ const page = () => {
 
 									<div className="p-2 flex justify-between px-2 items-center">
 										<div className='font-semibold'>Text</div>
-										<a target='_blank' href={`http://192.168.29.225:3000/lwozxip?id=${encodeURIComponent(id)}&temp=5`} className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+										<a target='_blank' href={`https://prosite.grovyo.com/lwozxip?id=${encodeURIComponent(id)}&temp=5`} className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
 											Use
 
 										</a>

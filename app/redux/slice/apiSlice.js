@@ -7,7 +7,7 @@ export const Api = createApi({
 		// 	baseUrl: "http://192.168.1.8:7190/api"
 		// }),
 		// fetchBaseQuery({
-		// 	baseUrl: "http://192.168.29.225:7190/api"
+		// 	baseUrl: "http://192.168.29.230:7190/api"
 		// }),
 		// fetchBaseQuery({
 		// 	baseUrl: "http://192.168.29.227:7190/api"

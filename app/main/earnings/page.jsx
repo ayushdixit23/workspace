@@ -256,7 +256,7 @@ const page = () => {
                 </div>
                 <div className="flex flex-col gap-1">
                   <div className="text-sm">Total Earnings</div>
-                  <div className="font-semibold">₹{data?.earningStats?.earnings}</div>
+                  <div className="font-semibold">₹{data?.earningStats?.earnings.toFixed(2)}</div>
                 </div>
               </div>
               <div className="flex bg-white dark:bg-[#273142] items-center p-3 sm:px-5 rounded-xl gap-3 w-full">
@@ -355,7 +355,7 @@ const page = () => {
                         <div className="bg-[#f1f1f1] rounded-lg dark:bg-[#3d4654]">
                           <div className="flex flex-col py-2 text-[14px] font-semibold gap-1 justify-center items-center">
                             <div>Total Earnings</div>
-                            <div>₹{data?.earningStats?.storeearning}</div>
+                            <div>₹{data?.earningStats?.storeearning.toFixed(2)}</div>
                           </div>
                         </div>
 
@@ -431,12 +431,12 @@ const page = () => {
                   }
                   <div className="flex text-sm flex-col gap-3">
 
-                    {state1.members >= 150 || state1.engagementrate >= 10 || state1.topics > 2 ?
+                    {state1.members >= 150 && state1.engagementrate >= 10 && state1.topics > 2 ?
                       <>
                         <div className="bg-[#f1f1f1] rounded-lg dark:bg-[#3d4654]">
                           <div className="flex flex-col py-2 text-[14px] font-semibold gap-1 justify-center items-center">
                             <div>Total Earnings</div>
-                            <div>₹{state1.earnings}</div>
+                            <div>₹{state1.earnings.toFixed(2)}</div>
                           </div>
                         </div>
 
@@ -542,7 +542,7 @@ const page = () => {
                     "Make money with ads on your community posts! Earn from ads that appear before, during, and after your videos on the watch page."
                   </div>}
 
-                  {(state2.members > 1000 && state2.engagementrate > 10 && state2.ismonetized) ? <>
+                  {(state2.members >= 1000 && state2.engagementrate >= 10 && state2.ismonetized) ? <>
                     <div className="bg-[#f1f1f1] rounded-lg dark:bg-[#3d4654]">
                       <div className="flex flex-col py-2 text-[14px] font-semibold gap-1 justify-center items-center">
                         <div>Total Earnings</div>
@@ -558,7 +558,7 @@ const page = () => {
                   </>
                     :
                     <div className="flex text-sm flex-col gap-3">
-                      {(state2.members < 1000 && state2.engagementrate < 10) && <>
+                      {(state2.members < 1000 || state2.engagementrate < 10) && <>
                         <div className="px-2 flex flex-col gap-1">
                           <div className="flex justify-between items-center">
                             <div className=" dark:text-white text-[#615E83]">Members</div>
@@ -585,7 +585,7 @@ const page = () => {
                         </div>
                       </>}
 
-                      {state2.members >= 1000 && state2.engagementrate >= 10 && <div className="flex justify-end items-center">
+                      {state2.members >= 1000 && state2.engagementrate >= 10 && !state2.ismonetized && < div className="flex justify-end items-center">
                         <button onClick={() => sendRequestForMontenziation(id, state2.id)} className="bg-[#2D9AFF] text-white p-2 px-5 text-sm rounded-lg">Apply for Monetization</button>
                       </div>}
                     </div>
