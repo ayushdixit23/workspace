@@ -19,12 +19,19 @@ export const paymentApi = Api.injectEndpoints({
 				method: "POST",
 				body: data
 			})
-		})
+		}),
+		// bankRequest: builder.mutation({
+		// 	query: ({ id }) => ({
+		// 		url: `/v1/approvalrequestbank/${id}`,
+		// 		method: "POST",
+		// 	})
+		// })
 	}),
 });
 
 export const {
 	useGetEarningStatsQuery,
 	useAddBankMutation,
-	useMemfinalizeMutation
+	useMemfinalizeMutation,
+	// useBankRequestMutation
 } = paymentApi;

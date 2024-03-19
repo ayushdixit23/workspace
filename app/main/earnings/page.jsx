@@ -11,7 +11,11 @@ import ads from "../../assets/image/ads.png";
 import order from "../../assets/image/order.png";
 import rupee from "../../assets/image/rupee.png";
 import { MdAdd } from "react-icons/md";
-import { useAddBankMutation, useGetEarningStatsQuery } from "@/app/redux/apiroutes/payment";
+import {
+  useAddBankMutation,
+  //  useBankRequestMutation,
+  useGetEarningStatsQuery
+} from "@/app/redux/apiroutes/payment";
 import Loader from "@/app/data/Loader";
 import { getData } from "@/app/utilsHelper/Useful";
 import toast, { Toaster } from "react-hot-toast";
@@ -22,12 +26,14 @@ import Cookies from "js-cookie";
 import { encryptaes } from "@/app/utilsHelper/security";
 import { useRouter } from "next/navigation";
 import Selected from "@/app/componentsWorkSpace/Selected";
+import Link from "next/link";
 
 const page = () => {
   const { id } = getData()
   const router = useRouter()
   const { data, isLoading, refetch } = useGetEarningStatsQuery({ id }, { skip: !id })
   const [addBank] = useAddBankMutation()
+  // const [requestbank] = useBankRequestMutation()
   const { data: comData } = useFetchCommunityQuery({ id }, { skip: !id })
   const [monetisation] = useMonetizationMutation()
   const [open, setOpen] = useState(false)
@@ -37,6 +43,7 @@ const page = () => {
     branchname: "",
     accountno: "",
     IFSCcode: "",
+    verified: ""
   })
   const [count, setCount] = useState({
     post: 0,
@@ -131,6 +138,17 @@ const page = () => {
     }
   }
 
+  // const requestingBank = async () => {
+  //   try {
+  //     const res = await requestbank({
+  //       id
+  //     })
+  //     console.log(res.data)
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
+
   const tosetCookie = {
     dps: state1.dp?.trim(),
     title: state1?.name,
@@ -145,7 +163,7 @@ const page = () => {
     // const { bankname = "", branchname = "", accountno = "", IFSCcode = "" } = data?.earningStats.bank
     if (data?.earningStats.bank.bankname && data?.earningStats.bank.branchname && data?.earningStats.bank.accountno && data?.earningStats.bank.IFSCcode) {
       setBank({
-        bankname: data?.earningStats.bank.bankname, branchname: data?.earningStats.bank.branchname, accountno: data?.earningStats.bank.accountno, IFSCcode: data?.earningStats.bank.IFSCcode
+        bankname: data?.earningStats.bank.bankname, branchname: data?.earningStats.bank.branchname, accountno: data?.earningStats.bank.accountno, IFSCcode: data?.earningStats.bank.IFSCcode, verified: data?.earningStats?.isbankverified
       })
     } else {
       setBank({
@@ -183,6 +201,7 @@ const page = () => {
                 <div>Bank Name</div>
                 <div>
                   <input value={bank.bankname}
+                    disabled={bank.verified === "pending"}
                     onChange={(e) => setBank({ ...bank, bankname: e.target.value })} type="text" className="p-1.5 px-3 bg-[#F4F7FE] dark:bg-[#323d4e] outline-none rounded-xl w-full" placeholder="Bank Name" />
                 </div>
               </div>
@@ -190,6 +209,7 @@ const page = () => {
                 <div>Branch Name</div>
                 <div>
                   <input value={bank.branchname}
+                    disabled={bank.verified === "pending"}
                     onChange={(e) => setBank({ ...bank, branchname: e.target.value })} type="text" className="p-1.5 px-3 bg-[#F4F7FE] dark:bg-[#323d4e] outline-none rounded-xl w-full" placeholder="Branch Name" />
                 </div>
               </div>
@@ -197,6 +217,7 @@ const page = () => {
                 <div>Account Number</div>
                 <div>
                   <input value={bank.accountno}
+                    disabled={bank.verified === "pending"}
                     onChange={(e) => setBank({ ...bank, accountno: e.target.value })} type="text" className="p-1.5 px-3 bg-[#F4F7FE] dark:bg-[#323d4e] outline-none rounded-xl w-full" placeholder="Account Number" />
                 </div>
               </div>
@@ -204,21 +225,29 @@ const page = () => {
                 <div>IFSC Code</div>
                 <div>
                   <input value={bank.IFSCcode}
+                    disabled={bank.verified === "pending"}
                     onChange={(e) => setBank({ ...bank, IFSCcode: e.target.value })} type="text" className="p-1.5 px-3 bg-[#F4F7FE] dark:bg-[#323d4e] outline-none rounded-xl w-full" placeholder="IFSC Code" />
                 </div>
               </div>
+              {bank.verified === "pending" && <div className="flex gap-1 text-sm my-2 items-center">
+                <div>
+                  <CiCircleInfo />
+                </div>
+                <div>Bank Verification is in under process.</div>
+              </div>}
               <div className="flex justify-center gap-3 items-center">
                 <button onClick={() => {
                   setOpen(false);
                 }} className="border-[#979797] border font-bold w-full p-2 rounded-lg">Discard</button>
-                <button
+                {bank.verified !== "approved" && < button
+                  disabled={bank.verified === "pending"}
                   onClick={handleBankDetails}
-                  className="bg-[#FFD25E] font-bold w-full p-2 rounded-lg">Done</button>
+                  className="bg-[#FFD25E] font-bold w-full p-2 rounded-lg">Done</button>}
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </div >
       <div className="grid grid-cols-1 w-full">
         {/* <div className="flex justify-between py-2 my-3 px-5 bg-white dark:bg-[#273142] rounded-2xl items-center">
           <div className="flex flex-col gap-2 justify-center">
@@ -272,18 +301,28 @@ const page = () => {
                   <div className="font-semibold">₹{data?.earningStats?.pendingpayments}</div>
                 </div>
               </div>
-              <div className="flex pn:max-sm:col-span-2 bg-white dark:bg-[#273142] justify-between items-center p-4 sm:p-3 px-5 rounded-xl gap-3 w-full">
-                <div className="flex justify-center gap-4 items-center">
-                  <div>
-                    <BsBank className="text-xl" />
+              <div className="flex flex-col w-full h-full">
+                {
+                  bank.verified === "pending" ? <div className="flex h-full w-full pn:max-sm:col-span-2 bg-white dark:bg-[#273142] justify-between items-center p-4 sm:p-3 px-5 font-bold rounded-xl gap-3">
+                    Bank  Verification Under Process
+                  </div> : <div onClick={() =>
+                    setOpen(true)
+                  } className="flex h-full w-full pn:max-sm:col-span-2 bg-white dark:bg-[#273142] justify-between items-center p-4 sm:p-3 px-5 rounded-xl gap-3">
+                    <div className="flex justify-center gap-4 items-center">
+                      <div>
+                        <BsBank className="text-xl" />
+                      </div>
+                      <div className="sm:text-sm font-semibold">Add Bank</div>
+                    </div>
+                    {(bank.verified !== "approved" || bank.verified !== "pending") && < div className="w-4 h-4 cursor-pointer rounded-full border flex justify-center items-center border-black">
+                      <MdAdd />
+                    </div>}
+
                   </div>
-                  <div className="sm:text-sm font-semibold">Add Bank</div>
-                </div>
-                <div onClick={() => setOpen(true)} className="w-4 h-4 cursor-pointer rounded-full border flex justify-center items-center border-black">
-                  <MdAdd />
-                </div>
+                }
               </div>
             </div>
+
             <div className="w-full sm:bg-white mb-[60px] sm:mb-0 dark:bg-[#273142] rounded-xl p-3">
               <div className="flex sm:flex-row flex-col justify-between items-center">
                 <div className="text-[#666666] dark:text-white pn:max-sm:text-center font-medium">
@@ -421,9 +460,9 @@ const page = () => {
                       <div><Image src={Cl} alt="image" className="w-[60px] h-[60px] object-cover rounded-xl" /></div>
                       <div className="text-lg font-semibold">Topics</div>
                     </div>
-                    <div>
+                    {comData?.communities?.length > 0 && <div>
                       <Selected setState={setState1} state={state1} data={comData?.communities} />
-                    </div>
+                    </div>}
                   </div>
                   {(state1.members < 150 || state1.engagementrate < 10 || state1.topics < 3) && < div className="text-sm">
                     To create a topic, meet criteria: 150 members, 10% engagement.
@@ -436,7 +475,7 @@ const page = () => {
                         <div className="bg-[#f1f1f1] rounded-lg dark:bg-[#3d4654]">
                           <div className="flex flex-col py-2 text-[14px] font-semibold gap-1 justify-center items-center">
                             <div>Total Earnings</div>
-                            <div>₹{state1.earnings.toFixed(2)}</div>
+                            <div>₹{Number(state1.earnings).toFixed(2)}</div>
                           </div>
                         </div>
 
@@ -463,7 +502,15 @@ const page = () => {
                         {
 
                           (state1.engagementrate < 10 || state1.members < 150)
-                          && <div className="flex text-sm flex-col gap-3">
+                          &&
+
+                          (comData?.communities?.length === 0 ? <>
+
+                            <div className="flex justify-center flex-grow h-full items-center mt-6">
+                              <Link className="bg-[#2D9AFF] text-white p-2 text-center font-semibold px-5 text-sm rounded-lg" href={"/main/community/createCommunity"}>Create Community</Link>
+                            </div>
+
+                          </> : < div className="flex text-sm flex-col gap-3">
                             <div className="px-2 flex flex-col gap-1">
                               <div className="flex justify-between items-center">
                                 <div className=" dark:text-white text-[#615E83]">Members</div>
@@ -488,7 +535,7 @@ const page = () => {
                                 ></div>
                               </div>
                             </div>
-                          </div>
+                          </div>)
                         }
                         {state1.members >= 150 && state1.engagementrate >= 10 && < div className="flex justify-center mt-5 items-center">
                           <div className="text-green-400">
@@ -534,9 +581,9 @@ const page = () => {
                       <div><Image src={ads} alt="image" className="w-[60px] h-[60px] object-cover rounded-xl" /></div>
                       <div className="text-lg font-semibold">Ads Revenue</div>
                     </div>
-                    <div>
+                    {comData?.communities?.length > 0 && <div>
                       <Selected setState={setState2} state={state2} data={comData?.communities} />
-                    </div>
+                    </div>}
                   </div>
                   {(state2.members < 1000 || state2.engagementrate < 10 || state2.ismonetized === false) && < div className="text-sm">
                     "Make money with ads on your community posts! Earn from ads that appear before, during, and after your videos on the watch page."
@@ -558,8 +605,14 @@ const page = () => {
                   </>
                     :
                     <div className="flex text-sm flex-col gap-3">
-                      {(state2.members < 1000 || state2.engagementrate < 10) && <>
-                        <div className="px-2 flex flex-col gap-1">
+                      {(state2.members < 1000 || state2.engagementrate < 10) &&
+                        (comData?.communities?.length === 0 ? <>
+
+                          <div className="flex justify-center flex-grow h-full items-center mt-6">
+                            <Link className="bg-[#2D9AFF] text-white p-2 text-center font-semibold px-5 text-sm rounded-lg" href={"/main/community/createCommunity"}>Create Community</Link>
+                          </div>
+
+                        </> : <> <div className="px-2 flex flex-col gap-1">
                           <div className="flex justify-between items-center">
                             <div className=" dark:text-white text-[#615E83]">Members</div>
                             <div>{state2.members}/1000</div>
@@ -571,19 +624,20 @@ const page = () => {
                             ></div>
                           </div>
                         </div>
-                        <div className="px-2 flex flex-col gap-1">
-                          <div className="flex justify-between items-center">
-                            <div className=" dark:text-white text-[#615E83]">Popularity Rate</div>
-                            <div className="">{state2.engagementrate} %</div>
+                          <div className="px-2 flex flex-col gap-1">
+                            <div className="flex justify-between items-center">
+                              <div className=" dark:text-white text-[#615E83]">Popularity Rate</div>
+                              <div className="">{state2.engagementrate} %</div>
+                            </div>
+                            <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
+                              <div
+                                style={{ width: `${((state2.engagementrate) / 10) * 100}%` }}
+                                className="absolute top-0 left-0 rounded-r-xl z-10 bg-[#40CAB0] h-full "
+                              ></div>
+                            </div>
                           </div>
-                          <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
-                            <div
-                              style={{ width: `${((state2.engagementrate) / 10) * 100}%` }}
-                              className="absolute top-0 left-0 rounded-r-xl z-10 bg-[#40CAB0] h-full "
-                            ></div>
-                          </div>
-                        </div>
-                      </>}
+                        </>
+                        )}
 
                       {state2.members >= 1000 && state2.engagementrate >= 10 && !state2.ismonetized && < div className="flex justify-end items-center">
                         <button onClick={() => sendRequestForMontenziation(id, state2.id)} className="bg-[#2D9AFF] text-white p-2 px-5 text-sm rounded-lg">Apply for Monetization</button>

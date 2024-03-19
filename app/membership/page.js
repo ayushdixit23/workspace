@@ -5,7 +5,8 @@ import axios from "axios"
 import useRazorpay from "react-razorpay";
 import { useMemfinalizeMutation } from "../redux/apiroutes/payment";
 import { useRouter } from "next/navigation";
-import { getItemSessionStorage } from "../utilsHelper/Tokenwrap";
+import { getItemSessionStorage, storeInSessionStorage } from "../utilsHelper/Tokenwrap";
+import toast, { Toaster } from "react-hot-toast";
 // import Cookies from "js-cookie";
 
 
@@ -107,13 +108,9 @@ const Sample5 = () => {
 	{
 		mainTitle: "Professional",
 		popular: true,
-		// price: {
-		// 	month: `₹3499`,
-		// 	year: `₹35700`,
-		// },
 		price: {
-			month: `₹1`,
-			year: `₹1`,
+			month: `₹3499`,
+			year: `₹35700`,
 		},
 		mid: membership.premium,
 		"Badges": "Available",
@@ -215,6 +212,7 @@ const Sample5 = () => {
 		console.log(data.mid)
 		try {
 			const res = await axios.post(`https://work.grovyo.xyz/api/v1/membershipbuy/${id}/${data.mid}`, { amount: data.price.month })
+			// const res = await axios.post(`http://192.168.29.230:7190/api/v1/membershipbuy/${id}/${data.mid}`, { amount: data.price.month })
 			console.log(res.data)
 			const membershipId = res.data.memid
 			if (res.data.success) {
@@ -249,8 +247,10 @@ const Sample5 = () => {
 
 							localStorage.removeItem(`excktn${sessionId}`)
 							localStorage.removeItem(`frhktn${sessionId}`)
-							localStorage.setItem(`excktn${data.sessionId}`, data.access_token)
-							localStorage.setItem(`frhktn${data.sessionId}`, data.refresh_token)
+							storeInSessionStorage(resp.data.sessionId);
+							localStorage.setItem(`excktn${resp.data.sessionId}`, resp.data.access_token)
+							localStorage.setItem(`frhktn${resp.data.sessionId}`, resp.data.refresh_token)
+							router.push("/main/dashboard")
 						}
 					},
 					prefill: {
@@ -277,6 +277,8 @@ const Sample5 = () => {
 					})
 				})
 				rpay.open();
+			} else {
+				toast.error(res.data.message)
 			}
 		} catch (error) {
 			console.log(error)
@@ -290,7 +292,7 @@ const Sample5 = () => {
 
 	return (
 		<>
-
+			<Toaster />
 			<div className="bg-[#1d212a] dark:bg-[#273142] min-h-[100vh] no-scrollbar flex items-center justify-center">
 				<div className="sm:mx-5 mx-2 pb-10">
 					<div className="py-8 lg:py-14 flex flex-col text-white items-center">

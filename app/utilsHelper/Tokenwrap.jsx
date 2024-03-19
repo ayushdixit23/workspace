@@ -75,7 +75,7 @@ const TokenDataWrapper = ({ children }) => {
     if (!token && !exactpath.includes(path)) {
       redirect("/login");
     }
-    if (token && (path === "/login" || path === "/aybdhw")) {
+    if (token && (path === "/login" || path === "/aybdhw" || path === "/")) {
       redirect("/main/dashboard");
     }
     setLoading(false)

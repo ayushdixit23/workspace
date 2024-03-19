@@ -62,7 +62,7 @@ export default function LoginLayout({ children }) {
       <div className="w-[50%] h-[100%] flex justify-center items-center pn:max-sm:w-[100%] pn:max-sm:h-[100%]">
         <Number />
       </div>
-      <div className="flex fixed bottom-7 right-4 flex-wrap justify-end items-center w-full dark:text-white text-[#414141] gap-4 text-[12px] select-none">
+      <div className="flex fixed bottom-3 right-4 flex-wrap justify-end items-center w-full dark:text-white text-[#414141] gap-4 text-[12px] select-none">
         <Link href={"../terms"}>T&C</Link>
         <Link href={"../privacy"}>Privacy</Link>
         <Link href={"../contact"}>Contact Us</Link>

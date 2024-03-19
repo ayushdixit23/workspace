@@ -41,29 +41,29 @@ function page() {
     return <div>
       <div className="overflow-auto pt-1 no-scrollbar h-full ">
         <div className="flex justify-between items-center">
-          <div className="sm:font-medium sm:pl-4 text-[18px] animate-pulse px-10 py-4 bg-[#f2f2f2] rounded-2xl text-[#8B8D97]"></div>
+          <div className="sm:font-medium sm:pl-4 text-[18px] animate-pulse px-10 py-4 bg-[#f2f2f2] dark:bg-[#273142] rounded-2xl text-[#8B8D97]"></div>
           <Link
             href="/main/store/addproduct"
-            className="vs:max-sm:hidden  animate-pulse px-10 py-4  bg-[#f2f2f2] text-white rounded-2xl"
+            className="vs:max-sm:hidden  animate-pulse px-10 py-4  bg-[#f2f2f2] dark:bg-[#273142] text-white rounded-2xl"
           ></Link>
         </div>
 
         <div className="pt-4">
           <div className="flex w-full vs:max-sm:hidden sm:pt-4 px-4 justify-between">
-            <div className="w-64 sm:max-md:w-52 bg-[#f2f2f2]  animate-pulse font-medium flex justify-start "></div>
-            <div className="w-36 sm:max-md:w-24 bg-[#f2f2f2] animate-pulse flex justify-center font-medium "></div>
-            <div className="w-36  sm:max-md:w-24 bg-[#f2f2f2] animate-pulse flex justify-center font-medium "></div>
-            <div className="w-36 sm:max-md:w-24 bg-[#f2f2f2] animate-pulse flex justify-center font-medium "></div>
+            <div className="w-64 sm:max-md:w-52 bg-[#f2f2f2] dark:bg-[#273142]  animate-pulse font-medium flex justify-start "></div>
+            <div className="w-36 sm:max-md:w-24 bg-[#f2f2f2] dark:bg-[#273142] animate-pulse flex justify-center font-medium "></div>
+            <div className="w-36  sm:max-md:w-24 bg-[#f2f2f2] dark:bg-[#273142] animate-pulse flex justify-center font-medium "></div>
+            <div className="w-36 sm:max-md:w-24 bg-[#f2f2f2] dark:bg-[#273142] animate-pulse flex justify-center font-medium "></div>
             <div className="w-36 sm:max-md:w-24 flex justify-center font-medium "></div>
           </div>
-          <div className="bg-[#f2f2f2] animate-pulse h-20 sm:rounded-2xl mt-4"></div>
-          <div className="bg-[#f2f2f2] animate-pulse h-20 sm:rounded-2xl mt-4"></div>
-          <div className="bg-[#f2f2f2] animate-pulse h-20 sm:rounded-2xl mt-4"></div>
-          <div className="bg-[#f2f2f2] animate-pulse h-20 sm:rounded-2xl mt-4"></div>
-          <div className="bg-[#f2f2f2] animate-pulse h-20 sm:rounded-2xl mt-4"></div>
-          <div className="bg-[#f2f2f2] animate-pulse h-20 sm:rounded-2xl mt-4"></div>
-          <div className="bg-[#f2f2f2] animate-pulse h-20 sm:rounded-2xl mt-4"></div>
-          <div className="bg-[#f2f2f2] animate-pulse h-20 sm:rounded-2xl mt-4"></div>
+          <div className="bg-[#f2f2f2] dark:bg-[#273142] animate-pulse h-20 sm:rounded-2xl mt-4"></div>
+          <div className="bg-[#f2f2f2] dark:bg-[#273142] animate-pulse h-20 sm:rounded-2xl mt-4"></div>
+          <div className="bg-[#f2f2f2] dark:bg-[#273142] animate-pulse h-20 sm:rounded-2xl mt-4"></div>
+          <div className="bg-[#f2f2f2] dark:bg-[#273142] animate-pulse h-20 sm:rounded-2xl mt-4"></div>
+          <div className="bg-[#f2f2f2] dark:bg-[#273142] animate-pulse h-20 sm:rounded-2xl mt-4"></div>
+          <div className="bg-[#f2f2f2] dark:bg-[#273142] animate-pulse h-20 sm:rounded-2xl mt-4"></div>
+          <div className="bg-[#f2f2f2] dark:bg-[#273142] animate-pulse h-20 sm:rounded-2xl mt-4"></div>
+          <div className="bg-[#f2f2f2] dark:bg-[#273142] animate-pulse h-20 sm:rounded-2xl mt-4"></div>
         </div>
       </div>
     </div>;
@@ -83,7 +83,7 @@ function page() {
             <div className=" p-2 text-[22px] text-[#202224] dark:text-white sm:font-semibold  ">
               Community
             </div>
-            {
+            {comdata?.merged.length < 5 && <> {
               comdata?.merged?.length >= 2 && memberships === "Free" ?
                 <div onClick={() => setPop(true)} className="py-2 vs:max-pp:text-[12px] flex justify-center items-center gap-1 border light:border-[#f1f1f1] px-2.5 sm:px-5 font-medium bg-white text-black rounded-xl dark:bg-[#323d4e] dark:text-white">
                   Create community
@@ -95,7 +95,7 @@ function page() {
                   Create community
                   <GoPlus />
                 </Link>
-            }
+            }</>}
 
           </div>
           {comdata?.merged?.length > 0 ? < div className="sm:px-5  w-full sm:min-h-[65vh] text-[#202224]">
@@ -123,7 +123,6 @@ function page() {
               {comdata?.merged?.map((d, i, arr) => (
                 <div
                   key={i}
-
                 >
                   <Communitybox
                     data={d}

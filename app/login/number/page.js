@@ -18,7 +18,9 @@ import { useLoginWithQrMutation } from "@/app/redux/apiroutes/userLoginAndSettin
 import useTokenAndData from "@/app/utilsHelper/tokens";
 import toast, { Toaster } from "react-hot-toast";
 import { storeInSessionStorage } from "@/app/utilsHelper/Tokenwrap";
-import Link from "next/link";
+import workspace from "../../assets/image/workspace.png"
+import Image from "next/image";
+import Logo from "@/app/assets/icons/Logo";
 // import Cookies from "js-cookie";
 
 function page() {
@@ -347,6 +349,11 @@ function page() {
 
   return (
     <div>
+      <div className={`${loadingqr ? "fixed inset-0 w-screen z-50 bg-black/60 h-screen flex justify-center items-center backdrop-blur-md" : "hidden -z-50"} `}>
+        <div className="animate-spin">
+          <RiLoader4Line className="text-3xl" />
+        </div>
+      </div>
       <Toaster toastOptions={{ duration: 4000 }} />
 
       <div id="recaptcha-container"></div>
@@ -379,10 +386,10 @@ function page() {
               ></DynamicOtpInput>
             </div>
             <div className="text-black font-semibold flex text-[15px] pt-6">
-              <div className="text-center">
+              <div className="text-center flex justify-center items-center">
                 {come === 1 ? (
                   <div className="space-x-4 flex ">
-                    <div className="text-[#3e3e3e]">
+                    <div className="text-[#fff]">
                       Don't receive code ?{" "}
                       <button
                         className={` text-blue-600 rounded ${isActive ? "" : ""
@@ -418,13 +425,7 @@ function page() {
 
 
               <div className="relative bg-white dark:border-4 dark:border-white dark:p-1 dark:rounded-lg">
-                {loadingqr &&
-                  <div className="w-full bg-white opacity-50 absolute top-0 left-0 h-full flex justify-center items-center ">
-                    <div className="animate-spin">
-                      <RiLoader4Line className="text-3xl" />
-                    </div>
-                  </div>
-                }
+
                 <QRCodeSVG
                   style={{
                     width: "200px",
@@ -451,8 +452,16 @@ function page() {
             </div>
 
             {/* switcher */}
+            <div className="sm:hidden max-w-full flex -mt-14 mb-9 flex-col gap-2 justify-center items-center max-h-full">
+              <Image src={workspace} alt="workspace" className="w-full max-w-[150px] max-h-[150px] h-full object-cover" />
+              <div>
+                <div className="font-bold text-lg">Workspace</div>
+                <div className="text-xs flex justify-end w-full items-center">by Grovyo</div>
+              </div>
 
-            <div className="grid grid-cols-1 w-full md:w-[90%]">
+            </div>
+
+            <div className="grid grid-cols-1 pn:max-sm:-mt-6 w-full md:w-[90%]">
               <div className=" w-full flex rounded-xl dark:text-white select-none text-[14px]">
                 <div
                   onClick={() => {
@@ -474,6 +483,7 @@ function page() {
                 </div>
               </div>
             </div>
+
 
             {/* phone */}
             <div

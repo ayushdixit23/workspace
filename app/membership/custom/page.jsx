@@ -17,7 +17,9 @@ import { getData } from '@/app/utilsHelper/Useful'
 import axios from 'axios'
 import useRazorpay from 'react-razorpay'
 import Cookies from 'js-cookie'
-import { getItemSessionStorage } from '@/app/utilsHelper/Tokenwrap'
+import { getItemSessionStorage, storeInSessionStorage } from '@/app/utilsHelper/Tokenwrap'
+import { useRouter } from 'next/navigation'
+import toast, { Toaster } from 'react-hot-toast'
 
 const page = () => {
 	const [bill, setBill] = useState([])
@@ -27,6 +29,7 @@ const page = () => {
 	const { id, fullname } = getData()
 	const [Razorpay] = useRazorpay()
 	const sessionId = getItemSessionStorage()
+	const router = useRouter()
 	const addtoBill = (item, price, image) => {
 		try {
 			const existingItemIndex = bill.findIndex(billItem => billItem.item === item);
@@ -63,11 +66,7 @@ const page = () => {
 			if (finalAmount === 0) {
 				return
 			}
-			const res = await axios.post(`https://work.grovyo.xyz/api/v1/membershipbuy/${id}/${mid}`,
-				{ amount: `₹1` }
-				// { amount: `₹${finalAmount}` }
-			)
-
+			const res = await axios.post(`https://work.grovyo.xyz/api/v1/membershipbuy/${id}/${mid}`, { amount: `₹${finalAmount}` })
 			const membershipId = res.data.memid
 			if (res.data.success) {
 				let options = {
@@ -101,8 +100,10 @@ const page = () => {
 
 							localStorage.removeItem(`excktn${sessionId}`)
 							localStorage.removeItem(`frhktn${sessionId}`)
-							localStorage.setItem(`excktn${data.sessionId}`, data.access_token)
-							localStorage.setItem(`frhktn${data.sessionId}`, data.refresh_token)
+							storeInSessionStorage(resp.data.sessionId);
+							localStorage.setItem(`excktn${resp.data.sessionId}`, resp.data.access_token)
+							localStorage.setItem(`frhktn${resp.data.sessionId}`, resp.data.refresh_token)
+							router.push("/main/dashboard")
 						}
 					},
 					prefill: {
@@ -126,6 +127,8 @@ const page = () => {
 
 				})
 				rpay.open();
+			} else {
+				toast.error(res.data.message)
 			}
 		} catch (error) {
 			console.log(error)
@@ -203,6 +206,7 @@ const page = () => {
 
 	return (
 		<>
+			<Toaster />
 			<div className='bg-white w-full md:h-screen flex justify-center items-center dark:bg-[#273142]'>
 				<div className='md:w-[90%] w-full grid gap-5  sm:grid-cols-8 p-2 md:grid-cols-7'>
 					<div className='sm:col-span-3 md:col-span-2 w-full grid grid-cols-1 gap-4  no-scrollbar overflow-y-scroll max-h-[90vh]'>

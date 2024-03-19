@@ -11,9 +11,9 @@ const DontHave = () => {
             <Image src={no} alt="no" />
           </div>
           <div className="sm:text-2xl text-xl sm:max-md:max-w-full max-w-[80%] text-center font-semibold">
-            We don’t have enough information yet
+            Not enough data
           </div>
-          <div className="py-2">Try posting more to boost impression</div>
+          <div className="py-2">Try posting more content</div>
         </div>
       </div>
     </>

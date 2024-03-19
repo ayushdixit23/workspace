@@ -17,8 +17,8 @@ const MembershipPopup = ({ setPop }) => {
 	const buyMembership = async () => {
 		try {
 			const res = await axios.post(`https://work.grovyo.xyz/api/v1/membershipbuy/${id}/65671e6004b7d0d07ef0e798`,
-				{ amount: `₹1` }
-				// { amount: `₹3499` }
+				// { amount: `₹1` }
+				{ amount: `₹3499` }
 			)
 			console.log(res.data)
 			const membershipId = res.data.memid
@@ -56,6 +56,7 @@ const MembershipPopup = ({ setPop }) => {
 							localStorage.removeItem(`frhktn${sessionId}`)
 							localStorage.setItem(`excktn${data.sessionId}`, data.access_token)
 							localStorage.setItem(`frhktn${data.sessionId}`, data.refresh_token)
+							setPop(false)
 						}
 					},
 					prefill: {

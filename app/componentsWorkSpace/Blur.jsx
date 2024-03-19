@@ -12,7 +12,6 @@ const BlurredComponent = ({ width, height }) => {
 					<MembershipPopup setPop={setPop} />
 				</div>
 			}
-
 			<div onClick={() => setPop(true)} className=" h-[100%]  flex justify-center items-center z-40 w-full">
 				<div className='w-full h-full flex flex-col justify-center items-center'>
 					<div className="font-semibold">
