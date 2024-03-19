@@ -2,7 +2,7 @@ import React from 'react'
 import { RxCross1 } from 'react-icons/rx'
 import { getData } from '../utilsHelper/Useful'
 import useRazorpay from 'react-razorpay'
-import { getItemSessionStorage } from '../utilsHelper/Tokenwrap'
+import { getItemSessionStorage, storeInSessionStorage } from '../utilsHelper/Tokenwrap'
 import axios from 'axios'
 import { useMemfinalizeMutation } from '../redux/apiroutes/payment'
 import { useRouter } from 'next/navigation'
@@ -54,8 +54,10 @@ const MembershipPopup = ({ setPop }) => {
 
 							localStorage.removeItem(`excktn${sessionId}`)
 							localStorage.removeItem(`frhktn${sessionId}`)
-							localStorage.setItem(`excktn${data.sessionId}`, data.access_token)
-							localStorage.setItem(`frhktn${data.sessionId}`, data.refresh_token)
+							storeInSessionStorage(resp.data.sessionId);
+							localStorage.setItem(`excktn${resp.data.sessionId}`, resp.data.access_token)
+							localStorage.setItem(`frhktn${resp.data.sessionId}`, resp.data.refresh_token)
+
 							setPop(false)
 						}
 					},
