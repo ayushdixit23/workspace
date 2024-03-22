@@ -101,8 +101,8 @@ function NavBar() {
       // Cookies.remove(`excktn${sessionId}`)
       // Cookies.remove(`frhktn${sessionId}`)
 
-      localStorage.removeItem(`excktn${sessionId}`)
-      localStorage.removeItem(`frhktn${sessionId}`)
+      localStorage.removeItem(`excktn`)
+      localStorage.removeItem(`frhktn`)
       setOpen(false)
       router.push("/login")
     } catch (error) {
@@ -326,7 +326,7 @@ function NavBar() {
       </aside >
 
       {/*Tabbar*/}
-      < div className="h-14 sm:hidden bottom-0 dark:text-white border-t-2 dark:border-[#3d4654] dark:bg-[#1b2431] pn:max-sm:z-40 z-20 border-[#f5f5f5] bg-white fixed w-[100%] " >
+      < div className="h-14 sm:hidden bottom-0 dark:text-white border-t-2 dark:border-[#3d4654] dark:bg-[#1b2431] z-10 border-[#f5f5f5] bg-white fixed w-[100%] " >
         <nav className="z-20">
           <ul className="flex justify-between px-4">
             {navItems.map((item, index) => (

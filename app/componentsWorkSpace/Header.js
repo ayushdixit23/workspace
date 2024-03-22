@@ -8,6 +8,7 @@ import { getData } from "../utilsHelper/Useful"
 import { FaCrown } from "react-icons/fa";;
 // import { ModeToggle } from "./ModeToggle";
 import MembershipPopup from "./MembershipPopup";
+import Link from "next/link";
 
 function Header() {
   const [prof, setProf] = useState(true);
@@ -84,8 +85,27 @@ function Header() {
 
           </div>}
 
-          <div>
+          <div className="sm:hidden">
 
+            {pic !== null ? (
+              <Link href={"/main/settings"}>
+                <Image
+                  src={pic}
+
+                  alt="dp"
+                  height={100}
+                  width={100}
+                  className="h-10 w-10 cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white shadow-[0_3px_10px_2px_rgba(1,1,1,0.1)]"
+                />
+              </Link>
+            ) : (
+              <div
+                onClick={() => setProf(!prof)}
+                className="h-10 w-10 bg-red-600 cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white shadow-[0_3px_10px_2px_rgba(1,1,1,0.1)]"
+              />
+            )}
+          </div>
+          <div className="pn:max-sm:hidden">
             {pic !== null ? (
               <Image
                 src={pic}

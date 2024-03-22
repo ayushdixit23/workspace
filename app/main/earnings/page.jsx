@@ -20,7 +20,6 @@ import Loader from "@/app/data/Loader";
 import { getData } from "@/app/utilsHelper/Useful";
 import toast, { Toaster } from "react-hot-toast";
 import { useFetchCommunityQuery, useMonetizationMutation } from "@/app/redux/apiroutes/community";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import Cookies from "js-cookie";
 import { encryptaes } from "@/app/utilsHelper/security";
@@ -53,7 +52,7 @@ const page = () => {
     id: "", name: "", dp: "", members: "", topics: "", engagementrate: "", category: "", desc: "", topic: [], ismonetized: false, earnings: ""
   })
   const [state2, setState2] = useState({
-    id: "", name: "", dp: "", members: "", topics: "", engagementrate: "", category: "", desc: "", topic: [], ismonetized: false
+    id: "", name: "", dp: "", members: "", topics: "", engagementrate: "", category: "", desc: "", topic: [], ismonetized: false, status: ""
   })
 
   const sendRequestForMontenziation = async (id, comid) => {
@@ -63,6 +62,9 @@ const page = () => {
       if (res.data.success) {
         toast.success("Request Sent For Community Montenziation!")
       }
+      setState2({
+        ...state2, status: "pending"
+      })
       setLoading(false)
     } catch (error) {
       console.log(error)
@@ -101,7 +103,8 @@ const page = () => {
         category: comData?.communities[0].category,
         desc: comData?.communities[0].desc,
         topic: comData?.communities[0].topic,
-        ismonetized: comData?.communities[0].ismonetized
+        ismonetized: comData?.communities[0].ismonetized,
+        status: comData?.communities[0].monstatus
       })
     }
 
@@ -353,7 +356,7 @@ const page = () => {
                         <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
                           <div
                             style={{ width: `${(count.com / 1) * 100}%` }}
-                            className="absolute top-0 left-0 rounded-r-xl z-10 bg-[#40CAB0] h-full "
+                            className="absolute top-0 left-0 rounded-r-xl  bg-[#40CAB0] h-full "
                           ></div>
                         </div>
                       </div>
@@ -365,7 +368,7 @@ const page = () => {
                         <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
                           <div
                             style={{ width: `${(count.post / 1) * 100}%` }}
-                            className="absolute top-0 left-0 rounded-r-xl z-10 bg-[#40CAB0] h-full "
+                            className="absolute top-0 left-0 rounded-r-xl  bg-[#40CAB0] h-full "
                           ></div>
                         </div>
                       </div>
@@ -390,29 +393,31 @@ const page = () => {
 
                   <div className="flex text-sm flex-col gap-3">
                     {
-                      comData?.store && count.com > 1 && count.post > 1 ? <>
-                        <div className="bg-[#f1f1f1] rounded-lg dark:bg-[#3d4654]">
-                          <div className="flex flex-col py-2 text-[14px] font-semibold gap-1 justify-center items-center">
-                            <div>Total Earnings</div>
-                            <div>₹{data?.earningStats?.storeearning.toFixed(2)}</div>
-                          </div>
-                        </div>
-
-                        <div className="text-sm">
-                          <div className="flex justify-between items-center">
-                            <div>Product Name</div>
-                            <div>sales(by quantity.)</div>
-                          </div>
-                          {data?.earningStats?.final.map((d) => (
-                            < div className="flex mt-2 justify-between items-center">
-                              <div>{d?.name}</div>
-                              <div>{d?.itemsold}</div>
+                      comData?.store && count.com > 1 && count.post > 1 ?
+                        (data?.earningStats?.length > 0 ?
+                          <>
+                            <div className="bg-[#f1f1f1] rounded-lg dark:bg-[#3d4654]">
+                              <div className="flex flex-col py-2 text-[14px] font-semibold gap-1 justify-center items-center">
+                                <div>Total Earnings</div>
+                                <div>₹{data?.earningStats?.storeearning.toFixed(2)}</div>
+                              </div>
                             </div>
-                          ))}
 
-                        </div>
+                            <div className="text-sm">
+                              <div className="flex justify-between items-center">
+                                <div>Product Name</div>
+                                <div>sales(by quantity.)</div>
+                              </div>
+                              {data?.earningStats?.final.map((d) => (
+                                < div className="flex mt-2 justify-between items-center">
+                                  <div>{d?.name}</div>
+                                  <div>{d?.itemsold}</div>
+                                </div>
+                              ))}
 
-                      </> :
+                            </div>
+
+                          </> : <div className="flex justify-center items-center text-xl py-10 px-2 font-bold">No Products Available</div>) :
 
                         <> {
                           count.com < 1 || count.post < 1 ? <div className="flex text-sm flex-col gap-3">
@@ -424,7 +429,7 @@ const page = () => {
                               <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
                                 <div
                                   style={{ width: `${(count.com / 1) * 100}%` }}
-                                  className="absolute top-0 left-0 rounded-r-xl z-10 bg-[#40CAB0] h-full "
+                                  className="absolute top-0 left-0 rounded-r-xl  bg-[#40CAB0] h-full "
                                 ></div>
                               </div>
                             </div>
@@ -436,7 +441,7 @@ const page = () => {
                               <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
                                 <div
                                   style={{ width: `${(count.post / 1) * 100}%` }}
-                                  className="absolute top-0 left-0 rounded-r-xl z-10 bg-[#40CAB0] h-full "
+                                  className="absolute top-0 left-0 rounded-r-xl  bg-[#40CAB0] h-full "
                                 ></div>
                               </div>
                             </div>
@@ -519,7 +524,7 @@ const page = () => {
                               <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
                                 <div
                                   style={{ width: `${(state1.members / 150) * 100}%` }}
-                                  className="absolute top-0 left-0 rounded-r-xl z-10 bg-[#40CAB0] h-full "
+                                  className="absolute top-0 left-0 rounded-r-xl  bg-[#40CAB0] h-full "
                                 ></div>
                               </div>
                             </div>
@@ -531,7 +536,7 @@ const page = () => {
                               <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
                                 <div
                                   style={{ width: `${((state1.engagementrate) / 10) * 100}%` }}
-                                  className="absolute top-0 left-0 rounded-r-xl z-10 bg-[#40CAB0] h-full "
+                                  className="absolute top-0 left-0 rounded-r-xl  bg-[#40CAB0] h-full "
                                 ></div>
                               </div>
                             </div>
@@ -620,7 +625,7 @@ const page = () => {
                           <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
                             <div
                               style={{ width: `${(state2.members / 1000) * 100}%` }}
-                              className="absolute top-0 left-0 rounded-r-xl z-10 bg-[#40CAB0] h-full "
+                              className="absolute top-0 left-0 rounded-r-xl  bg-[#40CAB0] h-full "
                             ></div>
                           </div>
                         </div>
@@ -632,7 +637,7 @@ const page = () => {
                             <div className="w-full h-3 relative overflow-hidden min-w-[100px] bg-[#F8F8FF] rounded-full">
                               <div
                                 style={{ width: `${((state2.engagementrate) / 10) * 100}%` }}
-                                className="absolute top-0 left-0 rounded-r-xl z-10 bg-[#40CAB0] h-full "
+                                className="absolute top-0 left-0 rounded-r-xl  bg-[#40CAB0] h-full "
                               ></div>
                             </div>
                           </div>
@@ -640,7 +645,7 @@ const page = () => {
                         )}
 
                       {state2.members >= 1000 && state2.engagementrate >= 10 && !state2.ismonetized && < div className="flex justify-end items-center">
-                        <button onClick={() => sendRequestForMontenziation(id, state2.id)} className="bg-[#2D9AFF] text-white p-2 px-5 text-sm rounded-lg">Apply for Monetization</button>
+                        <button disabled={state2.status == "pending"} onClick={() => sendRequestForMontenziation(id, state2.id)} className="bg-[#2D9AFF] text-white p-2 px-5 text-sm rounded-lg">{state2.status == "pending" ? "Waiting..." : "Apply for Monetization"}</button>
                       </div>}
                     </div>
                   }

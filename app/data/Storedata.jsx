@@ -2,6 +2,7 @@ import React from "react";
 import NoOrder from "../componentsWorkSpace/NoOrder";
 import { formatDate, formatISOStringToDMY } from "../utilsHelper/Useful";
 import ChartsStore from "./ChartsStore";
+import verify from "../assets/image/verify.png";
 import Link from "next/link";
 import {
   Table,
@@ -11,6 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import Image from "next/image";
 
 const Storedata = ({ getorderdata, sales }) => {
 
@@ -20,10 +22,6 @@ const Storedata = ({ getorderdata, sales }) => {
       Dates: formatDate(d.Dates)
     }
   })
-
-  console.log(
-    sales, "sales")
-
   return (
     <div className={`flex flex-col gap-4`}>
       <div className="bg-white dark:text-white dark:bg-[#273142] rounded-xl p-2 px-3">
@@ -40,168 +38,126 @@ const Storedata = ({ getorderdata, sales }) => {
             <div>Last Week</div>
           </div>
         </div> */}
-        <div className="w-full relative -left-10 pp:-left-8 sm:-left-6 top-2">
-          {salesData && salesData.length > 0 ? <ChartsStore data={salesData} /> : <div className="h-[200px] w-full flex text-2xl text-center font-semibold justify-center items-center">No Data To Show</div>}
-        </div>
-      </div>
 
-      {getorderdata?.mergedOrder.length == 0 ? (
-        <div className="bg-white dark:bg-[#273142] rounded-xl h-[370px] sm:h-[400px]">
-          <NoOrder />
-        </div>
-      ) : (
-        <Link href={"/main/order"} className="w-full rounded-xl dark:bg-[#273142] bg-white sm:max-h-[600px] max-w-full overflow-y-scroll no-scrollbar sm:min-h-[200px] ">
-          <div className="text-lg font-semibold hidden sm:block p-2 sm:p-3 dark:text-white text-[#030229]">
-            Recent Orders
+        {
+          getorderdata.storeexistornot ? (getorderdata.isStoreVerified ? <div className="w-full relative -left-10 pp:-left-8 sm:-left-6 top-2">
+            {salesData && salesData.length > 0 ? <ChartsStore data={salesData} /> : <div className="h-[200px] w-full flex text-2xl text-center font-semibold justify-center items-center">No Data To Show</div>}
           </div>
-          {/* <div className="pn:max-sm:hidden max-w-full min-w-[700px] overflow-scroll no-scrollbar bg-white sm:px-3">
-            <table className="w-full">
-              <thead className="bg-[#FCFCFD]">
-                <tr>
-                  <th className="py-2 px-4 text-left">Order ID</th>
-                  <th colSpan="2" className="py-2 px-4 text-left">
-                    Product Name
-                  </th>
-                  <th className="py-2 px-4 text-left">Price</th>
-                  <th className="py-2 px-4 text-left">Total Order</th>
-                  <th className="py-2 px-4 text-left">Total Amount</th>
-                </tr>
-              </thead>
-              <tbody>
-                {getorderdata?.mergedOrder?.map((d, iw) => (
-                  <tr key={iw}>
-                    <td className="py-2 px-4 text-[#667085] text-sm">
-                      #{d?.orderId?.slice(0, 8)}
-                    </td>
-                    <td colSpan="2" className="py-2 px-4 text-left">
-                      <div className="flex items-center gap-2">
-                        <div>
-                          <img
-                            src={d?.image?.[0]}
-                            alt="image"
-                            className="max-w-[50px]"
-                          />
-                        </div>
-                        <div className="flex text-sm flex-col">
-                          {d?.productId?.map((product, index) => (
-                            <div key={index}>
-                              {index < 2 ? product?.name : null}
-                            </div>
-                          ))}
-                          {d?.productId?.length > 2 && <span>And more...</span>}
-                        </div>
-                      </div>
-                    </td>
-
-                    <td className="py-2 px-4 text-[#667085] text-sm">
-                      &#8377; {d?.finalprice}
-                    </td>
-                    <td className="py-2 px-4 text-[#667085] text-sm font-medium">
-                      {getorderdata?.allorders}
-                    </td>
-                    <td className="py-2 px-4 text-[#667085] text-sm">
-                      &#8377; {d?.total}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div> */}
-          <div className="pn:max-sm:hidden max-w-full min-w-[700px] overflow-scroll no-scrollbar dark:bg-[#273142] bg-white sm:px-3">
-            <Table>
-              <TableHeader className="dark:text-[#cfcfcf]">
-                <TableRow>
-                  <TableHead className="w-[150px]">Order ID</TableHead>
-                  <TableHead>Product Name</TableHead>
-                  <TableHead>Quantity</TableHead>
-                  <TableHead className="text-center">Total Amount</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {getorderdata?.mergedOrder?.map((d, iw) => (
-                  <TableRow key={iw}>
-                    <TableCell className="font-medium w-[150px] text-left">
-                      #{d?.orderId?.slice(0, 8)}
-                    </TableCell>
-                    <TableCell className="text-center"> <div className="flex items-center gap-2">
-                      <div>
-                        <img
-                          src={d?.image}
-                          alt="image"
-                          className="w-[50px] h-[50px] rounded-xl object-cover"
-                        />
-                      </div>
-                      <div className="flex text-sm text-left mb-[1px] flex-col">
-                        {/* {d?.productId?.map((product, index) => (
-                          <div key={index}>
-                            {index < 1 ? product?.name : null}
-                          </div>
-                        ))} */}
-                        <div>{d?.productId.name}</div>
-
-                        {/* {d?.productId?.length > 1 && <span className="text-xs">And more...</span>} */}
-                      </div>
-                    </div></TableCell>
-                    <TableHead>{d?.quantity}</TableHead>
-
-                    <TableCell className="text-center"> &#8377; {d?.total}</TableCell>
-
-                  </TableRow>
-                ))
-                }
-              </TableBody>
-            </Table>
-          </div>
-          <div className="sm:hidden rounded-xl  dark:bg-[#273142] bg-white">
-            <div>
-              <div className="flex justify-between font-semibold p-3 px-4 dark:text-white items-center text-[#4A4C56]">
-                <div>Recent Orders</div>
-                <div className="mr-4 text-sm">Status</div>
-              </div>
-
-              <div>
-                {getorderdata?.mergedOrder?.map((d, i) => (
-                  <div
-                    key={i}
-                    className="flex justify-between p-2 px-4 items-center"
-                  >
-                    <div className="flex justify-center items-center gap-2 pp:gap-4">
-                      <div>
-                        <img
-                          src={d?.image}
-                          alt="image"
-                          className="w-[60px] h-[60px] rounded-xl object-cover"
-                        />
-                      </div>
-                      <div className="flex flex-col">
-                        <div className="flex text-sm flex-col">
-                          {/* {d?.productId?.map((product, index) => (
-                            <div key={index}>
-                              {index < 1 ? product?.name : null}
-                            </div>
-                          ))}
-                          {d?.productId?.length > 1 && <span>And more...</span>} */}
-                          {d?.productId?.name}
-                        </div>
-                        <div className="text-[#667085] text-sm">
-                          #{d?.orderId?.slice(0, 8)}
-                        </div>
-                        <div className="font-semibold text-sm pp:text-base">
-                          Total: ₹{(d?.total)}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="p-1.5 px-3 text-sm pp:text-base bg-[#FDF1E8] text-[#E46A11] rounded-2xl">
-                      {d?.currentStatus}
-                    </div>
-                  </div>
-                ))}
+            :
+            <div className="h-full w-full rounded-xl">
+              <div className="flex flex-col justify-center items-center h-full">
+                <div className="text-2xl font-semibold pn:max-sm:text-xl px-2 dark:text-white">Verification Process Underway</div>
+                <Image src={verify} alt="image" className="max-w-[250px]" />
+                <div className="text-sm">Status : In review</div>
+                <div className="flex flex-col text-center max-w-[85%] text-sm sm:max-w-[50%] pt-9 justify-center items-center">We appreciate your patience as we work to verify your account. It Normally takes upto 24 hours.
+                  Thank you for your understanding and cooperation during this process.</div>
               </div>
             </div>
-          </div>
-        </Link>
-      )}
-    </div>
+          ) :
+            <div className="w-full h-[230px] sm:h-[470px] flex flex-col justify-center items-center">
+              <div>
+                {/* <Image src={} className="w-[60%] h-[60%]"/> */}
+              </div>
+              <div className="h-full w-full flex text-2xl text-center font-semibold justify-center items-center">Get Ready To Create Your Store</div>
+            </div>
+        }
+      </div>
+
+      {
+        getorderdata?.mergedOrder.length == 0 ? (
+          // <div className="bg-white dark:bg-[#273142] rounded-xl h-[370px] sm:h-[400px]">
+          //   <NoOrder />
+          // </div>
+          <></>
+        ) : (
+          <Link href={"/main/order"} className="w-full rounded-xl dark:bg-[#273142] bg-white sm:max-h-[600px] max-w-full overflow-y-scroll no-scrollbar sm:min-h-[200px] ">
+            <div className="text-lg font-semibold hidden sm:block p-2 sm:p-3 dark:text-white text-[#030229]">
+              Recent Orders
+            </div>
+
+            <div className="pn:max-sm:hidden max-w-full min-w-[700px] overflow-scroll no-scrollbar dark:bg-[#273142] bg-white sm:px-3">
+              <Table>
+                <TableHeader className="dark:text-[#cfcfcf]">
+                  <TableRow>
+                    <TableHead className="w-[150px]">Order ID</TableHead>
+                    <TableHead>Product Name</TableHead>
+                    <TableHead>Quantity</TableHead>
+                    <TableHead className="text-center">Total Amount</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {getorderdata?.mergedOrder?.map((d, iw) => (
+                    <TableRow key={iw}>
+                      <TableCell className="font-medium w-[150px] text-left">
+                        #{d?.orderId?.slice(0, 8)}
+                      </TableCell>
+                      <TableCell className="text-center"> <div className="flex items-center gap-2">
+                        <div>
+                          <img
+                            src={d?.image}
+                            alt="image"
+                            className="w-[50px] h-[50px] rounded-xl object-cover"
+                          />
+                        </div>
+                        <div className="flex text-sm text-left mb-[1px] flex-col">
+                          <div>{d?.productId.name.length > 17 ? `${d?.productId.name.slice(0, 17)}...` : d?.productId.name}</div>
+                        </div>
+                      </div></TableCell>
+                      <TableHead>{d?.quantity}</TableHead>
+
+                      <TableCell className="text-center"> &#8377; {d?.total}</TableCell>
+
+                    </TableRow>
+                  ))
+                  }
+                </TableBody>
+              </Table>
+            </div>
+            <div className="sm:hidden rounded-xl  dark:bg-[#273142] bg-white">
+              <div>
+                <div className="flex justify-between font-semibold p-3 px-4 dark:text-white items-center text-[#4A4C56]">
+                  <div>Recent Orders</div>
+                  <div className="mr-4 text-sm">Status</div>
+                </div>
+
+                <div>
+                  {getorderdata?.mergedOrder?.map((d, i) => (
+                    <div
+                      key={i}
+                      className="flex justify-between p-2 px-4 items-center"
+                    >
+                      <div className="flex justify-center items-center gap-2 pp:gap-4">
+                        <div>
+                          <img
+                            src={d?.image}
+                            alt="image"
+                            className="w-[60px] h-[60px] rounded-xl object-cover"
+                          />
+                        </div>
+                        <div className="flex flex-col">
+                          <div className="flex text-sm flex-col">
+                            {d?.productId.name.length > 12 ? `${d?.productId.name.slice(0, 12)}...` : d?.productId.name}
+                          </div>
+                          <div className="text-[#667085] text-sm">
+                            #{d?.orderId?.slice(0, 8)}
+                          </div>
+                          <div className="font-semibold text-sm pp:text-base">
+                            Total: ₹{(d?.total)}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="p-1.5 px-3 text-sm pp:text-base bg-[#FDF1E8] text-[#E46A11] rounded-2xl">
+                        {d?.currentStatus}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </Link>
+        )
+      }
+    </div >
   );
 };
 

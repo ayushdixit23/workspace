@@ -18,8 +18,10 @@ const Component = () => {
 			storeInSessionStorage(data.sessionId)
 			// Cookies.set(`excktn${data.sessionId}`, data.access_token)
 			// Cookies.set(`frhktn${data.sessionId}`, data.refresh_token)
-			localStorage.setItem(`excktn${data.sessionId}`, data.access_token)
-			localStorage.setItem(`frhktn${data.sessionId}`, data.refresh_token)
+			localStorage.setItem(`excktn`, data.access_token)
+			localStorage.setItem(`frhktn`, data.refresh_token)
+			// localStorage.setItem(`excktn${data.sessionId}`, data.access_token)
+			// localStorage.setItem(`frhktn${data.sessionId}`, data.refresh_token)
 
 			return true;
 		} catch (e) {

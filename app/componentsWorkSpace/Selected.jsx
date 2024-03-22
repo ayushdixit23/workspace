@@ -24,6 +24,7 @@ const Selected = ({ state, setState, data }) => {
 							desc: selectedData.desc,
 							topic: selectedData.topic || [],
 							ismonetized: selectedData.ismonetized,
+							status: selectedData.status || "",
 							earnings: selectedData.topic.reduce((total, item) => total + (item.earnings || 0), 0)
 						});
 					}

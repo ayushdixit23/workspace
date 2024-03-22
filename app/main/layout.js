@@ -19,15 +19,15 @@ export default function MainLayout({ children }) {
         </div>
         <div className="w-full dark:bg-[#1b2431]  overflow-y-scroll no-scrollbar 
           h-screen bg-[#F8F9FC] sm:p-4">
-          <div className="bg-[#fafafa] dark:bg-[#1b2431] w-full h-full pn:max-sm:z-30 rounded-t-[34px]">
-            <div className={`sm:hidden sticky top-0 left-0 w-full h-[10%] ${isLoading ? "z-20" : "z-30"} `}>
+          <div className="bg-[#fafafa] dark:bg-[#1b2431] w-full h-full rounded-t-[34px]">
+            <div className={`sm:hidden  top-0 left-0 w-full h-[10%] ${isLoading ? "z-20" : "z-10 sticky"} `}>
               <MemorizedHeader />
             </div>
             <div className={`${path === "/main/community" ? "pn:max-sm:bg-white" : null} flex flex-col  h-full bg-[#F8F9FC] dark:bg-[#1b2431]  rounded-t-[26px] gap-4`}>
-              <div className="pn:max-sm:hidden  pn:max-sm:z-20 flex h-[10%] justify-center items-center">
+              <div className="pn:max-sm:hidden flex h-[10%] justify-center items-center">
                 <MemorizedHeader />
               </div>
-              <div className={`pn:max-sm:z-20 sm:rounded-xl dark:bg-[#1b2431] max-w-full w-full h-full overflow-y-scroll
+              <div className={`sm:rounded-xl dark:bg-[#1b2431] max-w-full w-full h-full overflow-y-scroll
                no-scrollbar
                `}>
                 {children}

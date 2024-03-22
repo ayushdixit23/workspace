@@ -15,7 +15,7 @@ const ChartsStore = ({ data }) => {
 
 	const calculateYAxisDomain = (data) => {
 		const allValues = data.reduce((acc, entry) => {
-			const membersValue = parseFloat(entry.Sales);
+			const membersValue = parseInt(entry.Sales);
 
 			if (!isNaN(membersValue)) {
 				acc.push(membersValue);
@@ -24,7 +24,7 @@ const ChartsStore = ({ data }) => {
 		}, []);
 
 		const highestValue = Math.max(...allValues);
-		return [0, highestValue * 2];
+		return [0, parseInt(highestValue * 2)];
 	};
 	return (
 		<div>

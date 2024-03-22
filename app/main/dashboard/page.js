@@ -169,7 +169,7 @@ function Dashboard() {
 
 									</div>
 								</div>
-								<div className={` ${comchange == 2 ? "h-full" : "hidden"}`}>
+								<div className={` ${comchange == 2 ? " h-full" : "hidden"}`}>
 									<Demographics demo={analyticsdata?.demo} memberships={memberships} member={state.totalmembers} ages={state.age} data={analyticsdata?.commerged.length} />
 								</div>
 								<div className={` ${comchange == 3 ? `${memberships === "Free" ? "h-full" : "max-h-[200px]"}` : "hidden"}`}>

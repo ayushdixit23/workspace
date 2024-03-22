@@ -7,8 +7,10 @@ const LocationCom = ({ data, state, memberships }) => {
   return (
     <div className="w-full h-full">
       {memberships === "Free" ?
-
-        <BlurredComponent /> :
+        <div className="w-full pn:max-sm:h-[240px] sm:h-full">
+          <BlurredComponent />
+        </div>
+        :
 
         <div className="w-full h-full">
           {data > 0 ? <div className="dark:text-white text-sm">

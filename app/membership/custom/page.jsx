@@ -98,11 +98,11 @@ const page = () => {
 						console.log(resp.data)
 						if (resp.data.success) {
 
-							localStorage.removeItem(`excktn${sessionId}`)
-							localStorage.removeItem(`frhktn${sessionId}`)
+							localStorage.removeItem(`excktn`)
+							localStorage.removeItem(`frhktn`)
 							storeInSessionStorage(resp.data.sessionId);
-							localStorage.setItem(`excktn${resp.data.sessionId}`, resp.data.access_token)
-							localStorage.setItem(`frhktn${resp.data.sessionId}`, resp.data.refresh_token)
+							localStorage.setItem(`excktn`, resp.data.access_token)
+							localStorage.setItem(`frhktn`, resp.data.refresh_token)
 							router.push("/main/dashboard")
 						}
 					},

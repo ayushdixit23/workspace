@@ -96,6 +96,8 @@ function page() {
       formDataToSend.append("price", product.price)
       formDataToSend.append("desc", product.desc)
       formDataToSend.append("discountedprice", product.discountedprice)
+      formDataToSend.append("isphysical", call.c2)
+      formDataToSend.append("weight", productInfo.shippingValue ? productInfo.shippingValue + " " + productInfo.weightType : null)
       formDataToSend.append("quantity", product.quantity)
       selectedImage.forEach((image) => {
         formDataToSend.append("image", image)
@@ -364,9 +366,9 @@ function page() {
                             !isNaN(newValue) &&
                             parseFloat(newValue) >= 0
                           ) {
-                            setProduct({ ...product, price: newValue });
+                            setProduct((prev) => ({ ...prev, price: newValue }));
                           } else if (newValue === "" || newValue === "-") {
-                            setProduct({ ...product, price: newValue });
+                            setProduct((prev) => ({ ...prev, price: newValue }));
                           }
                         }}
                       />
@@ -378,13 +380,10 @@ function page() {
                       <input type="number" className="outline-none p-2 w-full bg-[#F4F5F7] dark:bg-[#323d4e] rounded-lg" placeholder="Type Discounted amount..." value={product.discountedprice}
                         onChange={(e) => {
                           const newValue = e.target.value;
-                          if (
-                            !isNaN(newValue) &&
-                            parseFloat(newValue) >= 0
-                          ) {
-                            setProduct({ ...product, discountedprice: newValue });
+                          if (!isNaN(newValue) && parseFloat(newValue) >= 0) {
+                            setProduct((prev) => ({ ...prev, discountedprice: newValue }));
                           } else if (newValue === "" || newValue === "-") {
-                            setProduct({ ...product, discountedprice: newValue });
+                            setProduct((prev) => ({ ...prev, discountedprice: newValue }));
                           }
                         }}
                       />

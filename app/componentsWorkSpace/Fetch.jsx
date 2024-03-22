@@ -75,7 +75,7 @@ const Fetch = ({ data }) => {
             </tbody >
           </table> */}
 
-          <Table className="bg-white pn:max-sm:hidden dark:bg-[#273142]">
+          <Table className="bg-white min-w-[900px] overflow-x-scroll no-scrollbar pn:max-sm:hidden dark:bg-[#273142]">
             <TableHeader className="bg-slate-100 dark:bg-[#323d4e]">
               <TableRow>
                 <TableHead className="w-[150px]">Order ID</TableHead>
@@ -83,7 +83,7 @@ const Fetch = ({ data }) => {
                 <TableHead className="text-center">Date</TableHead>
                 <TableHead className="text-center">Total</TableHead>
                 <TableHead className="text-center">Customer</TableHead>
-                <TableHead className="text-center">Payment</TableHead>
+                <TableHead className="text-center min-w-[100px]">Payment</TableHead>
                 <TableHead className="text-center">Status</TableHead>
               </TableRow>
             </TableHeader>
@@ -109,18 +109,18 @@ const Fetch = ({ data }) => {
                           </div>
                         ))}
                         {d?.productId?.length > 2 && <span>And more...</span>} */}
-                        {d?.productId.name}
+                        {d?.productId.name.length > 17 ? `${d?.productId.name.slice(0, 17)}...` : d?.productId.name}
                       </div>
                     </div>
                   </TableCell>
                   <TableCell className="text-center">
                     {formatISOStringToDMY(d?.createdAt)}
                   </TableCell>
-                  <TableCell className="text-center">
+                  <TableCell className=" min-w-[100px] text-center">
                     &#8377; {d?.total}
                   </TableCell>
                   <TableCell className="text-center"> {d?.buyerId?.fullname}</TableCell>
-                  <TableCell className="text-center"> {d?.paymentMode}</TableCell>
+                  <TableCell className="text-center "> {d?.paymentMode}</TableCell>
                   <TableCell className="text-center">{d?.currentStatus}</TableCell>
                 </TableRow>
               ))
@@ -155,7 +155,7 @@ const Fetch = ({ data }) => {
                             </div>
                           ))} */}
                           {/* {d?.productId?.length > 2 && <span>And more...</span>} */}
-                          {d?.productId.name}
+                          {d?.productId.name.length > 12 ? `${d?.productId.name.slice(0, 12)}...` : d?.productId.name}
                         </div>
 
                         <div className="text-[#667085] text-sm">

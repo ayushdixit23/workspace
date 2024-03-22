@@ -10,18 +10,17 @@ import {
 	YAxis
 } from 'recharts';
 
-
 const Charts = ({ data }) => {
 	function getDeviceWidth() {
 		return window.screen.width;
 	}
+
 	const reversedData = data.reverse()
 	const calculateYAxisDomain = (data) => {
 		const allValues = data.reduce((acc, entry) => {
-			const membersValue = parseFloat(entry.members);
-			const visitorsValue = parseFloat(entry.visitors);
+			const membersValue = parseInt(entry.members);
+			const visitorsValue = parseInt(entry.visitors)
 
-			// Check if the parsed values are valid numbers before including them
 			if (!isNaN(membersValue)) {
 				acc.push(membersValue);
 			}
@@ -34,9 +33,9 @@ const Charts = ({ data }) => {
 		}, []);
 
 		const highestValue = Math.max(...allValues);
-		console.log(highestValue);
+		console.log(highestValue * 1.3);
 
-		return [0, highestValue * 1.3];
+		return [0, parseInt(highestValue * 1.3)];
 	};
 
 	return (

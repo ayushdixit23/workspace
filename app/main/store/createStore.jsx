@@ -16,6 +16,7 @@ const CreateStore = ({
   setShowImage,
   router,
   showImage,
+  location,
   refetch,
   id,
 }) => {
@@ -70,6 +71,7 @@ const CreateStore = ({
     e.preventDefault();
     setLoading(true)
     try {
+
       const formDataToSend = new FormData();
       formDataToSend.append("buildingno", store.d1);
       formDataToSend.append("city", store.d2);
@@ -80,6 +82,10 @@ const CreateStore = ({
       formDataToSend.append("businesscategory", store.d7);
       formDataToSend.append("documenttype", store.d8);
       formDataToSend.append("documentfile", store.d9);
+      formDataToSend.append("latitude", location.latitude)
+      formDataToSend.append("accuracy", location.accuracy)
+      formDataToSend.append("longitude", location.longitude)
+      formDataToSend.append("altitude", location.altitude)
       const result = await createStore({
         id: id,
         data: formDataToSend,

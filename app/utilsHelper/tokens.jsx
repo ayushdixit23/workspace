@@ -19,7 +19,7 @@ const useTokenAndData = () => {
   const [refreshedtokenAgain] = useGetRefreshTokenMutation()
 
   useEffect(() => {
-    const token = localStorage.getItem(`excktn${sessionId}`)
+    const token = localStorage.getItem(`excktn`)
     setToken(token)
   }, [sessionId])
 
@@ -42,7 +42,7 @@ const useTokenAndData = () => {
 
   const checkRefreshTokenValidity = useCallback(() => {
     try {
-      const refreshToken = localStorage.getItem(`frhktn${sessionId}`)
+      const refreshToken = localStorage.getItem(`frhktn`)
       // const refreshToken = Cookies.get(`frhktn${sessionId}`)
       if (!refreshToken) {
         console.error("No refresh token found");
@@ -60,7 +60,7 @@ const useTokenAndData = () => {
   }, []);
 
   const refresh = useCallback(async () => {
-    const refreshToken = localStorage.getItem(`frhktn${sessionId}`)
+    const refreshToken = localStorage.getItem(`frhktn`)
     // const refreshToken = Cookies.get(`frhktn${sessionId}`)
     if (!refreshToken) {
       console.error("No refresh token found");
@@ -69,7 +69,7 @@ const useTokenAndData = () => {
     try {
       const newToken = await refreshAccessToken(refreshToken);
       if (newToken) {
-        localStorage.setItem(`excktn${sessionId}`, newToken.access_token)
+        localStorage.setItem(`excktn`, newToken.access_token)
         // Cookies.set(`excktn${sessionId}`, newToken.access_token)
       }
     } catch (error) {
@@ -95,8 +95,8 @@ const useTokenAndData = () => {
             await refresh()
           } else {
             setIsValid(false);
-            localStorage.removeItem(`excktn${sessionId}`)
-            localStorage.removeItem(`frhktn${sessionId}`)
+            localStorage.removeItem(`excktn`)
+            localStorage.removeItem(`frhktn`)
             // Cookies.remove(`excktn${sessionId}`)
             // Cookies.remove(`frhktn${sessionId}`)
           }
@@ -104,8 +104,8 @@ const useTokenAndData = () => {
       } catch (e) {
         console.error(e);
         setIsValid(false);
-        localStorage.removeItem(`excktn${sessionId}`)
-        localStorage.removeItem(`frhktn${sessionId}`)
+        localStorage.removeItem(`excktn`)
+        localStorage.removeItem(`frhktn`)
         // Cookies.remove(`excktn${sessionId}`)
         // Cookies.remove(`frhktn${sessionId}`)
       }

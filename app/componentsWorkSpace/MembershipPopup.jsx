@@ -7,12 +7,14 @@ import axios from 'axios'
 import { useMemfinalizeMutation } from '../redux/apiroutes/payment'
 import { useRouter } from 'next/navigation'
 import { IoIosArrowRoundForward } from "react-icons/io"
+import { useDispatch } from 'react-redux'
+import { LoadThis } from '../redux/slice/userData'
 
 const MembershipPopup = ({ setPop }) => {
 	const { id, fullname, memberships } = getData()
 	const router = useRouter()
 	const [Razorpay] = useRazorpay()
-	const sessionId = getItemSessionStorage()
+	const dispatch = useDispatch()
 	const [membershipFinalise] = useMemfinalizeMutation()
 	const buyMembership = async () => {
 		try {
@@ -52,12 +54,12 @@ const MembershipPopup = ({ setPop }) => {
 							// Cookies.set(`excktn${data.sessionId}`, data.access_token)
 							// Cookies.set(`frhktn${data.sessionId}`, data.refresh_token)
 
-							localStorage.removeItem(`excktn${sessionId}`)
-							localStorage.removeItem(`frhktn${sessionId}`)
+							localStorage.removeItem(`excktn`)
+							localStorage.removeItem(`frhktn`)
 							storeInSessionStorage(resp.data.sessionId);
-							localStorage.setItem(`excktn${resp.data.sessionId}`, resp.data.access_token)
-							localStorage.setItem(`frhktn${resp.data.sessionId}`, resp.data.refresh_token)
-
+							localStorage.setItem(`excktn`, resp.data.access_token)
+							localStorage.setItem(`frhktn`, resp.data.refresh_token)
+							dispatch(LoadThis(false))
 							setPop(false)
 						}
 					},
@@ -100,7 +102,7 @@ const MembershipPopup = ({ setPop }) => {
 						<p className="text-[#00153B] dark:text-white text-[20px] leading-[40px] font-semibold">
 							Your Subscription
 						</p>
-						<div onClick={() => setPop(false)}>
+						<div onClick={() => { setPop(false); dispatch(LoadThis(false)) }}>
 							<RxCross1 />
 						</div>
 					</div>

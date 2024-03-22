@@ -245,11 +245,11 @@ const Sample5 = () => {
 							// Cookies.set(`excktn${data.sessionId}`, data.access_token)
 							// Cookies.set(`frhktn${data.sessionId}`, data.refresh_token)
 
-							localStorage.removeItem(`excktn${sessionId}`)
-							localStorage.removeItem(`frhktn${sessionId}`)
+							localStorage.removeItem(`excktn`)
+							localStorage.removeItem(`frhktn`)
 							storeInSessionStorage(resp.data.sessionId);
-							localStorage.setItem(`excktn${resp.data.sessionId}`, resp.data.access_token)
-							localStorage.setItem(`frhktn${resp.data.sessionId}`, resp.data.refresh_token)
+							localStorage.setItem(`excktn`, resp.data.access_token)
+							localStorage.setItem(`frhktn`, resp.data.refresh_token)
 							router.push("/main/dashboard")
 						}
 					},

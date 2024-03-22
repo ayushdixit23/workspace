@@ -56,7 +56,7 @@ const Products = ({ data }) => {
                           />
                         </div>
                         <div className="flex flex-col items-start text-xs font-medium gap-1">
-                          <div className="font-semibold dark:text-white text-[14px] sm:text-sm">{d?.name}</div>
+                          <div className="font-semibold dark:text-white text-[14px] sm:text-sm">{d?.name.length > 10 ? `${d?.name.slice(0, 10)}...` : d?.name}</div>
                           {/* <div>{d?.brandname}</div> */}
                         </div>
                       </div>

@@ -6,9 +6,11 @@ const Demographics = ({ demo, data, member, ages, memberships }) => {
 
   return (
     <>
-      <div className="w-full h-full">
-        {memberships === "Free" ? <BlurredComponent /> :
-          <div className="w-full h-full">
+      <div className="w-full sm:h-full">
+        {memberships === "Free" ? <div className="w-full pn:max-sm:h-[240px] sm:h-full">
+          <BlurredComponent />
+        </div> :
+          <div className="w-full sm:h-full">
 
             {data > 0 ? < div className="p-3 border text-sm dark:border-[#3d4654] dark:text-white rounded-xl">
 

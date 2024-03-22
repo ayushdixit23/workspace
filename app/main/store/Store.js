@@ -26,6 +26,7 @@ import Cookies from "js-cookie";
 import { FaCrown } from "react-icons/fa";
 import MembershipPopup from "@/app/componentsWorkSpace/MembershipPopup";
 import { useGetFetchOrderQuery } from "@/app/redux/apiroutes/userLoginAndSetting";
+import axios from "axios";
 
 export default function Store() {
 	const [data, setData] = useState([]);
@@ -36,6 +37,14 @@ export default function Store() {
 	const params = useSearchParams()
 	const queryForCreation = params.get("q")
 	const router = useRouter()
+	const [location, setLocation] = useState({
+		latitude: "",
+		longitude: "",
+		accuracy: "",
+		altitude: "",
+	})
+
+
 	const [loading, setLoading] = useState(false)
 	const [col, setCol] = useState({
 		d1: "",
@@ -88,6 +97,13 @@ export default function Store() {
 		d9: "",
 	});
 
+	// const fetchLatAndLong = async () => {
+	// 	const res = await axios.get(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(store.d1)}`)
+	// 	console.log(res.data)
+	// }
+	// fetchLatAndLong()
+
+
 	const handleDelete = async (userid, pid, collecid, index) => {
 		const updatedData = data.map((d) => {
 			if (d._id === collecid) {
@@ -111,17 +127,26 @@ export default function Store() {
 
 	const createCheck = () => {
 		if (checkstore?.exist) {
-			// if (checkstore.isverified) {
-			// 	dispatch(LoadThis(true))
-			// 	setCheck(1)
-			// } else {
-			// 	setStoreVerified(1)
-			// }
 			dispatch(LoadThis(true))
 			setCheck(1)
 		} else {
 			dispatch(LoadThis(true))
 			setCheck(2);
+			navigator.geolocation.getCurrentPosition(
+				(p) => {
+					setLocation({
+						...location,
+						latitude: p.coords.latitude,
+						longitude: p.coords.longitude,
+						accuracy: p.coords.accuracy,
+						altitude: p.coords.altitudeAccuracy,
+					})
+				},
+				() => {
+					toast.error("Allow Location To Create Store!")
+					setCheck(null);
+				}
+			);
 		}
 	}
 
@@ -191,13 +216,14 @@ export default function Store() {
 					setCol={setCol}
 				/>
 			)}
-			{queryForCreation == "store" && check == 2 &&
+			{queryForCreation == "store" && check == 2 && checkstore.validToCreateStore &&
 				<CreateStore
 					store={store}
 					id={id}
 					loading={loading}
 					setLoading={setLoading}
 					dispatch={dispatch}
+					location={location}
 					setCheck={setCheck}
 					router={router}
 					setStore={setStore}
@@ -232,13 +258,16 @@ export default function Store() {
 								{memberships === "Free" && productdata?.collections?.length >= 1 ? <div onClick={() => setPop(true)} className="py-2 flex justify-center items-center dark:bg-[#323d4e] dark:text-white gap-1 border light:border-[#f1f1f1] vs:max-pp:text-[12px] px-2.5 sm:px-5 font-medium bg-white text-black rounded-xl">
 									{checkstore?.exist ? "Create Collection" : "Create Store"}
 									<FaCrown />
-								</div> : <Link href={`/main/store?q=${checkstore?.q}`}
+								</div> : (checkstore?.validToCreateStore ? <Link href={`/main/store?q=${checkstore?.q}`}
 									onClick={createCheck}
 									className="py-2 flex justify-center items-center dark:bg-[#323d4e] dark:text-white gap-1 border light:border-[#f1f1f1] vs:max-pp:text-[12px] px-2.5 sm:px-5 font-medium bg-white text-black rounded-xl"
 								>
 									{checkstore?.exist ? "Create Collection" : "Create Store"}
 									<GoPlus />
-								</Link>}
+								</Link> : <div onClick={() => toast.error("Not Eligable to Create Store Now!")} className="py-2 flex justify-center items-center dark:bg-[#323d4e] dark:text-white gap-1 border light:border-[#f1f1f1] vs:max-pp:text-[12px] px-2.5 sm:px-5 font-medium bg-white text-black rounded-xl">
+									{checkstore?.exist ? "Create Collection" : "Create Store"}
+									<GoPlus />
+								</div>)}
 							</div>
 
 							<div className="p-1 px-2 w-full  grid grid-cols-1">
@@ -250,9 +279,9 @@ export default function Store() {
 												<Image src={p3} alt="p1" />
 											</div>
 											<div className="flex flex-col gap-1">
-												<div className="font-medium">Earings</div>
+												<div className="font-medium">Earnings</div>
 												<div className="flex gap-1 text-xs  items-center">
-													<div className="text-base font-medium">₹{getorderdata?.earnings}</div>
+													<div className="text-base font-medium">₹{(Number(getorderdata?.earnings)).toFixed(2)}</div>
 													{/* <div className="text-green-700">+0.00%</div> */}
 												</div>
 											</div>
@@ -305,9 +334,9 @@ export default function Store() {
 												<Image src={p3} alt="p1" />
 											</div>
 											<div>
-												<div className="font-medium">Earings</div>
+												<div className="font-medium">Earnings</div>
 												<div className="flex gap-1 text-xs  items-center">
-													<div className="text-base font-medium">₹{getorderdata?.earnings}</div>
+													<div className="text-base font-medium">₹{(Number(getorderdata?.earnings)).toFixed(2)}</div>
 													{/* <div className="text-green-700">+0.00%</div> */}
 												</div>
 											</div>

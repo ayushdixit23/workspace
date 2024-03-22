@@ -70,6 +70,8 @@ function page() {
     formDataToSend.append("quantity", product.quantity);
     formDataToSend.append("desc", product.desc);
     formDataToSend.append("price", product.price);
+    formDataToSend.append("isphysical", call.c2)
+    formDataToSend.append("weight", productInfo.shippingValue ? productInfo.shippingValue + " " + productInfo.weightType : null)
     formDataToSend.append("brandname", fullname);
     formDataToSend.append("shippingcost", 24);
     formDataToSend.append("sellername", fullname);
@@ -98,7 +100,6 @@ function page() {
   };
 
   const clearCookies = () => {
-
     Cookies.remove("clvss")
   };
 
@@ -106,7 +107,6 @@ function page() {
     setSelectedImage(prevImages => prevImages.filter((_, i) => i !== indexToRemove));
     setFinalimages(prevImages => prevImages.filter((_, i) => i !== indexToRemove))
   };
-
 
   useEffect(() => {
     const handlePopstate = () => {
@@ -292,9 +292,9 @@ function page() {
                             !isNaN(newValue) &&
                             parseFloat(newValue) >= 0
                           ) {
-                            setProduct({ ...product, price: newValue });
+                            setProduct((prev) => ({ ...prev, price: newValue }));
                           } else if (newValue === "" || newValue === "-") {
-                            setProduct({ ...product, price: newValue });
+                            setProduct((prev) => ({ ...prev, price: newValue }));
                           }
                         }}
                       />
@@ -310,9 +310,9 @@ function page() {
                             !isNaN(newValue) &&
                             parseFloat(newValue) >= 0
                           ) {
-                            setProduct({ ...product, discountedprice: newValue });
+                            setProduct((prev) => ({ ...prev, discountedprice: newValue }));
                           } else if (newValue === "" || newValue === "-") {
-                            setProduct({ ...product, discountedprice: newValue });
+                            setProduct((prev) => ({ ...prev, discountedprice: newValue }));
                           }
                         }}
                       />

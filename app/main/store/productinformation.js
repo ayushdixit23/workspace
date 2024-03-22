@@ -45,7 +45,7 @@ function productinformation({ handleDelete, data, userid, collectionid, index })
             {/**phone */}
             <div className="">
               <div className=" text-[#1d1f2c] font-semibold dark:text-white">
-                {data?.name}
+                {data?.name.length > 20 ? `${data?.name.slice(0, 20)}...` : data?.name}
               </div>
               <div className="text-[12px] font-medium vs:max-sm:hidden">
                 Sold by {data?.brandname}
@@ -64,7 +64,7 @@ function productinformation({ handleDelete, data, userid, collectionid, index })
             </div>
           </div>
           {/*web */}
-         
+
           <>
             <div className="vs:max-sm:hidden sm:max-md:w-24  sm:max-md:justify-start w-36 flex justify-center ">
               <div className="space-y-4">
