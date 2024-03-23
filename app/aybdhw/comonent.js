@@ -37,6 +37,7 @@ const Component = () => {
 			const a = await waitkrnevalafunc(res.data);
 			if (a === true) {
 				if (path) {
+					console.log(path)
 					router.push(path)
 				} else {
 					router.push("/main/dashboard")
