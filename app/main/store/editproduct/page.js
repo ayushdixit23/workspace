@@ -80,7 +80,7 @@ function page() {
   };
 
   const handleSubmit = async (e) => {
-    if (product.price < product.discountedprice) {
+    if (Number(product.price) < Number(product.discountedprice)) {
       toast.error("Discounted Price Should Be Less Than Selling Price")
       return
     }

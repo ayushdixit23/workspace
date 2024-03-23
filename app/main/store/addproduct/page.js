@@ -52,7 +52,7 @@ function page() {
   };
 
   const handleSubmit = async (e) => {
-    if (product.price < product.discountedprice) {
+    if (Number(product.price) < Number(product.discountedprice)) {
       toast.error("Discounted Price Should Be Less Than Selling Price")
       return
     }
@@ -107,6 +107,7 @@ function page() {
     setSelectedImage(prevImages => prevImages.filter((_, i) => i !== indexToRemove));
     setFinalimages(prevImages => prevImages.filter((_, i) => i !== indexToRemove))
   };
+
 
   useEffect(() => {
     const handlePopstate = () => {
