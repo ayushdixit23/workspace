@@ -364,7 +364,7 @@ function page() {
                           const newValue = e.target.value;
                           if (
                             !isNaN(newValue) &&
-                            parseFloat(newValue) >= 0
+                            parseInt(newValue) >= 0
                           ) {
                             setProduct((prev) => ({ ...prev, price: newValue }));
                           } else if (newValue === "" || newValue === "-") {
@@ -380,7 +380,7 @@ function page() {
                       <input type="number" className="outline-none p-2 w-full bg-[#F4F5F7] dark:bg-[#323d4e] rounded-lg" placeholder="Type Discounted amount..." value={product.discountedprice}
                         onChange={(e) => {
                           const newValue = e.target.value;
-                          if (!isNaN(newValue) && parseFloat(newValue) >= 0) {
+                          if (!isNaN(newValue) && parseInt(newValue) >= 0) {
                             setProduct((prev) => ({ ...prev, discountedprice: newValue }));
                           } else if (newValue === "" || newValue === "-") {
                             setProduct((prev) => ({ ...prev, discountedprice: newValue }));
@@ -442,7 +442,7 @@ function page() {
                     const newValue = e.target.value;
                     if (
                       !isNaN(newValue) &&
-                      parseFloat(newValue) >= 0
+                      parseInt(newValue) >= 0
                     ) {
                       setProduct({ ...product, quantity: newValue });
                     } else if (newValue === "" || newValue === "-") {
@@ -478,7 +478,7 @@ function page() {
                           const newValue = e.target.value;
                           if (
                             !isNaN(newValue) &&
-                            parseFloat(newValue) >= 0
+                            parseInt(newValue) >= 0
                           ) {
                             setProductInfo({ ...productInfo, shippingValue: newValue });
                           } else if (newValue === "" || newValue === "-") {

@@ -290,7 +290,7 @@ function page() {
                           const newValue = e.target.value;
                           if (
                             !isNaN(newValue) &&
-                            parseFloat(newValue) >= 0
+                            parseInt(newValue) >= 0
                           ) {
                             setProduct((prev) => ({ ...prev, price: newValue }));
                           } else if (newValue === "" || newValue === "-") {
@@ -308,7 +308,7 @@ function page() {
                           const newValue = e.target.value;
                           if (
                             !isNaN(newValue) &&
-                            parseFloat(newValue) >= 0
+                            parseInt(newValue) >= 0
                           ) {
                             setProduct((prev) => ({ ...prev, discountedprice: newValue }));
                           } else if (newValue === "" || newValue === "-") {
@@ -369,7 +369,7 @@ function page() {
                     const newValue = e.target.value;
                     if (
                       !isNaN(newValue) &&
-                      parseFloat(newValue) >= 0
+                      parseInt(newValue) >= 0
                     ) {
                       setProduct({ ...product, quantity: newValue });
                     } else if (newValue === "" || newValue === "-") {
@@ -440,7 +440,7 @@ function page() {
                           const newValue = e.target.value;
                           if (
                             !isNaN(newValue) &&
-                            parseFloat(newValue) >= 0
+                            parseInt(newValue) >= 0
                           ) {
                             setProductInfo({ ...productInfo, shippingValue: newValue });
                           } else if (newValue === "" || newValue === "-") {
