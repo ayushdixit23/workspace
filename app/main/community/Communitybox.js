@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { encryptaes } from "@/app/utilsHelper/security";
@@ -20,6 +19,7 @@ function Communitybox({ data, id, index, handleDelete }) {
     title: data?.c?.title,
     category: data?.c?.category,
     desc: data?.c?.desc,
+    type: data?.c?.type,
     topics: "",
     memberscount: data?.c?.memberscount
   }

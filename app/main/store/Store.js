@@ -98,8 +98,8 @@ export default function Store() {
 	});
 
 	// const fetchLatAndLong = async () => {
-	// 	const res = await axios.get(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(store.d1)}`)
-	// 	console.log(res.data)
+	// 	const res = await axios.get(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent('37 A, rampuram')}`)
+	// 	console.log(res.data,encodeURIComponent('37 A, rampuram, Shyam nagar, Kanpur, India'))
 	// }
 	// fetchLatAndLong()
 

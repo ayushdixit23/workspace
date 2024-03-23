@@ -39,7 +39,7 @@ function page() {
     title: "",
     desc: "",
     selectedCategory: "",
-    type: "public",
+    type: "",
   })
   const [membercount, setMembercount] = useState("")
   const [topics, setTopics] = useState({
@@ -71,7 +71,7 @@ function page() {
     setSelectedImage(e.target.files[0]);
   };
   useEffect(() => {
-    setEditCommunity({ ...editCommunity, title: data?.title || "", desc: data?.desc || "", selectedCategory: data?.category || "" })
+    setEditCommunity({ ...editCommunity, title: data?.title || "", desc: data?.desc || "", selectedCategory: data?.category || "", type: data?.type || "" })
     setSelectImage(data?.dps)
     setMembercount(data?.memberscount)
   }, [])

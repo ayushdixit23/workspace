@@ -5,14 +5,32 @@ import { storeInSessionStorage } from "../utilsHelper/Tokenwrap"
 import axios from "axios"
 import toast from "react-hot-toast"
 import Loader from "../data/Loader"
+import Cookies from "js-cookie"
+import { encryptaes } from "../utilsHelper/security"
 // import Cookies from "js-cookie"
 
 const Component = () => {
 	const queryParams = useSearchParams()
 	const id = queryParams.get("zyxxpht")
 	const path = queryParams.get("path")
-	const router = useRouter()
+	const dps = queryParams.get("dps")
+	const title = queryParams.get("title")
+	const category = queryParams.get("category")
+	const desc = queryParams.get("desc")
+	const type = queryParams.get("type")
+	const memberscount = queryParams.get("memberscount")
+	const comId = queryParams.get("comId")
 
+	const tosetCookie = {
+		dps,
+		title,
+		category,
+		desc,
+		type,
+		memberscount
+	}
+
+	const router = useRouter()
 	const waitkrnevalafunc = async (data) => {
 		try {
 			storeInSessionStorage(data.sessionId)
@@ -22,7 +40,10 @@ const Component = () => {
 			localStorage.setItem(`frhktn`, data.refresh_token)
 			// localStorage.setItem(`excktn${data.sessionId}`, data.access_token)
 			// localStorage.setItem(`frhktn${data.sessionId}`, data.refresh_token)
-
+			if (title && category) {
+				Cookies.set("comedta", JSON.stringify(tosetCookie))
+				Cookies.set("cmdyd", encryptaes(comId))
+			}
 			return true;
 		} catch (e) {
 			console.log(e);
@@ -37,7 +58,6 @@ const Component = () => {
 			const a = await waitkrnevalafunc(res.data);
 			if (a === true) {
 				if (path) {
-					console.log(path)
 					router.push(path)
 				} else {
 					router.push("/main/dashboard")
