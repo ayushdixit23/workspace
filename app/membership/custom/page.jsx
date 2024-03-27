@@ -89,6 +89,7 @@ const page = () => {
 							memid: membershipId,
 							razorpay_signature: response?.razorpay_signature,
 							status: true,
+							isverified: bill.some((item) => item.item === "Trusted Badge" && item.itemAdd === true),
 							productlimit: addProductsItem.quantity,
 							topiclimit: addtopiclimit.quantity,
 							communitylimit: addcommunitylimit.quantity,

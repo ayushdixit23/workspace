@@ -33,7 +33,7 @@ function Communitybox({ data, id, index, handleDelete }) {
             <div className="text-center dark:text-white text-[#667085]">Do you really want to Delete this Community? This process cannot be undone.</div>
             <div className="flex justify-center w-full gap-3 items-center">
               <button onClick={() => { setComDelete(false), dispatch(LoadThis(false)) }} className="w-full border-2 dark:border-white p-2 px-5 rounded-xl">Cancel</button>
-              <button onClick={() => { handleDelete({ dat: data, id: data?.c?._id, index: index }), setComDelete(false), dispatch(LoadThis(false)) }} className="w-full bg-[#f44336] text-white p-2 px-5 rounded-xl">Delete</button>
+              <button onClick={() => { handleDelete({ dat: data, comid: data?.c?._id, index: index }), setComDelete(false), dispatch(LoadThis(false)) }} className="w-full bg-[#f44336] text-white p-2 px-5 rounded-xl">Delete</button>
             </div>
           </div>
 

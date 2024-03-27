@@ -30,7 +30,7 @@ const page = () => {
 		try {
 			setLoading(true)
 			const res = await deletePost({
-				id, comid, postid
+				id, postid
 			})
 			console.log(res.data)
 			if (res.data.success) {

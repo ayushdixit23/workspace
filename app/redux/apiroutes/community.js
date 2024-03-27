@@ -59,9 +59,15 @@ export const communityApi = Api.injectEndpoints({
         body: data,
       }),
     }),
+    // deleteCommunity: builder.mutation({
+    //   query: ({ comid }) => ({
+    //     url: `/v1/delete/${comid}`,
+    //     method: "POST",
+    //   }),
+    // }),
     deleteCommunity: builder.mutation({
-      query: ({ comid }) => ({
-        url: `/v1/delete/${comid}`,
+      query: ({ id, comid }) => ({
+        url: `/v1/removecomwithposts/${id}/${comid}`,
         method: "POST",
       }),
     }),
@@ -76,11 +82,17 @@ export const communityApi = Api.injectEndpoints({
       query: ({ id, comid }) => `/getallposts/${comid}/${id}`
     }),
     deletePosts: builder.mutation({
-      query: ({ id, comid, postid }) => ({
-        url: `/deletepost/${id}/${comid}/${postid}`,
+      query: ({ id, postid }) => ({
+        url: `/v1/deletepost/${id}/${postid}`,
         method: "DELETE",
       })
     }),
+    // deletePosts: builder.mutation({
+    //   query: ({ id, comid, postid }) => ({
+    //     url: `/deletepost/${id}/${comid}/${postid}`,
+    //     method: "DELETE",
+    //   })
+    // }),
     fetchCommunity: builder.query({
       query: ({ id }) => `/v1/fetchCommunityStats/${id}`
     }),

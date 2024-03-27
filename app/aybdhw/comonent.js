@@ -33,6 +33,8 @@ const Component = () => {
 	const router = useRouter()
 	const waitkrnevalafunc = async (data) => {
 		try {
+			localStorage.removeItem("excktn")
+			localStorage.removeItem("frhktn")
 			storeInSessionStorage(data.sessionId)
 			// Cookies.set(`excktn${data.sessionId}`, data.access_token)
 			// Cookies.set(`frhktn${data.sessionId}`, data.refresh_token)

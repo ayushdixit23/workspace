@@ -24,13 +24,16 @@ function page() {
   );
   const [pop, setPop] = useState(false)
   const [deletecom] = useDeleteCommunityMutation();
-  const handleDelete = async ({ dat, id, index }) => {
+  const handleDelete = async ({ dat, comid, index }) => {
     try {
-
-      await deletecom({
-        comid: id
+      console.log(comid)
+      const res = await deletecom({
+        id,
+        comid
       })
-      toast.success("Community Deleted!")
+      if (res.data?.success) {
+        toast.success("Community Deleted!")
+      }
       await refetch()
     } catch (e) {
       console.log(e);
