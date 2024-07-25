@@ -2,11 +2,11 @@ import { Api } from "../slice/apiSlice";
 export const paymentApi = Api.injectEndpoints({
 	endpoints: (builder) => ({
 		getEarningStats: builder.query({
-			query: ({ id }) => `/v1/earnings/${id}`
+			query: ({ id }) => `/payments/earnings/${id}`
 		}),
 		addBank: builder.mutation({
 			query: ({ id, data }) => ({
-				url: `/v1/addbank/${id}`,
+				url: `/payments/addbank/${id}`,
 				body: data,
 				method: "POST"
 			}
@@ -23,14 +23,14 @@ export const paymentApi = Api.injectEndpoints({
 		changeMontent: builder.mutation({
 			query: ({ comid, ismonetized }) => ({
 				// url: `/v1/memfinalize/${id}/${res.data?.order}`,
-				url: `/v1/changemont/${comid}`,
+				url: `/payments/changemont/${comid}`,
 				method: "POST",
 				body: { ismonetized }
 			})
 		}),
 		createWithDrawRequest: builder.mutation({
 			query: ({ id, amount }) => ({
-				url: `/v1/createwithdrawRequest/${id}`,
+				url: `/payments/createwithdrawRequest/${id}`,
 				method: "POST",
 				body: { amount }
 			})

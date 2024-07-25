@@ -18,6 +18,7 @@ import {
 import { getData } from "@/app/utilsHelper/Useful";
 import Image from "next/image"
 import { FcInfo } from "react-icons/fc";
+import axios from "axios";
 
 function page() {
   const router = useRouter();
@@ -140,8 +141,10 @@ function page() {
         }, 500)
       } else {
         setTimeout(() => {
-          toast.error(response.data.message)
+          // toast.error(response.data?.message)
+          toast.error(response.error?.message)
         }, 1500)
+        console.log(response.error, "Erro")
       }
       setLoading(false);
     } catch (error) {

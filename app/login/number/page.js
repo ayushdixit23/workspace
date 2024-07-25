@@ -396,6 +396,7 @@ function page() {
 
     const mobile = mobileMap?.identityValue;
   };
+
   useEffect(() => initOTPless(callback), []);
 
   return (
@@ -583,8 +584,8 @@ function page() {
           {/* otp button */}
           <div className={`${change === 1 ? "py-3" : "hidden"} `}>
             <div
-              onClick={phoneAuth}
-              // onClick={fetchid}
+              // onClick={phoneAuth}
+              onClick={fetchid}
               className="h-[50px] w-[300px] select-none cursor-pointer bg-[#0066ff] flex items-center justify-center rounded-2xl text-white "
             >
               {loading && <CgSpinner size={20} className="m-1 animate-spin" />}

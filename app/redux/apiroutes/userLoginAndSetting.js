@@ -1,53 +1,61 @@
 import { Api } from "../slice/apiSlice";
 export const userLoginAndSettingApi = Api.injectEndpoints({
   endpoints: (builder) => ({
+
     loginWithQr: builder.mutation({
       query: ({ id }) => ({
-        url: `/v1/checkqr`,
+        url: `/login/checkqr`,
         body: { id },
         method: "POST",
       }),
     }),
     idlogin: builder.query({
-      query: ({ id }) => `/v1/fetchwithid/${id}`,
+      query: ({ id }) => `/login/fetchwithid/${id}`,
     }),
     login: builder.mutation({
       query: ({ phone }) => ({
-        url: `/v1/checkid`,
+        url: `/login/checkid`,
         method: "POST",
         body: { phone },
       }),
     }),
+
     getRefreshToken: builder.mutation({
       query: ({ refresh_token }) => ({
-        url: `/v1/refresh`,
+        url: `/login/refresh`,
         method: "POST",
         body: { refresh_token },
       }),
     }),
+
     getFetchOrder: builder.query({
-      query: ({ id }) => `/v1/fetchallorders/${id}`,
+      query: ({ id }) => `/payments/fetchallorders/${id}`,
     }),
+    // left
     getProfile: builder.query({
-      query: ({ id }) => `/v1/getprofileinfo/${id}`,
+      query: ({ id }) => `/login/getprofileinfo/${id}`,
     }),
+    // left
     postProfile: builder.mutation({
       query: ({ id, data }) => ({
-        url: `/v1/profileinfo/${id}`,
+        url: `/login/profileinfo/${id}`,
         method: "POST",
         body: data,
       }),
     }),
+
+    // not needed
     postProfileStore: builder.mutation({
       query: ({ id, data }) => ({
-        url: `/v1/profilestore/${id}`,
+        url: `/login/profilestore/${id}`,
         method: "POST",
         body: data,
       }),
     }),
+
     emailLogin: builder.mutation({
       query: (data) => ({
-        url: `/v1/checkemail`,
+        url: `/login/checkemail`,
         method: "POST",
         body: data
       })

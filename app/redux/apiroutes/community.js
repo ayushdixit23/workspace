@@ -2,82 +2,93 @@ import { Api } from "../slice/apiSlice";
 export const communityApi = Api.injectEndpoints({
   endpoints: (builder) => ({
     getAnalytics: builder.query({
-      query: ({ id }) => `/v1/analyticsuser/${id}`,
+      query: ({ id }) => `/analytics/analyticsuser/${id}`,
       keepUnusedDataFor: 400,
     }),
     getAnalyticsThirtyDays: builder.query({
-      query: ({ id }) => `/v1/analyticsuserThirtyDays/${id}`,
+      query: ({ id }) => `/analytics/analyticsuserThirtyDays/${id}`,
       keepUnusedDataFor: 400,
     }),
     getCommunity: builder.query({
-      query: ({ id }) => `/v1/allcoms/${id}`,
+      query: ({ id }) => `/chats/allcoms/${id}`,
     }),
+
+    // left
     getPost: builder.query({
-      query: ({ id, comid }) => `/v1/getposts/${id}/${comid}`,
+      query: ({ id, comid }) => `/chats/getposts/${id}/${comid}`,
     }),
+
     getAllPost: builder.query({
-      query: ({ comid }) => `/v1/getallposts/${comid}`,
+      query: ({ comid }) => `/post/getallposts/${comid}`,
     }),
+
+    // left
     editPosts: builder.mutation({
       query: ({ id, postid, data }) => ({
-        url: `/v1/editpost/${id}/${postid}`,
+        url: `/post/editpost/${id}/${postid}`,
         method: "POST",
         body: data,
       }),
     }),
+
     createTopic: builder.mutation({
       query: ({ id, comid, data }) => ({
-        url: `/v1/createtopic/${id}/${comid}`,
+        url: `/chats/createtopic/${id}/${comid}`,
         method: "POST",
         body: data,
       }),
     }),
+
     deleteTopic: builder.mutation({
       query: ({ id, topicId, data }) => ({
-        url: `/v1/deletetopic/${id}/${topicId}`,
+        url: `/chats/deletetopic/${id}/${topicId}`,
         method: "POST",
         body: data,
       }),
     }),
+
     updateTopic: builder.mutation({
       query: ({ id, topicid, data }) => ({
-        url: `/v1/edittopic/${id}/${topicid}`,
+        url: `/chats/edittopic/${id}/${topicid}`,
         method: "POST",
         body: data,
       }),
     }),
+
     fetchTopic: builder.query({
-      query: ({ id, comid }) => `/v1/fetchtopic/${id}/${comid}`,
+      query: ({ id, comid }) => `/chats/fetchtopic/${id}/${comid}`,
     }),
+
     createCom: builder.mutation({
       query: ({ id, data }) => ({
-        url: `/v1/createcom/${id}`,
+        url: `/chats/v1/createcom/${id}`,
         method: "POST",
         body: data,
       }),
     }),
+
     updateCom: builder.mutation({
       query: ({ id, comid, data }) => ({
-        url: `/v1/updatecommunity/${id}/${comid}`,
+        url: `/chats/v1/updatecommunity/${id}/${comid}`,
         method: "POST",
         body: data,
       }),
     }),
     // deleteCommunity: builder.mutation({
     //   query: ({ comid }) => ({
-    //     url: `/v1/delete/${comid}`,
+    //     url: `/chats/delete/${comid}`,
     //     method: "POST",
     //   }),
     // }),
     deleteCommunity: builder.mutation({
       query: ({ id, comid }) => ({
-        url: `/v1/removecomwithposts/${id}/${comid}`,
+        url: `/chats/v1/removecomwithposts/${id}/${comid}`,
         method: "POST",
       }),
     }),
     createPost: builder.mutation({
       query: ({ id, comid, data }) => ({
-        url: `/postanything/${id}/${comid}`,
+        url: `/post/postanythingworkspace/${id}/${comid}`,
         method: "POST",
         body: data
       })
@@ -87,7 +98,7 @@ export const communityApi = Api.injectEndpoints({
     }),
     deletePosts: builder.mutation({
       query: ({ id, postid }) => ({
-        url: `/v1/deletepost/${id}/${postid}`,
+        url: `/post/deletepost/${id}/${postid}`,
         method: "DELETE",
       })
     }),
@@ -98,7 +109,7 @@ export const communityApi = Api.injectEndpoints({
     //   })
     // }),
     fetchCommunity: builder.query({
-      query: ({ id }) => `/v1/fetchCommunityStats/${id}`
+      query: ({ id }) => `/payments/fetchCommunityStats/${id}`
     }),
     monetization: builder.mutation({
       query: ({ id, comid }) => ({

@@ -224,7 +224,8 @@ const page = () => {
 
     try {
       const res = await axios.post(
-        `https://work.grovyo.xyz/api/v1/membershipbuy/${id}/${mId}`,
+        `http://localhost:5000/api/payments/membershipbuy/${id}/${mId}`,
+        // `https://back.grovyo.xyz/api/payments/membershipbuy/${id}/${mId}`,
         // `http://localhost:7190/api/v1/membershipbuy/${id}/${mId}`,
         {
           amount: amounttosend,

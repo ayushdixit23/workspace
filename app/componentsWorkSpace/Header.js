@@ -17,7 +17,7 @@ function Header() {
   const [name, setName] = useState()
   const pathname = usePathname()
   const [pop, setPop] = useState(false)
-  const { dp, fullname, memberships } = getData()
+  const { dp, fullname, username, memberships } = getData()
   const MemoizedWorkspaceIcon = useMemo(() => Workspaceicon, []);
   // const MemoizedNotify = useMemo(() => Notify, [])
   useEffect(() => {
@@ -125,13 +125,16 @@ function Header() {
           </div>
           <div className="pn:max-sm:hidden h-10 w-10">
             {pic !== null ? (
-              <Image
-                src={pic}
-                alt="dp"
-                height={100}
-                width={100}
-                className="w-full h-full object-cover cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white shadow-[0_3px_10px_2px_rgba(1,1,1,0.1)]"
-              />
+              <a href={`https://grovyo.com/${username}`} target="_blank" className="w-full h-full">
+                <Image
+                  src={pic}
+                  alt="dp"
+                  height={100}
+                  width={100}
+                  className="w-full h-full object-cover cursor-pointer flex justify-center items-center rounded-[18px] ring-1 ring-white shadow-[0_3px_10px_2px_rgba(1,1,1,0.1)]"
+                />
+
+              </a>
             ) : (
               <div
                 onClick={() => setProf(!prof)}
