@@ -12,8 +12,18 @@ import {
 } from "@/app/redux/apiroutes/community";
 import toast, { Toaster } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { useRouter } from "next/navigation";
+import { encryptaes } from "@/app/utilsHelper/security";
 
-const CreatePost = ({ id, comid, open, topicId, setOpen, refetch }) => {
+const CreatePost = ({
+  id,
+  comid,
+  open,
+  uploadPost,
+  topicId,
+  setOpen,
+  refetch,
+}) => {
   const [post, setPost] = useState({
     title: "",
     desc: "",
@@ -31,6 +41,7 @@ const CreatePost = ({ id, comid, open, topicId, setOpen, refetch }) => {
   const [uiThumbnail, setUiThumbnail] = useState(false);
   const [postAnything] = useCreatePostMutation();
   const [editpost] = useEditPostsMutation();
+  const router = useRouter();
   const [thumbnailImage, setThumbnailImage] = useState("");
 
   const savePost = async () => {
@@ -64,6 +75,7 @@ const CreatePost = ({ id, comid, open, topicId, setOpen, refetch }) => {
       }
       await refetch();
       setOpen(false);
+      router.push(`/main/post/${encryptaes(comid)}`);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -221,6 +233,7 @@ const CreatePost = ({ id, comid, open, topicId, setOpen, refetch }) => {
       }
       await refetch();
       setOpen(false);
+      router.push(`/main/post/${encryptaes(comid)}`);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -293,7 +306,7 @@ const CreatePost = ({ id, comid, open, topicId, setOpen, refetch }) => {
       <Toaster />
       <div
         className={`${
-          open
+          open || uploadPost == "true"
             ? "sm:fixed sm:inset-0 w-screen sm:p-2 z-50 bg-[#cccccc33] sm:h-screen flex justify-center items-center"
             : "hidden -z-50"
         }`}
@@ -303,6 +316,7 @@ const CreatePost = ({ id, comid, open, topicId, setOpen, refetch }) => {
             <div className="flex justify-center items-center gap-4">
               <div
                 onClick={() => {
+                  router.push(`/main/post/${encryptaes(comid)}`);
                   setOpen(false), sessionStorage.removeItem("postdata");
                 }}
                 className="cursor-pointer"

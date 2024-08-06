@@ -34,13 +34,16 @@ export const paymentApi = Api.injectEndpoints({
 				method: "POST",
 				body: { amount }
 			})
-		})
+		}),
 		// bankRequest: builder.mutation({
 		// 	query: ({ id }) => ({
 		// 		url: `/v1/approvalrequestbank/${id}`,
 		// 		method: "POST",
 		// 	})
 		// })
+		fetchWithDrawRequest: builder.query({
+			query: ({ id }) => `/payments/fetchwithdrawrequest/${id}`
+		})
 	}),
 });
 
@@ -50,5 +53,6 @@ export const {
 	useMemfinalizeMutation,
 	// useBankRequestMutation
 	useChangeMontentMutation,
-	useCreateWithDrawRequestMutation
+	useCreateWithDrawRequestMutation,
+	useFetchWithDrawRequestQuery
 } = paymentApi;

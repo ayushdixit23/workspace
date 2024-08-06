@@ -10,7 +10,7 @@ module.exports = {
   prefix: "",
   theme: {
     screens: {
-      pn: "130px",
+      pn: "0px",
       vs: "200px",
       ss: "360px",
       pp: "500px",
