@@ -26,6 +26,7 @@ module.exports = {
       backgroundImage: {
         bggg: "url('./assets/image/memberback.png')",
         prosite: "url('./assets/image/prositepopup.png')",
+        scanner: "url('./assets/image/scanner.jpg')",
         loginbg: "url('./assets/image/loginbg.png')",
         membership: "url('./assets/image/somem.png')",
         customerlight: "url('./assets/image/customerlight.png')",
