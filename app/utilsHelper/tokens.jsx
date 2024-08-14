@@ -6,10 +6,12 @@ import { changelaoding, sendData } from "../redux/slice/userData";
 import { useGetRefreshTokenMutation } from "../redux/apiroutes/userLoginAndSetting";
 import { checkToken } from "./Useful";
 import Cookies from "js-cookie";
+import { getCookieConsentValue } from "react-cookie-consent";
 
 const useTokenAndData = () => {
   const [isValid, setIsValid] = useState(false);
-  const token = Cookies.get(`excktn`);
+  const token = getCookieConsentValue(`excktn`);
+  // const token = Cookies.get(`excktn`);
   const path = useSelector((state) => state.userData.path);
   const router = useRouter();
   const [data, setData] = useState(null);
