@@ -72,9 +72,10 @@ const page = () => {
 						team.
 					</div>
 					<div>
-						Refund Timing: Refunds may take 5 business days to process. The
+						{/* Refund Timing: Refunds may take 5 business days to process. The
 						timing of the refund may vary depending on factors such as payment
-						method and financial institutions.
+						method and financial institutions. */}
+						Refund Processing Time: Refunds will be processed within 4 business days after the successful return of the product.
 					</div>
 					<h1 className="text-2xl font-semibold py-4 sm:py-5">
 						Non-Refundable Items

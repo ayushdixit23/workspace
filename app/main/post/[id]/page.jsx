@@ -16,7 +16,10 @@ import PostsWeb from "@/app/componentsWorkSpace/PostsWeb";
 import toast from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import Cookies from "js-cookie";
+import { PiVideoFill } from "react-icons/pi";
 import Hover from "@/app/data/Hover";
+import { FaImages } from "react-icons/fa";
+import Link from "next/link";
 
 const page = () => {
   const path = usePathname();
@@ -29,6 +32,8 @@ const page = () => {
   const [topicId, setTopicId] = useState("");
   const [loading, setLoading] = useState(false);
   const [postid, setPostid] = useState(null);
+  const [selectType, setSelectType] = useState(false);
+  const type = searchparams.get("type");
   const dispatch = useDispatch();
   const { data, refetch, isLoading } = useGetAllPostQuery(
     { comid },
@@ -86,11 +91,12 @@ const page = () => {
 
   return (
     <>
-      {(open || uploadPost == "true") && (
+      {(open || uploadPost == "true" || type) && (
         <CreatePost
           uploadPost={uploadPost}
           id={id}
           topicId={topicId}
+          mediaType={type}
           comid={comid}
           open={open}
           setOpen={setOpen}
@@ -112,12 +118,55 @@ const page = () => {
           <div
             onClick={() => {
               sessionStorage.removeItem("postdata");
-              setOpen(true);
+              // setOpen(true);
+              setSelectType(!selectType);
             }}
-            className="py-2 vs:max-pp:text-[12px] flex justify-center items-center gap-1 border dark:bg-[#3d4654] dark:text-white light:border-[#f1f1f1] px-2.5 sm:px-5 font-medium bg-white text-black rounded-xl"
+            className="py-2 vs:max-pp:text-[12px] relative flex items-center cursor-pointer gap-1 border dark:bg-[#3d4654] dark:text-white light:border-[#f1f1f1] px-2.5 sm:px-5 font-medium bg-white text-black rounded-xl"
           >
             Create Posts
             <GoPlus />
+            {selectType && (
+              <div
+                onClick={() => setSelectType(false)}
+                className={`${
+                  selectType
+                    ? "absolute bg-white z-50  top-12 dark:bg-[#273142] rounded-xl overflow-hidden left-0 w-full"
+                    : "hidden"
+                } `}
+              >
+                <div
+                  className="flex flex-col gap-3
+                px-4 py-2"
+                >
+                  <Link
+                    onClick={() => {
+                      setSelectType(false);
+                      // setOpen(true);
+                    }}
+                    href={`/main/post/${decomid}?type=video`}
+                    className="flex items-center cursor-pointer gap-2"
+                  >
+                    <div>
+                      <PiVideoFill />
+                    </div>
+                    <div>Video</div>
+                  </Link>
+                  <Link
+                    onClick={() => {
+                      setSelectType(false);
+                      // setOpen(true);
+                    }}
+                    href={`/main/post/${decomid}?type=image`}
+                    className="flex items-center cursor-pointer gap-2"
+                  >
+                    <div>
+                      <FaImages />
+                    </div>
+                    <div>Photo</div>
+                  </Link>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
@@ -156,6 +205,7 @@ const page = () => {
                   {mergedData?.map((d, i) => (
                     <PostsWeb
                       open={open}
+                      decomid={decomid}
                       setOpen={setOpen}
                       key={i}
                       setPostid={setPostid}

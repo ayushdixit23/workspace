@@ -16,6 +16,7 @@ const page = () => {
 						making a purchase on our platform, you agree to adhere to the terms
 						set forth in this policy.
 					</div>
+					<div className="mt-3 font-medium">We are a multi-brand social commerce platform offering a diverse range of products.</div>
 					<h1 className="text-xl font-semibold py-4 sm:py-5">
 						Order Processing and Fulfillment
 					</h1>

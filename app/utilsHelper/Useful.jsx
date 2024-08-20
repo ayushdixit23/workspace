@@ -1,4 +1,5 @@
-import jwt from "jsonwebtoken"
+import axios from "axios";
+import jwt from "jsonwebtoken";
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
 export const formatISOStringToDMY = (dateString) => {
@@ -8,7 +9,7 @@ export const formatISOStringToDMY = (dateString) => {
   }
   const day = date.getDate();
   const month = date.toLocaleString("default", { month: "long" });
-  const updated = month.slice(0, 3)
+  const updated = month.slice(0, 3);
   const year = date.getFullYear();
 
   const formattedDate = `${day} ${updated} ${year}`;
@@ -43,15 +44,39 @@ export const formatISOStringToMonth = (dateString) => {
   return month;
 };
 
+export const formatISOStringToDayMonth = (dateString) => {
+  const date = new Date(dateString); // Parse the ISO string
+  if (isNaN(date)) {
+    console.log("Invalid date string");
+  }
+  const day = date.getDate();
+  const month = date.toLocaleString("default", { month: "long" });
+  const updated = month.slice(0, 3);
+  // const year = date.getFullYear();
 
+  const formattedDate = `${day} ${updated}`;
+  return formattedDate;
+};
 
 export function formatDate(dateString) {
-  const [day, month, year] = dateString.split('/');
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const [day, month, year] = dateString.split("/");
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
   const monthName = months[parseInt(month, 10) - 1];
   return `${monthName} ${parseInt(day, 10)}, ${year}`;
 }
-
 
 export const checkToken = async (token) => {
   try {
@@ -63,39 +88,58 @@ export const checkToken = async (token) => {
       const expiration = decodedToken.payload.exp;
       const isValidExp = currentTimestamp <= expiration;
       if (isValidIat && isValidExp) {
-        return { isValid: true, payload: decodedToken.payload }
+        return { isValid: true, payload: decodedToken.payload };
       } else {
-        return { isValid: false, payload: "" }
+        return { isValid: false, payload: "" };
       }
     }
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
+};
 
 export const getData = () => {
-  const data = useSelector((state) => state.userData.data)
+  const data = useSelector((state) => state.userData.data);
   const memoizedData = useMemo(() => {
-    const { id = null, fullname = null, username = null, dp = null, sessionId = null, memberships = null } = data || {};
+    const {
+      id = null,
+      fullname = null,
+      username = null,
+      dp = null,
+      sessionId = null,
+      memberships = null,
+    } = data || {};
     return { id, fullname, username, dp, sessionId, memberships };
   }, [data]);
 
   return memoizedData;
-}
+};
 
 export const getLoading = () => {
   const isLoading = useSelector((state) => state.userData.isLoading);
-  return isLoading
-}
+  return isLoading;
+};
 
 export const formatNumber = (number) => {
   if (number >= 1000000000) {
-    return (number / 1000000000).toFixed(1) + 'B';
+    return (number / 1000000000).toFixed(1) + "B";
   } else if (number >= 1000000) {
-    return (number / 1000000).toFixed(1) + 'M';
+    return (number / 1000000).toFixed(1) + "M";
   } else if (number >= 1000) {
-    return (number / 1000).toFixed(1) + 'k';
+    return (number / 1000).toFixed(1) + "k";
   } else {
     return number.toString();
+  }
+};
+
+export const reportErrorToServer = async (error, userId) => {
+  try {
+    console.log(error, userId);
+    const res = await axios.post(`http://localhost:4050/error/createError`, {
+      error,
+    });
+    console.log(res.data);
+  } catch (error) {
+    console.log(error);
   }
 };

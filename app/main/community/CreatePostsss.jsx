@@ -1,9 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { FaCheck, FaImages, FaToggleOn } from "react-icons/fa";
+import { FaCheck, FaToggleOn } from "react-icons/fa";
 import { MdAdd, MdArrowBack } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
+import { SlArrowRight } from "react-icons/sl";
 import { GrUploadOption } from "react-icons/gr";
+import Image from "next/image";
 import {
   useCreatePostMutation,
   useEditPostsMutation,
@@ -12,13 +14,11 @@ import toast, { Toaster } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useRouter } from "next/navigation";
 import { encryptaes } from "@/app/utilsHelper/security";
-import { PiVideoFill } from "react-icons/pi";
 
-const CreatePost = ({
+const CreatePostsss = ({
   id,
   comid,
   open,
-  mediaType,
   uploadPost,
   topicId,
   setOpen,
@@ -57,7 +57,7 @@ const CreatePost = ({
       data.append("desc", post.desc);
       data.append("tags", post.tags);
       data.append("topicId", topicId);
-      data.append("thumbnail", mediaType === "video" ? true : false);
+      data.append("thumbnail", thumbnail);
       data.append("thumbnailImage", thumbnailImage);
       post.image.forEach((d) => {
         data.append("image", d);
@@ -165,17 +165,29 @@ const CreatePost = ({
     });
   };
 
+  // const handleMediaRemove = (indexToRemove, media) => {
+  // 	if (post.video.length == 1 || post.video.length == 0) {
+  // 		setUiThumbnail(false)
+  // 		setPost({ ...post, image: [...post.image, thumbnailImage] })
+  // 		setThumbnailImage("")
+  // 	}
+  // 	setPost({ ...post, [media]: [...post[media].filter((_, i) => i !== indexToRemove)] })
+  // };
+
   const handleMediaRemove = (indexToRemove, media) => {
     if (post.video.length === 1 || post.video.length === 0) {
       setUiThumbnail(false);
       setThumbnailImage("");
       setPost((prevPost) => {
+        // Copy the current state of post
         let updatedPost = { ...prevPost };
 
+        // If thumbnailImage exists, move it to post.image array
         if (thumbnailImage) {
           updatedPost.image.push(thumbnailImage);
         }
 
+        // Remove the media item at indexToRemove from the specified media array
         updatedPost[media] = prevPost[media].filter(
           (_, i) => i !== indexToRemove
         );
@@ -294,7 +306,7 @@ const CreatePost = ({
       <Toaster />
       <div
         className={`${
-          open || uploadPost == "true" || mediaType
+          open || uploadPost == "true"
             ? "sm:fixed sm:inset-0 w-screen sm:p-2 z-50 bg-[#cccccc33] sm:h-screen flex justify-center items-center"
             : "hidden -z-50"
         }`}
@@ -332,119 +344,42 @@ const CreatePost = ({
           </div>
           <div className="grid sm:grid-cols-2 w-full gap-5 p-3">
             <div className="w-full flex flex-col gap-2">
-              {mediaType === "video" ? (
-                // video
-                <div className="w-full">
-                  {post.video.length > 0 ? (
-                    <>
-                      {post.video.map((d, index) => (
-                        <div
-                          key={index}
-                          className="w-full h-full max-h-[300px] relative rounded-xl overflow-hidden"
-                        >
-                          <video
-                            className="h-full w-full object-cover"
-                            src={
-                              typeof d === "string" ? d : URL.createObjectURL(d)
-                            }
-                            controls
-                          />
-                          <div
-                            onClick={() => {
-                              setPost({
-                                ...post,
-                                video: post.video.filter((_, i) => i !== index),
-                              });
-                            }}
-                            className="absolute cursor-pointer top-0 right-0 p-2"
-                          >
-                            <RxCross2 />
-                          </div>
-                        </div>
-                      ))}
-                    </>
-                  ) : (
-                    <label
-                      htmlFor="postUpload"
-                      className="w-full h-[220px] cursor-pointer shadow-md rounded-2xl"
-                    >
-                      <div className="h-[220px] dark:border-[#fff] w-full border border-dashed p-2 rounded-2xl flex flex-col justify-center items-center">
-                        <div className="rounded-full">
-                          <PiVideoFill className="text-5xl dark:text-white text-black" />
-                        </div>
-                        <div className="text-center mt-2 flex justify-center items-center flex-col">
-                          <div className="font-medium">Upload Video</div>
-                        </div>
-                      </div>
-                    </label>
-                  )}
-
-                  <input
-                    accept="video/*"
-                    name="image"
-                    onChange={handleUpload}
-                    type="file"
-                    id="postUpload"
-                    className="hidden w-full"
-                  />
-
-                  <input
-                    accept="image/*"
-                    name="image"
-                    onChange={(e) => setThumbnailImage(e.target.files[0])}
-                    type="file"
-                    id="thumbnailImage"
-                    className="hidden w-full"
-                  />
-
-                  {thumbnailImage ? (
-                    <div className="relative mt-4 w-[200px] h-[120px]">
-                      <img
-                        src={
-                          typeof thumbnailImage === "string"
-                            ? thumbnailImage
-                            : URL.createObjectURL(thumbnailImage)
-                        }
-                        className="rounded-lg bg-black object-contain w-full h-full"
-                      />
-                      <div
-                        onClick={() => {
-                          setThumbnailImage("");
-                          setUiThumbnail(true);
-                        }}
-                        className="absolute cursor-pointer top-0 right-0 p-1"
-                      >
-                        <RxCross2 />
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="mt-4">
-                      <label
-                        htmlFor="thumbnailImage"
-                        className="w-[200px]  cursor-pointer shadow-md rounded-2xl"
-                      >
-                        <div className="dark:border-[#fff] w-[200px] border border-dashed p-2 py-7 rounded-2xl flex flex-col justify-center items-center">
-                          <div className="rounded-full">
-                            <FaImages className="text-2xl dark:text-white text-black" />
-                          </div>
-                          <div className="text-center mt-2 flex justify-center items-center flex-col">
-                            <div className="font-medium text-sm">
-                              Add Thumbnail
-                            </div>
-                          </div>
-                        </div>
-                      </label>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                // image
-                <div className="w-full">
+              <div className="w-full">
+                {uiThumbnail ? (
                   <label
                     htmlFor="postUpload"
                     className="w-full h-[220px] cursor-pointer shadow-md rounded-lg"
                   >
-                    <div className="h-[220px] dark:border-[#fff] w-full border border-dashed p-2 rounded-lg flex flex-col justify-center items-center">
+                    <div className="h-[220px] dark:border-[#fff] w-full border p-2 rounded-lg flex flex-col justify-center items-center">
+                      <div className="p-5 bg-[#F0F4FF] rounded-full">
+                        <GrUploadOption className="text-4xl text-[#379AE6] font-thin" />
+                      </div>
+
+                      <div className="text-center mt-2 flex justify-center items-center flex-col">
+                        <div className="font-medium">
+                          <span className="text-[#379AE6]">
+                            Upload Thumbnail
+                          </span>{" "}
+                          for Video.
+                        </div>
+                        <div className="text-sm text-[#6F7787]">
+                          Your ideas will be private until you publish them.
+                        </div>
+                      </div>
+                    </div>
+                  </label>
+                ) : thumbnailImage ? (
+                  <div className="h-[220px] dark:border-[#fff] w-full border p-2 rounded-lg flex flex-col justify-center items-center">
+                    <div className="p-5 bg-[#F0F4FF] rounded-full">
+                      <FaCheck className=" text-xl text-green-600" />
+                    </div>
+                  </div>
+                ) : (
+                  <label
+                    htmlFor="postUpload"
+                    className="w-full h-[220px] cursor-pointer shadow-md rounded-lg"
+                  >
+                    <div className="h-[220px] dark:border-[#fff] w-full border p-2 rounded-lg flex flex-col justify-center items-center">
                       <div className="p-5 bg-[#F0F4FF] rounded-full">
                         <GrUploadOption className="text-4xl text-[#379AE6] font-thin" />
                       </div>
@@ -461,17 +396,41 @@ const CreatePost = ({
                       </div>
                     </div>
                   </label>
-
-                  <input
-                    accept="image/*, video/*"
-                    name="image"
-                    onChange={handleUpload}
-                    type="file"
-                    id="postUpload"
-                    className="hidden w-full"
-                  />
-
-                  <div className="flex items-center gap-4 mt-4">
+                )}
+                <input
+                  accept="image/*, video/*"
+                  name="image"
+                  onChange={handleUpload}
+                  type="file"
+                  id="postUpload"
+                  className="hidden w-full"
+                />
+              </div>
+              <div className="text-sm text-[#6F7787]">
+                We recommend high-quality .jpg, .png files less than 20MB or
+                .mp4 files 100MB.
+              </div>
+              {(post.image.length || post.video.length) > 0 && (
+                <>
+                  <div className="flex items-center flex-wrap gap-2">
+                    {post.video.map((d, i) => (
+                      <div key={i} className="relative w-[100px] h-[100px]">
+                        <div className="w-[100px] border h-[100px] overflow-hidden flex justify-center rounded-lg  items-center font-semibold text-xl">
+                          <video
+                            src={
+                              typeof d === "string" ? d : URL.createObjectURL(d)
+                            }
+                            className="w-full h-full object-cover"
+                          ></video>
+                        </div>
+                        <div
+                          onClick={() => handleMediaRemove(i, "video")}
+                          className="absolute cursor-pointer top-0 right-0 p-1"
+                        >
+                          <RxCross2 />
+                        </div>
+                      </div>
+                    ))}
                     {post.image.map((d, i) => (
                       <div key={i} className="relative w-[100px] h-[100px]">
                         <img
@@ -481,7 +440,7 @@ const CreatePost = ({
                           width={100}
                           height={100}
                           alt="image"
-                          className="rounded-lg w-full object-contain bg-black h-full "
+                          className="rounded-lg w-[100px] h-[100px]"
                         />
 
                         <div
@@ -492,14 +451,36 @@ const CreatePost = ({
                         </div>
                       </div>
                     ))}
+                    {thumbnailImage && (
+                      <div className="relative w-[100px] h-[100px]">
+                        <img
+                          src={
+                            typeof thumbnailImage === "string"
+                              ? thumbnailImage
+                              : URL.createObjectURL(thumbnailImage)
+                          }
+                          className="rounded-lg w-full h-full"
+                        />
+                        <div
+                          onClick={() => {
+                            setThumbnailImage("");
+                            setUiThumbnail(true);
+                          }}
+                          className="absolute cursor-pointer top-0 right-0 p-1"
+                        >
+                          <RxCross2 />
+                        </div>
+                      </div>
+                    )}
                   </div>
-                </div>
+                  {!thumbnail && (
+                    <div>
+                      {Number(post.image.length) + Number(post.video.length)}/4
+                      files uploaded
+                    </div>
+                  )}
+                </>
               )}
-
-              <div className="text-sm text-[#6F7787]">
-                We recommend high-quality .jpg, .png files less than 20MB or
-                .mp4 files 100MB.
-              </div>
             </div>
             <div className="w-full flex flex-col gap-2">
               <div className="flex flex-col w-full gap-1">
@@ -575,6 +556,15 @@ const CreatePost = ({
                     ))}
                 </div>
               </div>
+              {/* <div className='flex items-center gap-1'>
+								<div className='text-2xl'><FaToggleOn /></div>
+								<div>Allow people to comment</div>
+							</div> */}
+              {/* <div className='h-1 w-full border-t mt-2 border-black'></div>
+							<div className='flex justify-between items-center'>
+								<div className='text-lg font-medium'>Advanced options</div>
+								<div><SlArrowRight /></div>
+							</div> */}
             </div>
           </div>
         </div>
@@ -583,4 +573,26 @@ const CreatePost = ({
   );
 };
 
-export default CreatePost;
+// export default CreatePostsss;
+
+{
+  /* <div className='h-[220px] dark:border-[#fff] w-full border p-2 rounded-lg flex flex-col justify-center items-center'>
+<div className='p-5 bg-[#F0F4FF] rounded-full'>
+	<GrUploadOption className='text-4xl text-[#379AE6] font-thin' />
+</div>
+
+<div className='text-center mt-2 flex justify-center items-center flex-col'>
+	<div className='font-medium'><span className='text-[#379AE6]'>Click to choose file</span> or drag and drop.</div>
+	<div className='text-sm text-[#6F7787]'>Your ideas will be private until you publish them.</div>
+</div>
+</div> */
+}
+
+{
+  /* <div className='h-[220px] dark:border-[#fff] w-full border p-2 rounded-lg flex flex-col justify-center items-center'>
+	<div className='p-5 bg-[#F0F4FF] rounded-full'>
+		<FaCheck className=" text-xl text-green-600" />
+	</div>
+
+</div> */
+}

@@ -56,7 +56,7 @@ export default function MainLayout({ children }) {
               <MemorizedHeader />
             </div>
             <div
-              className={`sm:rounded-xl dark:bg-[#1b2431] max-w-full w-full no-scrollbar pn:max-sm:pb-8 ${path === "/main/dashboard" ? "" : "sm:overflow-y-auto"}`}
+              className={`sm:rounded-xl dark:bg-[#1b2431] max-w-full w-full no-scrollbar pn:max-sm:pb-8 ${path === "/main/dashboard" ? "h-full" : "sm:overflow-y-auto"}`}
             >
               {children}
             </div>
