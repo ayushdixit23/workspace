@@ -39,7 +39,7 @@ import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import MemorizedDontHave from "@/app/componentsWorkSpace/DontHave";
 
 function Dashboard() {
-	const [change, setChange] = useState("prosite");
+	const [change, setChange] = useState("community");
 	const [dateValue, setDateValue] = useState(7);
 	const [comchange, setComchange] = useState(1);
 	const [prochange, setProchange] = useState("1");
@@ -627,7 +627,7 @@ function Dashboard() {
 									<div className="w-2 h-2 rounded-full bg-[#00D775]"></div>
 									<div className="text-sm">Visitors</div>
 								</div>
-								<div className="text-xl font-semibold">{analyticsdata?.prositeData?.totalVisitors}</div>
+								<div className="text-xl font-semibold">{analyticsdata?.prositeData?.totalVisitors ? analyticsdata?.prositeData?.totalVisitors : "N/A"}</div>
 							</div>
 							<div className="bg-white rounded-xl flex justify-between items-center w-full gap-1 p-3 dark:bg-[#273142]">
 								<div className="flex flex-col gap-1">
@@ -643,7 +643,7 @@ function Dashboard() {
 									<div className="w-2 h-2 rounded-full bg-[#00B6FF]"></div>
 									<div className="text-sm">Avg. Time spent</div>
 								</div>
-								<div className="text-xl font-semibold">{analyticsdata?.prositeData?.totalTimeSpent} secs</div>
+								<div className="text-xl font-semibold">{analyticsdata?.prositeData?.totalTimeSpent ? <>{analyticsdata?.prositeData?.totalTimeSpent} secs</> : "N/A"}</div>
 							</div>
 						</div>
 						<div className="grid sm:grid-cols-3 mt-4 gap-4 sm:gap-6 w-full">
@@ -711,52 +711,68 @@ function Dashboard() {
 								</div>
 
 								{type == "Gender" && <>
-									<div className="w-full mt-3">
-										<ResponsiveContainer width="100%" height={250}>
-											<PieChart>
-												<Pie
-													data={analyticsdata?.prositeData?.gender}
-													dataKey="percent"
-													nameKey="gender"
-													cx="50%"
-													cy="50%"
-													innerRadius={60}
-													outerRadius={80}
-													fill="#82ca9d"
-													label={({ name, value }) => `${name}: ${value}`}
-												>
-													{analyticsdata?.prositeData?.gender?.map((entry, index) => (
-														<Cell
-															style={{
-																fontSize: "14px",
-															}}
-															key={`cell-${index}`}
-															fill={COLORS[index % COLORS.length]}
-														/>
-													))}
-												</Pie>
-											</PieChart>
-										</ResponsiveContainer>
-									</div>
-									<div className="flex justify-center gap-4 items-center w-full px-4 text-sm font-medium">
-										<div className="flex gap-2">
-											<div className="w-2 h-2 mt-1.5 bg-[#5A6ACF] rounded-full"></div>
-											<div className="flex flex-col items-center">
-												<div>{analyticsdata?.prositeData?.gender[0]?.gender}</div>
-												<div>{analyticsdata?.prositeData?.gender[0]?.percent}%</div>
+
+									{(analyticsdata?.prositeData?.gender[0]?.percent === 0 && analyticsdata?.prositeData?.gender[1]?.percent === 0) ||
+										(analyticsdata?.prositeData?.gender[0]?.percent === null && analyticsdata?.prositeData?.gender[1]?.percent === null) ||
+										analyticsdata?.prositeData?.gender[0]?.percent === undefined && analyticsdata?.prositeData?.gender[1]?.percent === undefined
+										?
+										<div className="flex justify-center items-center h-full">
+											<MemorizedDontHave hide={true} />
+										</div> :
+
+										<>
+											<div className="w-full mt-3">
+												<ResponsiveContainer width="100%" height={250}>
+													<PieChart>
+														<Pie
+															data={analyticsdata?.prositeData?.gender}
+															dataKey="percent"
+															nameKey="gender"
+															cx="50%"
+															cy="50%"
+															innerRadius={60}
+															outerRadius={80}
+															fill="#82ca9d"
+															label={({ name, value }) => `${name}: ${value}`}
+														>
+															{analyticsdata?.prositeData?.gender?.map((entry, index) => (
+																<Cell
+																	style={{
+																		fontSize: "14px",
+																	}}
+																	key={`cell-${index}`}
+																	fill={COLORS[index % COLORS.length]}
+																/>
+															))}
+														</Pie>
+													</PieChart>
+												</ResponsiveContainer>
 											</div>
-										</div>
-										<div className="flex gap-2">
-											<div className="w-2 h-2 mt-1.5 bg-[#8593ED] rounded-full"></div>
-											<div className="flex flex-col items-center">
-												<div>{analyticsdata?.prositeData?.gender[1]?.gender}</div>
-												<div>{analyticsdata?.prositeData?.gender[1]?.percent}%</div>
-											</div>
-										</div>
+											<div className="flex justify-center gap-4 items-center w-full px-4 text-sm font-medium">
+												<div className="flex gap-2">
+													<div className="w-2 h-2 mt-1.5 bg-[#5A6ACF] rounded-full"></div>
+													<div className="flex flex-col items-center">
+														<div>{analyticsdata?.prositeData?.gender[0]?.gender}</div>
+														<div>{analyticsdata?.prositeData?.gender[0]?.percent}%</div>
+													</div>
+												</div>
+												<div className="flex gap-2">
+													<div className="w-2 h-2 mt-1.5 bg-[#8593ED] rounded-full"></div>
+													<div className="flex flex-col items-center">
+														<div>{analyticsdata?.prositeData?.gender[1]?.gender}</div>
+														<div>{analyticsdata?.prositeData?.gender[1]?.percent}%</div>
+													</div>
+												</div>
 
 
-									</div>
-								</>}
+											</div>
+
+										</>
+
+									}
+								</>
+
+								}
 
 								{type == "Age" && <>
 									<div className="w-full mt-5">
@@ -803,7 +819,9 @@ function Dashboard() {
 												</div>
 											</div>
 										) : (
-											<MemorizedDontHave />
+											<div className="flex justify-center items-center h-full">
+												<MemorizedDontHave hide={true} />
+											</div>
 										)}
 									</div>
 								</>}
@@ -838,7 +856,9 @@ function Dashboard() {
 												</div>
 											</div>
 										) : (
-											<MemorizedDontHave />
+											<div className="flex justify-center items-center h-full">
+												<MemorizedDontHave hide={true} />
+											</div>
 										)}
 									</div>
 								</>}
