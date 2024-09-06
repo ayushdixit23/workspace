@@ -1,4 +1,26 @@
 import { Api } from "../slice/apiSlice";
+import axios from 'axios';
+const axiosBaseQuery = ({ baseUrl } = { baseUrl: '' }) => async ({ url, method, data, params, onUploadProgress }) => {
+  try {
+    const result = await axios({
+      url: baseUrl + url,
+      method,
+      data,
+      params,
+      onUploadProgress,
+    });
+    return { data: result.data };
+  } catch (axiosError) {
+    let err = axiosError;
+    return {
+      error: {
+        status: err.response?.status,
+        data: err.response?.data || err.message,
+      },
+    };
+  }
+};
+
 export const communityApi = Api.injectEndpoints({
   endpoints: (builder) => ({
     getAnalytics: builder.query({
@@ -87,10 +109,11 @@ export const communityApi = Api.injectEndpoints({
       }),
     }),
     createPost: builder.mutation({
-      query: ({ id, comid, data }) => ({
+      query: ({ id, comid, data, onUploadProgress }) => ({
         url: `/post/postanythingworkspace/${id}/${comid}`,
         method: "POST",
-        body: data
+        body: data,
+        onUploadProgress
       })
     }),
     fetchPosts: builder.query({

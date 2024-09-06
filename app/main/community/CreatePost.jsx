@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { FaCheck, FaImages, FaToggleOn } from "react-icons/fa";
+import { FaImages } from "react-icons/fa";
 import { MdAdd, MdArrowBack } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 import { GrUploadOption } from "react-icons/gr";
@@ -13,6 +13,8 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useRouter } from "next/navigation";
 import { encryptaes } from "@/app/utilsHelper/security";
 import { PiVideoFill } from "react-icons/pi";
+import axios from "axios";
+import PostLoading from "@/app/data/PostLoading";
 
 const CreatePost = ({
   id,
@@ -43,6 +45,8 @@ const CreatePost = ({
   const [editpost] = useEditPostsMutation();
   const router = useRouter();
   const [thumbnailImage, setThumbnailImage] = useState("");
+  const [progress, setProgress] = useState(0);
+  const [isComplete, setIsComplete] = useState(false);
 
   const savePost = async () => {
     if (post.image.length === 0 && !thumbnailImage) {
@@ -50,8 +54,10 @@ const CreatePost = ({
       console.log(post, "post");
       return;
     }
+    setLoading(true);
+    setProgress(0);
+    setIsComplete(false);
     try {
-      setLoading(true);
       const data = new FormData();
       data.append("title", post.title);
       data.append("desc", post.desc);
@@ -65,11 +71,25 @@ const CreatePost = ({
       post.video.forEach((d) => {
         data.append("video", d);
       });
-      const res = await postAnything({
-        id,
-        comid,
+      // const res = await postAnything({
+      //   id,
+      //   comid,
+      //   data,
+
+      // });
+      const res = await axios.post(
+        `https://monarchs.grovyo.xyz/api/post/postanythingworkspace/${id}/${comid}`,
         data,
-      });
+        {
+          onUploadProgress: (progressEvent) => {
+            const total = progressEvent.total;
+            const current = progressEvent.loaded;
+            const percentage = Math.floor((current / total) * 100);
+            setProgress(percentage);
+          },
+        }
+      );
+
       if (res.data.success) {
         toast.success("Post Created!");
       }
@@ -77,10 +97,12 @@ const CreatePost = ({
       setOpen(false);
       router.push(`/main/post/${encryptaes(comid)}`);
       setLoading(false);
+      setIsComplete(true);
     } catch (error) {
       setLoading(false);
     } finally {
       setLoading(false);
+      setIsComplete(true);
     }
   };
 
@@ -280,9 +302,9 @@ const CreatePost = ({
   if (loading) {
     return (
       <>
-        <div className="fixed inset-0 w-screen z-50 bg-black/60 h-screen flex justify-center items-center backdrop-blur-md">
-          <div className="animate-spin">
-            <AiOutlineLoading3Quarters className="text-2xl text-white" />
+        <div className="fixed inset-0 w-screen bg-black bg-opacity-50  z-50 h-screen flex justify-center items-center ">
+          <div>
+            <PostLoading progress={progress} />
           </div>
         </div>
       </>
@@ -295,7 +317,7 @@ const CreatePost = ({
       <div
         className={`${
           open || uploadPost == "true" || mediaType
-            ? "sm:fixed sm:inset-0 w-screen sm:p-2 z-50 bg-[#cccccc33] sm:h-screen flex justify-center items-center"
+            ? "sm:fixed sm:inset-0 w-screen sm:p-2 z-40 bg-[#cccccc33] sm:h-screen flex justify-center items-center"
             : "hidden -z-50"
         }`}
       >
@@ -340,7 +362,7 @@ const CreatePost = ({
                       {post.video.map((d, index) => (
                         <div
                           key={index}
-                          className="w-full h-full max-h-[300px] relative rounded-xl overflow-hidden"
+                          className="w-full h-[300px] relative rounded-xl overflow-hidden"
                         >
                           <video
                             className="h-full w-full object-cover"
