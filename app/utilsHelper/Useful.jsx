@@ -135,11 +135,49 @@ export const formatNumber = (number) => {
 export const reportErrorToServer = async (error, userId) => {
   try {
     console.log(error, userId);
-    const res = await axios.post(`http://localhost:4050/error/createError`, {
-      error,
-    });
+    const res = await axios.post(
+      `${process.env.NEXT_PUBLIC_API}/error/createError`,
+      {
+        error,
+      }
+    );
     console.log(res.data);
   } catch (error) {
     console.log(error);
   }
 };
+
+export const errorMaker = async (error, path, method) => {
+  try {
+    const data = {
+      name: method,
+      message: error?.message || "Unknown error",
+      code: error.response?.status || "No status",
+      path: `${process.env.NEXT_PUBLIC_API}${path}`,
+      syscall: error?.name || "Unknown syscall",
+      stack: error?.stack || "No stack trace",
+      userId: null,
+      timestamp: new Date().toISOString(),
+      platform: "workspace",
+    };
+    await reportErrorToServer(data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// .catch(async function (error) {
+//   const data = {
+//     name: "POST",
+//     message: error?.message || "Unknown error",
+//     code: error.response?.status || "No status",
+//     path: `${API}/login/webapplogin`,
+//     syscall: error?.name || "Unknown syscall",
+//     stack: error?.stack || "No stack trace",
+//     userId: null,
+//     timestamp: new Date().toISOString(),
+//     platform: "web-app",
+//   };
+//   await reportErrorToServer(data);
+//   toast.error("Something went wrong...");
+// });

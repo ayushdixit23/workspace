@@ -8,7 +8,6 @@ import { redirect, usePathname, useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import Loader from "../data/Loader";
 
-
 export const storeInSessionStorage = (sessionId) => {
   try {
     if (typeof window !== undefined) {
@@ -45,6 +44,7 @@ const TokenDataWrapper = ({ children }) => {
     "/return",
     "/shipping",
     "/terms",
+    "/about",
   ];
   const dispatch = useDispatch();
   useEffect(() => {

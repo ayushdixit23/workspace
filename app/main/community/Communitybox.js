@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { LoadThis } from "@/app/redux/slice/userData";
 import { formatNumber } from "@/app/utilsHelper/Useful";
 import Cookies from "js-cookie";
+import { setComid } from "@/app/redux/slice/postSlice";
 
 function Communitybox({ data, id, index, handleDelete }) {
   const [open, setOpen] = useState(false);
@@ -94,6 +95,7 @@ function Communitybox({ data, id, index, handleDelete }) {
                 }}>Edit</Link>
                 <button onClick={() => { setComDelete(true), setOpen(false), dispatch(LoadThis(true)) }}>Delete</button>
                 <Link onClick={() => {
+                  dispatch(setComid(data?.c?._id))
                   Cookies.set("topic", encryptaes(data?.topicId?.topicid))
                 }} href={`/main/post/${encryptaes(data?.c?._id)}`}>Posts</Link>
               </div>
@@ -115,6 +117,7 @@ function Communitybox({ data, id, index, handleDelete }) {
                   }}>Edit</Link>
                   <button onClick={() => { setComDelete(true); setOpen(false) }}>Delete</button>
                   <Link onClick={() => {
+                    dispatch(setComid(data?.c?._id))
                     Cookies.set("topic", encryptaes(data?.topicId?.topicid))
                   }} href={`/main/post/${encryptaes(data?.c?._id)}`}>Posts</Link>
                 </div>

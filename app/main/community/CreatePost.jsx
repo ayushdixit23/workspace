@@ -15,95 +15,123 @@ import { encryptaes } from "@/app/utilsHelper/security";
 import { PiVideoFill } from "react-icons/pi";
 import axios from "axios";
 import PostLoading from "@/app/data/PostLoading";
+import { useDispatch, useSelector } from "react-redux";
+import { setPost, setThumbnailImage } from "@/app/redux/slice/postSlice";
+import FileUpload from "@/app/utilsHelper/FileUpload";
+import { useSocketContext } from "@/app/utilsHelper/SocketWrapper";
 
 const CreatePost = ({
   id,
   comid,
   open,
   mediaType,
+  decomid,
   uploadPost,
   topicId,
   setOpen,
   refetch,
 }) => {
-  const [post, setPost] = useState({
-    title: "",
-    desc: "",
-    tags: [],
-    image: [],
-    video: [],
-    sampletags: "",
-  });
-  const posturl = "https://dt46iilh1kepb.cloudfront.net/";
+  // const [post, setPost] = useState({
+  //   title: "",
+  //   desc: "",
+  //   tags: [],
+  //   image: [],
+  //   video: [],
+  //   sampletags: "",
+  // });
+  const dispatch = useDispatch();
+  const posturl = process.env.NEXT_PUBLIC_POST_URL;
   const [postid, setPostid] = useState("");
   const [loading, setLoading] = useState(false);
   const [editData, setEditData] = useState(null);
   const [edit, setEdit] = useState(false);
   const [thumbnail, setThumbnail] = useState(false);
   const [uiThumbnail, setUiThumbnail] = useState(false);
-  const [postAnything] = useCreatePostMutation();
+  // const [postAnything] = useCreatePostMutation();
   const [editpost] = useEditPostsMutation();
   const router = useRouter();
-  const [thumbnailImage, setThumbnailImage] = useState("");
-  const [progress, setProgress] = useState(0);
-  const [isComplete, setIsComplete] = useState(false);
+  const thumbnailImage = useSelector(
+    (state) => state?.createPostSlice?.thumbnailImage
+  );
+  const { socket } = useSocketContext();
+  // const [progress, setProgress] = useState(0);
+  // const [isComplete, setIsComplete] = useState(false);
+  const progress = useSelector((state) => state?.createPostSlice?.progress);
+  const isComplete = useSelector((state) => state?.createPostSlice?.isComplete);
+  const post = useSelector((state) => state?.createPostSlice?.post);
+
+  // const savePost = async () => {
+  //   if (post?.image.length === 0 && !thumbnailImage) {
+  //     toast.error("Enter required details");
+  //     console.log(post, "post");
+  //     return;
+  //   }
+  //   setLoading(true);
+  //   setProgress(0);
+  //   setIsComplete(false);
+  //   try {
+  //     const data = new FormData();
+  //     data.append("title", post?.title);
+  //     data.append("desc", post?.desc);
+  //     data.append("tags", post?.tags);
+  //     data.append("topicId", topicId);
+  //     data.append("thumbnail", mediaType === "video" ? true : false);
+  //     data.append("thumbnailImage", thumbnailImage);
+  //     post?.image.forEach((d) => {
+  //       data.append("image", d);
+  //     });
+  //     post?.video.forEach((d) => {
+  //       data.append("video", d);
+  //     });
+  //     // const res = await postAnything({
+  //     //   id,
+  //     //   comid,
+  //     //   data,
+
+  //     // });
+  //     const res = await axios.post(
+  //       `https://monarchs.grovyo.xyz/api/post/postanythingworkspace/${id}/${comid}`,
+  //       data,
+  //       {
+  //         onUploadProgress: (progressEvent) => {
+  //           const total = progressEvent.total;
+  //           const current = progressEvent.loaded;
+  //           const percentage = Math.floor((current / total) * 100);
+  //           setProgress(percentage);
+  //         },
+  //       }
+  //     );
+
+  //     if (res.data.success) {
+  //       toast.success("Post Created!");
+  //     }
+  //     await refetch();
+  //     setOpen(false);
+  //     router.push(`/main/post/${decomid}`);
+  //     setLoading(false);
+  //     setIsComplete(true);
+  //   } catch (error) {
+  //     setLoading(false);
+  //   } finally {
+  //     setLoading(false);
+  //     setIsComplete(true);
+  //   }
+  // };
 
   const savePost = async () => {
-    if (post.image.length === 0 && !thumbnailImage) {
-      toast.error("Enter required details");
-      console.log(post, "post");
-      return;
-    }
-    setLoading(true);
-    setProgress(0);
-    setIsComplete(false);
-    try {
-      const data = new FormData();
-      data.append("title", post.title);
-      data.append("desc", post.desc);
-      data.append("tags", post.tags);
-      data.append("topicId", topicId);
-      data.append("thumbnail", mediaType === "video" ? true : false);
-      data.append("thumbnailImage", thumbnailImage);
-      post.image.forEach((d) => {
-        data.append("image", d);
-      });
-      post.video.forEach((d) => {
-        data.append("video", d);
-      });
-      // const res = await postAnything({
-      //   id,
-      //   comid,
-      //   data,
-
-      // });
-      const res = await axios.post(
-        `https://monarchs.grovyo.xyz/api/post/postanythingworkspace/${id}/${comid}`,
-        data,
-        {
-          onUploadProgress: (progressEvent) => {
-            const total = progressEvent.total;
-            const current = progressEvent.loaded;
-            const percentage = Math.floor((current / total) * 100);
-            setProgress(percentage);
-          },
-        }
-      );
-
-      if (res.data.success) {
-        toast.success("Post Created!");
-      }
-      await refetch();
-      setOpen(false);
-      router.push(`/main/post/${encryptaes(comid)}`);
-      setLoading(false);
-      setIsComplete(true);
-    } catch (error) {
-      setLoading(false);
-    } finally {
-      setLoading(false);
-      setIsComplete(true);
-    }
+    await FileUpload(
+      dispatch,
+      post,
+      setLoading,
+      socket,
+      id,
+      comid,
+      decomid,
+      router,
+      topicId,
+      mediaType,
+      thumbnailImage
+    );
   };
 
   const handleImage = (e) => {
@@ -112,8 +140,8 @@ const CreatePost = ({
     const maxSlots = 10;
 
     if (
-      post.image.length == 0 &&
-      post.video.length == 0 &&
+      post?.image.length == 0 &&
+      post?.video.length == 0 &&
       e.target.files[0].type.startsWith("video")
     ) {
       setUiThumbnail(true);
@@ -121,45 +149,87 @@ const CreatePost = ({
 
     setThumbnail(false);
 
-    setPost((prevPost) => {
-      const combinedMedia = [...prevPost.image, ...prevPost.video, ...newMedia];
+    const newPostState = (prevPost) => {
+      const combinedMedia = [
+        ...(prevPost?.image || []),
+        ...(prevPost?.video || []),
+        ...newMedia,
+      ];
+
       const media = combinedMedia.slice(0, maxSlots);
 
-      const existingVideos = prevPost.video.filter(
+      const existingVideos = prevPost?.video.filter(
         (video) => typeof video === "string" && video.startsWith(posturl)
       );
-      const existingImages = prevPost.image.filter(
+      const existingImages = prevPost?.image.filter(
         (image) => typeof image === "string" && image.startsWith(posturl)
       );
 
       return {
-        ...prevPost,
+        ...prevPost, // Spread previous state
         image: [
           ...existingImages,
-          ...media
-            .filter((file) => file.type && file.type.startsWith("image/"))
-            .map((file) => file),
+          ...media.filter(
+            (file) => file.type && file.type.startsWith("image/")
+          ),
         ],
         video: [
           ...existingVideos,
-          ...media
-            .filter((file) => file.type && file.type.startsWith("video/"))
-            .map((file) => file),
+          ...media.filter(
+            (file) => file.type && file.type.startsWith("video/")
+          ),
         ],
       };
-    });
+    };
+
+    // Dispatch with the new state
+    dispatch(setPost(newPostState(post)));
+
+    // dispatch(
+    //   setPost((prevPost) => {
+    //     const combinedMedia = [
+    //       ...prevPost?.image,
+    //       ...prevPost?.video,
+    //       ...newMedia,
+    //     ];
+    //     const media = combinedMedia.slice(0, maxSlots);
+
+    //     const existingVideos = prevPost?.video.filter(
+    //       (video) => typeof video === "string" && video.startsWith(posturl)
+    //     );
+    //     const existingImages = prevPost?.image.filter(
+    //       (image) => typeof image === "string" && image.startsWith(posturl)
+    //     );
+
+    //     return {
+    //       ...prevPost,
+    //       image: [
+    //         ...existingImages,
+    //         ...media
+    //           .filter((file) => file.type && file.type.startsWith("image/"))
+    //           .map((file) => file),
+    //       ],
+    //       video: [
+    //         ...existingVideos,
+    //         ...media
+    //           .filter((file) => file.type && file.type.startsWith("video/"))
+    //           .map((file) => file),
+    //       ],
+    //     };
+    //   })
+    // );
   };
 
   const handleUpload = (e) => {
     if (
-      post.image.length == 0 &&
-      post.video.length == 1 &&
+      post?.image.length == 0 &&
+      post?.video.length == 1 &&
       e.target.files[0].type.startsWith("image")
     ) {
       handleThumbnail(e);
     } else if (
-      post.image.length == 0 &&
-      post.video.length == 1 &&
+      post?.image.length == 0 &&
+      post?.video.length == 1 &&
       e.target.files[0].type.startsWith("video")
     ) {
       toast.error("Upload Thumbnail for video!");
@@ -173,7 +243,7 @@ const CreatePost = ({
     try {
       setThumbnail(true);
       const image = e.target.files[0];
-      setThumbnailImage(image);
+      dispatch(setThumbnailImage(image));
       setUiThumbnail(false);
     } catch (error) {
       console.log(error);
@@ -181,40 +251,46 @@ const CreatePost = ({
   };
 
   const handleTagsRemove = (indexToRemove) => {
-    setPost({
-      ...post,
-      tags: [...post.tags.filter((_, i) => i !== indexToRemove)],
-    });
+    dispatch(
+      setPost({
+        ...post,
+        tags: [...post?.tags.filter((_, i) => i !== indexToRemove)],
+      })
+    );
   };
 
   const handleMediaRemove = (indexToRemove, media) => {
-    if (post.video.length === 1 || post.video.length === 0) {
+    if (post?.video.length === 1 || post?.video.length === 0) {
       setUiThumbnail(false);
-      setThumbnailImage("");
-      setPost((prevPost) => {
-        let updatedPost = { ...prevPost };
+      dispatch(setThumbnailImage(""));
+      dispatch(
+        setPost((prevPost) => {
+          let updatedPost = { ...prevPost };
 
-        if (thumbnailImage) {
-          updatedPost.image.push(thumbnailImage);
-        }
+          if (thumbnailImage) {
+            updatedPost?.image.push(thumbnailImage);
+          }
 
-        updatedPost[media] = prevPost[media].filter(
-          (_, i) => i !== indexToRemove
-        );
+          updatedPost[media] = prevPost[media].filter(
+            (_, i) => i !== indexToRemove
+          );
 
-        return updatedPost;
-      });
+          return updatedPost;
+        })
+      );
     } else {
       // If there are more than one video, simply remove the item from the specified media array
-      setPost((prevPost) => ({
-        ...prevPost,
-        [media]: prevPost[media].filter((_, i) => i !== indexToRemove),
-      }));
+      dispatch(
+        setPost((prevPost) => ({
+          ...prevPost,
+          [media]: prevPost[media].filter((_, i) => i !== indexToRemove),
+        }))
+      );
     }
   };
 
   const editPosts = async () => {
-    if (post.image.length === 0 && !thumbnailImage) {
+    if (post?.image.length === 0 && !thumbnailImage) {
       toast.error("Enter required details");
 
       return;
@@ -222,15 +298,15 @@ const CreatePost = ({
     try {
       setLoading(true);
       const data = new FormData();
-      data.append("title", post.title);
-      data.append("desc", post.desc);
-      data.append("tags", post.tags);
+      data.append("title", post?.title);
+      data.append("desc", post?.desc);
+      data.append("tags", post?.tags);
       data.append("thumbnail", thumbnail);
       data.append("thumbnailImage", thumbnailImage);
-      post.image.forEach((d) => {
+      post?.image.forEach((d) => {
         data.append("image", d);
       });
-      post.video.forEach((d) => {
+      post?.video.forEach((d) => {
         data.append("video", d);
       });
       const res = await editpost({
@@ -243,7 +319,7 @@ const CreatePost = ({
       }
       await refetch();
       setOpen(false);
-      router.push(`/main/post/${encryptaes(comid)}`);
+      router.push(`/main/post/${decomid}`);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -272,44 +348,46 @@ const CreatePost = ({
     if (editData) {
       setEdit(true);
       setPostid(editData.id);
-      setPost({
-        ...post,
-        title: editData.title,
-        tags: editData.tags[0] ? editData.tags[0].split(",") : [],
-        desc: editData.desc,
-        video: editData.post
-          .filter((d) => d?.type?.startsWith("video/"))
-          .map((d) => posturl + d.content),
+      dispatch(
+        setPost({
+          ...post,
+          title: editData.title,
+          tags: editData.tags[0] ? editData.tags[0].split(",") : [],
+          desc: editData.desc,
+          video: editData.post
+            .filter((d) => d?.type?.startsWith("video/"))
+            .map((d) => posturl + d.content),
 
-        image: editData.post
-          .filter((d) => d?.type?.startsWith("image/"))
-          .map((d) => posturl + d.content),
-      });
+          image: editData.post
+            .filter((d) => d?.type?.startsWith("image/"))
+            .map((d) => posturl + d.content),
+        })
+      );
 
       if (editData.post[0].thumbnail) {
         setThumbnail(true);
-        setThumbnailImage(posturl + editData.post[0].thumbnail);
+        dispatch(setThumbnailImage(posturl + editData.post[0].thumbnail));
       }
     }
   }, [editData]);
 
   useEffect(() => {
-    if (post.video.length === 1 && post.image.length === 0) {
+    if (post?.video.length === 1 && post?.image.length === 0) {
       setUiThumbnail(true);
     }
-  }, [post.video, post.image]);
+  }, [post?.video, post?.image]);
 
-  if (loading) {
-    return (
-      <>
-        <div className="fixed inset-0 w-screen bg-black bg-opacity-50  z-50 h-screen flex justify-center items-center ">
-          <div>
-            <PostLoading progress={progress} />
-          </div>
-        </div>
-      </>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <>
+  //       <div className="fixed inset-0 w-screen bg-black bg-opacity-50  z-50 h-screen flex justify-center items-center ">
+  //         <div>
+  //           <PostLoading progress={progress} />
+  //         </div>
+  //       </div>
+  //     </>
+  //   );
+  // }
 
   return (
     <>
@@ -326,7 +404,7 @@ const CreatePost = ({
             <div className="flex justify-center items-center gap-4">
               <div
                 onClick={() => {
-                  router.push(`/main/post/${encryptaes(comid)}`);
+                  router.push(`/main/post/${decomid}`);
                   setOpen(false), sessionStorage.removeItem("postdata");
                 }}
                 className="cursor-pointer"
@@ -357,9 +435,9 @@ const CreatePost = ({
               {mediaType === "video" ? (
                 // video
                 <div className="w-full">
-                  {post.video.length > 0 ? (
+                  {post?.video?.length > 0 ? (
                     <>
-                      {post.video.map((d, index) => (
+                      {post?.video.map((d, index) => (
                         <div
                           key={index}
                           className="w-full h-[300px] relative rounded-xl overflow-hidden"
@@ -373,10 +451,14 @@ const CreatePost = ({
                           />
                           <div
                             onClick={() => {
-                              setPost({
-                                ...post,
-                                video: post.video.filter((_, i) => i !== index),
-                              });
+                              dispatch(
+                                setPost({
+                                  ...post,
+                                  video: post?.video.filter(
+                                    (_, i) => i !== index
+                                  ),
+                                })
+                              );
                             }}
                             className="absolute cursor-pointer top-0 right-0 p-2"
                           >
@@ -413,7 +495,9 @@ const CreatePost = ({
                   <input
                     accept="image/*"
                     name="image"
-                    onChange={(e) => setThumbnailImage(e.target.files[0])}
+                    onChange={(e) =>
+                      dispatch(setThumbnailImage(e.target.files[0]))
+                    }
                     type="file"
                     id="thumbnailImage"
                     className="hidden w-full"
@@ -431,7 +515,7 @@ const CreatePost = ({
                       />
                       <div
                         onClick={() => {
-                          setThumbnailImage("");
+                          dispatch(setThumbnailImage(""));
                           setUiThumbnail(true);
                         }}
                         className="absolute cursor-pointer top-0 right-0 p-1"
@@ -494,7 +578,7 @@ const CreatePost = ({
                   />
 
                   <div className="flex items-center gap-4 mt-4">
-                    {post.image.map((d, i) => (
+                    {post?.image.map((d, i) => (
                       <div key={i} className="relative w-[100px] h-[100px]">
                         <img
                           src={
@@ -518,10 +602,10 @@ const CreatePost = ({
                 </div>
               )}
 
-              <div className="text-sm text-[#6F7787]">
+              {/* <div className="text-sm text-[#6F7787]">
                 We recommend high-quality .jpg, .png files less than 20MB or
                 .mp4 files 100MB.
-              </div>
+              </div> */}
             </div>
             <div className="w-full flex flex-col gap-2">
               <div className="flex flex-col w-full gap-1">
@@ -529,9 +613,9 @@ const CreatePost = ({
                 <div>
                   <input
                     type="text"
-                    value={post.title}
+                    value={post?.title}
                     onChange={(e) =>
-                      setPost({ ...post, title: e.target.value })
+                      dispatch(setPost({ ...post, title: e.target.value }))
                     }
                     className="p-1.5 px-3 bg-[#FAFAFA] dark:bg-[#323d4e] outline-none rounded-lg w-full"
                     placeholder="Enter Title"
@@ -544,8 +628,10 @@ const CreatePost = ({
                   <textarea
                     className="outline-none p-2 bg-[#FAFAFA] dark:bg-[#323d4e] w-[100%] no-scrollbar resize-y rounded-lg min-h-32 max-h-48 "
                     type="text"
-                    value={post.desc}
-                    onChange={(e) => setPost({ ...post, desc: e.target.value })}
+                    value={post?.desc}
+                    onChange={(e) =>
+                      dispatch(setPost({ ...post, desc: e.target.value }))
+                    }
                     placeholder="Describe the Post in few words"
                     maxLength={500}
                   />
@@ -555,9 +641,9 @@ const CreatePost = ({
                 <div>Add Hashtags</div>
                 <div className="w-full bg-[#FAFAFA] dark:bg-[#323d4e] rounded-lg flex justify-center items-center">
                   <input
-                    value={post.sampletags}
+                    value={post?.sampletags}
                     onChange={(e) =>
-                      setPost({ ...post, sampletags: e.target.value })
+                      dispatch(setPost({ ...post, sampletags: e.target.value }))
                     }
                     type="text"
                     className="p-1.5 px-3 bg-transparent outline-none rounded-lg w-full"
@@ -565,14 +651,16 @@ const CreatePost = ({
                   />
                   <button
                     onClick={() => {
-                      if (!post.sampletags) {
+                      if (!post?.sampletags) {
                         return;
                       }
-                      setPost({
-                        ...post,
-                        tags: [...post.tags, post.sampletags],
-                        sampletags: "",
-                      });
+                      dispatch(
+                        setPost({
+                          ...post,
+                          tags: [...post?.tags, post?.sampletags],
+                          sampletags: "",
+                        })
+                      );
                     }}
                     className="flex justify-center items-center p-2 rounded-r-lg text-[#2461FD] dark:bg-[#3d4654] dark:text-white bg-[#F0F4FF]"
                   >
@@ -583,8 +671,8 @@ const CreatePost = ({
                   </button>
                 </div>
                 <div className="flex items-center pt-2 flex-wrap gap-2">
-                  {post.tags.length > 0 &&
-                    post.tags.map((d, g) => (
+                  {post?.tags?.length > 0 &&
+                    post?.tags?.map((d, g) => (
                       <div
                         key={g}
                         className="bg-[#FDF8F1] flex justify-center items-center gap-2 text-[#E7A034] p-1 rounded-full px-4"

@@ -13,9 +13,11 @@ import { IoChevronDownSharp, IoChevronUpSharp } from "react-icons/io5";
 import Cookies from "js-cookie";
 import Variants from "@/app/data/Variants";
 import Hover from "@/app/data/Hover";
+import { useSocketContext } from "@/app/utilsHelper/SocketWrapper";
 
 function page() {
   const router = useRouter();
+  const { socket } = useSocketContext()
   const [product, setProduct] = useState({
     name: "",
     desc: "",
@@ -158,6 +160,7 @@ function page() {
       if (result.data?.success) {
         setLoading(false);
         router.push("/main/store");
+        socket?.emit("new-product-created")
         toast.success("Product Created!");
         clearCookies();
       } else {
@@ -217,6 +220,7 @@ function page() {
       });
       if (result.data?.success) {
         setLoading(false);
+        socket?.emit("new-product-created")
         router.push("/main/store");
         toast.success("Product Created!");
         clearCookies();
@@ -713,7 +717,7 @@ function page() {
                                   text2: e.target.value,
                                 })
                               }
-                              // onKeyDown={handleKeyDownColor}
+                            // onKeyDown={handleKeyDownColor}
                             />
                           </div>
                         </div>

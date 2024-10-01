@@ -16,6 +16,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Providers from "./redux/Providers";
 import TokenDataWrapper from "./utilsHelper/Tokenwrap";
+import { SocketContextProvider } from './utilsHelper/SocketWrapper';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,7 +30,10 @@ export default function RootLayout({ children }) {
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className} ${montserrat.variable} select-none ${nunito.variable}`}>
         <Providers>
-          <TokenDataWrapper>{children}</TokenDataWrapper>
+
+          <TokenDataWrapper>
+            <SocketContextProvider>{children}</SocketContextProvider>
+          </TokenDataWrapper>
         </Providers>
         {/* <script src="https://checkout.razorpay.com/v1/checkout.js"></script> */}
       </body>

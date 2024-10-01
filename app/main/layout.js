@@ -2,21 +2,27 @@
 import { usePathname } from "next/navigation";
 import Header from "../componentsWorkSpace/Header";
 import NavBar from "../componentsWorkSpace/Navbar";
-import { memo, useEffect } from "react";
+import { memo } from "react";
 import { useSelector } from "react-redux"
 import Cookies from "js-cookie"
 import CookieConsent from "react-cookie-consent";
-
 
 export default function MainLayout({ children }) {
   const MemorizedNav = memo(NavBar);
   const myCookie = Cookies.get("excktn")
   const MemorizedHeader = memo(Header);
-  const path = usePathname();
+  const path = usePathname()
+  const loading = useSelector((state) => state.createPostSlice.isLoading);
+  const comid = useSelector((state) => state.createPostSlice.comid);
+  const progress = useSelector((state) => state.createPostSlice.progress);
   const isLoading = useSelector((state) => state.userData.isLoading);
+
+
+  console.log(comid, "comid")
 
   return (
     <>
+      <div style={{ width: `${progress}%` }} className={`${loading ? "z-50 fixed top-0 right-0 left-0 h-1 bg-black" : "hidden -z-20"} `}></div>
       <CookieConsent
         buttonText="I understand"
         cookieName="excktn"
@@ -48,6 +54,7 @@ export default function MainLayout({ children }) {
           <MemorizedHeader />
         </div>
         <div className="w-full pn:max-sm:h-auto pn:max-sm:overflow-y-auto pn:max-sm:mb-14 no-scrollbar bg-[#eff1f5] dark:bg-[#1b2431] sm:p-4">
+
           <div
             className={`${path === "/main/community" ? "pn:max-sm:bg-white" : null
               } flex flex-col h-full dark:bg-[#1b2431] gap-4`}
@@ -55,6 +62,7 @@ export default function MainLayout({ children }) {
             <div className="pn:max-sm:hidden flex h-[10%] justify-center items-center">
               <MemorizedHeader />
             </div>
+
             <div
               className={`sm:rounded-xl dark:bg-[#1b2431] max-w-full w-full no-scrollbar pn:max-sm:pb-8 ${path === "/main/dashboard" ? "h-full" : "sm:overflow-y-auto"}`}
             >

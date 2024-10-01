@@ -23,6 +23,7 @@ import {
 } from "@/app/redux/apiroutes/community";
 import { useGetFetchOrderQuery } from "@/app/redux/apiroutes/userLoginAndSetting";
 import {
+	errorMaker,
 	formatISOStringToDayMonth,
 	getData,
 } from "@/app/utilsHelper/Useful";
@@ -37,6 +38,7 @@ import axios from "axios";
 import { CartesianGrid, Cell, Legend, Line, LineChart, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import MemorizedDontHave from "@/app/componentsWorkSpace/DontHave";
+import toast from "react-hot-toast";
 
 function Dashboard() {
 	const [change, setChange] = useState("community");
@@ -51,20 +53,19 @@ function Dashboard() {
 	const dispatch = useDispatch();
 	const searchparams = useSearchParams();
 
-	let analyticsdata,
-		isLoading = true;
+	let analyticsdata, sevenError, thirtyError, isLoading = true;
 	if (dateValue == 7) {
-		({ data: analyticsdata, isLoading } = useGetAnalyticsQuery(
+		({ data: analyticsdata, isLoading, error: sevenError } = useGetAnalyticsQuery(
 			{ id: id },
 			{ skip: !id }
 		));
 	} else {
-		({ data: analyticsdata, isLoading } = useGetAnalyticsThirtyDaysQuery(
+		({ data: analyticsdata, isLoading, error: thirtyError } = useGetAnalyticsThirtyDaysQuery(
 			{ id: id },
 			{ skip: !id }
 		));
 	}
-	const { data: getorderdata } = useGetFetchOrderQuery(
+	const { data: getorderdata, error } = useGetFetchOrderQuery(
 		{ id: id },
 		{ skip: !id }
 	);
@@ -209,6 +210,25 @@ function Dashboard() {
 
 	const COLORS = ["#5A6ACF", "#8593ED", "#C7CEFF"];
 
+	// if (error) {
+	// 	errorMaker(error, `/payments/fetchallorders/${id}`, "GET")
+
+	// 	return;
+	// }
+
+	// if (sevenError) {
+	// 	errorMaker(sevenError, `/analytics/analyticsuser/${id}`, "GET")
+
+	// 	return;
+	// }
+
+	// console.log(sevenError)
+
+	// if (thirtyError) {
+	// 	errorMaker(thirtyError, `/analytics/analyticsuserThirtyDays/${id}`, "GET")
+
+	// 	return;
+	// }
 
 	return (
 		<div className="flex flex-col w-full sm:h-full">

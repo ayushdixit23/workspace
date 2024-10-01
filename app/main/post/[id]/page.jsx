@@ -11,7 +11,7 @@ import { GoPlus } from "react-icons/go";
 import CreatePost from "../../community/CreatePost";
 import Loader from "@/app/data/Loader";
 import NoPost from "@/app/componentsWorkSpace/NoPost";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import PostsWeb from "@/app/componentsWorkSpace/PostsWeb";
 import toast from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
@@ -20,6 +20,7 @@ import { PiVideoFill } from "react-icons/pi";
 import Hover from "@/app/data/Hover";
 import { FaImages } from "react-icons/fa";
 import Link from "next/link";
+import { setMergedData } from "@/app/redux/slice/postSlice";
 
 const page = () => {
   const path = usePathname();
@@ -27,17 +28,21 @@ const page = () => {
   const { id } = getData();
   const searchparams = useSearchParams();
   const uploadPost = searchparams.get("uploadPost");
-  const comid = decryptaes(decomid);
+  const reduxComid = useSelector((state) => state.createPostSlice.comid);
+  const comid = reduxComid || decryptaes(decomid);
   const [open, setOpen] = useState(false);
   const [topicId, setTopicId] = useState("");
   const [loading, setLoading] = useState(false);
+  const postLoading = useSelector((state) => state.createPostSlice.isLoading);
   const [postid, setPostid] = useState(null);
   const [selectType, setSelectType] = useState(false);
   const type = searchparams.get("type");
   const dispatch = useDispatch();
+  const mergedData = useSelector((state) => state.createPostSlice.mergedData);
+  const skipFetch = !!mergedData?.length;
   const { data, refetch, isLoading } = useGetAllPostQuery(
     { comid },
-    { skip: !comid }
+    { skip: skipFetch || !comid }
   );
   const [deletePost] = useDeletePostsMutation();
 
@@ -66,12 +71,18 @@ const page = () => {
     }
   };
 
-  const mergedData = data?.posts?.map((d, i) => ({
-    post: d.post,
-    dps: d.postdp,
-    engrate: d.engrate,
-    video: d?.video,
-  }));
+  useEffect(() => {
+    if (!skipFetch && data?.posts?.length > 0) {
+      const newMergedData = data.posts.map((post) => ({
+        post: post.post,
+        dps: post.postdp,
+        engrate: post.engrate,
+        video: post?.video,
+      }));
+
+      dispatch(setMergedData(newMergedData));
+    }
+  }, [data, skipFetch, dispatch]);
 
   if (loading) {
     return (
@@ -97,6 +108,7 @@ const page = () => {
           id={id}
           topicId={topicId}
           mediaType={type}
+          decomid={decomid}
           comid={comid}
           open={open}
           setOpen={setOpen}
@@ -117,13 +129,19 @@ const page = () => {
           </div>
           <div
             onClick={() => {
-              sessionStorage.removeItem("postdata");
-              // setOpen(true);
-              setSelectType(!selectType);
+              if (postLoading) {
+                return;
+              } else {
+                sessionStorage.removeItem("postdata");
+                // setOpen(true);
+                setSelectType(!selectType);
+              }
             }}
-            className="py-2 vs:max-pp:text-[12px] relative flex items-center cursor-pointer gap-1 border dark:bg-[#3d4654] dark:text-white light:border-[#f1f1f1] px-2.5 sm:px-5 font-medium bg-white text-black rounded-xl"
+            className={`py-2 vs:max-pp:text-[12px] relative flex items-center ${
+              postLoading ? "cursor-not-allowed" : "cursor-pointer"
+            }  gap-1 border dark:bg-[#3d4654] dark:text-white light:border-[#f1f1f1] px-2.5 sm:px-5 font-medium bg-white text-black rounded-xl`}
           >
-            Create Posts
+            Create Post
             <GoPlus />
             {selectType && (
               <div
@@ -174,10 +192,11 @@ const page = () => {
 
         <div className="pn:max-sm:hidden bg-transparent h-[73vh] z-0 overflow-auto w-full min-w-full container no-scrollbar ">
           {mergedData?.length > 0 ? (
-            <div className="bg-white dark:bg-[#273142] overflow-x-scroll no-scrollbar min-w-[1110px] rounded-xl h-full sm:p-2 w-full">
+            <div className="bg-white dark:bg-[#273142] overflow-x-scroll no-scrollbar rounded-xl h-full sm:p-2 w-full">
               <table className="w-full text-sm text-left rtl:text-right min-w-full  text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 rounded-xl dark:text-gray-400">
                   <tr>
+                    <th scope="col" className=""></th>
                     <th scope="col" className="px-6 py-3">
                       Posts
                     </th>
@@ -219,7 +238,7 @@ const page = () => {
               </table>
             </div>
           ) : (
-            <NoPost setOpen={setOpen} />
+            <NoPost setOpen={setOpen} id={decomid} />
           )}
         </div>
 
@@ -239,7 +258,7 @@ const page = () => {
               ))}
             </div>
           ) : (
-            <NoPost setOpen={setOpen} />
+            <NoPost setOpen={setOpen} id={decomid} />
           )}
         </div>
       </div>

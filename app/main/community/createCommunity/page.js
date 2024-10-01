@@ -18,11 +18,12 @@ import {
 import { getData } from "@/app/utilsHelper/Useful";
 import Image from "next/image"
 import { FcInfo } from "react-icons/fc";
-import axios from "axios";
+import { useSocketContext } from "@/app/utilsHelper/SocketWrapper";
 
 function page() {
   const router = useRouter();
   const { id } = getData()
+  const { socket } = useSocketContext()
   const [createCommunity, setCreateCommunity] = useState({
     title: "",
     desc: "",
@@ -65,6 +66,7 @@ function page() {
         price: topics.price,
         message: topics.message,
       };
+
       const res = await createTopicByMutation({
         id,
         data,
@@ -139,6 +141,7 @@ function page() {
         setTimeout(() => {
           toast.success("Community Created!");
         }, 500)
+        socket?.emit("new-community-created")
       } else {
         setTimeout(() => {
           // toast.error(response.data?.message)

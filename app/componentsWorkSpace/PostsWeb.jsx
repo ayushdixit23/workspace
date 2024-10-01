@@ -94,13 +94,26 @@ const PostsWeb = ({
           showing ? "fixed z-50 w-screen h-screen" : "hidden  -z-30"
         } `}
       ></div>
-      <tr className="bg-white pn:max-sm:hidden border-b h-[70px] dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-        <td className="font-medium w-[250px]  text-left">
+      <tr
+        className={` pn:max-sm:hidden relative border-b w-full ${
+          d?.status === "uploading"
+            ? "bg-red-400 dark:bg-red-600 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+            : "bg-white dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+        } h-[70px] `}
+      >
+        {d?.status === "uploading" && (
+          <div className="absolute inset-0 w-full h-full bg-opacity-50 flex items-center justify-center z-10">
+            <span className="text-white font-semibold">Uploading...</span>
+          </div>
+        )}
+        {!d?.status && <div></div>}
+        <td className="font-medium text-left">
           <div className="flex gap-2 p-2 items-center">
             <div>
               {d?.video ? (
                 <video
                   src={d?.dps}
+                  poster={d?.dps}
                   className="object-contain bg-black min-w-[50px] w-[50px] h-[50px] cursor-pointer flex justify-center items-center rounded-md ring-1 ring-white"
                   alt="video"
                 />

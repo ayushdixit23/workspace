@@ -1,8 +1,6 @@
 "use client";
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { ref, set, onValue, remove } from "firebase/database";
-import { auth } from "../../../firebase.config";
-import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { CgSpinner } from "react-icons/cg";
@@ -14,7 +12,9 @@ import { changelaoding, sendData } from "@/app/redux/slice/userData";
 import { encryptaes, decryptaes } from "@/app/utilsHelper/security";
 import {
   useEmailLoginMutation,
+  useEmailOtpLoginMutation,
   useLoginMutation,
+  useVerifyEmailOtpMutation,
 } from "@/app/redux/apiroutes/userLoginAndSetting";
 import { QRCodeSVG } from "qrcode.react";
 import { RiLoader4Line } from "react-icons/ri";
@@ -24,8 +24,9 @@ import toast, { Toaster } from "react-hot-toast";
 import workspace from "../../assets/image/workspace.png";
 import Image from "next/image";
 import Cookies from "js-cookie";
-import useTokenAndData from "@/app/utilsHelper/tokens";
 import { initOTPless } from "@/app/utilsHelper/initOtpless";
+import { errorMaker } from "@/app/utilsHelper/Useful";
+import { useSocketContext } from "@/app/utilsHelper/SocketWrapper";
 // import Cookies from "js-cookie";
 
 function page() {
@@ -38,15 +39,19 @@ function page() {
   const [seconds, setSeconds] = useState(30);
   const [isActive, setIsActive] = useState(true);
   const [come, setCome] = useState(0);
-  // const [email, setEmail] = useState("memerdevgamer23@gmail.com");
-  // const [password, setPassword] = useState("12345678");
+  const { socket } = useSocketContext()
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // const [password, setPassword] = useState("");
+  const emailOtpRef = useRef()
   const [change, setChange] = useState(1);
   const dispatch = useDispatch();
   const [login] = useLoginMutation();
   const otpInputRef = useRef(null);
   const [emailLogin] = useEmailLoginMutation();
+  const [emailOtpLogin] = useEmailOtpLoginMutation();
+  const [verificationEmailOtp] = useVerifyEmailOtpMutation();
+  const [showEmailOtp, setShowEmailOtp] = useState(false)
+  const [emailOtp, setEmailOtp] = useState(false)
 
   const handleOtpChange = (otp) => {
     try {
@@ -57,34 +62,64 @@ function page() {
     }
   };
 
-  // useEffect(() => {
-  //   let interval;
-  //   if (seconds === 0) {
-  //     setSeconds(0);
-  //     setIsActive(true);
-  //     setCome(come + 1);
-  //   }
-  //   if (isActive) {
-  //     interval = setInterval(() => {
-  //       setSeconds((prevSeconds) => prevSeconds - 1);
-  //     }, 1000);
-  //     if (seconds === 0) {
-  //       setSeconds(0);
-  //       setCome(1);
-  //     }
-  //   } else if (!isActive && seconds !== 0) {
-  //     clearInterval(interval);
-  //   }
+  const handleEmailOtpChange = (otp) => {
+    try {
+      setEmailOtp(otp);
+    } catch (error) {
+      toast.error("Something Went Wrong!");
+      console.log(error);
+    }
+  };
 
-  //   return () => clearInterval(interval);
-  // }, [isActive, seconds]);
+  const verifyOtpEmail = async (e) => {
+    e.preventDefault()
+    try {
+      if (emailOtp.length !== 6) {
+        toast.error("Enter 6 digit otp!")
+        return
+      }
 
-  // const toggleTimer = () => {
-  //   onSignup();
-  //   setSeconds(30);
-  // };
+      const data = {
+        email, otp: emailOtp
+      }
 
-  const waitkrnevalafunc = async (data) => {
+      const res = await verificationEmailOtp(data)
+      if (!res.data.success) {
+        if (res.data.userexists === false) {
+          toast.error("User Not Found!")
+          return
+        } else if (res.data.otpSuccess === false) {
+          toast.error("Otp Verification Failed!")
+          return
+        } else {
+          toast.error("Something Went Wrong!")
+          return
+        }
+      } else {
+        const a = await cookieSetter(res.data);
+        if (a === true) {
+          toast.success("Login successful");
+          router.push("/main/dashboard");
+        }
+        dispatch(
+          changelaoding({
+            loading: true,
+            path: `/main/dashboard`,
+          })
+        );
+      }
+
+      if (res.error) {
+        const error = res.error
+        await errorMaker(error, "/login/emailotplogin", "POST")
+      }
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const cookieSetter = async (data) => {
     try {
 
       const expirationDate = new Date();
@@ -111,7 +146,7 @@ function page() {
       });
 
       if (result.data?.success) {
-        const a = await waitkrnevalafunc(result.data);
+        const a = await cookieSetter(result.data);
         if (a === true) {
           toast.success("Login successful");
           dispatch(
@@ -122,10 +157,18 @@ function page() {
           );
           router.push("/main/dashboard");
           setLoading(false);
+        } else {
+          const error = result.error
+
         }
         setLoading(false);
       } else {
         toast.error("You Dont have Account");
+      }
+
+      if (result.error) {
+        const error = result.error
+        await errorMaker(error, "/login/checkid", "POST")
       }
     } catch (err) {
       console.log(err);
@@ -192,11 +235,11 @@ function page() {
       setLoading(true);
       const res = await emailLogin({
         email,
-        password,
+        password
       });
 
       if (res.data.success) {
-        const a = await waitkrnevalafunc(res.data);
+        const a = await cookieSetter(res.data);
         if (a === true) {
           toast.success("Login successful");
           router.push("/main/dashboard");
@@ -210,7 +253,7 @@ function page() {
       } else {
         toast.error("Invalid Email or Password!");
       }
-      // router.push("/main/dashboard")
+
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -219,10 +262,44 @@ function page() {
     }
   };
 
+  const sendOtpEmail = async (e) => {
+    e.preventDefault()
+    if (!email) {
+      toast.error("Please Enter the Email!");
+      return;
+    }
+    try {
+      const data = {
+        email
+      }
+      const res = await emailOtpLogin(data)
+
+      console.log(res.data)
+
+      if (!res.data.success) {
+        if (res.data.emailFound === false) {
+          toast.error("Email Not Found!")
+          return
+        }
+        else {
+          toast.error("Something Went Wrong!")
+          return
+        }
+      } else {
+        setShowEmailOtp(true)
+      }
+
+      if (res.error) {
+        const error = res.error
+        await errorMaker(error, "/login/requestOtp", "POST")
+      }
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   const [qrCodeValue, setQRCodeValue] = useState("");
-  const newRandomString = generateRandomString(17);
-  const starCountRef = ref(database, `/qr/`);
-  const strignref = useRef(null);
   const [qrlogin] = useLoginWithQrMutation();
 
   function generateRandomString(length) {
@@ -237,63 +314,32 @@ function page() {
     return randomString;
   }
 
-  const writeUserData = useCallback(async (newRandomString) => {
-    set(ref(database, `/qr/${newRandomString}/`), { data: "null" });
-  }, []);
+  useEffect(() => {
+    const string = generateRandomString(17)
+    setQRCodeValue(string)
+  }, [])
 
-  const updateRandomString = useCallback(() => {
-    strignref.current = newRandomString;
-    setQRCodeValue(newRandomString);
-    writeUserData(newRandomString);
-  }, []);
+  console.log(qrCodeValue, "qrCodeValue")
 
   useEffect(() => {
-    updateRandomString();
-    // const intervalId = setInterval(updateRandomString, 60000);
-    const unsub = onValue(starCountRef, async (snapshot) => {
-      const data = snapshot.val();
-      if (
-        strignref.current &&
-        data[strignref.current]?.data !== "null" &&
-        loading === false
-      ) {
-        const fd = decryptaes(data[strignref.current]?.data);
-        setLoadingqr(true);
-        if (fd) {
-          const dataforSend = JSON.parse(fd);
-          const res = await qrlogin({
-            id: dataforSend?.id,
-          });
-          if (res.data?.success) {
-            const check = await waitkrnevalafunc(res.data);
+    socket?.on(qrCodeValue, async ({ id }) => {
+      const res = await qrlogin({
+        id
+      });
+      if (res.data?.success) {
+        const check = await cookieSetter(res.data);
 
-            setTimeout(async () => {
-              if (check === true) {
-                // await generateData(res.data.access_token);
-                dispatch(sendData(res.data?.data))
-                router.push("/main/dashboard");
-              }
-              setTimeout(() => {
-                const reref = ref(database, `/qr/${strignref.current}/`);
-                remove(reref)
-                  .then(() => {
-                    setLoadingqr(false);
-                  })
-                  .catch((error) => {
-                    console.error("Error deleting data:", error.message);
-                  });
-              }, 2000);
-            }, 3000);
+        setTimeout(async () => {
+          if (check === true) {
+            // await generateData(res.data.access_token);
+            dispatch(sendData(res.data?.data))
+            router.push("/main/dashboard");
           }
-        }
-      }
-    });
 
-    return () => {
-      unsub();
-      //  clearInterval(intervalId);
-    };
-  }, []);
+        }, 3000);
+      }
+    })
+  }, [socket])
 
   useEffect(() => {
     let otpCapture = document.getElementById("send-otp");
@@ -317,6 +363,27 @@ function page() {
   }, [number]);
 
   useEffect(() => {
+    let otpCapture = document.getElementById("send-email-otp");
+    const handleKeyPress = (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        if (email) {
+          sendOtpEmail(event)
+        }
+      }
+    };
+
+    if (otpCapture) {
+      otpCapture.addEventListener("keypress", handleKeyPress);
+    }
+    return () => {
+      if (otpCapture) {
+        otpCapture.removeEventListener("keypress", handleKeyPress);
+      }
+    };
+  }, [email]);
+
+  useEffect(() => {
     const verifyOtp = otpInputRef.current;
     const handleKeyPress = (event) => {
       if (event.key === "Enter") {
@@ -337,6 +404,28 @@ function page() {
       }
     };
   }, [otp, otpInputRef]);
+
+  useEffect(() => {
+    const verifyOtp = emailOtpRef.current;
+    const handleKeyPress = (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        if (emailOtp.length === 6) {
+          verifyOtpEmail(event);
+        }
+      }
+    };
+
+    if (verifyOtp) {
+      verifyOtp.addEventListener("keypress", handleKeyPress);
+    }
+
+    return () => {
+      if (verifyOtp) {
+        verifyOtp.removeEventListener("keypress", handleKeyPress);
+      }
+    };
+  }, [emailOtp, emailOtpRef]);
 
   const phoneAuth = (e) => {
     e.preventDefault();
@@ -378,6 +467,8 @@ function page() {
         toast.error("OTP Verification Failed");
         setLoading(false);
       }
+
+
     } catch (error) {
       console.error("OTP Verification Error:", error);
       toast.error("An error occurred during OTP verification");
@@ -482,10 +573,7 @@ function page() {
           <div className="mb-5 flex gap-3 pn:max-sm:hidden justify-center  items-center flex-col">
             <div className="relative bg-white border-2 border-[#f3f3f3] dark:border-white p-3 rounded-3xl">
               <QRCodeSVG
-                // style={{
-                //   width: "200px",
-                //   height: "200px",
-                // }}
+
                 className="w-[180px] h-[180px]"
                 value={qrCodeValue}
               />
@@ -494,7 +582,7 @@ function page() {
             <div className="text-xl font-semibold">Sign in with QR code</div>
             <div className="flex flex-col gap-3 justify-center items-center">
               <div className="max-w-[70%] text-sm text-[#9095A0] text-center">
-                Use your phone camera to scan this code to log in instanly
+                Open the <a className="text-blue-600 cursor-pointer" href="https://play.google.com/store/apps/details?id=com.grovyomain&hl=en_IN&gl=US" target="_blank">Grovyo</a> app's camera to scan this code and log in instantly.
               </div>
             </div>
           </div>
@@ -594,19 +682,22 @@ function page() {
           </div>
           {/* email */}
           <div className={`${change === 2 ? "" : "hidden"} `}>
-            <div>
-              <div className="text-sm pb-3 px-1 dark:text-white font-semibold text-[#424856]">
-                Email
-              </div>
 
-              <input
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="py-3 w-[300px] dark:bg-[#3d4654] bg-[#fff] dark:border-none border light:border-[#dddddd] rounded-2xl px-4 "
-                placeholder="Enter your email"
-              />
-            </div>
-            <div className="mt-2">
+            {showEmailOtp === false && <>
+              <div>
+                <div className="text-sm pb-2 px-1 mt-2 dark:text-white font-semibold text-[#424856]">
+                  Email
+                </div>
+
+                <input
+                  value={email}
+                  id="send-email-otp"
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="py-3 w-[300px] dark:bg-[#3d4654] bg-[#fff] dark:border-none border light:border-[#dddddd] rounded-2xl px-4 "
+                  placeholder="Enter your email"
+                />
+              </div>
+              {/* <div className="mt-2">
               <div className="text-sm pb-3 px-1 dark:text-white font-semibold text-[#424856]">
                 Password
               </div>
@@ -618,22 +709,53 @@ function page() {
                 className="py-3 w-[300px]  bg-[#fff] dark:bg-[#3d4654] dark:border-none border light:border-[#dddddd] rounded-2xl px-4 "
                 placeholder="Enter your Password"
               />
-            </div>
-            <div className="py-5 ">
-              <div
-                onClick={handleEmailLogin}
-                className="py-3 w-[300px] select-none cursor-pointer bg-[#0066ff]  flex items-center justify-center rounded-2xl text-white "
-              >
-                {loading && (
-                  <CgSpinner size={20} className="m-1 animate-spin" />
-                )}
-                <span className={`${loading ? "hidden" : ""} `}>Continue</span>
+            </div> */}
+              <div className="py-5 ">
+                <div
+                  // onClick={handleEmailLogin}
+                  onClick={sendOtpEmail}
+                  className="py-3 w-[300px] select-none cursor-pointer bg-[#0066ff]  flex items-center justify-center rounded-2xl text-white "
+                >
+                  {loading && (
+                    <CgSpinner size={20} className="m-1 animate-spin" />
+                  )}
+                  <span className={`${loading ? "hidden" : ""} `}>Send Otp</span>
+                </div>
               </div>
-            </div>
+            </>}
+
+            {showEmailOtp === true && <>
+
+              <div ref={emailOtpRef}>
+                <DynamicOtpInput
+                  value={emailOtp}
+                  onChange={handleEmailOtpChange}
+                  OTPLength={6}
+                  otpType="number"
+                  // ref={otpInputRef}
+                  disabled={false}
+                  autoFocus
+                  className="opt-container sm:mt-3"
+                ></DynamicOtpInput>
+              </div>
+              <div className="py-5 ">
+                <div
+                  onClick={verifyOtpEmail}
+                  className="py-3 w-[300px] select-none cursor-pointer bg-[#0066ff]  flex items-center justify-center rounded-2xl text-white "
+                >
+                  {loading && (
+                    <CgSpinner size={20} className="m-1 animate-spin" />
+                  )}
+                  <span className={`${loading ? "hidden" : ""} `}>Send Otp</span>
+                </div>
+              </div>
+            </>}
+
           </div>
         </div>
-      )}
-    </div>
+      )
+      }
+    </div >
   );
 }
 

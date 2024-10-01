@@ -59,18 +59,34 @@ export const userLoginAndSettingApi = Api.injectEndpoints({
         method: "POST",
         body: data
       })
-    })
+    }),
+    emailOtpLogin: builder.mutation({
+      query: (data) => ({
+        url: `/login/requestOtp`,
+        method: "POST",
+        body: data
+      })
+    }),
+    verifyEmailOtp: builder.mutation({
+      query: (data) => ({
+        url: `/login/emailotplogin`,
+        method: "POST",
+        body: data
+      })
+    }),
   }),
 });
 
 export const {
   useLoginMutation,
   useGetRefreshTokenMutation,
+  useVerifyEmailOtpMutation,
   useGetFetchOrderQuery,
   useGetProfileQuery,
   usePostProfileMutation,
   useLoginWithQrMutation,
   useEmailLoginMutation,
   usePostProfileStoreMutation,
+  useEmailOtpLoginMutation,
   useIdloginQuery
 } = userLoginAndSettingApi;
