@@ -39,10 +39,10 @@ function page() {
   const [seconds, setSeconds] = useState(30);
   const [isActive, setIsActive] = useState(true);
   const [come, setCome] = useState(0);
-  const { socket } = useSocketContext()
+  const { socket } = useSocketContext();
   const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-  const emailOtpRef = useRef()
+  const [password, setPassword] = useState("");
+  const emailOtpRef = useRef();
   const [change, setChange] = useState(1);
   const dispatch = useDispatch();
   const [login] = useLoginMutation();
@@ -50,8 +50,8 @@ function page() {
   const [emailLogin] = useEmailLoginMutation();
   const [emailOtpLogin] = useEmailOtpLoginMutation();
   const [verificationEmailOtp] = useVerifyEmailOtpMutation();
-  const [showEmailOtp, setShowEmailOtp] = useState(false)
-  const [emailOtp, setEmailOtp] = useState(false)
+  const [showEmailOtp, setShowEmailOtp] = useState(false);
+  const [emailOtp, setEmailOtp] = useState(false);
 
   const handleOtpChange = (otp) => {
     try {
@@ -72,28 +72,29 @@ function page() {
   };
 
   const verifyOtpEmail = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
       if (emailOtp.length !== 6) {
-        toast.error("Enter 6 digit otp!")
-        return
+        toast.error("Enter 6 digit otp!");
+        return;
       }
 
       const data = {
-        email, otp: emailOtp
-      }
+        email,
+        otp: emailOtp,
+      };
 
-      const res = await verificationEmailOtp(data)
+      const res = await verificationEmailOtp(data);
       if (!res.data.success) {
         if (res.data.userexists === false) {
-          toast.error("User Not Found!")
-          return
+          toast.error("User Not Found!");
+          return;
         } else if (res.data.otpSuccess === false) {
-          toast.error("Otp Verification Failed!")
-          return
+          toast.error("Otp Verification Failed!");
+          return;
         } else {
-          toast.error("Something Went Wrong!")
-          return
+          toast.error("Something Went Wrong!");
+          return;
         }
       } else {
         const a = await cookieSetter(res.data);
@@ -110,25 +111,23 @@ function page() {
       }
 
       if (res.error) {
-        const error = res.error
-        await errorMaker(error, "/login/emailotplogin", "POST")
+        const error = res.error;
+        await errorMaker(error, "/login/emailotplogin", "POST");
       }
-
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   const cookieSetter = async (data) => {
     try {
-
       const expirationDate = new Date();
       expirationDate.setDate(expirationDate.getDate() + 7);
 
       Cookies.set(`excktn`, data.access_token, { expires: expirationDate });
       Cookies.set(`frhktn`, data.refresh_token, { expires: expirationDate });
 
-      dispatch(sendData(data?.data))
+      dispatch(sendData(data?.data));
 
       return true;
     } catch (e) {
@@ -158,8 +157,7 @@ function page() {
           router.push("/main/dashboard");
           setLoading(false);
         } else {
-          const error = result.error
-
+          const error = result.error;
         }
         setLoading(false);
       } else {
@@ -167,8 +165,8 @@ function page() {
       }
 
       if (result.error) {
-        const error = result.error
-        await errorMaker(error, "/login/checkid", "POST")
+        const error = result.error;
+        await errorMaker(error, "/login/checkid", "POST");
       }
     } catch (err) {
       console.log(err);
@@ -235,7 +233,7 @@ function page() {
       setLoading(true);
       const res = await emailLogin({
         email,
-        password
+        password,
       });
 
       if (res.data.success) {
@@ -253,7 +251,6 @@ function page() {
       } else {
         toast.error("Invalid Email or Password!");
       }
-
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -263,41 +260,39 @@ function page() {
   };
 
   const sendOtpEmail = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (!email) {
       toast.error("Please Enter the Email!");
       return;
     }
     try {
       const data = {
-        email
-      }
-      const res = await emailOtpLogin(data)
+        email,
+      };
+      const res = await emailOtpLogin(data);
 
-      console.log(res.data)
+      console.log(res.data);
 
       if (!res.data.success) {
         if (res.data.emailFound === false) {
-          toast.error("Email Not Found!")
-          return
-        }
-        else {
-          toast.error("Something Went Wrong!")
-          return
+          toast.error("Email Not Found!");
+          return;
+        } else {
+          toast.error("Something Went Wrong!");
+          return;
         }
       } else {
-        setShowEmailOtp(true)
+        setShowEmailOtp(true);
       }
 
       if (res.error) {
-        const error = res.error
-        await errorMaker(error, "/login/requestOtp", "POST")
+        const error = res.error;
+        await errorMaker(error, "/login/requestOtp", "POST");
       }
-
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   const [qrCodeValue, setQRCodeValue] = useState("");
   const [qrlogin] = useLoginWithQrMutation();
@@ -315,16 +310,16 @@ function page() {
   }
 
   useEffect(() => {
-    const string = generateRandomString(17)
-    setQRCodeValue(string)
-  }, [])
+    const string = generateRandomString(17);
+    setQRCodeValue(string);
+  }, []);
 
-  console.log(qrCodeValue, "qrCodeValue")
+  console.log(qrCodeValue, "qrCodeValue");
 
   useEffect(() => {
     socket?.on(qrCodeValue, async ({ id }) => {
       const res = await qrlogin({
-        id
+        id,
       });
       if (res.data?.success) {
         const check = await cookieSetter(res.data);
@@ -332,14 +327,13 @@ function page() {
         setTimeout(async () => {
           if (check === true) {
             // await generateData(res.data.access_token);
-            dispatch(sendData(res.data?.data))
+            dispatch(sendData(res.data?.data));
             router.push("/main/dashboard");
           }
-
         }, 3000);
       }
-    })
-  }, [socket])
+    });
+  }, [socket]);
 
   useEffect(() => {
     let otpCapture = document.getElementById("send-otp");
@@ -368,7 +362,7 @@ function page() {
       if (event.key === "Enter") {
         event.preventDefault();
         if (email) {
-          sendOtpEmail(event)
+          sendOtpEmail(event);
         }
       }
     };
@@ -462,19 +456,16 @@ function page() {
       // console.log(result, result.status, "result");
       if (result.success) {
         await fetchid();
-
       } else {
         toast.error("OTP Verification Failed");
         setLoading(false);
       }
-
-
     } catch (error) {
       console.error("OTP Verification Error:", error);
       toast.error("An error occurred during OTP verification");
       setLoading(false);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   };
 
@@ -493,10 +484,11 @@ function page() {
   return (
     <div className="h-screen flex flex-col sm:justify-center ">
       <div
-        className={`${loadingqr
-          ? "fixed inset-0 w-screen z-50 bg-black/60 h-screen flex justify-center items-center backdrop-blur-md"
-          : "hidden -z-50"
-          } `}
+        className={`${
+          loadingqr
+            ? "fixed inset-0 w-screen z-50 bg-black/60 h-screen flex justify-center items-center backdrop-blur-md"
+            : "hidden -z-50"
+        } `}
       >
         <div className="animate-spin">
           <RiLoader4Line className="text-3xl" />
@@ -539,8 +531,9 @@ function page() {
                   <div className="text-[#424242] dark:text-[#fff]">
                     Don't receive code ?{" "}
                     <button
-                      className={` text-blue-600 hover:text-blue-900 ${isActive ? "" : ""
-                        } `}
+                      className={` text-blue-600 hover:text-blue-900 ${
+                        isActive ? "" : ""
+                      } `}
                       onClick={toggleTimer}
                     >
                       Request Again
@@ -549,10 +542,11 @@ function page() {
                 </div>
               ) : (
                 <h1
-                  className={`${come === 1
-                    ? "hidden"
-                    : "text-[16px] font-normal dark:text-white text-[#3e3e3e]"
-                    } `}
+                  className={`${
+                    come === 1
+                      ? "hidden"
+                      : "text-[16px] font-normal dark:text-white text-[#3e3e3e]"
+                  } `}
                 >
                   Resend: <span className="font-semibold">00:{seconds}</span>
                 </h1>
@@ -572,17 +566,21 @@ function page() {
           {/* web Qr  */}
           <div className="mb-5 flex gap-3 pn:max-sm:hidden justify-center  items-center flex-col">
             <div className="relative bg-white border-2 border-[#f3f3f3] dark:border-white p-3 rounded-3xl">
-              <QRCodeSVG
-
-                className="w-[180px] h-[180px]"
-                value={qrCodeValue}
-              />
+              <QRCodeSVG className="w-[180px] h-[180px]" value={qrCodeValue} />
             </div>
 
             <div className="text-xl font-semibold">Sign in with QR code</div>
             <div className="flex flex-col gap-3 justify-center items-center">
               <div className="max-w-[70%] text-sm text-[#9095A0] text-center">
-                Open the <a className="text-blue-600 cursor-pointer" href="https://play.google.com/store/apps/details?id=com.grovyomain&hl=en_IN&gl=US" target="_blank">Grovyo</a> app's camera to scan this code and log in instantly.
+                Open the{" "}
+                <a
+                  className="text-blue-600 cursor-pointer"
+                  href="https://play.google.com/store/apps/details?id=com.grovyomain&hl=en_IN&gl=US"
+                  target="_blank"
+                >
+                  Grovyo
+                </a>{" "}
+                app's camera to scan this code and log in instantly.
               </div>
             </div>
           </div>
@@ -618,10 +616,11 @@ function page() {
                 onClick={() => {
                   setChange(1);
                 }}
-                className={`m-1 flex justify-center items-center h-full w-full z-10 ${change === 1
-                  ? "font-bold border-b-2 border-[#0066ff]"
-                  : "cursor-pointer"
-                  }`}
+                className={`m-1 flex justify-center items-center h-full w-full z-10 ${
+                  change === 1
+                    ? "font-bold border-b-2 border-[#0066ff]"
+                    : "cursor-pointer"
+                }`}
               >
                 Phone no.
               </div>
@@ -629,10 +628,11 @@ function page() {
                 onClick={() => {
                   setChange(2);
                 }}
-                className={`m-1 flex justify-center items-center h-full w-full z-10 ${change === 2
-                  ? "font-bold border-b-2 border-[#0066ff]"
-                  : "cursor-pointer"
-                  }`}
+                className={`m-1 flex justify-center items-center h-full w-full z-10 ${
+                  change === 2
+                    ? "font-bold border-b-2 border-[#0066ff]"
+                    : "cursor-pointer"
+                }`}
               >
                 Email
               </div>
@@ -640,10 +640,11 @@ function page() {
           </div>
           {/* phone */}
           <div
-            className={`${change === 1
-              ? "flex justify-start flex-col items-start  py-4"
-              : "hidden"
-              } `}
+            className={`${
+              change === 1
+                ? "flex justify-start flex-col items-start  py-4"
+                : "hidden"
+            } `}
           >
             <div className="text-sm pb-3 px-1 dark:text-white font-semibold text-[#424856]">
               Enter Your Phone Number
@@ -682,80 +683,98 @@ function page() {
           </div>
           {/* email */}
           <div className={`${change === 2 ? "" : "hidden"} `}>
+            {showEmailOtp === false && (
+              <>
+                <div>
+                  <div className="text-sm pb-2 px-1 mt-2 dark:text-white font-semibold text-[#424856]">
+                    Email
+                  </div>
 
-            {showEmailOtp === false && <>
-              <div>
-                <div className="text-sm pb-2 px-1 mt-2 dark:text-white font-semibold text-[#424856]">
-                  Email
+                  <input
+                    value={email}
+                    id="send-email-otp"
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="py-3 w-[300px] dark:bg-[#3d4654] bg-[#fff] dark:border-none border light:border-[#dddddd] rounded-2xl px-4 "
+                    placeholder="Enter your email"
+                  />
                 </div>
+                <div className="mt-2">
+                  <div className="text-sm pb-3 px-1 dark:text-white font-semibold text-[#424856]">
+                    Password
+                  </div>
 
-                <input
-                  value={email}
-                  id="send-email-otp"
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="py-3 w-[300px] dark:bg-[#3d4654] bg-[#fff] dark:border-none border light:border-[#dddddd] rounded-2xl px-4 "
-                  placeholder="Enter your email"
-                />
-              </div>
-              {/* <div className="mt-2">
-              <div className="text-sm pb-3 px-1 dark:text-white font-semibold text-[#424856]">
-                Password
-              </div>
-
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="py-3 w-[300px]  bg-[#fff] dark:bg-[#3d4654] dark:border-none border light:border-[#dddddd] rounded-2xl px-4 "
-                placeholder="Enter your Password"
-              />
-            </div> */}
-              <div className="py-5 ">
-                <div
-                  // onClick={handleEmailLogin}
-                  onClick={sendOtpEmail}
-                  className="py-3 w-[300px] select-none cursor-pointer bg-[#0066ff]  flex items-center justify-center rounded-2xl text-white "
-                >
-                  {loading && (
-                    <CgSpinner size={20} className="m-1 animate-spin" />
-                  )}
-                  <span className={`${loading ? "hidden" : ""} `}>Send Otp</span>
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="py-3 w-[300px]  bg-[#fff] dark:bg-[#3d4654] dark:border-none border light:border-[#dddddd] rounded-2xl px-4 "
+                    placeholder="Enter your Password"
+                  />
                 </div>
-              </div>
-            </>}
-
-            {showEmailOtp === true && <>
-
-              <div ref={emailOtpRef}>
-                <DynamicOtpInput
-                  value={emailOtp}
-                  onChange={handleEmailOtpChange}
-                  OTPLength={6}
-                  otpType="number"
-                  // ref={otpInputRef}
-                  disabled={false}
-                  autoFocus
-                  className="opt-container sm:mt-3"
-                ></DynamicOtpInput>
-              </div>
-              <div className="py-5 ">
-                <div
-                  onClick={verifyOtpEmail}
-                  className="py-3 w-[300px] select-none cursor-pointer bg-[#0066ff]  flex items-center justify-center rounded-2xl text-white "
-                >
-                  {loading && (
-                    <CgSpinner size={20} className="m-1 animate-spin" />
-                  )}
-                  <span className={`${loading ? "hidden" : ""} `}>Send Otp</span>
+                {/* <div className="py-5 ">
+                  <div
+                    // onClick={handleEmailLogin}
+                    onClick={sendOtpEmail}
+                    className="py-3 w-[300px] select-none cursor-pointer bg-[#0066ff]  flex items-center justify-center rounded-2xl text-white "
+                  >
+                    {loading && (
+                      <CgSpinner size={20} className="m-1 animate-spin" />
+                    )}
+                    <span className={`${loading ? "hidden" : ""} `}>
+                      Send Otp
+                    </span>
+                  </div>
+                </div> */}
+                  <div className="py-3">
+                  <div
+                    onClick={handleEmailLogin}
+                 
+                    className="py-3 w-[300px] select-none cursor-pointer bg-[#0066ff]  flex items-center justify-center rounded-2xl text-white "
+                  >
+                    {loading && (
+                      <CgSpinner size={20} className="m-1 animate-spin" />
+                    )}
+                    <span className={`${loading ? "hidden" : ""} `}>
+                     Continue
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </>}
+              </>
+            )}
 
+            {showEmailOtp === true && (
+              <>
+                <div ref={emailOtpRef}>
+                  <DynamicOtpInput
+                    value={emailOtp}
+                    onChange={handleEmailOtpChange}
+                    OTPLength={6}
+                    otpType="number"
+                    // ref={otpInputRef}
+                    disabled={false}
+                    autoFocus
+                    className="opt-container sm:mt-3"
+                  ></DynamicOtpInput>
+                </div>
+                <div className="py-5 ">
+                  <div
+                    onClick={verifyOtpEmail}
+                    className="py-3 w-[300px] select-none cursor-pointer bg-[#0066ff]  flex items-center justify-center rounded-2xl text-white "
+                  >
+                    {loading && (
+                      <CgSpinner size={20} className="m-1 animate-spin" />
+                    )}
+                    <span className={`${loading ? "hidden" : ""} `}>
+                      Send Otp
+                    </span>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </div>
-      )
-      }
-    </div >
+      )}
+    </div>
   );
 }
 

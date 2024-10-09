@@ -54,7 +54,7 @@ const page = () => {
   const [plusy, setPlusy] = useState(null);
   const [proy, setProy] = useState(null);
   const [premiumy, setPremiumy] = useState(null);
-
+  const [isCreator, setIsCreator] = useState(false)
   const [d, setD] = useState({
     plus: 10,
     pro: 30,
@@ -67,15 +67,7 @@ const page = () => {
   });
   const [memberPop, setMemberPop] = useState(false);
   const [isdelivery, setIsDelivery] = useState(false);
-  // const [ai, setAi] = useState({
-  // 	free: "",
-  // 	pro: "",
-  // 	premium: ""
-  // })
   const router = useRouter();
-
-  const [membershipFinalise] = useMemfinalizeMutation();
-
   const handlePlus = (type, number) => {
     setD((prevState) => ({
       ...prevState,
@@ -104,111 +96,6 @@ const page = () => {
     }));
   };
 
-  //razorpay
-  //   const buyMembership = async (
-  //     price,
-  //     mId,
-  //     title,
-  //     deliverylimitcity,
-  //     deliverylimitcountry
-  //   ) => {
-  //     const amount = price + parseInt(price * 0.18);
-  //     const amounttosend = `₹${amount}`;
-
-  //     try {
-  //       const res = await axios.post(
-  //         `https://work.grovyo.xyz/api/v1/membershipbuy/${id}/${mId}`,
-  //         { amount: amounttosend }
-  //       );
-
-  //       const membershipId = res.data.memid;
-  //       console.log("1");
-  //       if (res.data.success) {
-  //         let options = {
-  //           key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-  //           amount: amounttosend * 100,
-  //           currency: "INR",
-  //           name: "Grovyo",
-  //           description: `Buying Membership of ${title}`,
-  //           order_id: res?.data?.oid,
-  //           handler: async function (response) {
-  //             setMemberPop(true);
-  //             const paymentMethod = response?.method;
-  //             const data = {
-  //               paymentMethod,
-  //               razorpay_order_id: response?.razorpay_order_id,
-  //               razorpay_payment_id: response?.razorpay_payment_id,
-  //               deliverylimitcity,
-  //               deliverylimitcountry,
-  //               memid: membershipId,
-  //               razorpay_signature: response?.razorpay_signature,
-  //               status: true,
-  //               period: monthprice ? "month" : "year",
-  //             };
-  //             const resp = await membershipFinalise({
-  //               id,
-  //               orderid: res.data?.order,
-  //               data,
-  //             });
-  //             setTimeout(() => {
-  //               setMemberPop(false);
-  //             }, 1000);
-  //             console.log("2");
-  //             if (resp.data.success) {
-  //               Cookies.remove("excktn");
-  //               Cookies.remove("frhktn");
-
-  //               const expirationDate = new Date();
-  //               expirationDate.setDate(expirationDate.getDate() + 7);
-
-  //               Cookies.set(`excktn`, resp.data.access_token, {
-  //                 expires: expirationDate,
-  //               });
-  //               Cookies.set(`frhktn`, resp.data.refresh_token, {
-  //                 expires: expirationDate,
-  //               });
-
-  //               setTimeout(() => {
-  //                 setMemberPop(false);
-  //               }, 2000);
-  //               router.push("/main/dashboard");
-  //             }
-  //           },
-  //           prefill: {
-  //             email: res?.data?.email || "",
-  //             contact: res?.data?.phone || "",
-  //             name: fullname,
-  //           },
-  //           theme: {
-  //             color: "#3399cc",
-  //           },
-  //         };
-  //         console.log("3");
-  //         let rpay = new Razorpay(options);
-  //         rpay.on("payment.failed", async function (response) {
-  //           const data = {
-  //             razorpay_order_id: response?.razorpay_order_id,
-  //             razorpay_payment_id: response?.razorpay_payment_id,
-  //             razorpay_signature: response?.razorpay_signature,
-  //             status: false,
-  //           };
-  //           await membershipFinalise({
-  //             id,
-  //             orderid: res.data?.order,
-  //             data,
-  //           });
-  //         });
-  //         rpay.open();
-
-  //         console.log("4");
-  //       } else {
-  //         toast.error(res.data.message);
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-
   //   phonepe
   const buyMembership = async (
     price,
@@ -224,9 +111,8 @@ const page = () => {
 
     try {
       const res = await axios.post(
-        `http://localhost:5000/api/payments/membershipbuy/${id}/${mId}`,
-        // `https://back.grovyo.xyz/api/payments/membershipbuy/${id}/${mId}`,
-        // `http://localhost:7190/api/v1/membershipbuy/${id}/${mId}`,
+        `https://monarchs.grovyo.xyz/api/payments/membershipbuy/${id}/${mId}`,
+       
         {
           amount: amounttosend,
           dm,
@@ -247,32 +133,74 @@ const page = () => {
     }
   };
 
+
+  useEffect(() => {
+    const isCreatorl = localStorage.getItem("isCreator")
+    if (isCreatorl === "true" || isCreatorl === true) {
+      setD({
+        plus: 0,
+        pro: 0,
+        premium: 0,
+      });
+      setDc({
+        plus: 0,
+        pro: 0,
+        premium: 0,
+      });
+      setIsCreator(true)
+    }
+  }, [])
+
   useEffect(() => {
     const a = d.plus * 4;
     const b = dc.plus * 7;
     const sum = a + b;
 
-    setPlus(424 + sum);
-    setPlusy(5923 + sum);
-  }, [d.plus, dc.plus]);
+    if (isCreator) {
+      setPlus(9 + sum);
+      setPlusy(9 + sum);
+    } else {
+      setPlus(424 + sum);
+      setPlusy(5923 + sum);
+    }
+
+
+  }, [d.plus, dc.plus, isCreator]);
 
   useEffect(() => {
     const a = d.pro * 4;
     const b = dc.pro * 7;
     const sum = a + b;
 
-    setPro(1774 + sum);
-    setProy(23763 + sum);
-  }, [d.pro, dc.pro]);
+    if (isCreator) {
+
+      setPro(39 + sum);
+      setProy(39 + sum);
+    } else {
+
+      setPro(1774 + sum);
+      setProy(23763 + sum);
+    }
+
+
+  }, [d.pro, dc.pro, isCreator]);
 
   useEffect(() => {
     const a = d.premium * 4;
     const b = dc.premium * 7;
     const sum = a + b;
 
-    setPremium(3124 + sum);
-    setPremiumy(41613 + sum);
-  }, [d.premium, dc.premium]);
+    if (isCreator) {
+
+      setPremium(69 + sum);
+      setPremiumy(69 + sum);
+    } else {
+      setPremium(3124 + sum);
+      setPremiumy(41613 + sum);
+    }
+
+
+  }, [d.premium, dc.premium, isCreator]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -409,17 +337,15 @@ const page = () => {
               <div className="flex gap-2 md:justify-center items-center">
                 <div
                   onClick={() => setMonthPrice(true)}
-                  className={`cursor-pointer p-1.5 px-5 text-sm rounded-2xl transition-all duration-300 ${
-                    monthprice ? "border border-white/30 bg-white/10" : ""
-                  }`}
+                  className={`cursor-pointer p-1.5 px-5 text-sm rounded-2xl transition-all duration-300 ${monthprice ? "border border-white/30 bg-white/10" : ""
+                    }`}
                 >
                   Monthly
                 </div>
                 <div
                   onClick={() => setMonthPrice(false)}
-                  className={`cursor-pointer p-1.5 px-5 text-sm rounded-2xl transition-all duration-300 ${
-                    !monthprice ? "border border-white/30 bg-white/10" : ""
-                  }`}
+                  className={`cursor-pointer p-1.5 px-5 text-sm rounded-2xl transition-all duration-300 ${!monthprice ? "border border-white/30 bg-white/10" : ""
+                    }`}
                 >
                   Yearly
                 </div>
@@ -2810,9 +2736,8 @@ const page = () => {
                     What are the benefits of a membership?
                   </div>
                   <div
-                    className={`transition-opacity duration-500 ${
-                      toggle.t1 ? "opacity-100" : "opacity-0"
-                    }`}
+                    className={`transition-opacity duration-500 ${toggle.t1 ? "opacity-100" : "opacity-0"
+                      }`}
                   >
                     {toggle.t1 && (
                       <div className="text-[#CCCCCC]">
@@ -2846,9 +2771,8 @@ const page = () => {
                 >
                   <div className="text-lg">Still have questions?</div>
                   <div
-                    className={`transition-opacity duration-500 ${
-                      toggle.t2 ? "opacity-100" : "opacity-0"
-                    }`}
+                    className={`transition-opacity duration-500 ${toggle.t2 ? "opacity-100" : "opacity-0"
+                      }`}
                   >
                     {toggle.t2 && (
                       <div className="text-[#CCCCCC]">
@@ -2880,9 +2804,8 @@ const page = () => {
                     What's the benefit of the membership badge?
                   </div>
                   <div
-                    className={`transition-opacity duration-500 ${
-                      toggle.t3 ? "opacity-100" : "opacity-0"
-                    }`}
+                    className={`transition-opacity duration-500 ${toggle.t3 ? "opacity-100" : "opacity-0"
+                      }`}
                   >
                     {toggle.t3 && (
                       <div className="text-[#CCCCCC]">
@@ -2915,9 +2838,8 @@ const page = () => {
                     What are the premium delivery options?
                   </div>
                   <div
-                    className={`transition-opacity duration-500 ${
-                      toggle.t4 ? "opacity-100" : "opacity-0"
-                    }`}
+                    className={`transition-opacity duration-500 ${toggle.t4 ? "opacity-100" : "opacity-0"
+                      }`}
                   >
                     {toggle.t4 && (
                       <div className="text-[#CCCCCC]">
@@ -2950,9 +2872,8 @@ const page = () => {
                     How does the membership benefit my store?
                   </div>
                   <div
-                    className={`transition-opacity duration-500 ${
-                      toggle.t5 ? "opacity-100" : "opacity-0"
-                    }`}
+                    className={`transition-opacity duration-500 ${toggle.t5 ? "opacity-100" : "opacity-0"
+                      }`}
                   >
                     {toggle.t5 && (
                       <div className="text-[#CCCCCC]">
@@ -2984,9 +2905,8 @@ const page = () => {
                 >
                   <div className="text-lg">What's a prosite?</div>
                   <div
-                    className={`transition-opacity duration-500 ${
-                      toggle.t6 ? "opacity-100" : "opacity-0"
-                    }`}
+                    className={`transition-opacity duration-500 ${toggle.t6 ? "opacity-100" : "opacity-0"
+                      }`}
                   >
                     {toggle.t6 && (
                       <div className="text-[#CCCCCC]">
@@ -3017,9 +2937,8 @@ const page = () => {
                 >
                   <div className="text-lg">What are communities?</div>
                   <div
-                    className={`transition-opacity duration-500 ${
-                      toggle.t7 ? "opacity-100" : "opacity-0"
-                    }`}
+                    className={`transition-opacity duration-500 ${toggle.t7 ? "opacity-100" : "opacity-0"
+                      }`}
                   >
                     {toggle.t7 && (
                       <div className="text-[#CCCCCC]">
@@ -3051,9 +2970,8 @@ const page = () => {
                     Do I need a membership to sell on the platform?
                   </div>
                   <div
-                    className={`transition-opacity duration-500 ${
-                      toggle.t8 ? "opacity-100" : "opacity-0"
-                    }`}
+                    className={`transition-opacity duration-500 ${toggle.t8 ? "opacity-100" : "opacity-0"
+                      }`}
                   >
                     {toggle.t8 && (
                       <div className="text-[#CCCCCC]">

@@ -1,98 +1,101 @@
-"use client"
-import { useRouter, useSearchParams } from "next/navigation"
-import React, { useEffect } from "react"
-import axios from "axios"
-import toast from "react-hot-toast"
-import Loader from "../data/Loader"
-import Cookies from "js-cookie"
-import { encryptaes } from "../utilsHelper/security"
-import { useDispatch } from "react-redux"
-import { sendData } from "../redux/slice/userData"
+"use client";
+import { useRouter, useSearchParams } from "next/navigation";
+import React, { useEffect } from "react";
+import axios from "axios";
+import toast from "react-hot-toast";
+import Loader from "../data/Loader";
+import Cookies from "js-cookie";
+import { encryptaes } from "../utilsHelper/security";
+import { useDispatch } from "react-redux";
+import { sendData } from "../redux/slice/userData";
 
 const Component = () => {
-	const queryParams = useSearchParams()
-	const id = queryParams.get("zyxxpht")
-	const path = queryParams.get("path")
-	const dps = queryParams.get("dps")
-	const title = queryParams.get("title")
-	const category = queryParams.get("category")
-	const desc = queryParams.get("desc")
-	const type = queryParams.get("type")
-	const dispatch = useDispatch()
-	const memberscount = queryParams.get("memberscount")
-	const comId = queryParams.get("comId")
+  const queryParams = useSearchParams();
+  const id = queryParams.get("zyxxpht");
+  const path = queryParams.get("path");
+  const dps = queryParams.get("dps");
+  const title = queryParams.get("title");
+  const category = queryParams.get("category");
+  const desc = queryParams.get("desc");
+  const type = queryParams.get("type");
+  const dispatch = useDispatch();
+  const memberscount = queryParams.get("memberscount");
+  const comId = queryParams.get("comId");
 
-	const tosetCookie = {
-		dps,
-		title,
-		category,
-		desc,
-		type,
-		memberscount
-	}
+  console.log(id,"id")
 
-	const router = useRouter()
-	const waitkrnevalafunc = async (data) => {
-		try {
+  const tosetCookie = {
+    dps,
+    title,
+    category,
+    desc,
+    type,
+    memberscount,
+  };
 
+  const router = useRouter();
+  const waitkrnevalafunc = async (data) => {
+    try {
+      // storeInSessionStorage(data.sessionId)
 
-			// storeInSessionStorage(data.sessionId)
-			const expirationDate = new Date();
-			expirationDate.setDate(expirationDate.getDate() + 7);
+	  console.log(data,"my res data")
 
-			Cookies.set(`excktn`, data.access_token, { expires: expirationDate });
-			Cookies.set(`frhktn`, data.refresh_token, { expires: expirationDate });
+      const expirationDate = new Date();
+      expirationDate.setDate(expirationDate.getDate() + 7);
 
-			dispatch(sendData(data?.data))
+      Cookies.set(`excktn`, data.access_token, { expires: expirationDate });
+      Cookies.set(`frhktn`, data.refresh_token, { expires: expirationDate });
 
-			// localStorage.setItem(`excktn`, data.access_token)
-			// localStorage.setItem(`frhktn`, data.refresh_token)
-			// localStorage.setItem(`excktn${data.sessionId}`, data.access_token)
-			// localStorage.setItem(`frhktn${data.sessionId}`, data.refresh_token)
-			if (comId) {
-				Cookies.set("comedta", JSON.stringify(tosetCookie))
-				Cookies.set("cmdyd", encryptaes(comId))
-			}
-			return true;
-		} catch (e) {
-			console.log(e);
-		}
-	};
+	  localStorage.setItem("isCreator",data?.isCreator)
 
-	const f = async () => {
+      dispatch(sendData(data?.data));
 
-		const res = await axios.get(`https://work.grovyo.xyz/api/v1/fetchwithid/${id}`)
+      if (comId) {
+        Cookies.set("comedta", JSON.stringify(tosetCookie));
+        Cookies.set("cmdyd", encryptaes(comId));
+      }
+      return true;
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
-		if (res.data?.success) {
-			const a = await waitkrnevalafunc(res.data);
-			if (a === true) {
-				if (path) {
-					router.push(path)
-				} else {
-					router.push("/main/dashboard")
-				}
-			} else {
-				router.push("/login")
-			}
+  const f = async () => {
+    try {
+   
+   const res = await axios.get(`https://monarchs.grovyo.xyz/api/login/fetchwithid/${id}`)
 
-		} else {
-			toast.error("Something Went Wrong");
-			router.push("/login")
-		}
-	}
+      if (res.data?.success) {
+        const a = await waitkrnevalafunc(res.data);
+        if (a === true) {
+          if (path) {
+            router.push(path);
+          } else {
+            router.push("/main/dashboard");
+          }
+        } else {
+          router.push("/login");
+        }
+      } else {
+        toast.error("Something Went Wrong");
+        router.push("/login");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-	useEffect(() => {
-		if (id) {
-			f()
-		}
-	}, [id])
+  useEffect(() => {
+    if (id) {
+      f();
+    }
+  }, [id]);
 
+  return (
+    <>
+      <Loader />
+    </>
+  );
+};
 
-	return (
-		<>
-			<Loader />
-		</>
-	)
-}
-
-export default Component
+export default Component;
