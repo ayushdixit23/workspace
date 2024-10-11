@@ -151,6 +151,7 @@ function Dashboard() {
 										class="h-6 w-6 text-red-600"
 										fill="none"
 										viewBox="0 0 24 24"
+								
 										stroke-width="1.5"
 										stroke="currentColor"
 										aria-hidden="true"
@@ -169,7 +170,7 @@ function Dashboard() {
 									>
 										Session Expired
 									</h3>
-									<div class="mt-2">
+									<div  class="mt-2">
 										<p class="text-sm text-gray-500">
 											Refresh the page or Log in Again!
 										</p>
@@ -184,6 +185,7 @@ function Dashboard() {
 									Cookies.remove("frhktn");
 									redirect("/login");
 								}}
+						
 								type="button"
 								class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
 							>
@@ -242,7 +244,8 @@ function Dashboard() {
 				>
 					Community
 				</div>
-				<div
+		
+				<div 
 					onClick={() => setChange("store")}
 					className={`cursor-pointer ${change === "store"
 						? "bg-white dark:bg-[#323d4e] font-semibold"
@@ -400,6 +403,7 @@ function Dashboard() {
 									<div className="text-[#70737D] font-semibold">
 										Ready to setup your store! Here's Your 3-Step Guide
 									</div>
+									<div></div>
 									<div className="font-semibold flex max-w-[500px] text-sm flex-col justify-center gap-6">
 										<div>Way To earn with community </div>
 										<div className="flex flex-col gap-6">

@@ -158,7 +158,7 @@ const page = () => {
 
     if (isCreator) {
       setPlus(9 + sum);
-      setPlusy(9 + sum);
+      setPlusy(108 + sum);
     } else {
       setPlus(424 + sum);
       setPlusy(5923 + sum);
@@ -175,7 +175,7 @@ const page = () => {
     if (isCreator) {
 
       setPro(39 + sum);
-      setProy(39 + sum);
+      setProy(468 + sum);
     } else {
 
       setPro(1774 + sum);
@@ -193,7 +193,7 @@ const page = () => {
     if (isCreator) {
 
       setPremium(69 + sum);
-      setPremiumy(69 + sum);
+      setPremiumy(828 + sum);
     } else {
       setPremium(3124 + sum);
       setPremiumy(41613 + sum);

@@ -124,6 +124,10 @@ function page() {
       const expirationDate = new Date();
       expirationDate.setDate(expirationDate.getDate() + 7);
 
+      if(data.isCreator){
+        localStorage.setItem("isCreator",data.isCreator)
+      }
+
       Cookies.set(`excktn`, data.access_token, { expires: expirationDate });
       Cookies.set(`frhktn`, data.refresh_token, { expires: expirationDate });
 
@@ -313,8 +317,6 @@ function page() {
     const string = generateRandomString(17);
     setQRCodeValue(string);
   }, []);
-
-  console.log(qrCodeValue, "qrCodeValue");
 
   useEffect(() => {
     socket?.on(qrCodeValue, async ({ id }) => {

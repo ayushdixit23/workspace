@@ -48,8 +48,8 @@ export const SocketContextProvider = ({ children }) => {
   useEffect(() => {
     let newSocket;
 
-    const url = "http://localhost:4400"
-    // const url = "https://rooms.grovyo.xyz"
+    // const url = "http://localhost:4400"
+    const url = "https://rooms.grovyo.xyz"
 
     newSocket = io(url, {
       auth: { id: id, type: "web" },

@@ -113,6 +113,7 @@ const page = () => {
 
   useEffect(() => {
     setLoading(true);
+    console.log(data?.data?.date?.toString())
     setProfile({
       ...profile,
       fullname: data?.data?.name,
@@ -120,7 +121,7 @@ const page = () => {
       email: data?.data?.email,
       username: data?.data?.username,
       image: data?.data.image,
-      date: formatDatetimereverse(data?.data.date.toString()),
+      date: formatDatetimereverse(data?.data?.date?.toString()),
       bio: data?.data.bio,
     });
     setLoading(false);
