@@ -28,6 +28,8 @@ const page = () => {
   const [Razorpay] = useRazorpay();
   const { id, fullname } = getData();
 
+  const [premiumUser, setPremiumUser] = useState("");
+
   const [toggle, setToggle] = useState({
     t1: false,
     t2: false,
@@ -54,7 +56,7 @@ const page = () => {
   const [plusy, setPlusy] = useState(null);
   const [proy, setProy] = useState(null);
   const [premiumy, setPremiumy] = useState(null);
-  const [isCreator, setIsCreator] = useState(false)
+  const [isCreator, setIsCreator] = useState(false);
   const [d, setD] = useState({
     plus: 10,
     pro: 30,
@@ -112,7 +114,7 @@ const page = () => {
     try {
       const res = await axios.post(
         `https://monarchs.grovyo.xyz/api/payments/membershipbuy/${id}/${mId}`,
-       
+
         {
           amount: amounttosend,
           dm,
@@ -133,9 +135,8 @@ const page = () => {
     }
   };
 
-
   useEffect(() => {
-    const isCreatorl = localStorage.getItem("isCreator")
+    const isCreatorl = localStorage.getItem("isCreator");
     if (isCreatorl === "true" || isCreatorl === true) {
       setD({
         plus: 0,
@@ -147,9 +148,9 @@ const page = () => {
         pro: 0,
         premium: 0,
       });
-      setIsCreator(true)
+      setIsCreator(true);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     const a = d.plus * 4;
@@ -163,8 +164,6 @@ const page = () => {
       setPlus(424 + sum);
       setPlusy(5923 + sum);
     }
-
-
   }, [d.plus, dc.plus, isCreator]);
 
   useEffect(() => {
@@ -173,16 +172,12 @@ const page = () => {
     const sum = a + b;
 
     if (isCreator) {
-
       setPro(39 + sum);
       setProy(468 + sum);
     } else {
-
       setPro(1774 + sum);
       setProy(23763 + sum);
     }
-
-
   }, [d.pro, dc.pro, isCreator]);
 
   useEffect(() => {
@@ -191,15 +186,12 @@ const page = () => {
     const sum = a + b;
 
     if (isCreator) {
-
       setPremium(69 + sum);
       setPremiumy(828 + sum);
     } else {
       setPremium(3124 + sum);
       setPremiumy(41613 + sum);
     }
-
-
   }, [d.premium, dc.premium, isCreator]);
 
   useEffect(() => {
@@ -337,15 +329,17 @@ const page = () => {
               <div className="flex gap-2 md:justify-center items-center">
                 <div
                   onClick={() => setMonthPrice(true)}
-                  className={`cursor-pointer p-1.5 px-5 text-sm rounded-2xl transition-all duration-300 ${monthprice ? "border border-white/30 bg-white/10" : ""
-                    }`}
+                  className={`cursor-pointer p-1.5 px-5 text-sm rounded-2xl transition-all duration-300 ${
+                    monthprice ? "border border-white/30 bg-white/10" : ""
+                  }`}
                 >
                   Monthly
                 </div>
                 <div
                   onClick={() => setMonthPrice(false)}
-                  className={`cursor-pointer p-1.5 px-5 text-sm rounded-2xl transition-all duration-300 ${!monthprice ? "border border-white/30 bg-white/10" : ""
-                    }`}
+                  className={`cursor-pointer p-1.5 px-5 text-sm rounded-2xl transition-all duration-300 ${
+                    !monthprice ? "border border-white/30 bg-white/10" : ""
+                  }`}
                 >
                   Yearly
                 </div>
@@ -2177,23 +2171,54 @@ const page = () => {
                           <div className="font-bold text-lg">Premium</div>
                           {/* <div className="text-sm -ml-2 mt-3">/{monthprice ? "month" : "year"}</div> */}
                           <div className="font-semibold text-4xl mt-2">
-                            ₹{monthprice ? premium : premiumy}
+                            {/* ₹{monthprice ? premium : premiumy} */}
+                            {id === "64a7bd59c9aab1a5960083e0" ? (
+                              <input
+                                value={premiumUser}
+                                onChange={(e) => setPremiumUser(e.target.value)}
+                              />
+                            ) : (
+                              <>₹{monthprice ? premium : premiumy}</>
+                            )}
+
                             <span className="text-xl">
                               /{monthprice ? "month" : "year"}
                             </span>
                           </div>
                           <div className="w-full pn:max-sm:max-w-[200px] flex justify-center items-center mt-3 ">
                             <button
-                              onClick={() =>
-                                buyMembership(
-                                  monthprice ? premium : premiumy,
-                                  process.env.NEXT_PUBLIC_PREMIUM,
-                                  55,
-                                  15,
-                                  d.premium,
-                                  dc.premium
-                                )
-                              }
+                              // onClick={() =>
+
+                              //   buyMembership(
+                              //     monthprice ? premium : premiumy,
+                              //     process.env.NEXT_PUBLIC_PREMIUM,
+                              //     55,
+                              //     15,
+                              //     d.premium,
+                              //     dc.premium
+                              //   )
+                              // }
+                              onClick={() => {
+                                if (id === "64a7bd59c9aab1a5960083e0") {
+                                  buyMembership(
+                                    Number(premiumUser),
+                                    process.env.NEXT_PUBLIC_PREMIUM,
+                                    55,
+                                    15,
+                                    d.premium,
+                                    dc.premium
+                                  );
+                                } else {
+                                  buyMembership(
+                                    monthprice ? premium : premiumy,
+                                    process.env.NEXT_PUBLIC_PREMIUM,
+                                    55,
+                                    15,
+                                    d.premium,
+                                    dc.premium
+                                  );
+                                }
+                              }}
                               className="p-2 px-4 text-center hover:text-white hover:bg-[#0066FF] font-semibold border text-[#0066FF] border-[#0066FF] rounded-full w-full"
                             >
                               Let's Begin
@@ -2736,8 +2761,9 @@ const page = () => {
                     What are the benefits of a membership?
                   </div>
                   <div
-                    className={`transition-opacity duration-500 ${toggle.t1 ? "opacity-100" : "opacity-0"
-                      }`}
+                    className={`transition-opacity duration-500 ${
+                      toggle.t1 ? "opacity-100" : "opacity-0"
+                    }`}
                   >
                     {toggle.t1 && (
                       <div className="text-[#CCCCCC]">
@@ -2771,8 +2797,9 @@ const page = () => {
                 >
                   <div className="text-lg">Still have questions?</div>
                   <div
-                    className={`transition-opacity duration-500 ${toggle.t2 ? "opacity-100" : "opacity-0"
-                      }`}
+                    className={`transition-opacity duration-500 ${
+                      toggle.t2 ? "opacity-100" : "opacity-0"
+                    }`}
                   >
                     {toggle.t2 && (
                       <div className="text-[#CCCCCC]">
@@ -2804,8 +2831,9 @@ const page = () => {
                     What's the benefit of the membership badge?
                   </div>
                   <div
-                    className={`transition-opacity duration-500 ${toggle.t3 ? "opacity-100" : "opacity-0"
-                      }`}
+                    className={`transition-opacity duration-500 ${
+                      toggle.t3 ? "opacity-100" : "opacity-0"
+                    }`}
                   >
                     {toggle.t3 && (
                       <div className="text-[#CCCCCC]">
@@ -2838,8 +2866,9 @@ const page = () => {
                     What are the premium delivery options?
                   </div>
                   <div
-                    className={`transition-opacity duration-500 ${toggle.t4 ? "opacity-100" : "opacity-0"
-                      }`}
+                    className={`transition-opacity duration-500 ${
+                      toggle.t4 ? "opacity-100" : "opacity-0"
+                    }`}
                   >
                     {toggle.t4 && (
                       <div className="text-[#CCCCCC]">
@@ -2872,8 +2901,9 @@ const page = () => {
                     How does the membership benefit my store?
                   </div>
                   <div
-                    className={`transition-opacity duration-500 ${toggle.t5 ? "opacity-100" : "opacity-0"
-                      }`}
+                    className={`transition-opacity duration-500 ${
+                      toggle.t5 ? "opacity-100" : "opacity-0"
+                    }`}
                   >
                     {toggle.t5 && (
                       <div className="text-[#CCCCCC]">
@@ -2905,8 +2935,9 @@ const page = () => {
                 >
                   <div className="text-lg">What's a prosite?</div>
                   <div
-                    className={`transition-opacity duration-500 ${toggle.t6 ? "opacity-100" : "opacity-0"
-                      }`}
+                    className={`transition-opacity duration-500 ${
+                      toggle.t6 ? "opacity-100" : "opacity-0"
+                    }`}
                   >
                     {toggle.t6 && (
                       <div className="text-[#CCCCCC]">
@@ -2937,8 +2968,9 @@ const page = () => {
                 >
                   <div className="text-lg">What are communities?</div>
                   <div
-                    className={`transition-opacity duration-500 ${toggle.t7 ? "opacity-100" : "opacity-0"
-                      }`}
+                    className={`transition-opacity duration-500 ${
+                      toggle.t7 ? "opacity-100" : "opacity-0"
+                    }`}
                   >
                     {toggle.t7 && (
                       <div className="text-[#CCCCCC]">
@@ -2970,8 +3002,9 @@ const page = () => {
                     Do I need a membership to sell on the platform?
                   </div>
                   <div
-                    className={`transition-opacity duration-500 ${toggle.t8 ? "opacity-100" : "opacity-0"
-                      }`}
+                    className={`transition-opacity duration-500 ${
+                      toggle.t8 ? "opacity-100" : "opacity-0"
+                    }`}
                   >
                     {toggle.t8 && (
                       <div className="text-[#CCCCCC]">
