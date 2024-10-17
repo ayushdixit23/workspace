@@ -53,7 +53,6 @@ const FileUpload = async (dispatch, post, setLoading, socket, id, comid, decomid
 		dispatch(setMergedDatas(postData))
 
 		const res = await axios.post(
-			// `http://localhost:5035/api/post/postanythingworkspace/${id}/${comid}`,
 			`https://monarchs.grovyo.xyz/api/post/postanythingworkspace/${id}/${comid}`,
 			data,
 			{
