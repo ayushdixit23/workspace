@@ -268,7 +268,7 @@ function Dashboard() {
 				{/* community */}
 				{change === "community" && (
 					<div>
-						{/* when community is zero */}
+						{/* when community length is zero */}
 						{analyticsdata?.commerged.length <= 0 && (
 							<div className="flex flex-col justify-center items-center w-full h-[70vh] sm:h-[70vh]">
 								<div className="sm:w-auto h-full flex flex-col w-[90%] justify-center gap-4">
@@ -305,7 +305,7 @@ function Dashboard() {
 							</div>
 						)}
 
-						{/* when community is more than zero */}
+						{/* when community length is more than zero */}
 						{analyticsdata?.commerged.length > 0 && (
 							<div className="grid sm:grid-cols-12 grid-cols-1 px-1 gap-3 h-full">
 								<div className="md:col-span-8 sm:col-span-7 flex flex-col sm:overflow-y-scroll no-scrollbar sm:max-h-[800px] w-full">

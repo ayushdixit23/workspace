@@ -5,11 +5,10 @@ import {
   useGetProfileQuery,
   usePostProfileMutation,
 } from "@/app/redux/apiroutes/userLoginAndSetting";
-import { storeInSessionStorage } from "@/app/utilsHelper/Tokenwrap";
 import { getData } from "@/app/utilsHelper/Useful";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
-import Link from "next/link"
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
@@ -21,7 +20,7 @@ import { useDispatch } from "react-redux";
 const page = () => {
   const { id, memberships } = getData();
   const [profileDetails] = usePostProfileMutation();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [loading2, setLoading2] = useState(false);
   const router = useRouter();
@@ -93,11 +92,10 @@ const page = () => {
 
   const resetCookies = async (data) => {
     try {
-
       // localStorage.removeItem(`excktn`);
       // localStorage.removeItem(`frhktn`);
 
-      Cookies.remove("excktn")
+      Cookies.remove("excktn");
       Cookies.remove(`frhktn`);
 
       const expirationDate = new Date();
@@ -105,7 +103,6 @@ const page = () => {
 
       Cookies.set(`excktn`, data.access_token, { expires: expirationDate });
       Cookies.set(`frhktn`, data.refresh_token, { expires: expirationDate });
-
     } catch (e) {
       console.log(e);
     }
@@ -113,7 +110,7 @@ const page = () => {
 
   useEffect(() => {
     setLoading(true);
-    console.log(data?.data?.date?.toString())
+    console.log(data?.data?.date?.toString());
     setProfile({
       ...profile,
       fullname: data?.data?.name,
@@ -137,12 +134,13 @@ const page = () => {
 
   const logout = () => {
     try {
-
       Cookies.remove(`excktn`);
       Cookies.remove(`frhktn`);
       setOpen(false);
       router.push("/login");
-      setTimeout(() => { dispatch(sendData("")) }, 2500)
+      setTimeout(() => {
+        dispatch(sendData(""));
+      }, 2500);
     } catch (error) {
       console.log(error);
     }
@@ -181,10 +179,11 @@ const page = () => {
   return (
     <>
       <div
-        className={`${open
-          ? "fixed inset-0 w-screen z-50 bg-black/60 h-screen flex justify-center items-center backdrop-blur-md"
-          : "hidden -z-50"
-          }`}
+        className={`${
+          open
+            ? "fixed inset-0 w-screen z-50 bg-black/60 h-screen flex justify-center items-center backdrop-blur-md"
+            : "hidden -z-50"
+        }`}
       >
         <div className="flex justify-center items-center w-[90%] pp:w-[65%] sm:max-w-[500px] lg:w-[30%] rounded-xl p-4 dark:bg-[#273142] bg-white">
           <div className="flex flex-col flex-grow gap-8 mt-2 justify-center items-center w-full">
@@ -225,9 +224,11 @@ const page = () => {
                 <ModeToggle />
               </div>
 
-              <MdOutlineLogout onClick={() => setOpen(true)} className="text-2xl hidden cursor-pointer sm:block text-red-800" />
+              <MdOutlineLogout
+                onClick={() => setOpen(true)}
+                className="text-2xl hidden cursor-pointer sm:block text-red-800"
+              />
             </div>
-
 
             {isProfileChangedAnswer ? (
               <button
@@ -261,8 +262,8 @@ const page = () => {
                         typeof profile.image === "string"
                           ? data?.data.image
                           : profile.image
-                            ? URL.createObjectURL(profile.image)
-                            : ""
+                          ? URL.createObjectURL(profile.image)
+                          : ""
                       }
                       alt=""
                     />
@@ -339,10 +340,15 @@ const page = () => {
                     className="w-full outline-none rounded-xl bg-transparent placeholder:text-sm  placeholder:text-[#718EBF] "
                     placeholder="Charlene Reed"
                   />
-                  {memberships !== "Free" && <Link href={"/membership"} className="flex justify-center text-sm font-semibold items-center">
-                    {/* <MdVerified className="text-blue-700 text-[20px] " /> */}
-                    Verified
-                  </Link>}
+                  {memberships !== "Free" && (
+                    <Link
+                      href={"/membership"}
+                      className="flex justify-center text-sm font-semibold items-center"
+                    >
+                      {/* <MdVerified className="text-blue-700 text-[20px] " /> */}
+                      Verified
+                    </Link>
+                  )}
                 </div>
               </div>
               <div className="w-full flex flex-col gap-1 sm:max-w-[450px]">

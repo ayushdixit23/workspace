@@ -2,16 +2,12 @@
 import { useEffect, useState } from "react";
 import { getData } from "../utilsHelper/Useful";
 import axios from "axios";
-import useRazorpay from "react-razorpay";
-import { useMemfinalizeMutation } from "../redux/apiroutes/payment";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
 // import Cookies from "js-cookie";
 import dynamic from "next/dynamic";
 const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 import membership from "../assets/image/membership.json";
-import { TbTruckDelivery } from "react-icons/tb";
-import Cookies from "js-cookie";
 import { FaMinus, FaPlus, FaTruckMoving } from "react-icons/fa";
 import { GoTag } from "react-icons/go";
 import Link from "next/link";
@@ -25,9 +21,7 @@ import { RxCross2 } from "react-icons/rx";
 
 const page = () => {
   const [monthprice, setMonthPrice] = useState(true);
-  const [Razorpay] = useRazorpay();
   const { id, fullname } = getData();
-
   const [toggle, setToggle] = useState({
     t1: false,
     t2: false,
@@ -54,7 +48,7 @@ const page = () => {
   const [plusy, setPlusy] = useState(null);
   const [proy, setProy] = useState(null);
   const [premiumy, setPremiumy] = useState(null);
-  const [isCreator, setIsCreator] = useState(false)
+  const [isCreator, setIsCreator] = useState(false);
   const [d, setD] = useState({
     plus: 10,
     pro: 30,
@@ -112,7 +106,7 @@ const page = () => {
     try {
       const res = await axios.post(
         `https://monarchs.grovyo.xyz/api/payments/membershipbuy/${id}/${mId}`,
-       
+
         {
           amount: amounttosend,
           dm,
@@ -133,9 +127,8 @@ const page = () => {
     }
   };
 
-
   useEffect(() => {
-    const isCreatorl = localStorage.getItem("isCreator")
+    const isCreatorl = localStorage.getItem("isCreator");
     if (isCreatorl === "true" || isCreatorl === true) {
       setD({
         plus: 0,
@@ -147,9 +140,9 @@ const page = () => {
         pro: 0,
         premium: 0,
       });
-      setIsCreator(true)
+      setIsCreator(true);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     const a = d.plus * 4;
@@ -163,8 +156,6 @@ const page = () => {
       setPlus(424 + sum);
       setPlusy(5923 + sum);
     }
-
-
   }, [d.plus, dc.plus, isCreator]);
 
   useEffect(() => {
@@ -173,16 +164,12 @@ const page = () => {
     const sum = a + b;
 
     if (isCreator) {
-
       setPro(39 + sum);
       setProy(468 + sum);
     } else {
-
       setPro(1774 + sum);
       setProy(23763 + sum);
     }
-
-
   }, [d.pro, dc.pro, isCreator]);
 
   useEffect(() => {
@@ -191,15 +178,12 @@ const page = () => {
     const sum = a + b;
 
     if (isCreator) {
-
       setPremium(69 + sum);
       setPremiumy(828 + sum);
     } else {
       setPremium(3124 + sum);
       setPremiumy(41613 + sum);
     }
-
-
   }, [d.premium, dc.premium, isCreator]);
 
   useEffect(() => {
@@ -337,15 +321,17 @@ const page = () => {
               <div className="flex gap-2 md:justify-center items-center">
                 <div
                   onClick={() => setMonthPrice(true)}
-                  className={`cursor-pointer p-1.5 px-5 text-sm rounded-2xl transition-all duration-300 ${monthprice ? "border border-white/30 bg-white/10" : ""
-                    }`}
+                  className={`cursor-pointer p-1.5 px-5 text-sm rounded-2xl transition-all duration-300 ${
+                    monthprice ? "border border-white/30 bg-white/10" : ""
+                  }`}
                 >
                   Monthly
                 </div>
                 <div
                   onClick={() => setMonthPrice(false)}
-                  className={`cursor-pointer p-1.5 px-5 text-sm rounded-2xl transition-all duration-300 ${!monthprice ? "border border-white/30 bg-white/10" : ""
-                    }`}
+                  className={`cursor-pointer p-1.5 px-5 text-sm rounded-2xl transition-all duration-300 ${
+                    !monthprice ? "border border-white/30 bg-white/10" : ""
+                  }`}
                 >
                   Yearly
                 </div>
@@ -2736,8 +2722,9 @@ const page = () => {
                     What are the benefits of a membership?
                   </div>
                   <div
-                    className={`transition-opacity duration-500 ${toggle.t1 ? "opacity-100" : "opacity-0"
-                      }`}
+                    className={`transition-opacity duration-500 ${
+                      toggle.t1 ? "opacity-100" : "opacity-0"
+                    }`}
                   >
                     {toggle.t1 && (
                       <div className="text-[#CCCCCC]">
@@ -2771,8 +2758,9 @@ const page = () => {
                 >
                   <div className="text-lg">Still have questions?</div>
                   <div
-                    className={`transition-opacity duration-500 ${toggle.t2 ? "opacity-100" : "opacity-0"
-                      }`}
+                    className={`transition-opacity duration-500 ${
+                      toggle.t2 ? "opacity-100" : "opacity-0"
+                    }`}
                   >
                     {toggle.t2 && (
                       <div className="text-[#CCCCCC]">
@@ -2804,8 +2792,9 @@ const page = () => {
                     What's the benefit of the membership badge?
                   </div>
                   <div
-                    className={`transition-opacity duration-500 ${toggle.t3 ? "opacity-100" : "opacity-0"
-                      }`}
+                    className={`transition-opacity duration-500 ${
+                      toggle.t3 ? "opacity-100" : "opacity-0"
+                    }`}
                   >
                     {toggle.t3 && (
                       <div className="text-[#CCCCCC]">
@@ -2838,8 +2827,9 @@ const page = () => {
                     What are the premium delivery options?
                   </div>
                   <div
-                    className={`transition-opacity duration-500 ${toggle.t4 ? "opacity-100" : "opacity-0"
-                      }`}
+                    className={`transition-opacity duration-500 ${
+                      toggle.t4 ? "opacity-100" : "opacity-0"
+                    }`}
                   >
                     {toggle.t4 && (
                       <div className="text-[#CCCCCC]">
@@ -2872,8 +2862,9 @@ const page = () => {
                     How does the membership benefit my store?
                   </div>
                   <div
-                    className={`transition-opacity duration-500 ${toggle.t5 ? "opacity-100" : "opacity-0"
-                      }`}
+                    className={`transition-opacity duration-500 ${
+                      toggle.t5 ? "opacity-100" : "opacity-0"
+                    }`}
                   >
                     {toggle.t5 && (
                       <div className="text-[#CCCCCC]">
@@ -2905,8 +2896,9 @@ const page = () => {
                 >
                   <div className="text-lg">What's a prosite?</div>
                   <div
-                    className={`transition-opacity duration-500 ${toggle.t6 ? "opacity-100" : "opacity-0"
-                      }`}
+                    className={`transition-opacity duration-500 ${
+                      toggle.t6 ? "opacity-100" : "opacity-0"
+                    }`}
                   >
                     {toggle.t6 && (
                       <div className="text-[#CCCCCC]">
@@ -2937,8 +2929,9 @@ const page = () => {
                 >
                   <div className="text-lg">What are communities?</div>
                   <div
-                    className={`transition-opacity duration-500 ${toggle.t7 ? "opacity-100" : "opacity-0"
-                      }`}
+                    className={`transition-opacity duration-500 ${
+                      toggle.t7 ? "opacity-100" : "opacity-0"
+                    }`}
                   >
                     {toggle.t7 && (
                       <div className="text-[#CCCCCC]">
@@ -2970,8 +2963,9 @@ const page = () => {
                     Do I need a membership to sell on the platform?
                   </div>
                   <div
-                    className={`transition-opacity duration-500 ${toggle.t8 ? "opacity-100" : "opacity-0"
-                      }`}
+                    className={`transition-opacity duration-500 ${
+                      toggle.t8 ? "opacity-100" : "opacity-0"
+                    }`}
                   >
                     {toggle.t8 && (
                       <div className="text-[#CCCCCC]">
