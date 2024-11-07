@@ -1080,10 +1080,16 @@ const page = () => {
                           <div className="font-bold text-lg">Plus</div>
                           {/* <div className="text-sm -ml-2 mt-3">/{monthprice ? "month" : "year"}</div> */}
                           <div className="font-semibold text-4xl mt-2">
-                            ₹{monthprice ? plus : plusy}
-                            <span className="text-xl">
-                              /{monthprice ? "month" : "year"}
-                            </span>
+                            ₹
+                            {monthprice ? (
+                              <>
+                                <del>{isCreator ? "499" : ""}</del> {plus}
+                              </>
+                            ) : (
+                              <>
+                                <del>{isCreator ? "5998" : ""}</del> {plusy}
+                              </>
+                            )}
                           </div>
                           <div className="w-full pn:max-sm:max-w-[200px] flex justify-center items-center mt-3 ">
                             <button
@@ -1615,10 +1621,16 @@ const page = () => {
                           <div className="font-bold text-lg">Pro</div>
                           {/* <div className="text-sm -ml-2 mt-3">/{monthprice ? "month" : "year"}</div> */}
                           <div className="font-semibold text-4xl mt-2">
-                            ₹{monthprice ? pro : proy}
-                            <span className="text-xl">
-                              /{monthprice ? "month" : "year"}
-                            </span>
+                            ₹
+                            {monthprice ? (
+                              <>
+                                <del>{isCreator ? "1999" : ""}</del> {pro}
+                              </>
+                            ) : (
+                              <>
+                                <del>{isCreator ? "23988" : ""}</del> {proy}
+                              </>
+                            )}
                           </div>
                           <div className="w-full pn:max-sm:max-w-[200px] flex justify-center items-center mt-3 ">
                             <button
@@ -2163,10 +2175,16 @@ const page = () => {
                           <div className="font-bold text-lg">Premium</div>
                           {/* <div className="text-sm -ml-2 mt-3">/{monthprice ? "month" : "year"}</div> */}
                           <div className="font-semibold text-4xl mt-2">
-                            ₹{monthprice ? premium : premiumy}
-                            <span className="text-xl">
-                              /{monthprice ? "month" : "year"}
-                            </span>
+                            ₹
+                            {monthprice ? (
+                              <>
+                                <del>{isCreator ? "3499" : ""}</del> {premium}
+                              </>
+                            ) : (
+                              <>
+                                <del>{isCreator ? "41988" : ""}</del> {premiumy}
+                              </>
+                            )}
                           </div>
                           <div className="w-full pn:max-sm:max-w-[200px] flex justify-center items-center mt-3 ">
                             <button
