@@ -136,7 +136,7 @@ export const communityApi = Api.injectEndpoints({
     }),
     monetization: builder.mutation({
       query: ({ id, comid }) => ({
-        url: `/v1/monetization/${id}/${comid}`,
+        url: `/product/monetization/${id}/${comid}`,
         method: "POST",
       })
     }),

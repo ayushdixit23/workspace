@@ -6,7 +6,7 @@ import { decryptaes } from "@/app/utilsHelper/security";
 import { useAddProductMutation } from "@/app/redux/apiroutes/product";
 import { getData } from "@/app/utilsHelper/Useful";
 import { AiOutlineLoading3Quarters, AiOutlinePlus } from "react-icons/ai";
-import { FaPlus, FaToggleOff, FaToggleOn } from "react-icons/fa";
+import {  FaToggleOff, FaToggleOn } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
 import toast, { Toaster } from "react-hot-toast";
 import { IoChevronDownSharp, IoChevronUpSharp } from "react-icons/io5";

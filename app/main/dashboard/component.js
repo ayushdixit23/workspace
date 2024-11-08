@@ -23,7 +23,7 @@ import {
 } from "@/app/redux/apiroutes/community";
 import { useGetFetchOrderQuery } from "@/app/redux/apiroutes/userLoginAndSetting";
 import {
-	errorMaker,
+	
 	formatISOStringToDayMonth,
 	getData,
 } from "@/app/utilsHelper/Useful";
@@ -211,26 +211,6 @@ function Dashboard() {
 	}))
 
 	const COLORS = ["#5A6ACF", "#8593ED", "#C7CEFF"];
-
-	// if (error) {
-	// 	errorMaker(error, `/payments/fetchallorders/${id}`, "GET")
-
-	// 	return;
-	// }
-
-	// if (sevenError) {
-	// 	errorMaker(sevenError, `/analytics/analyticsuser/${id}`, "GET")
-
-	// 	return;
-	// }
-
-	// console.log(sevenError)
-
-	// if (thirtyError) {
-	// 	errorMaker(thirtyError, `/analytics/analyticsuserThirtyDays/${id}`, "GET")
-
-	// 	return;
-	// }
 
 	return (
 		<div className="flex flex-col w-full sm:h-full">
@@ -667,7 +647,7 @@ function Dashboard() {
 									<div className="w-2 h-2 rounded-full bg-[#00B6FF]"></div>
 									<div className="text-sm">Avg. Time spent</div>
 								</div>
-								<div className="text-xl font-semibold">{analyticsdata?.prositeData?.totalTimeSpent ? <>{analyticsdata?.prositeData?.totalTimeSpent} secs</> : "N/A"}</div>
+								<div className="text-xl font-semibold">{analyticsdata?.prositeData?.totalTimeSpent ? <>{Math.round(Number(analyticsdata?.prositeData?.totalTimeSpent))} secs</> : "N/A"}</div>
 							</div>
 						</div>
 						<div className="grid sm:grid-cols-3 mt-4 gap-4 sm:gap-6 w-full">

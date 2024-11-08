@@ -6,12 +6,14 @@ const nunito = Nunito({
   display: 'swap',
   variable: '--font-nunito',
 })
+
 const montserrat = Montserrat_Alternates({
   weight: '400',
   subsets: ['latin'],
 
   variable: '--font-montserrat',
 })
+
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Providers from "./redux/Providers";
@@ -30,7 +32,6 @@ export default function RootLayout({ children }) {
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className} ${montserrat.variable} select-none ${nunito.variable}`}>
         <Providers>
-
           <TokenDataWrapper>
             <SocketContextProvider>{children}</SocketContextProvider>
           </TokenDataWrapper>
