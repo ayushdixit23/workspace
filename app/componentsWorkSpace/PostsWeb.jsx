@@ -97,12 +97,12 @@ const PostsWeb = ({
       <tr
         className={` pn:max-sm:hidden relative border-b w-full ${
           d?.status === "uploading"
-            ? "bg-red-400 dark:bg-red-600 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+            ? "bg-white dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
             : "bg-white dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
         } h-[70px] `}
       >
         {d?.status === "uploading" && (
-          <div className="absolute inset-0 w-full h-full bg-opacity-50 flex items-center justify-center z-10">
+          <div className="absolute inset-0 w-full h-full bg-opacity-50 bg-gray-400 flex items-center justify-center z-10">
             <span className="text-white font-semibold">Uploading...</span>
           </div>
         )}

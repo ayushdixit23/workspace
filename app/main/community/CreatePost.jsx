@@ -25,6 +25,7 @@ const CreatePost = ({
   comid,
   open,
   mediaType,
+  mergedData,
   decomid,
   uploadPost,
   topicId,
@@ -130,7 +131,8 @@ const CreatePost = ({
       router,
       topicId,
       mediaType,
-      thumbnailImage
+      thumbnailImage,
+      mergedData
     );
   };
 

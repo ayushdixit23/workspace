@@ -42,7 +42,7 @@ const page = () => {
   const skipFetch = !!mergedData?.length;
   const { data, refetch, isLoading } = useGetAllPostQuery(
     { comid },
-    { skip: skipFetch || !comid }
+    { skip: !comid }
   );
   const [deletePost] = useDeletePostsMutation();
 
@@ -62,7 +62,10 @@ const page = () => {
       if (res.data.success) {
         setLoading(false);
         toast.success("Post Deleted!");
-        await refetch();
+        const updatedData = mergedData.filter((d) => d.post._id !== postid);
+
+        // Dispatch the updated data to Redux
+        dispatch(setMergedData(updatedData));
       }
     } catch (error) {
       console.log(error);
@@ -72,7 +75,8 @@ const page = () => {
   };
 
   useEffect(() => {
-    if (!skipFetch && data?.posts?.length > 0) {
+    if (comid && data?.posts?.length > 0) {
+      // Map the posts data to the format you need for Redux
       const newMergedData = data.posts.map((post) => ({
         post: post.post,
         dps: post.postdp,
@@ -80,9 +84,10 @@ const page = () => {
         video: post?.video,
       }));
 
+      // Dispatch the new data to the Redux store
       dispatch(setMergedData(newMergedData));
     }
-  }, [data, skipFetch, dispatch]);
+  }, [comid, data, skipFetch, dispatch]);
 
   if (loading) {
     return (
@@ -95,6 +100,13 @@ const page = () => {
       </>
     );
   }
+
+  useEffect(() => {
+    if (comid) {
+      console.log("done");
+      refetch(); // Refetch data when comid changes
+    }
+  }, [comid]);
 
   if (isLoading) {
     return <Loader />;
@@ -110,6 +122,7 @@ const page = () => {
           mediaType={type}
           decomid={decomid}
           comid={comid}
+          mergedData={mergedData}
           open={open}
           setOpen={setOpen}
           refetch={refetch}
