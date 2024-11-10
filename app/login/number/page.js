@@ -16,7 +16,7 @@ import {
   useLoginMutation,
   useVerifyEmailOtpMutation,
 } from "@/app/redux/apiroutes/userLoginAndSetting";
-import { QRCodeSVG } from "qrcode.react";
+import QRCode from "qrcode.react";
 import { RiLoader4Line } from "react-icons/ri";
 import { database } from "@/firebase.config";
 import { useLoginWithQrMutation } from "@/app/redux/apiroutes/userLoginAndSetting";
@@ -26,7 +26,11 @@ import Image from "next/image";
 import Cookies from "js-cookie";
 import { initOTPless } from "@/app/utilsHelper/initOtpless";
 import { errorMaker } from "@/app/utilsHelper/Useful";
-import { useSocketContext } from "@/app/utilsHelper/SocketWrapper";
+import {
+  reconnectSocket,
+  useSocketContext,
+} from "@/app/utilsHelper/SocketWrapper";
+import logo from "../../assets/image/Logo.png";
 // import Cookies from "js-cookie";
 
 function page() {
@@ -124,8 +128,8 @@ function page() {
       const expirationDate = new Date();
       expirationDate.setDate(expirationDate.getDate() + 7);
 
-      if(data.isCreator){
-        localStorage.setItem("isCreator",data.isCreator)
+      if (data.isCreator) {
+        localStorage.setItem("isCreator", data.isCreator);
       }
 
       Cookies.set(`excktn`, data.access_token, { expires: expirationDate });
@@ -301,40 +305,32 @@ function page() {
   const [qrCodeValue, setQRCodeValue] = useState("");
   const [qrlogin] = useLoginWithQrMutation();
 
-  function generateRandomString(length) {
-    const characters = "0123456789abcdefghijklmnopqrstuvwxyz";
-    let randomString = "";
-    for (let i = 0; i < length; i++) {
-      randomString += characters.charAt(
-        Math.floor(Math.random() * characters.length)
-      );
+  useEffect(() => {
+    if (socket?.id) {
+      setQRCodeValue(socket?.id);
     }
-
-    return randomString;
-  }
+  }, [socket?.id]);
 
   useEffect(() => {
-    const string = generateRandomString(17);
-    setQRCodeValue(string);
-  }, []);
-
-  useEffect(() => {
-    socket?.on(qrCodeValue, async ({ id }) => {
+    socket?.on(`qr-rec`, async (id) => {
+      setLoadingqr(true);
       const res = await qrlogin({
         id,
       });
       if (res.data?.success) {
         const check = await cookieSetter(res.data);
-
-        setTimeout(async () => {
-          if (check === true) {
-            // await generateData(res.data.access_token);
-            dispatch(sendData(res.data?.data));
-            router.push("/main/dashboard");
-          }
-        }, 3000);
+        if (check === true) {
+          dispatch(sendData(res.data?.data));
+          router.push("/main/dashboard");
+        }
+        setTimeout(() => {
+          setLoadingqr(false);
+        }, 6000);
       }
     });
+    return () => {
+      socket?.off("qr-rec");
+    };
   }, [socket]);
 
   useEffect(() => {
@@ -568,7 +564,69 @@ function page() {
           {/* web Qr  */}
           <div className="mb-5 flex gap-3 pn:max-sm:hidden justify-center  items-center flex-col">
             <div className="relative bg-white border-2 border-[#f3f3f3] dark:border-white p-3 rounded-3xl">
-              <QRCodeSVG className="w-[180px] h-[180px]" value={qrCodeValue} />
+              {/* <div
+                style={{
+                  position: "relative",
+                }}
+              >
+                <QRCode
+                 value={qrCodeValue}
+              
+                  className="rounded-none"
+                  fgColor="white"
+                  bgColor="black"
+                  size={180}
+                  style={{
+                    borderRadius: "20px",
+                  }}
+
+                />
+                <Image
+                  src={logo}
+                  alt="Grovyo"
+                  style={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    borderRadius: "18px",
+                    // border: "2px solid black",
+                    transform: "translate(-50%, -50%)",
+                    width: 50,
+
+                    // backgroundColor: "black",
+                    height: 50,
+                  }}
+                />
+              </div> */}
+
+              <div style={{ position: "relative", width: 180, height: 180 }}>
+                {/* QR Code */}
+                <QRCode
+                  value={qrCodeValue}
+                  size={180}
+          
+                  style={{ width: "100%", height: "100%" }}
+                />
+
+                {/* Overlay Image */}
+                {logo && (
+                  <Image
+                    src={logo}
+                    alt="QR code icon"
+                    style={{
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      width: 50,
+                      height: 50,
+                      transform: "translate(-50%, -50%)",
+                      borderRadius: "50%", // optional, for circular images
+                    }}
+                  />
+                )}
+              </div>
+
+              {/* <QRCodeSVG className="w-[180px] h-[180px]" value={qrCodeValue} /> */}
             </div>
 
             <div className="text-xl font-semibold">Sign in with QR code</div>
@@ -727,17 +785,16 @@ function page() {
                     </span>
                   </div>
                 </div> */}
-                  <div className="py-3">
+                <div className="py-3">
                   <div
                     onClick={handleEmailLogin}
-                 
                     className="py-3 w-[300px] select-none cursor-pointer bg-[#0066ff]  flex items-center justify-center rounded-2xl text-white "
                   >
                     {loading && (
                       <CgSpinner size={20} className="m-1 animate-spin" />
                     )}
                     <span className={`${loading ? "hidden" : ""} `}>
-                     Continue
+                      Continue
                     </span>
                   </div>
                 </div>

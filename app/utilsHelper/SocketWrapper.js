@@ -37,32 +37,54 @@ export const socketonfunc = async ({ event, data }) => {
   }
 };
 
+export const reconnectSocket = (socket) => {
+  socket.connect();
+  console.log("Socket reconnected", socket.connected);
+};
+
 export const disconnectSocket = () => {
   socket.disconnect();
   console.log("Socket disconnected manually");
 };
 
+
+
 export const SocketContextProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
   const { id } = getData();
+
   useEffect(() => {
     let newSocket;
+   const url = "https://rooms.grovyo.xyz"
 
-    // const url = "http://localhost:4400"
-    const url = "https://rooms.grovyo.xyz"
+    if (id) {
+      newSocket = io(url, {
+        auth: { id: id, type: "web" },
+        reconnectionAttempts: 100,
+        reconnectionDelay: 3000,
+        reconnection: true,
+        autoConnect: true,
+        transports: ["websocket"],
+      });
 
-    newSocket = io(url, {
-      auth: { id: id, type: "web" },
-      reconnectionAttempts: 100,
-      reconnectionDelay: 3000,
-      reconnection: true,
-      autoConnect: true,
-      transports: ["websocket"],
-    });
+      setSocket(newSocket);
 
-    setSocket(newSocket);
+      console.log("Reconnecting...", newSocket.connected);
+    } else {
+      newSocket = io(url, {
+        reconnectionAttempts: 100,
+        auth: {
+          skipMiddleware: true, 
+        },
+        reconnectionDelay: 2000,
+        reconnection: true,
+        autoConnect: true,
+        transports: ["websocket"],
+      });
 
-    console.log("Reconnecting...", newSocket.connected);
+      setSocket(newSocket)
+      console.log("Reconnecting without id...", newSocket.connected);
+    }
 
   }, []);
 

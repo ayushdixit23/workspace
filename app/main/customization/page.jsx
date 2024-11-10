@@ -34,10 +34,13 @@ const page = () => {
   const changeprosite = async () => {
     try {
       setIsChecked(!isChecked);
-      await defaultProsite({
+      const res = await defaultProsite({
         id,
         checked: isChecked,
       });
+      if (res.data.success) {
+        toast.success("Changes Saved!");
+      }
     } catch (error) {
       console.log(error);
     }
