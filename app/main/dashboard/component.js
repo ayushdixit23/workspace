@@ -49,7 +49,7 @@ import MemorizedDontHave from "@/app/componentsWorkSpace/DontHave";
 import { encryptaes } from "@/app/utilsHelper/security";
 
 function Dashboard() {
-  const [change, setChange] = useState("prosite");
+  const [change, setChange] = useState("community");
   const [dateValue, setDateValue] = useState(7);
   const [comchange, setComchange] = useState(1);
   const [prochange, setProchange] = useState("1");

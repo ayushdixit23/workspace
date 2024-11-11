@@ -227,8 +227,6 @@ const page = () => {
     }
   };
 
-  console.log(datawithdraw, "dfgh");
-
   const handleBankDetails = async (e) => {
     e.preventDefault();
     if (
@@ -275,7 +273,6 @@ const page = () => {
   };
 
   useEffect(() => {
-    // const { bankname = "", branchname = "", accountno = "", IFSCcode = "" } = data?.earningStats.bank
     if (
       data?.earningStats.bank.bankname &&
       data?.earningStats.bank.personname &&

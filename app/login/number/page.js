@@ -147,9 +147,9 @@ function page() {
   const fetchid = async () => {
     try {
       const updatedNumber = "91" + number;
-      const en = encryptaes(updatedNumber);
+   
       const result = await login({
-        phone: en,
+        phone: updatedNumber,
       });
 
       if (result.data?.success) {
@@ -733,8 +733,8 @@ function page() {
           {/* otp button */}
           <div className={`${change === 1 ? "py-3" : "hidden"} `}>
             <div
-              onClick={phoneAuth}
-              // onClick={fetchid}
+     onClick={phoneAuth}
+          // onClick={fetchid}
               className="h-[50px] w-[300px] select-none cursor-pointer bg-[#0066ff] flex items-center justify-center rounded-2xl text-white "
             >
               {loading && <CgSpinner size={20} className="m-1 animate-spin" />}
