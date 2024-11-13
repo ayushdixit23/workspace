@@ -103,13 +103,6 @@ export default function Store() {
     d9: "",
   });
 
-
-  // const fetchLatAndLong = async () => {
-  // 	const res = await axios.get(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent('37 A, rampuram')}`)
-  // 	console.log(res.data,encodeURIComponent('37 A, rampuram, Shyam nagar, Kanpur, India'))
-  // }
-  // fetchLatAndLong()
-
   const handleDelete = async (userid, pid, collecid, index) => {
     const updatedData = data.map((d) => {
       if (d._id === collecid) {

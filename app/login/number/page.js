@@ -147,7 +147,7 @@ function page() {
   const fetchid = async () => {
     try {
       const updatedNumber = "91" + number;
-   
+
       const result = await login({
         phone: updatedNumber,
       });
@@ -604,7 +604,6 @@ function page() {
                 <QRCode
                   value={qrCodeValue}
                   size={180}
-          
                   style={{ width: "100%", height: "100%" }}
                 />
 
@@ -709,14 +708,7 @@ function page() {
             <div className="text-sm pb-3 px-1 dark:text-white font-semibold text-[#424856]">
               Enter Your Phone Number
             </div>
-            {/* <div className="bg-[#f7f7f7] flex items-center dark:border-[#8f9bba] overflow-hidden dark:bg-[#323d4e] border w-[300px] justify-center rounded-2xl">
-              <div className="border-r-2 dark:border-[#8f9bba] sm:-ml-3 p-1 sm:pr-2 "> +91</div>
-              <input value={number}
-                id="send-otp"
-                onChange={(e) => setNumber(e.target.value)} type="tel"
-                className=" p-2 outline-none rounded-xl dark:bg-[#323d4e] bg-[#f7f7f7]" />
-
-            </div> */}
+           
             <div className="flex justify-center dark:bg-[#323d4e] w-[300px] h-[50px] rounded-2xl bg-[#fff] dark:border-none border light:border-[#dddddd] items-center">
               <div className="p-2 pl-2 pr-2 ">+91</div>
               <div className="h-[80%] w-[1px] bg-[#dddddd] rounded-full dark:bg-[#5a6277]" />
@@ -731,10 +723,10 @@ function page() {
             </div>
           </div>
           {/* otp button */}
-          <div className={`${change === 1 ? "py-3" : "hidden"} `}>
+          <div className={`${change === 1 ? "py-3 " : "hidden"} `}>
             <div
-     onClick={phoneAuth}
-          // onClick={fetchid}
+                onClick={phoneAuth}
+              //onClick={fetchid}
               className="h-[50px] w-[300px] select-none cursor-pointer bg-[#0066ff] flex items-center justify-center rounded-2xl text-white "
             >
               {loading && <CgSpinner size={20} className="m-1 animate-spin" />}

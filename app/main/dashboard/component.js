@@ -620,8 +620,8 @@ function Dashboard() {
                         Location
                       </div>
                     </div>
-                    <div className=" rounded-xl light:bg-white h-full">
-                      {/* <div className="sm:max-h-[400px] min-w-full overflow-scroll no-scrollbar bg-white rounded-xl"> */}
+                    <div className=" rounded-xl light:bg-white sm:h-[450px] ">
+                      <div className="h-full min-w-full overflow-scroll no-scrollbar rounded-xl">
                       {prochange == 0 && <DontHave />}
                       {prochange == 1 && (
                         <Products data={analyticsdata?.promerged} />
@@ -638,6 +638,7 @@ function Dashboard() {
                           memberships={memberships}
                         />
                       )}
+                      </div>
                     </div>
                   </div>
                 </div>

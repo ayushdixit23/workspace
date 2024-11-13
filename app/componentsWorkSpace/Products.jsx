@@ -5,10 +5,10 @@ const Products = ({ data }) => {
   return (
     <>
       {data?.length ? (
-        <div className="w-full  ">
+        <div className="w-full ">
           <div className="flex justify-between w-full p-2 items-center "></div>
 
-          <div className="">
+          <div className="h-full">
             <table className="w-full  rounded-xl border-collapse">
               <thead>
                 <tr className="border-b border-[#f1f1f1]">

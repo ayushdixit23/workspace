@@ -15,10 +15,10 @@ const Customer = ({ data, memberships }) => {
 
   return (
     <>
-      <div className="w-full h-full">
+      <div className="w-full ">
         {memberships === "Free" ? (
           <Prem
-          height="h-[250px]"
+            height="h-[250px]"
             text={"Gain insights into your target audience's behaviour."}
             bgimage={"bg-customerlight  dark:bg-customerdark "}
           />

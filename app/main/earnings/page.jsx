@@ -107,7 +107,6 @@ const page = () => {
     cpm: "",
     reapplydate: "",
   });
-
   const maskAccountNumber = (accountNumber) => {
     const length = accountNumber.length;
     if (length <= 4) {
@@ -1403,21 +1402,36 @@ const page = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {datawithdraw?.data.map((d) => (
-                      <tr class="border py-4 dark:border-gray-700">
-                        <th
-                          scope="row"
-                          class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                        >
-                          {d?.transcationId}
-                        </th>
-                        <td class="px-6 py-4">
-                          {formatISOStringToDMY(d?.generatedAt)}
-                        </td>
-                        <td class="px-6 py-4">{d?.status}</td>
-                        <td class="px-6 py-4">₹{d?.amount}</td>
-                      </tr>
-                    ))}
+                    <>
+                      {datawithdraw?.data.length > 0 ? (
+                        <>
+                          {datawithdraw?.data.map((d) => (
+                            <tr class="border py-4 dark:border-gray-700">
+                              <th
+                                scope="row"
+                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                {d?.transcationId}
+                              </th>
+                              <td class="px-6 py-4">
+                                {formatISOStringToDMY(d?.generatedAt)}
+                              </td>
+                              <td class="px-6 py-4">{d?.status}</td>
+                              <td class="px-6 py-4">₹{d?.amount}</td>
+                            </tr>
+                          ))}
+                        </>
+                      ) : (
+                        <tr>
+                          <td
+                            colSpan="4"
+                            className="px-6 py-4 text-xl font-semibold h-[300px] sm:h-[400px] text-center"
+                          >
+                            No Withdraw Requests Found
+                          </td>
+                        </tr>
+                      )}
+                    </>
                   </tbody>
                 </table>
               </div>
