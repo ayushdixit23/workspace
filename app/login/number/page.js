@@ -1,6 +1,5 @@
 "use client";
-import React, { useState, useEffect, useCallback, useRef } from "react";
-import { ref, set, onValue, remove } from "firebase/database";
+import React, { useState, useEffect,useRef } from "react";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { CgSpinner } from "react-icons/cg";
@@ -9,7 +8,6 @@ const DynamicOtpInput = dynamic(() => import("otp-input-react"), {
 });
 import { useDispatch } from "react-redux";
 import { changelaoding, sendData } from "@/app/redux/slice/userData";
-import { encryptaes, decryptaes } from "@/app/utilsHelper/security";
 import {
   useEmailLoginMutation,
   useEmailOtpLoginMutation,
@@ -18,7 +16,6 @@ import {
 } from "@/app/redux/apiroutes/userLoginAndSetting";
 import QRCode from "qrcode.react";
 import { RiLoader4Line } from "react-icons/ri";
-import { database } from "@/firebase.config";
 import { useLoginWithQrMutation } from "@/app/redux/apiroutes/userLoginAndSetting";
 import toast, { Toaster } from "react-hot-toast";
 import workspace from "../../assets/image/workspace.png";
@@ -27,7 +24,6 @@ import Cookies from "js-cookie";
 import { initOTPless } from "@/app/utilsHelper/initOtpless";
 import { errorMaker } from "@/app/utilsHelper/Useful";
 import {
-  reconnectSocket,
   useSocketContext,
 } from "@/app/utilsHelper/SocketWrapper";
 import logo from "../../assets/image/Logo.png";
@@ -172,10 +168,7 @@ function page() {
         toast.error("You Dont have Account");
       }
 
-      if (result.error) {
-        const error = result.error;
-        await errorMaker(error, "/login/checkid", "POST");
-      }
+      
     } catch (err) {
       console.log(err);
     }

@@ -4,17 +4,17 @@ export const userLoginAndSettingApi = Api.injectEndpoints({
 
     loginWithQr: builder.mutation({
       query: ({ id }) => ({
-        url: `/login/checkqr`,
+        url: `/loginWithQr`,
         body: { id },
         method: "POST",
       }),
     }),
     idlogin: builder.query({
-      query: ({ id }) => `/login/fetchwithid/${id}`,
+      query: ({ id }) => `/fetchwithid/${id}`,
     }),
     login: builder.mutation({
       query: ({ phone }) => ({
-        url: `/login/checkid`,
+        url: `/loginWithMobile`,
         method: "POST",
         body: { phone },
       }),
@@ -33,7 +33,7 @@ export const userLoginAndSettingApi = Api.injectEndpoints({
     }),
     // left
     getProfile: builder.query({
-      query: ({ id }) => `/login/getprofileinfo/${id}`,
+      query: ({ id }) => `/getprofileinfo/${id}`,
     }),
     // left
     postProfile: builder.mutation({
@@ -47,7 +47,7 @@ export const userLoginAndSettingApi = Api.injectEndpoints({
     // not needed
     postProfileStore: builder.mutation({
       query: ({ id, data }) => ({
-        url: `/login/profilestore/${id}`,
+        url: `/profilestore/${id}`,
         method: "POST",
         body: data,
       }),
@@ -55,21 +55,21 @@ export const userLoginAndSettingApi = Api.injectEndpoints({
 
     emailLogin: builder.mutation({
       query: (data) => ({
-        url: `/login/checkemail`,
+        url: `/loginWithEmail`,
         method: "POST",
         body: data
       })
     }),
     emailOtpLogin: builder.mutation({
       query: (data) => ({
-        url: `/login/requestOtp`,
+        url: `/requestOtp`,
         method: "POST",
         body: data
       })
     }),
     verifyEmailOtp: builder.mutation({
       query: (data) => ({
-        url: `/login/emailotplogin`,
+        url: `/emailotplogin`,
         method: "POST",
         body: data
       })

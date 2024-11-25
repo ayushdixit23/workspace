@@ -144,8 +144,15 @@ const PostsWeb = ({
         <td className="text-center">
           <div className="flex justify-center gap-3 relative items-center">
             <div>
-              {/* <a target='_blank' href={`http://localhost:3001/rederctmg?zray=${userid}&pstiq=${d?.post?._id}&loc=web&path=/createAd?adid=${generateRandomNumber()}&step=1`
-              } className='bg-blue-500 text-white p-2 px-4 rounded-2xl'>Promote</a> */}
+              {/* <a
+                target="_blank"
+                href={`http://localhost:3000/rederctmg?zray=${userid}&pstiq=${
+                  d?.post?._id
+                }&loc=web&path=/createAd?adid=${generateRandomNumber()}&step=1`}
+                className="bg-blue-500 text-white p-2 px-4 rounded-2xl"
+              >
+                Promote
+              </a> */}
               <a
                 target="_blank"
                 href={`https://ads.grovyo.com/rederctmg?zray=${userid}&pstiq=${
