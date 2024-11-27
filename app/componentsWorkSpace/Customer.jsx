@@ -1,13 +1,5 @@
 import React from "react";
-// import { FaAngleDown } from "react-icons/fa";
-import {
-  Pie,
-  PieChart,
-  ResponsiveContainer,
-  Label,
-  Cell,
-  Legend,
-} from "recharts";
+import { Pie, PieChart, ResponsiveContainer, Cell, Legend } from "recharts";
 import Prem from "./Prem";
 
 const Customer = ({ data, memberships }) => {

@@ -1,38 +1,22 @@
 import { Api } from "../slice/apiSlice";
 import axios from 'axios';
-const axiosBaseQuery = ({ baseUrl } = { baseUrl: '' }) => async ({ url, method, data, params, onUploadProgress }) => {
-  try {
-    const result = await axios({
-      url: baseUrl + url,
-      method,
-      data,
-      params,
-      onUploadProgress,
-    });
-    return { data: result.data };
-  } catch (axiosError) {
-    let err = axiosError;
-    return {
-      error: {
-        status: err.response?.status,
-        data: err.response?.data || err.message,
-      },
-    };
-  }
-};
 
 export const communityApi = Api.injectEndpoints({
+  
   endpoints: (builder) => ({
+
     getAnalytics: builder.query({
-      query: ({ id }) => `/analytics/analyticsuser/${id}`,
+      query: ({ id }) => `/analyticsuser/${id}`,
       keepUnusedDataFor: 400,
     }),
+
     getAnalyticsThirtyDays: builder.query({
-      query: ({ id }) => `/analytics/analyticsuserThirtyDays/${id}`,
+      query: ({ id }) => `/analyticsuserThirtyDays/${id}`,
       keepUnusedDataFor: 400,
     }),
+
     getCommunity: builder.query({
-      query: ({ id }) => `/chats/allcoms/${id}`,
+      query: ({ id }) => `/allcoms/${id}`,
     }),
 
     // left
@@ -41,13 +25,12 @@ export const communityApi = Api.injectEndpoints({
     }),
 
     getAllPost: builder.query({
-      query: ({ comid }) => `/post/getallposts/${comid}`,
+      query: ({ comid }) => `/getallposts/${comid}`,
     }),
 
-    // left
     editPosts: builder.mutation({
       query: ({ id, postid, data }) => ({
-        url: `/post/editpost/${id}/${postid}`,
+        url: `/editpost/${id}/${postid}`,
         method: "POST",
         body: data,
       }),
@@ -55,7 +38,7 @@ export const communityApi = Api.injectEndpoints({
 
     createTopic: builder.mutation({
       query: ({ id, comid, data }) => ({
-        url: `/chats/createtopic/${id}/${comid}`,
+        url: `/createtopic/${id}/${comid}`,
         method: "POST",
         body: data,
       }),
@@ -63,7 +46,7 @@ export const communityApi = Api.injectEndpoints({
 
     deleteTopic: builder.mutation({
       query: ({ id, topicId, data }) => ({
-        url: `/chats/deletetopic/${id}/${topicId}`,
+        url: `/deletetopic/${id}/${topicId}`,
         method: "POST",
         body: data,
       }),
@@ -71,19 +54,19 @@ export const communityApi = Api.injectEndpoints({
 
     updateTopic: builder.mutation({
       query: ({ id, topicid, data }) => ({
-        url: `/chats/edittopic/${id}/${topicid}`,
+        url: `/edittopic/${id}/${topicid}`,
         method: "POST",
         body: data,
       }),
     }),
 
     fetchTopic: builder.query({
-      query: ({ id, comid }) => `/chats/fetchtopic/${id}/${comid}`,
+      query: ({ id, comid }) => `/fetchtopic/${id}/${comid}`,
     }),
 
     createCom: builder.mutation({
       query: ({ id, data }) => ({
-        url: `/chats/v1/createcom/${id}`,
+        url: `/createcom/${id}`,
         method: "POST",
         body: data,
       }),
@@ -91,26 +74,20 @@ export const communityApi = Api.injectEndpoints({
 
     updateCom: builder.mutation({
       query: ({ id, comid, data }) => ({
-        url: `/chats/v1/updatecommunity/${id}/${comid}`,
+        url: `/updatecommunity/${id}/${comid}`,
         method: "POST",
         body: data,
       }),
     }),
-    // deleteCommunity: builder.mutation({
-    //   query: ({ comid }) => ({
-    //     url: `/chats/delete/${comid}`,
-    //     method: "POST",
-    //   }),
-    // }),
     deleteCommunity: builder.mutation({
       query: ({ id, comid }) => ({
-        url: `/chats/v1/removecomwithposts/${id}/${comid}`,
+        url: `/v1/removecomwithposts/${id}/${comid}`,
         method: "POST",
       }),
     }),
     createPost: builder.mutation({
       query: ({ id, comid, data, onUploadProgress }) => ({
-        url: `/post/postanythingworkspace/${id}/${comid}`,
+        url: `/postanythingworkspace/${id}/${comid}`,
         method: "POST",
         body: data,
         onUploadProgress
@@ -121,22 +98,16 @@ export const communityApi = Api.injectEndpoints({
     }),
     deletePosts: builder.mutation({
       query: ({ id, postid }) => ({
-        url: `/post/deletepost/${id}/${postid}`,
+        url: `/deletepost/${id}/${postid}`,
         method: "DELETE",
       })
     }),
-    // deletePosts: builder.mutation({
-    //   query: ({ id, comid, postid }) => ({
-    //     url: `/deletepost/${id}/${comid}/${postid}`,
-    //     method: "DELETE",
-    //   })
-    // }),
     fetchCommunity: builder.query({
-      query: ({ id }) => `/payments/fetchCommunityStats/${id}`
+      query: ({ id }) => `/fetchCommunityStats/${id}`
     }),
     monetization: builder.mutation({
       query: ({ id, comid }) => ({
-        url: `/product/monetization/${id}/${comid}`,
+        url: `/monetization/${id}/${comid}`,
         method: "POST",
       })
     }),

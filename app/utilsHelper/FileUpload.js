@@ -92,7 +92,7 @@ const FileUpload = async (
     // );
 
     const res = await axios.post(
-      `https://backend.grovyo.com/api/postanythingworkspace/${id}/${comid}`,
+      `${process.env.NEXT_PUBLIC_API}/postanythingworkspace/${id}/${comid}`,
       data,
       {
         onUploadProgress: (progressEvent) => {

@@ -105,7 +105,7 @@ const page = () => {
 
     try {
       const res = await axios.post(
-        `https://monarchs.grovyo.xyz/api/payments/membershipbuy/${id}/${mId}`,
+        `${process.env.NEXT_PUBLIC_API}/membershipbuy/${id}/${mId}`,
 
         {
           amount: amounttosend,

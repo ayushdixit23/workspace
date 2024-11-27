@@ -3,17 +3,17 @@ export const prositeApi = Api.injectEndpoints({
   endpoints: (builder) => ({
     defaultProsite: builder.mutation({
       query: ({ id, checked }) => ({
-        url: `/product/defaultprositeselector/${id}`,
+        url: `/defaultprositeselector/${id}`,
         method: "POST",
         body: { checked },
       }),
     }),
     fetchValue: builder.query({
-      query: ({ id }) => `/product/checkfordefault/${id}`
+      query: ({ id }) => `/checkfordefault/${id}`
     }),
     deleteRecentProsites: builder.mutation({
       query: ({ id, prositeId }) => ({
-        url: `/product/deleteRecentProsites/${id}/${prositeId}`,
+        url: `/deleteRecentProsites/${id}/${prositeId}`,
         method: "POST",
       }),
     }),

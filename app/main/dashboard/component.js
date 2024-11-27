@@ -86,7 +86,7 @@ function Dashboard() {
   useEffect(() => {
     if (searchparams.get("membership")) {
       axios
-        .post(`https://monarchs.grovyo.xyz/api/login/fetchdetails/${id}`)
+        .post(`${process.env.NEXT_PUBLIC_API}/fetchdetails/${id}`)
         .then((res) => {
           const expirationDate = new Date();
           expirationDate.setDate(expirationDate.getDate() + 7);

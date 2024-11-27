@@ -110,10 +110,6 @@ function page() {
         );
       }
 
-      if (res.error) {
-        const error = res.error;
-        await errorMaker(error, "/login/emailotplogin", "POST");
-      }
     } catch (error) {
       console.log(error);
     }
@@ -160,8 +156,6 @@ function page() {
           );
           router.push("/main/dashboard");
           setLoading(false);
-        } else {
-          const error = result.error;
         }
         setLoading(false);
       } else {
@@ -173,57 +167,6 @@ function page() {
       console.log(err);
     }
   };
-
-  // function onCaptchaVerify() {
-  //   if (!window.recaptchaVerifier) {
-  //     window.recaptchaVerifier = new RecaptchaVerifier(
-  //       auth,
-  //       "recaptcha-container",
-  //       {
-  //         size: "invisible",
-  //         callback: (response) => {
-  //           onSignup();
-  //         },
-  //         "expired-callback": () => { },
-  //       }
-  //     );
-  //   }
-  // }
-
-  // function onSignup() {
-  //   if (number.length !== 10) {
-  //     return toast.error("Please Enter 10 digit number");
-  //   }
-  //   setLoading(true);
-  //   onCaptchaVerify();
-  //   setSeconds(30);
-  //   const appVerifier = window.recaptchaVerifier;
-  //   const updatedNumber = "91" + number;
-  //   signInWithPhoneNumber(auth, "+" + updatedNumber, appVerifier)
-  //     .then((confirmationResult) => {
-  //       window.confirmationResult = confirmationResult;
-  //       setLoading(false);
-  //       setShowOTP(true);
-  //       toast.success("Otp Sent Successfully!");
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //       setLoading(false);
-  //     });
-  // }
-
-  // function onOTPVerify() {
-  //   setLoading(true);
-  //   window.confirmationResult
-  //     .confirm(otp)
-  //     .then(async (res) => {
-  //       fetchid();
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //       setLoading(false);
-  //     });
-  // }
 
   const handleEmailLogin = async () => {
     if (!email || !password) {

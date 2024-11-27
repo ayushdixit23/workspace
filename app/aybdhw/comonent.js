@@ -22,8 +22,6 @@ const Component = () => {
   const memberscount = queryParams.get("memberscount");
   const comId = queryParams.get("comId");
 
-  console.log(id,"id")
-
   const tosetCookie = {
     dps,
     title,
@@ -38,7 +36,7 @@ const Component = () => {
     try {
       // storeInSessionStorage(data.sessionId)
 
-	  console.log(data,"my res data")
+      console.log(data, "my res data");
 
       const expirationDate = new Date();
       expirationDate.setDate(expirationDate.getDate() + 7);
@@ -46,7 +44,7 @@ const Component = () => {
       Cookies.set(`excktn`, data.access_token, { expires: expirationDate });
       Cookies.set(`frhktn`, data.refresh_token, { expires: expirationDate });
 
-	  localStorage.setItem("isCreator",data?.isCreator)
+      localStorage.setItem("isCreator", data?.isCreator);
 
       dispatch(sendData(data?.data));
 
@@ -62,8 +60,9 @@ const Component = () => {
 
   const f = async () => {
     try {
-   
-   const res = await axios.get(`https://monarchs.grovyo.xyz/api/login/fetchwithid/${id}`)
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_API}/fetchwithid/${id}`
+      );
 
       if (res.data?.success) {
         const a = await waitkrnevalafunc(res.data);

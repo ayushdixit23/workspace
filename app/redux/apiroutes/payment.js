@@ -1,17 +1,20 @@
 import { Api } from "../slice/apiSlice";
 export const paymentApi = Api.injectEndpoints({
 	endpoints: (builder) => ({
+
 		getEarningStats: builder.query({
-			query: ({ id }) => `/payments/earnings/${id}`
+			query: ({ id }) => `/earnings/${id}`
 		}),
+
 		addBank: builder.mutation({
 			query: ({ id, data }) => ({
-				url: `/payments/addbank/${id}`,
+				url: `/addbank/${id}`,
 				body: data,
 				method: "POST"
 			}
 			)
 		}),
+
 		memfinalize: builder.mutation({
 			query: ({ id, orderid, data }) => ({
 				// url: `/v1/memfinalize/${id}/${res.data?.order}`,
@@ -20,29 +23,25 @@ export const paymentApi = Api.injectEndpoints({
 				body: data
 			})
 		}),
+
 		changeMontent: builder.mutation({
 			query: ({ comid, ismonetized }) => ({
-				// url: `/v1/memfinalize/${id}/${res.data?.order}`,
-				url: `/payments/changemont/${comid}`,
+				url: `/changemont/${comid}`,
 				method: "POST",
 				body: { ismonetized }
 			})
 		}),
+
 		createWithDrawRequest: builder.mutation({
 			query: ({ id, amount }) => ({
-				url: `/payments/createwithdrawRequest/${id}`,
+				url: `/createwithdrawRequest/${id}`,
 				method: "POST",
 				body: { amount }
 			})
 		}),
-		// bankRequest: builder.mutation({
-		// 	query: ({ id }) => ({
-		// 		url: `/v1/approvalrequestbank/${id}`,
-		// 		method: "POST",
-		// 	})
-		// })
+		
 		fetchWithDrawRequest: builder.query({
-			query: ({ id }) => `/payments/fetchwithdrawrequest/${id}`
+			query: ({ id }) => `/fetchwithdrawrequest/${id}`
 		})
 	}),
 });
@@ -51,7 +50,6 @@ export const {
 	useGetEarningStatsQuery,
 	useAddBankMutation,
 	useMemfinalizeMutation,
-	// useBankRequestMutation
 	useChangeMontentMutation,
 	useCreateWithDrawRequestMutation,
 	useFetchWithDrawRequestQuery

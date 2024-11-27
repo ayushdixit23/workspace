@@ -5,16 +5,11 @@ import { MdAdd, MdArrowBack } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 import { GrUploadOption } from "react-icons/gr";
 import {
-  useCreatePostMutation,
   useEditPostsMutation,
 } from "@/app/redux/apiroutes/community";
 import toast, { Toaster } from "react-hot-toast";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useRouter } from "next/navigation";
-import { encryptaes } from "@/app/utilsHelper/security";
 import { PiVideoFill } from "react-icons/pi";
-import axios from "axios";
-import PostLoading from "@/app/data/PostLoading";
 import { useDispatch, useSelector } from "react-redux";
 import { setPost, setThumbnailImage } from "@/app/redux/slice/postSlice";
 import FileUpload from "@/app/utilsHelper/FileUpload";

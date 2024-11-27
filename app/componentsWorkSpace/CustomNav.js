@@ -4,7 +4,7 @@ import Color from "../assets/icons/color";
 import Research from "../assets/icons/Research";
 import Research2 from "../assets/icons/Research2";
 import Research3 from "../assets/icons/Research3";
-import { usePathname, useSearchParams } from "next/navigation"
+import { usePathname } from "next/navigation"
 import Logo from "../assets/Logo";
 
 function CustomNav() {
@@ -21,7 +21,6 @@ function CustomNav() {
       path: "/custom/color",
       icon: <Research2 className="sm:h-7 sm:w-7 h-8 w-8" />,
     },
-
     {
       path: "/custom/theme",
       icon: <Research3 className="sm:h-7 sm:w-7 h-8 w-8" />,
@@ -30,8 +29,6 @@ function CustomNav() {
   const path = usePathname();
   return (
     <div>
-      {/*sidebar*/}
-
       <div className="h-[100vh] bg-white vs:max-sm:hidden ">
         <div className="flex flex-col justify-between pt-10 h-[80vh]">
           <div className="flex items-center justify-center space-x-2 pt-6 md:-ml-4">
